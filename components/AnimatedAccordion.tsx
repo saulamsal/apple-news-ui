@@ -1,76 +1,80 @@
-import React, { useCallback } from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, View, Pressable, LayoutChangeEvent } from 'react-native';
 import Animated, {
     useAnimatedStyle,
     withTiming,
     useSharedValue,
-    interpolate,
 } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 
 interface Props {
     title: string;
     children: React.ReactNode;
-    initiallyExpanded?: boolean;
 }
 
-export const AnimatedAccordion = ({ title, children, initiallyExpanded = false }: Props) => {
-    const [isExpanded, setIsExpanded] = React.useState(initiallyExpanded);
-    const rotation = useSharedValue(initiallyExpanded ? 180 : 0);
-    const height = useSharedValue(initiallyExpanded ? 1 : 0);
-
-    const toggleAccordion = useCallback(() => {
-        const newValue = !isExpanded;
-        rotation.value = withTiming(newValue ? 180 : 0, { duration: 300 });
-        height.value = withTiming(newValue ? 1 : 0, { duration: 300 });
-        setIsExpanded(newValue);
-    }, [isExpanded]);
-
-    const iconStyle = useAnimatedStyle(() => ({
-        transform: [{ rotate: `${rotation.value}deg` }],
-    }));
+export function AnimatedAccordion({ title, children }: Props) {
+    const [isOpen, setIsOpen] = useState(false);
+    const height = useSharedValue(0);
 
     const contentStyle = useAnimatedStyle(() => ({
-        height: interpolate(height.value, [0, 1], [0, 'auto']),
-        opacity: height.value,
+        height: withTiming(isOpen ? height.value : 0, {
+            duration: 300,
+        }),
     }));
+
+    const iconStyle = useAnimatedStyle(() => ({
+        transform: [{
+            rotate: withTiming(isOpen ? '180deg' : '0deg', {
+                duration: 300,
+            })
+        }]
+    }));
+
+    const onLayout = (event: LayoutChangeEvent) => {
+        const newHeight = event.nativeEvent.layout.height;
+        height.value = newHeight;
+    };
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={toggleAccordion} style={styles.header}>
+            <Pressable onPress={() => setIsOpen(!isOpen)} style={styles.header}>
                 <Text style={styles.title}>{title}</Text>
-                <Animated.View style={[styles.icon, iconStyle]}>
-                    <Ionicons name="chevron-down" size={20} color="#666" />
+                <Animated.View style={iconStyle}>
+                    <Ionicons name="chevron-down" size={24} color="#666" />
                 </Animated.View>
-            </TouchableOpacity>
-            <Animated.View style={[styles.content, contentStyle]}>
-                {children}
+            </Pressable>
+
+            <Animated.View style={[styles.contentContainer, contentStyle]}>
+                <View onLayout={onLayout} style={styles.innerContent}>
+                    {children}
+                </View>
             </Animated.View>
         </View>
     );
-};
+}
 
 const styles = StyleSheet.create({
     container: {
+        backgroundColor: '#fff',
+        borderTopWidth: StyleSheet.hairlineWidth,
         borderBottomWidth: StyleSheet.hairlineWidth,
-        borderBottomColor: '#E5E5E5',
+        borderColor: '#E5E5EA',
     },
     header: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingVertical: 12,
-        paddingHorizontal: 16,
+        padding: 16,
     },
     title: {
-        fontSize: 17,
+        fontSize: 20,
         fontWeight: '600',
     },
-    icon: {
-        width: 20,
-        height: 20,
-    },
-    content: {
+    contentContainer: {
         overflow: 'hidden',
     },
+    innerContent: {
+        position: 'absolute',
+        width: '100%',
+    }
 }); 

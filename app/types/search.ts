@@ -1,17 +1,18 @@
 export interface SearchEntity {
     id: string;
     title: string;
-    logo?: string | { default: string };
     icon?: string;
+    logo?: string;
     entity_type?: string;
-    items: any[];
+}
+
+export interface SearchSection {
+    id: string;
+    title: string;
+    items: SearchEntity[];
 }
 
 export interface SearchData {
     categories: SearchEntity[];
-    sections: {
-        id: string;
-        title: string;
-        items: SearchEntity[];
-    }[];
+    sections: SearchSection[];
 } 

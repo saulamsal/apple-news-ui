@@ -46,7 +46,7 @@ export default function SearchScreen() {
             LargeHeaderComponent={LargeHeaderComponent}
             HeaderComponent={HeaderComponent}
             contentContainerStyle={[styles.container, { paddingBottom: bottom }]}
-        // style={{ marginTop: top }}
+            style={styles.scrollView}
         >
             <View style={styles.categoriesContainer}>
                 {typedSearchEntities.categories.map((category) => (
@@ -107,21 +107,28 @@ const styles = StyleSheet.create({
     },
     largeHeaderContainer: {
         paddingHorizontal: 16,
-        paddingVertical: 12,
+        paddingTop: 16,
+        paddingBottom: 8,
+        backgroundColor: '#fff',
     },
     headerTopRow: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        marginBottom: 4,
     },
     followingText: {
         fontSize: 32,
-        fontWeight: '500',
-        color: '#999',
-        marginTop: 4,
+        fontWeight: '600',
+        color: '#666',
     },
     editButton: {
-        fontSize: 16,
+        fontSize: 17,
         color: '#fe425f',
+        fontWeight: '400',
+    },
+    scrollView: {
+        flex: 1,
+        backgroundColor: '#fff',
     },
 }); 
