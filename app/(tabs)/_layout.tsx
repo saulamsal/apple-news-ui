@@ -38,9 +38,7 @@ export default function TabLayout() {
           }),
           borderTopWidth: 0,
           elevation: 0,
-          height: 94,
-          paddingTop: 0,
-          paddingBottom: 40,
+
         },
         tabBarBackground: () => (
           Platform.OS === 'ios' ? (
@@ -66,9 +64,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="new"
+        name="news+"
         options={{
-          title: 'New',
+          title: 'News+',
           tabBarIcon: ({ color }) => (
             <TabIcon
               sfSymbol="square.grid.2x2.fill"
@@ -79,9 +77,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="radio"
+        name="sports"
         options={{
-          title: 'Radio',
+          title: 'Sports',
           tabBarIcon: ({ color }) => (
             <TabIcon
               sfSymbol="dot.radiowaves.left.and.right"
@@ -92,9 +90,9 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="library"
+        name="audio"
         options={{
-          title: 'Library',
+          title: 'Audio',
           tabBarIcon: ({ color }) => (
             <TabIcon
               sfSymbol="music.note.list"
@@ -107,7 +105,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="search"
         options={{
-          title: 'Search',
+          title: 'Following',
           tabBarIcon: ({ color }) => (
             <TabIcon
               sfSymbol="magnifyingglass"
