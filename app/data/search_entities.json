@@ -1,0 +1,84 @@
+{
+    "categories": [
+        {
+            "id": "puzzles",
+            "title": "Puzzles",
+            "icon": "puzzle-piece",
+            "items": []
+        },
+        {
+            "id": "shared",
+            "title": "Shared with You",
+            "icon": "users",
+            "items": []
+        },
+        {
+            "id": "saved",
+            "title": "Saved Stories",
+            "icon": "bookmark",
+            "items": []
+        },
+        {
+            "id": "history",
+            "title": "History",
+            "icon": "clock",
+            "items": []
+        }
+    ],
+    "sections": [
+        {
+            "id": "special_coverage",
+            "title": "Special Coverage",
+            "items": [
+                {
+                    "id": "election_2024",
+                    "title": "Election 2024",
+                    "logo": "🗳️",
+                    "entity_type": "politics_topic"
+                },
+                {
+                    "id": "climate_change",
+                    "title": "Climate Crisis",
+                    "logo": "🌍",
+                    "entity_type": "science_topic"
+                }
+            ]
+        },
+        {
+            "id": "favorites",
+            "title": "Favorites",
+            "items": [
+                {
+                    "id": "tech_news",
+                    "title": "Technology",
+                    "logo": "💻",
+                    "entity_type": "news_category"
+                },
+                {
+                    "id": "business",
+                    "title": "Business",
+                    "logo": "📈",
+                    "entity_type": "news_category"
+                }
+            ]
+        },
+        {
+            "id": "my_sports",
+            "title": "My Sports",
+            "items": [
+                {
+                    "id": "man_utd",
+                    "title": "Manchester United",
+                    "logo": "/assets/teams/man-utd.png",
+                    "entity_type": "sport_team"
+                },
+                {
+                    "id": "premier_league",
+                    "title": "Premier League",
+                    "logo": "/assets/leagues/premier-league.png",
+                    "entity_type": "sport_league"
+                }
+            ]
+        }
+    ]
+}
