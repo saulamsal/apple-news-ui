@@ -46,7 +46,7 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
         togglePlayPause,
         sound,
         currentSong,
-        playNextSong,
+        playNext,
         playPreviousSong
     } = useAudio();
     const insets = useSafeAreaInsets();
@@ -165,7 +165,7 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
                                 <Pressable style={[styles.button, styles.playButton]} onPress={togglePlayPause}>
                                     <Ionicons name={isPlaying ? "pause" : "play"} size={45} color="#fff" />
                                 </Pressable>
-                                <Pressable style={styles.button} onPress={playNextSong}>
+                                <Pressable style={styles.button} onPress={playNext}>
                                     <Ionicons name="play-skip-forward" size={35} color="#fff" />
                                 </Pressable>
                             </ThemedView>

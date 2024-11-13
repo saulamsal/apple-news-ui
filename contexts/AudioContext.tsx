@@ -23,7 +23,7 @@ interface AudioContextType {
     playSound: (song: Song) => Promise<void>;
     pauseSound: () => Promise<void>;
     togglePlayPause: () => Promise<void>;
-    playNextSong: () => Promise<void>;
+    playNext: () => Promise<void>;
     playPreviousSong: () => Promise<void>;
 }
 
@@ -110,11 +110,11 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         // Check if the song has finished and isn't already loading the next song
         if (status.didJustFinish && !status.isPlaying) {
             console.log('Song finished, playing next song'); // Debug log
-            await playNextSong();
+            await playNext();
         }
-    }, [playNextSong]);
+    }, [playNext]);
 
-    const playNextSong = useCallback(async () => {
+    const playNext = useCallback(async () => {
         const currentIndex = songs.findIndex(song => song.id === currentSong?.id);
         if (currentIndex === -1) return;
 
@@ -144,7 +144,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
             playSound,
             pauseSound,
             togglePlayPause,
-            playNextSong,
+            playNext,
             playPreviousSong,
         }}>
             {children}
