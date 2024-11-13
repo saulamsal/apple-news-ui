@@ -57,7 +57,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <TabIcon
               sfSymbol="music.note.house"
-              ionIcon="home-sharp"
+              ionIcon="home"
               color={color}
             />
           ),
@@ -70,7 +70,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <TabIcon
               sfSymbol="square.grid.2x2.fill"
-              ionIcon="apps-sharp"
+              ionIcon="newspaper"
               color={color}
             />
           ),
@@ -83,7 +83,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <TabIcon
               sfSymbol="dot.radiowaves.left.and.right"
-              ionIcon="radio-outline"
+              ionIcon="football"
               color={color}
             />
           ),
@@ -96,7 +96,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <TabIcon
               sfSymbol="music.note.list"
-              ionIcon="musical-notes"
+              ionIcon="headset"
               color={color}
             />
           ),
@@ -109,7 +109,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <TabIcon
               sfSymbol="magnifyingglass"
-              ionIcon="search"
+              ionIcon="heart"
               color={color}
             />
           ),
