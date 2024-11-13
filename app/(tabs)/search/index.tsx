@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TextInput } from 'react-native';
+import { StyleSheet, View, TextInput, Text } from 'react-native';
 import { ScrollViewWithHeaders, Header, ScrollHeaderProps } from '@codeherence/react-native-header';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -8,6 +8,7 @@ import searchEntities from '@/app/data/search_entities.json';
 import { CategoryCard } from '@/components/CategoryCard';
 import { SearchData, SearchEntity } from '@/app/types/search';
 import { SharedValue } from 'react-native-reanimated';
+import { NewsLogo } from '@/components/NewsLogo';
 
 const typedSearchEntities = searchEntities as SearchData;
 
@@ -30,11 +31,22 @@ export default function SearchScreen() {
         />
     );
 
+    const LargeHeaderComponent = () => (
+        <View style={styles.largeHeaderContainer}>
+            <View style={styles.headerTopRow}>
+                <NewsLogo />
+                <Text style={styles.editButton}>Edit</Text>
+            </View>
+            <Text style={styles.followingText}>Following</Text>
+        </View>
+    );
+
     return (
         <ScrollViewWithHeaders
+            LargeHeaderComponent={LargeHeaderComponent}
             HeaderComponent={HeaderComponent}
             contentContainerStyle={[styles.container, { paddingBottom: bottom }]}
-            style={{ marginTop: top }}
+        // style={{ marginTop: top }}
         >
             <View style={styles.categoriesContainer}>
                 {typedSearchEntities.categories.map((category) => (
@@ -92,5 +104,24 @@ const styles = StyleSheet.create({
     sectionContent: {
         padding: 16,
         gap: 12,
+    },
+    largeHeaderContainer: {
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+    },
+    headerTopRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    followingText: {
+        fontSize: 32,
+        fontWeight: '500',
+        color: '#999',
+        marginTop: 4,
+    },
+    editButton: {
+        fontSize: 16,
+        color: '#fe425f',
     },
 }); 
