@@ -15,29 +15,39 @@ const typedSearchEntities = searchEntities as SearchData;
 export default function SearchScreen() {
     const { top, bottom } = useSafeAreaInsets();
 
+
+    const SearchComponent = () => (
+        <View style={styles.searchContainer}>
+            <Ionicons name="search" size={20} color="#666" />
+            <TextInput
+                placeholder="Channels, Topics, & Stories"
+                style={styles.searchInput}
+                placeholderTextColor="#666"
+            />
+        </View>
+    );
+
     const HeaderComponent = ({ showNavBar }: ScrollHeaderProps) => (
         <Header
             showNavBar={showNavBar}
             headerCenter={
-                <View style={styles.searchContainer}>
-                    <Ionicons name="search" size={20} color="#666" />
-                    <TextInput
-                        placeholder="Channels, Topics, & Stories"
-                        style={styles.searchInput}
-                        placeholderTextColor="#666"
-                    />
-                </View>
+                <SearchComponent />
             }
         />
     );
 
     const LargeHeaderComponent = () => (
         <View style={styles.largeHeaderContainer}>
-            <View style={styles.headerTopRow}>
-                <NewsLogo />
+            <View style={styles.largeHeaderTopRow}>
+                <View style={styles.headerTopRow}>
+                    <NewsLogo />
+                    <Text style={styles.followingText}>Following</Text>
+
+                </View>
                 <Text style={styles.editButton}>Edit</Text>
+
             </View>
-            <Text style={styles.followingText}>Following</Text>
+            <SearchComponent />
         </View>
     );
 
@@ -85,7 +95,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#F2F2F7',
         paddingHorizontal: 12,
-        paddingVertical: 8,
+        // paddingVertical: 8,
         borderRadius: 10,
         flex: 1,
         marginHorizontal: 16,
@@ -105,6 +115,11 @@ const styles = StyleSheet.create({
         padding: 16,
         gap: 12,
     },
+    largeHeaderTopRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
+    },
     largeHeaderContainer: {
         paddingHorizontal: 16,
         paddingTop: 16,
@@ -112,9 +127,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     headerTopRow: {
-        flexDirection: 'row',
+        flexDirection: 'column',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         marginBottom: 4,
     },
     followingText: {
