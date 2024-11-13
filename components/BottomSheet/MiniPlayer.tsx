@@ -19,7 +19,7 @@ export function MiniPlayer({ onPress, song, isPlaying, onPlayPause }: MiniPlayer
     return (
         <Pressable onPress={onPress} style={[
             styles.container,
-            { bottom: bottomPosition }
+            { bottom: 0 }
         ]}>
             {Platform.OS === 'ios' ? (
                 <BlurView
@@ -69,10 +69,10 @@ function MiniPlayerContent({ song, isPlaying, onPlayPause }: {
 
 const styles = StyleSheet.create({
     container: {
-        position: 'absolute',
+        // position: 'absolute',
         left: 0,
         right: 0,
-        height: 56,
+        height: 86,
         zIndex: 1000,
         shadowColor: '#000',
         shadowOffset: {
@@ -82,13 +82,14 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.15,
         shadowRadius: 8,
         elevation: 5,
+        marginTop: -20,
 
     },
     content: {
         flexDirection: 'row',
         alignItems: 'center',
         // height: 40,
-        marginHorizontal: 10,
+        paddingHorizontal: 10,
         borderRadius: 12,
         overflow: 'hidden',
         zIndex: 1000,

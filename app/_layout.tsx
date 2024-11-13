@@ -9,7 +9,6 @@ import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { OverlayProvider } from '@/components/Overlay/OverlayProvider';
 import { AudioProvider } from '@/contexts/AudioContext';
-import { MiniPlayer } from '@/components/BottomSheet/MiniPlayer';
 import { useRouter } from 'expo-router';
 import { useAudio } from '@/contexts/AudioContext';
 
@@ -46,21 +45,7 @@ function AnimatedStack() {
           />
           <Stack.Screen name="+not-found" />
         </Stack>
-
-
-        {currentSong && (
-          <MiniPlayer
-            song={currentSong}
-            isPlaying={isPlaying}
-            onPlayPause={togglePlayPause}
-            onPress={() => router.push(`/music/${currentSong.id}`)}
-          />
-        )}
-
-
       </Animated.View>
-
-      {/* putting anything here is not scalled down upon modal open */}
     </View>
   );
 }
