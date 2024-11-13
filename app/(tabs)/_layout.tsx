@@ -6,6 +6,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { BlurView } from 'expo-blur';
 import { Platform, StyleSheet } from 'react-native';
 import { SymbolView } from 'expo-symbols';
+import { AppleNewsLogo } from '@/components/icons/AppleNewsLogo';
 
 // Helper component for cross-platform icons
 function TabIcon({ sfSymbol, ionIcon, color }: { sfSymbol: string; ionIcon: string; color: string }) {
@@ -54,11 +55,11 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => (
-            <TabIcon
-              sfSymbol="music.note.house"
-              ionIcon="home"
-              color={color}
+          tabBarIcon: ({ color, focused }) => (
+            <AppleNewsLogo
+              color={focused ? '#FA2D48' : color}
+              width={30}
+              height={30}
             />
           ),
         }}
