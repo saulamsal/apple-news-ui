@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TextInput, Text } from 'react-native';
+import { StyleSheet, View, TextInput, Text, Button, TouchableOpacity } from 'react-native';
 import { ScrollViewWithHeaders, Header, ScrollHeaderProps } from '@codeherence/react-native-header';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -31,7 +31,17 @@ export default function SearchScreen() {
         <Header
             showNavBar={showNavBar}
             headerCenter={
-                <SearchComponent />
+                <View style={styles.headerCenter}>
+                    <Text style={styles.followingTextCenter}>Following</Text>
+                    <SearchComponent />
+                </View>
+            }
+            headerRight={
+                <View style={styles.headerRight}>
+                    <TouchableOpacity>
+                        <Text style={styles.editButton}>Edit</Text>
+                    </TouchableOpacity>
+                </View>
             }
         />
     );
@@ -44,7 +54,6 @@ export default function SearchScreen() {
                     <Text style={styles.followingText}>Following</Text>
 
                 </View>
-                <Text style={styles.editButton}>Edit</Text>
 
             </View>
             <SearchComponent />
@@ -145,5 +154,26 @@ const styles = StyleSheet.create({
     scrollView: {
         flex: 1,
         backgroundColor: '#fff',
+    },
+    headerCenter: {
+        flexDirection: 'row',
+        alignItems: 'center',
+
+        height: 50,
+    },
+    headerRight: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+        position: 'absolute',
+        right: 16,
+
+    },
+
+
+    followingTextCenter: {
+        fontSize: 16,
+        fontWeight: '500',
+        color: '#a8a8a8',
     },
 }); 
