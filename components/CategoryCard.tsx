@@ -1,46 +1,36 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Text, Image, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text, Image, View, Button } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-interface Props {
+interface CategoryCardProps {
     title: string;
-    logo?: string;
     icon?: string;
-    onPress?: () => void;
+    logo?: string;
 }
 
-export const CategoryCard = ({ title, logo, icon, onPress }: Props) => {
-    const getLogoSource = (logoPath: string) => {
-        return { uri: logoPath };
-    };
-
+export function CategoryCard({ title, icon, logo }: CategoryCardProps) {
     return (
-        <TouchableOpacity style={styles.container} onPress={onPress}>
-            {logo && (
-                typeof logo === 'string' && logo.length <= 2 ? (
-                    <Text style={styles.emoji}>{logo}</Text>
-                ) : (
-                    <Image source={getLogoSource(logo)} style={styles.logo} />
-                )
-            )}
-            {icon && (
-                <View style={styles.iconContainer}>
-                    <Ionicons name={icon as any} size={24} color="#000" />
-                </View>
-            )}
+        <TouchableOpacity style={styles.container}>
+            {icon ? (
+                <Ionicons name={icon as any} size={24} color="#FF3B30" />
+            ) : logo ? (
+                <Image source={{ uri: logo }} style={styles.logo} />
+            ) : null}
             <Text style={styles.title}>{title}</Text>
         </TouchableOpacity>
     );
-};
+}
 
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 12,
-        backgroundColor: '#F2F2F7',
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        // backgroundColor: '#F2F2F7',
         borderRadius: 10,
         minWidth: '45%',
+        gap: 6,
     },
     logo: {
         width: 24,

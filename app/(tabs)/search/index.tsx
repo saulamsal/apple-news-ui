@@ -40,7 +40,7 @@ export default function SearchScreen() {
         <View style={styles.largeHeaderContainer}>
             <View style={styles.largeHeaderTopRow}>
                 <View style={styles.headerTopRow}>
-                    <NewsLogo />
+                    <NewsLogo size={28} />
                     <Text style={styles.followingText}>Following</Text>
 
                 </View>
@@ -133,9 +133,9 @@ const styles = StyleSheet.create({
         marginBottom: 4,
     },
     followingText: {
-        fontSize: 32,
-        fontWeight: '600',
-        color: '#666',
+        fontSize: 28,
+        fontWeight: '800',
+        color: '#a8a8a8',
     },
     editButton: {
         fontSize: 17,

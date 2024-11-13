@@ -3,13 +3,13 @@
         {
             "id": "puzzles",
             "title": "Puzzles",
-            "icon": "puzzle-piece",
+            "icon": "extension-puzzle",
             "items": []
         },
         {
             "id": "shared",
             "title": "Shared with You",
-            "icon": "users",
+            "icon": "people",
             "items": []
         },
         {
@@ -21,7 +21,7 @@
         {
             "id": "history",
             "title": "History",
-            "icon": "clock",
+            "icon": "time",
             "items": []
         }
     ],
