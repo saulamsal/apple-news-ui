@@ -4,7 +4,7 @@ import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { BlurView } from 'expo-blur';
-import { Platform, StyleSheet } from 'react-native';
+import { Platform, StyleSheet, StatusBar } from 'react-native';
 import { AppleNewsLogo } from '@/components/icons/AppleNewsLogo';
 import { MiniPlayer } from '@/components/BottomSheet/MiniPlayer';
 import { useAudio } from '@/contexts/AudioContext';
@@ -41,11 +41,13 @@ export default function TabLayout() {
             position: 'absolute',
             backgroundColor: Platform.select({
               ios: 'transparent',
-              android: 'rgba(255, 255, 255, 0.8)', // Fallback for Android
+              android: 'rgba(255, 255, 255, 0.8)',
             }),
             borderTopWidth: 0,
             elevation: 0,
-
+          },
+          headerStyle: {
+            height: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
           },
           tabBarBackground: () => (
             Platform.OS === 'ios' ? (

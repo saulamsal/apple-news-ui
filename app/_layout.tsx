@@ -2,7 +2,7 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import { StyleSheet, useColorScheme, View } from 'react-native';
+import { StyleSheet, useColorScheme, View, Platform } from 'react-native';
 import { RootScaleProvider } from '@/contexts/RootScaleContext';
 import { useRootScale } from '@/contexts/RootScaleContext';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
@@ -11,6 +11,7 @@ import { OverlayProvider } from '@/components/Overlay/OverlayProvider';
 import { AudioProvider } from '@/contexts/AudioContext';
 import { useRouter } from 'expo-router';
 import { useAudio } from '@/contexts/AudioContext';
+import { StatusBar } from 'expo-status-bar';
 
 function AnimatedStack() {
   const { scale } = useRootScale();
@@ -61,23 +62,30 @@ export default function RootLayout() {
   }, []);
 
   return (
-    <GestureHandlerRootView style={styles.container}>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <RootScaleProvider>
-          <AudioProvider>
-            <OverlayProvider>
-              <AnimatedStack />
-            </OverlayProvider>
-          </AudioProvider>
-        </RootScaleProvider>
-      </ThemeProvider>
-    </GestureHandlerRootView>
+    <>
+      <StatusBar 
+        style={colorScheme === 'dark' ? 'light' : 'dark'} 
+        backgroundColor="transparent" 
+        translucent={true} 
+      />
+      <GestureHandlerRootView style={styles.container}>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <RootScaleProvider>
+            <AudioProvider>
+              <OverlayProvider>
+                <AnimatedStack />
+              </OverlayProvider>
+            </AudioProvider>
+          </RootScaleProvider>
+        </ThemeProvider>
+      </GestureHandlerRootView>
+    </>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: Platform.OS === 'android' ? 'transparent' : '#000',
   },
   stackContainer: {
     flex: 1,
