@@ -18,6 +18,7 @@ function AnimatedStack() {
   const { currentSong, isPlaying, togglePlayPause } = useAudio();
 
   const animatedStyle = useAnimatedStyle(() => {
+    console.log(scale.value)
     return {
       transform: [
         { scale: scale.value },
@@ -25,6 +26,7 @@ function AnimatedStack() {
           translateY: (1 - scale.value) * -150,
         },
       ],
+      borderRadius: scale.value >= 1 ? 0 : scale.value * 50,
     };
   });
 
@@ -37,6 +39,7 @@ function AnimatedStack() {
             name="music/[id]"
             options={{
               presentation: 'transparentModal',
+              animation: 'slide_from_bottom',
               headerShown: false,
               contentStyle: {
                 backgroundColor: 'transparent',
@@ -79,7 +82,6 @@ const styles = StyleSheet.create({
   stackContainer: {
     flex: 1,
     overflow: 'hidden',
-    borderRadius: 50,
   },
 });
 
