@@ -10,7 +10,7 @@ export default function ContentScreen() {
   const { id } = useLocalSearchParams();
   const colorScheme = useColorScheme();
   
-  // Find the news item from our data
+  // Find the news item from data.json
   const content = news.find(item => item.id === id);
 
   if (!content) {
