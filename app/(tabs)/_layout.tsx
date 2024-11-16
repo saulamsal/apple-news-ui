@@ -121,8 +121,6 @@ export default function TabLayout() {
         />
       </Tabs>
 
-      {/* <Tabs.Screen name="content/[id]" options={{ href:null }} /> */}
-
       {currentSong && (
         <MiniPlayer
           song={currentSong}
