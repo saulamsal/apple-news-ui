@@ -21,7 +21,7 @@ function TabIcon({ sfSymbol, ionIcon, color }: {
 }
 
 export const unstable_settings = {
-  initialRouteName: '(home)/home',
+  initialRouteName: '(home)',
 };
 
 export default function TabLayout() {
@@ -59,7 +59,7 @@ export default function TabLayout() {
           ),
         }}>
         <Tabs.Screen
-          name="(home)/home"
+          name="(home)"
           options={{
             title: 'Home',
             tabBarIcon: ({ color, focused }) => (
@@ -72,7 +72,7 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="(news+)/news+"
+          name="(news+)"
           options={{
             title: 'News+',
             tabBarIcon: ({ color }) => (
@@ -85,7 +85,7 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="(sports)/sports"
+          name="(sports)"
           options={{
             title: 'Sports',
             tabBarIcon: ({ color }) => (
@@ -98,7 +98,7 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="(audio)/audio"
+          name="(audio)"
           options={{
             title: 'Audio',
             tabBarIcon: ({ color }) => (
@@ -111,7 +111,7 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="(search)/search"
+          name="(search)"
           options={{
             title: 'Following',
             headerShown: false,

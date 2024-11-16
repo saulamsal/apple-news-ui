@@ -106,11 +106,11 @@ export default function WebLayout() {
           </View>
 
           <View style={styles.nav}>
-            <SidebarItem icon="home" label="Home" href="/(tabs)/(home)" compact={isCompact} />
-            <SidebarItem icon="newspaper" label="News+" href="/(tabs)/(news+)" compact={isCompact} />
-            <SidebarItem icon="football" label="Sports" href="/(tabs)/(sports)" compact={isCompact} />
-            <SidebarItem icon="headset" label="Audio" href="/(tabs)/(audio)" compact={isCompact} />
-            <SidebarItem icon="heart" label="Following" href="/(tabs)/(search)" compact={isCompact} />
+            <SidebarItem icon="home" label="Home" href="/(tabs)/(home)/home" compact={isCompact} />
+            <SidebarItem icon="newspaper" label="News+" href="/(tabs)/(news+)/news+" compact={isCompact} />
+            <SidebarItem icon="football" label="Sports" href="/(tabs)/(sports)/sports" compact={isCompact} />
+            <SidebarItem icon="headset" label="Audio" href="/(tabs)/(audio)/audio" compact={isCompact} />
+            <SidebarItem icon="heart" label="Following" href="/(tabs)/(search)/search" compact={isCompact} />
           </View>
         </View>
       </View>
