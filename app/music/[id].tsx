@@ -14,7 +14,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import { songs } from '@/data/songs.json';
-import * as Haptics from 'expo-haptics';
+import { haptics } from '@/helper/haptics';
 
 const SCALE_FACTOR = 0.83;
 const DRAG_THRESHOLD = Math.min(Dimensions.get('window').height * 0.20, 150);
@@ -41,11 +41,7 @@ export default function MusicScreen() {
     const song = songs.find(s => s.id === numericId) || songs[0];
 
     const handleHapticFeedback = useCallback(() => {
-        try {
-            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-        } catch (error) {
-            console.log('Haptics not available:', error);
-        }
+        haptics.impact();
     }, []);
 
     const goBack = useCallback(() => {
