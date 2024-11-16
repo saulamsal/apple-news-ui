@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { Audio } from 'expo-av';
+import { Audio, AVPlaybackStatus } from 'expo-av';
 import { songs } from '@/data/songs.json';
 
 interface Song {
@@ -8,7 +8,7 @@ interface Song {
     artist: string;
     artwork: string;
     artwork_bg_color?: string;
-    mp4_link?: string;
+    mp4_link: string;
 }
 
 interface AudioContextType {
@@ -62,7 +62,6 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
     const playSound = async (song: Song) => {
         try {
-            // If there's already a sound playing, stop it
             if (sound) {
                 await sound.unloadAsync();
             }
@@ -82,6 +81,29 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
+    const playNextSong = async () => {
+        if (!currentSong) return;
+        const currentIndex = songs.findIndex(song => song.id === currentSong.id);
+        if (currentIndex === -1) return;
+
+        const nextSong = songs[(currentIndex + 1) % songs.length];
+        await playSound(nextSong);
+    };
+
+    const playNext = useCallback(playNextSong, [currentSong, playSound]);
+
+    const onPlaybackStatusUpdate = useCallback(async (status: AVPlaybackStatus) => {
+        if (!status.isLoaded) return;
+
+        setPosition(status.positionMillis);
+        setDuration(status.durationMillis || 0);
+        setIsPlaying(status.isPlaying);
+
+        if (status.didJustFinish && !status.isPlaying) {
+            await playNext();
+        }
+    }, [playNext]);
+
     const pauseSound = async () => {
         if (sound) {
             await sound.pauseAsync();
@@ -100,36 +122,15 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
-    const onPlaybackStatusUpdate = useCallback(async (status: Audio.PlaybackStatus) => {
-        if (!status.isLoaded) return;
-
-        setPosition(status.positionMillis);
-        setDuration(status.durationMillis || 0);
-        setIsPlaying(status.isPlaying);
-
-        // Check if the song has finished and isn't already loading the next song
-        if (status.didJustFinish && !status.isPlaying) {
-            console.log('Song finished, playing next song'); // Debug log
-            await playNext();
-        }
-    }, [playNext]);
-
-    const playNext = useCallback(async () => {
-        const currentIndex = songs.findIndex(song => song.id === currentSong?.id);
-        if (currentIndex === -1) return;
-
-        const nextSong = songs[(currentIndex + 1) % songs.length];
-        await playSound(nextSong);
-    }, [currentSong, songs]);
-
     const playPreviousSong = useCallback(async () => {
-        const currentIndex = songs.findIndex(song => song.id === currentSong?.id);
+        if (!currentSong) return;
+        const currentIndex = songs.findIndex(song => song.id === currentSong.id);
         if (currentIndex === -1) return;
 
         const previousIndex = currentIndex === 0 ? songs.length - 1 : currentIndex - 1;
         const previousSong = songs[previousIndex];
         await playSound(previousSong);
-    }, [currentSong, songs]);
+    }, [currentSong, playSound]);
 
     return (
         <AudioContext.Provider value={{

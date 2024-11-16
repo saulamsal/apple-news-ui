@@ -9,19 +9,14 @@ import { AppleNewsLogo } from '@/components/icons/AppleNewsLogo';
 import { MiniPlayer } from '@/components/BottomSheet/MiniPlayer';
 import { useAudio } from '@/contexts/AudioContext';
 import { useRouter } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 // Helper component for cross-platform icons
-function TabIcon({ sfSymbol, ionIcon, color }: { sfSymbol: string; ionIcon: string; color: string }) {
-  // if (Platform.OS === 'ios') {
-  //   return (
-  //     <SymbolView
-  //       name={sfSymbol}
-  //       size={24}
-  //       tintColor={color}
-  //       fallback={<TabBarIcon name={ionIcon} color={color} />}
-  //     />
-  //   );
-  // }
+function TabIcon({ sfSymbol, ionIcon, color }: { 
+  sfSymbol: string; 
+  ionIcon: keyof typeof Ionicons.glyphMap; 
+  color: string 
+}) {
   return <TabBarIcon name={ionIcon} color={color} />;
 }
 
