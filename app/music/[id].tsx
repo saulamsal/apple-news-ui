@@ -252,7 +252,6 @@ export default function MusicScreen() {
         };
     }, []);
 
-    // Add this new animated style for Android background
     const androidBackgroundStyle = useAnimatedStyle(() => {
         if (Platform.OS !== 'android') return {};
         
