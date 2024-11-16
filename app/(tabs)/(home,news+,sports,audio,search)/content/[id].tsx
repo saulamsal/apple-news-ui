@@ -38,16 +38,15 @@ export default function ContentScreen() {
         headerCenter={
           <Image 
             source={{ 
-              uri: colorScheme === 'light' 
-                ? content.source.logo_transparent_light 
-                : content.source.logo_transparent_dark 
+              uri: content.source.logo_transparent_dark 
             }}
             style={styles.headerLogo}
           />
         }
-        style={{
-          backgroundColor: colorScheme === 'light' ? content.source.light_bg : content.source.dark_bg,
+        headerStyle={{
+          backgroundColor: colorScheme === 'light' ? content.source.dark_bg : "#000",
         }}
+        borderWidth={0}
       />
     );
   };

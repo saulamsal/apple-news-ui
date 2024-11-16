@@ -7,8 +7,8 @@
                 "id": "sports-illustrated",
                 "name": "Sports Illustrated",
                 "logo_transparent_light": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/SportsIllustratedLogo.svg/2560px-SportsIllustratedLogo.svg.png",
-                "logo_transparent_dark": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Sports_Illustrated_logo.svg/2560px-Sports_Illustrated_logo.svg.png",
-                "dark_bg": "#000",
+                "logo_transparent_dark": "https://logonoid.com/images/sports-illustrated-logo.png",
+                "dark_bg": "#af231c",
                 "light_bg": "#fff",
                 "dark_text": "#fff",
                 "light_text": "#000"
