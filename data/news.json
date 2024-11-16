@@ -23,7 +23,8 @@
                 "name": "Chris Mannix"
             },
             "featured_image": "https://www.aljazeera.com/wp-content/uploads/2024/11/AFP__20241115__36MH9YH__v2__HighRes__BoxHeavyUsaTysonPaulWeighIn-1731720368.jpg?resize=570%2C380&quality=80",
-            "card_type": "full"
+            "card_type": "full",
+            "has_next": false
         },
         {
             "id": "2",
@@ -48,7 +49,8 @@
                 "name": "Adrian Wojnarowski"
             },
             "featured_image": "https://cdn.prod.website-files.com/66fd72ac6f0cd08e0277f262/67187f9e548681aef3643dbb_AS25%20Banners%20-%20728x485.png",
-            "card_type": "medium"
+            "card_type": "medium",
+            "has_previous": "false"
         }
     ]
 }
