@@ -1,4 +1,4 @@
-import { Stack } from "expo-router";
+import { Stack, useSegments } from "expo-router";
 import { Platform, StyleSheet, View, Pressable, useWindowDimensions } from 'react-native';
 import { Link } from 'expo-router';
 import { AppleNewsLogo } from '@/components/icons/AppleNewsLogo';
@@ -6,7 +6,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { ThemedText } from '@/components/ThemedText';
 import type { ViewStyle, TextStyle } from 'react-native';
-
 type Styles = {
   container: ViewStyle;
   sidebar: ViewStyle;
@@ -33,19 +32,21 @@ function SidebarItem({
 }: { 
   icon: keyof typeof Ionicons.glyphMap;
   label: string;
-  href: `/(tabs)/${string}`;
+  href: string;
   isActive?: boolean;
   compact?: boolean;
 }) {
   const colorScheme = useColorScheme();
   const hoverBg = colorScheme === 'dark' ? 'rgba(239, 243, 244, 0.1)' : 'rgba(15, 20, 25, 0.1)';
+  const activeBg = colorScheme === 'dark' ? 'rgba(250, 45, 72, 0.1)' : 'rgba(250, 45, 72, 0.1)';
   
   return (
-    <Link href={href} asChild>
+    <Link href={href}>
       <Pressable 
         style={({ pressed, hovered }) => [
           styles.sidebarItem,
           compact && styles.sidebarItemCompact,
+          isActive && { backgroundColor: activeBg },
           (pressed || hovered) && { backgroundColor: hoverBg }
         ]}
       >
@@ -75,6 +76,9 @@ export default function WebLayout() {
   
   const isCompact = width < 1024;
   const isMobile = width < 768;
+  
+  const segments = useSegments();
+
 
   if (isMobile) {
     return (
@@ -106,11 +110,11 @@ export default function WebLayout() {
           </View>
 
           <View style={styles.nav}>
-            <SidebarItem icon="home" label="Home" href="/(tabs)/(home)/home" compact={isCompact} />
-            <SidebarItem icon="newspaper" label="News+" href="/(tabs)/(news+)/news+" compact={isCompact} />
-            <SidebarItem icon="football" label="Sports" href="/(tabs)/(sports)/sports" compact={isCompact} />
-            <SidebarItem icon="headset" label="Audio" href="/(tabs)/(audio)/audio" compact={isCompact} />
-            <SidebarItem icon="heart" label="Following" href="/(tabs)/(search)/search" compact={isCompact} />
+            <SidebarItem icon="home" label="Home" href="/(tabs)/(home)/home" compact={isCompact} isActive={segments[2] === 'home'} />
+            <SidebarItem icon="newspaper" label="News+" href="/(tabs)/(news+)/news+" compact={isCompact} isActive={segments[2] == 'news+'} />
+            <SidebarItem icon="football" label="Sports" href="/(tabs)/(sports)/sports" compact={isCompact} isActive={segments[2] == 'sports'} />
+            <SidebarItem icon="headset" label="Audio" href="/(tabs)/(audio)/audio" compact={isCompact} isActive={segments[2] == 'audio'} />
+            <SidebarItem icon="heart" label="Following" href="/(tabs)/(search)/search" compact={isCompact} isActive={segments[2] == 'search'} />
           </View>
         </View>
       </View>
@@ -168,8 +172,9 @@ const styles = StyleSheet.create<Styles>({
     paddingRight: 24,
     borderRadius: 9999,
     gap: 16,
-    cursor: 'pointer',
-    transition: 'background-color 0.2s',
+    ...(Platform.OS === 'web' ? {
+      cursor: 'pointer' as any,
+    } : {}),
   },
   sidebarItemCompact: {
     justifyContent: 'center',
