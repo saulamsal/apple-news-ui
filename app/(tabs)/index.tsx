@@ -44,26 +44,33 @@ export default function HomeScreen() {
       return (
         <ThemedView style={styles.card}>
           <Image source={{ uri: item.featured_image }} style={styles.fullImage} />
-          <Image 
+        <View>
+        <Image 
             source={{ uri: colorScheme === 'light' ? item.source.logo_transparent_light : item.source.logo_transparent_dark }}
             style={styles.sourceLogo}
           />
-          <ThemedText type="title" style={styles.newsTitle}>
+          <ThemedText type="title" style={[styles.newsTitle, item.card_type === 'full' ? styles.newsTitleFull : styles.newsTitleMedium]}>
             {item.title}
           </ThemedText>
-          {item.show_topic && (
+    
+ 
+        </View>
+     
+     <View>
+     {item.show_topic && (
             <Pressable style={styles.topicButton}>
               <ThemedText type="subtitle" style={styles.topicText}>
                 More {item.topic.name} coverage
               </ThemedText>
             </Pressable>
           )}
-          <MaterialIcons 
+        <MaterialIcons 
             name="more-horiz" 
             size={24} 
             color={colorScheme === 'light' ? '#000' : '#fff'} 
             style={styles.moreIcon}
           />
+     </View>
         </ThemedView>
       );
     }
@@ -78,21 +85,25 @@ export default function HomeScreen() {
           <ThemedText type="title" style={styles.newsTitle}>
             {item.title}
           </ThemedText>
-          {item.show_topic && (
+      
+       <Image source={{ uri: item.featured_image }} style={styles.mediumImage} />
+        </View>
+      
+        <View>
+     {item.show_topic && (
             <Pressable style={styles.topicButton}>
               <ThemedText type="subtitle" style={styles.topicText}>
                 More {item.topic.name} coverage
               </ThemedText>
             </Pressable>
           )}
-        </View>
-        <Image source={{ uri: item.featured_image }} style={styles.mediumImage} />
         <MaterialIcons 
-          name="more-horiz" 
-          size={24} 
-          color={colorScheme === 'light' ? '#000' : '#fff'} 
-          style={styles.moreIcon}
-        />
+            name="more-horiz" 
+            size={24} 
+            color={colorScheme === 'light' ? '#000' : '#fff'} 
+            style={styles.moreIcon}
+          />
+     </View>
       </ThemedView>
     );
   };
@@ -173,12 +184,19 @@ const styles = StyleSheet.create({
     width: 120,
     resizeMode: 'contain',
     marginBottom: 8,
+    marginTop: 8,
   },
   newsTitle: {
-    fontSize: 20,
-    lineHeight: 26,
-    fontWeight: '600',
+    fontSize: 18,
+    lineHeight: 22,
+    fontWeight: '700',
     marginVertical: 8,
+    letterSpacing: -0.8,
+  },
+  newsTitleFull: {
+    fontSize: 24,
+    lineHeight: 32,
+    letterSpacing: -1,
   },
   topicButton: {
     backgroundColor: '#f2f2f2',
@@ -188,6 +206,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     marginTop: 8,
     marginBottom: 16,
+
   },
   topicText: {
     fontSize: 15,
