@@ -10,7 +10,6 @@ const RootScaleContext = createContext<RootScaleContextType | null>(null);
 
 export function RootScaleProvider({ children }: { children: React.ReactNode }) {
     const scale = useSharedValue(1);
-
     const setScale = (value: number) => {
         'worklet';
         try {
