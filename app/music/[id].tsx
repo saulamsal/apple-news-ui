@@ -216,14 +216,14 @@ export default function MusicScreen() {
                         props.onScroll?.(event);
                     }}
                     scrollEventThrottle={16}
-                    // bounces={scrollOffset.value >= 0 && !isDragging.value}
-                    bounces={false}
 
-
+                    //temp fix for bounce + scroll upon dragging
+                    bounces={scale.value <= 1}
+                    scrollEnabled={scale.value <= 1}
                 />
             </GestureDetector>
         );
-    }, [composedGestures]);
+    }, [composedGestures, scale]);
 
     const animatedStyle = useAnimatedStyle(() => ({
         transform: [
