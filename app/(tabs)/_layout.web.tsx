@@ -37,21 +37,22 @@ function SidebarItem({
   isActive?: boolean;
   compact?: boolean;
 }) {
+  const colorScheme = useColorScheme();
+  const hoverBg = colorScheme === 'dark' ? 'rgba(239, 243, 244, 0.1)' : 'rgba(15, 20, 25, 0.1)';
+  
   return (
     <Link href={href} asChild>
       <Pressable 
-        style={({ pressed }) => [
+        style={({ pressed, hovered }) => [
           styles.sidebarItem,
           compact && styles.sidebarItemCompact,
-          Platform.OS === 'web' && {
-            backgroundColor: pressed ? 'rgba(15, 20, 25, 0.1)' : 'transparent'
-          }
+          (pressed || hovered) && { backgroundColor: hoverBg }
         ]}
       >
         <Ionicons 
           name={icon} 
-          size={24} 
-          color={isActive ? '#FA2D48' : '#666'} 
+          size={28}
+          color={isActive ? '#FA2D48' : colorScheme === 'dark' ? '#e7e9ea' : '#0f1419'} 
         />
         {!compact && (
           <ThemedText style={[
@@ -145,25 +146,30 @@ const styles = StyleSheet.create<Styles>({
     position: 'fixed',
     width: 275,
     height: '100%',
-    padding: 20,
+    padding: 8,
   },
   sidebarContentCompact: {
     width: 72,
-    padding: 12,
+    padding: 8,
   },
   logoContainer: {
     marginBottom: 32,
-    paddingLeft: 10,
+    paddingLeft: 12,
+    paddingTop: 12,
   },
   nav: {
-    gap: 8,
+    gap: 4,
   },
   sidebarItem: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 12,
+    paddingLeft: 16,
+    paddingRight: 24,
     borderRadius: 9999,
     gap: 16,
+    cursor: 'pointer',
+    transition: 'background-color 0.2s',
   },
   sidebarItemCompact: {
     justifyContent: 'center',
@@ -173,9 +179,14 @@ const styles = StyleSheet.create<Styles>({
   sidebarLabel: {
     fontSize: 20,
     fontWeight: '500',
+    fontFamily: Platform.select({
+      web: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+      default: undefined,
+    }),
   },
   sidebarLabelActive: {
     color: '#FA2D48',
+    fontWeight: '700',
   },
   content: {
     flex: 1,
