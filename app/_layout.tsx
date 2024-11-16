@@ -34,7 +34,7 @@ function AnimatedStack() {
   const shouldAnimate = Platform.OS === 'ios';
   
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, }}>
       <Animated.View style={[
         styles.stackContainer, 
         shouldAnimate ? animatedStyle : undefined
