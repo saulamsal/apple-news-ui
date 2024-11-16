@@ -55,7 +55,7 @@ export default function TabLayout() {
           ),
         }}>
         <Tabs.Screen
-          name="index"
+          name="(index)/index"
           options={{
             title: 'Home',
             tabBarIcon: ({ color, focused }) => (
@@ -68,7 +68,7 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="news+"
+          name="(news+)/news+"
           options={{
             title: 'News+',
             tabBarIcon: ({ color }) => (
@@ -81,7 +81,7 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="sports"
+          name="(sports)/sports"
           options={{
             title: 'Sports',
             tabBarIcon: ({ color }) => (
@@ -94,7 +94,7 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="audio"
+          name="(audio)/audio"
           options={{
             title: 'Audio',
             tabBarIcon: ({ color }) => (
@@ -107,7 +107,7 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="search"
+          name="(search)/search"
           options={{
             title: 'Following',
             tabBarIcon: ({ color }) => (
