@@ -1,4 +1,4 @@
-import { View as ThemedView, StyleSheet, Image, Pressable, Dimensions, ScrollView } from 'react-native';
+import { View as ThemedView, StyleSheet, Image, Pressable, Dimensions, ScrollView, Platform } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { ThemedText } from '@/components/ThemedText';
 // import { ThemedView } from '@/components/ThemedView';
@@ -96,7 +96,10 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
     return (
         <LinearGradient
             colors={colors}
-            style={[styles.rootContainer, { paddingTop: insets.top }]}
+            style={[styles.rootContainer, { 
+                paddingTop: insets.top+ (Platform.OS === 'android' ? 30 : 0),
+                marginTop: Platform.OS === 'android' ? -30 : 0
+             }]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
         >

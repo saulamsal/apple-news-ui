@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { StyleSheet, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions, Platform } from 'react-native';
 import { useEffect, useCallback, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { ThemedView } from '@/components/ThemedView';
@@ -25,7 +25,7 @@ const ENABLE_HORIZONTAL_DRAG_CLOSE = false;
 export default function MusicScreen() {
     const { id } = useLocalSearchParams();
     const router = useRouter();
-    const { setScale } = useRootScale();
+    const { setScale, scale } = useRootScale();
     const translateY = useSharedValue(0);
     const isClosing = useRef(false);
     const statusBarStyle = useSharedValue<'light' | 'dark'>('light');
@@ -256,9 +256,33 @@ export default function MusicScreen() {
         };
     }, []);
 
+    // Add this new animated style for Android background
+    const androidBackgroundStyle = useAnimatedStyle(() => {
+        if (Platform.OS !== 'android') return {};
+        
+        // Use scale value for interpolation
+        const opacity = withSpring(
+            // Map scale from SCALE_FACTOR->1 to 1->0
+            (1 - scale.value) / (1 - SCALE_FACTOR),
+            { 
+                damping: 15,
+                stiffness: 150,
+            }
+        );
+
+        return {
+            ...StyleSheet.absoluteFillObject,
+            backgroundColor: '#000',
+            opacity,
+        };
+    });
+
     return (
         <ThemedView style={styles.container}>
             <StatusBar animated={true} style={statusBarStyle.value} />
+            {Platform.OS === 'android' && (
+                <Animated.View style={androidBackgroundStyle} />
+            )}
             <Animated.View style={[styles.modalContent, animatedStyle]}>
                 <ExpandedPlayer scrollComponent={ScrollComponent} />
             </Animated.View>
@@ -273,6 +297,8 @@ const styles = StyleSheet.create({
     },
     modalContent: {
         flex: 1,
-        backgroundColor: 'transparent',
+        // marginTop: -30,
+        // paddingTop: 30,
+        backgroundColor: Platform.OS === 'android' ? 'transparent' : 'transparent',
     },
 });

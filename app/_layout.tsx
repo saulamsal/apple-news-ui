@@ -48,7 +48,9 @@ function AnimatedStack() {
               animation: 'slide_from_bottom',
               headerShown: false,
               contentStyle: {
-                backgroundColor: 'transparent',
+                backgroundColor: Platform.OS === 'android' 
+                  ? 'transparent' 
+                  : 'transparent',
               },
             }}
           />
