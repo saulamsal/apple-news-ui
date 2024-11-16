@@ -1,10 +1,11 @@
-import { useLocalSearchParams } from 'expo-router';
-import { View, Image, StyleSheet, ScrollView } from 'react-native';
+import { useLocalSearchParams, router } from 'expo-router';
+import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { ScrollViewWithHeaders, Header, ScrollHeaderProps } from '@codeherence/react-native-header';
 import { ThemedView } from '@/components/ThemedView';
 import { ThemedText } from '@/components/ThemedText';
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { MaterialIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function ContentScreen() {
   const { id } = useLocalSearchParams();
@@ -21,8 +22,54 @@ export default function ContentScreen() {
     );
   }
 
+  const HeaderComponent = ({ showNavBar }: ScrollHeaderProps) => (
+    <Header
+      showNavBar={showNavBar}
+      headerLeft={
+        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+          <Ionicons name="chevron-back" size={24} color={colorScheme === 'light' ? content.source.light_text : content.source.dark_text} />
+        </TouchableOpacity>
+      }
+      headerCenter={
+        <Image 
+          source={{ 
+            uri: colorScheme === 'light' 
+              ? content.source.logo_transparent_light 
+              : content.source.logo_transparent_dark 
+          }}
+          style={styles.headerLogo}
+        />
+      }
+      style={{
+        backgroundColor: colorScheme === 'light' ? content.source.light_bg : content.source.dark_bg,
+      }}
+    />
+  );
+
+  const LargeHeaderComponent = () => (
+    <View style={[
+      styles.largeHeaderContainer,
+      {
+        backgroundColor: colorScheme === 'light' ? content.source.light_bg : content.source.dark_bg,
+      }
+    ]}>
+      <Image 
+        source={{ 
+          uri: colorScheme === 'light' 
+            ? content.source.logo_transparent_light 
+            : content.source.logo_transparent_dark 
+        }}
+        style={styles.largeLogo}
+      />
+    </View>
+  );
+
   return (
-    <ScrollView>
+    <ScrollViewWithHeaders
+      HeaderComponent={HeaderComponent}
+      LargeHeaderComponent={LargeHeaderComponent}
+      contentContainerStyle={styles.container}
+    >
       <ThemedView style={styles.container}>
         <Image 
           source={{ uri: content.featured_image }} 
@@ -30,15 +77,6 @@ export default function ContentScreen() {
         />
         
         <View style={styles.content}>
-          <Image 
-            source={{ 
-              uri: colorScheme === 'light' 
-                ? content.source.logo_transparent_light 
-                : content.source.logo_transparent_dark 
-            }}
-            style={styles.sourceLogo}
-          />
-          
           <ThemedText type="title" style={styles.title}>
             {content.title}
           </ThemedText>
@@ -61,7 +99,7 @@ export default function ContentScreen() {
           </View>
         </View>
       </ThemedView>
-    </ScrollView>
+    </ScrollViewWithHeaders>
   );
 }
 
@@ -76,11 +114,24 @@ const styles = StyleSheet.create({
   content: {
     padding: 16,
   },
-  sourceLogo: {
+  headerLogo: {
     height: 24,
     width: 120,
     resizeMode: 'contain',
-    marginBottom: 16,
+  },
+  largeLogo: {
+    height: 32,
+    width: 160,
+    resizeMode: 'contain',
+  },
+  largeHeaderContainer: {
+    padding: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 80,
+  },
+  backButton: {
+    padding: 8,
   },
   title: {
     fontSize: 28,
