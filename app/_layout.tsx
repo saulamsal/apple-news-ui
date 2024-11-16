@@ -39,8 +39,8 @@ function AnimatedStack() {
         styles.stackContainer, 
         shouldAnimate ? animatedStyle : undefined
       ]}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack screenOptions={{headerShown: false}}>
+          <Stack.Screen name="(tabs)/(index,news+,sports,audio,search)" options={{ headerShown: false }} />
           <Stack.Screen
             name="music/[id]"
             options={{
