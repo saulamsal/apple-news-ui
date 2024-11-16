@@ -1,6 +1,7 @@
 import { Text, Image, View, StyleSheet, Pressable, FlatList } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useRouter, useSegments } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Link } from 'expo-router';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -38,73 +39,88 @@ interface NewsItem {
 export default function HomeScreen() {
   const router = useRouter();
   const colorScheme = useColorScheme();
+  const segments = useSegments();
+  
+  // Get the current group (tab) from segments
+  const currentGroup = segments[1]; // Should return 'index', 'news+', 'sports', etc.
 
   const renderNewsItem = ({ item }: { item: NewsItem }) => {
+    // Create the href that maintains the current group context
+    const href = {
+      pathname: `/${currentGroup}/content/[id]`,
+      params: { id: item.id }
+    };
+
     if (item.card_type === 'full') {
       return (
-        <ThemedView style={styles.card}>
-          <Image source={{ uri: item.featured_image }} style={styles.fullImage} />
-        <View style={styles.fullCardContent}>
-        <Image 
-            source={{ uri: colorScheme === 'light' ? item.source.logo_transparent_light : item.source.logo_transparent_dark }}
-            style={styles.sourceLogo}
-          />
-          <ThemedText type="title" style={[styles.newsTitle, styles.newsTitleFull]}>
-            {item.title}
-          </ThemedText>
-    
- 
-        </View>
-     
-     <View style={styles.moreContainer}>
-     {item.show_topic && (
-            <Pressable style={styles.topicButton}>
-              <ThemedText type="subtitle" style={styles.topicText}>
-                More {item.topic.name} coverage
-              </ThemedText>
-            </Pressable>
-          )}
-        <MaterialIcons 
-            name="more-horiz" 
-            size={24} 
-            color={colorScheme === 'light' ? '#000' : '#fff'} 
-            style={styles.moreIcon}
-          />
-     </View>
-        </ThemedView>
+        <Link href={href} asChild>
+          <Pressable>
+            <ThemedView style={styles.card}>
+              <Image source={{ uri: item.featured_image }} style={styles.fullImage} />
+              <View style={styles.fullCardContent}>
+                <Image 
+                  source={{ uri: colorScheme === 'light' ? item.source.logo_transparent_light : item.source.logo_transparent_dark }}
+                  style={styles.sourceLogo}
+                />
+                <ThemedText type="title" style={[styles.newsTitle, styles.newsTitleFull]}>
+                  {item.title}
+                </ThemedText>
+              </View>
+              
+              <View style={styles.moreContainer}>
+                {item.show_topic && (
+                  <Pressable style={styles.topicButton} onPress={(e) => e.stopPropagation()}>
+                    <ThemedText type="subtitle" style={styles.topicText}>
+                      More {item.topic.name} coverage
+                    </ThemedText>
+                  </Pressable>
+                )}
+                <MaterialIcons 
+                  name="more-horiz" 
+                  size={24} 
+                  color={colorScheme === 'light' ? '#000' : '#fff'} 
+                  style={styles.moreIcon}
+                />
+              </View>
+            </ThemedView>
+          </Pressable>
+        </Link>
       );
     }
 
     return (
-      <ThemedView style={styles.card}>
-        <View style={styles.mediumContent}>
-          <Image 
-            source={{ uri: colorScheme === 'light' ? item.source.logo_transparent_light : item.source.logo_transparent_dark }}
-            style={styles.sourceLogo}
-          />
-          <ThemedText type="title" style={[styles.newsTitle, styles.newsTitleMedium]}>
-            {item.title}
-          </ThemedText>
-      
-       <Image source={{ uri: item.featured_image }} style={styles.mediumImage} />
-        </View>
-      
-        <View style={styles.moreContainer}>
-     {item.show_topic && (
-            <Pressable style={styles.topicButton}>
-              <ThemedText type="subtitle" style={styles.topicText}>
-                More {item.topic.name} coverage
+      <Link href={href} asChild>
+        <Pressable>
+          <ThemedView style={styles.card}>
+            <View style={styles.mediumContent}>
+              <Image 
+                source={{ uri: colorScheme === 'light' ? item.source.logo_transparent_light : item.source.logo_transparent_dark }}
+                style={styles.sourceLogo}
+              />
+              <ThemedText type="title" style={styles.newsTitle}>
+                {item.title}
               </ThemedText>
-            </Pressable>
-          )}
-        <MaterialIcons 
-            name="more-horiz" 
-            size={24} 
-            color={colorScheme === 'light' ? '#000' : '#fff'} 
-            style={styles.moreIcon}
-          />
-     </View>
-      </ThemedView>
+              <Image source={{ uri: item.featured_image }} style={styles.mediumImage} />
+            </View>
+            
+            <View style={styles.moreContainer}>
+              {item.show_topic && (
+                <Pressable style={styles.topicButton} onPress={(e) => e.stopPropagation()}>
+                  <ThemedText type="subtitle" style={styles.topicText}>
+                    More {item.topic.name} coverage
+                  </ThemedText>
+                </Pressable>
+              )}
+              <MaterialIcons 
+                name="more-horiz" 
+                size={24} 
+                color={colorScheme === 'light' ? '#000' : '#fff'} 
+                style={styles.moreIcon}
+              />
+            </View>
+          </ThemedView>
+        </Pressable>
+      </Link>
     );
   };
 
