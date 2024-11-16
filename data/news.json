@@ -1,46 +1,54 @@
 {
-  "news": [
-    {
-      "id": "1",
-      "title": "Mike Tyson is bigger than boxing. His fight with Jake Paul is proof.",
-      "source": {
-        "id": "sports-illustrated",
-        "name": "Sports Illustrated",
-        "logo_transparent_light": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/SportsIllustratedLogo.svg/2560px-SportsIllustratedLogo.svg.png",
-        "logo_transparent_dark": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Sports_Illustrated_logo.svg/2560px-Sports_Illustrated_logo.svg.png"
-      },
-      "created_at": "2024-03-19T14:30:00Z",
-      "topic": {
-        "id": "boxing",
-        "name": "boxing"
-      },
-      "show_topic": true,
-      "author": {
-        "name": "Chris Mannix"
-      },
-      "featured_image": "https://www.aljazeera.com/wp-content/uploads/2024/11/AFP__20241115__36MH9YH__v2__HighRes__BoxHeavyUsaTysonPaulWeighIn-1731720368.jpg?resize=570%2C380&quality=80",
-      "card_type": "full"
-    },
-    {
-      "id": "2", 
-      "title": "The NBA is reportedly considering dropping the All-Star Game for a four-team tournament",
-      "source": {
-        "id": "espn",
-        "name": "ESPN",
-        "logo_transparent_light": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ESPN_wordmark.svg/2560px-ESPN_wordmark.svg.png",
-        "logo_transparent_dark": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ESPN_wordmark.svg/2560px-ESPN_wordmark.svg.png"
-      },
-      "created_at": "2024-03-19T13:15:00Z",
-      "topic": {
-        "id": "nba",
-        "name": "NBA"
-      },
-      "show_topic": true,
-      "author": {
-        "name": "Adrian Wojnarowski"
-      },
-      "featured_image": "https://cdn.prod.website-files.com/66fd72ac6f0cd08e0277f262/67187f9e548681aef3643dbb_AS25%20Banners%20-%20728x485.png",
-      "card_type": "medium"
-    }
-  ]
-} 
+    "news": [
+        {
+            "id": "1",
+            "title": "Mike Tyson is bigger than boxing. His fight with Jake Paul is proof.",
+            "source": {
+                "id": "sports-illustrated",
+                "name": "Sports Illustrated",
+                "logo_transparent_light": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/SportsIllustratedLogo.svg/2560px-SportsIllustratedLogo.svg.png",
+                "logo_transparent_dark": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Sports_Illustrated_logo.svg/2560px-Sports_Illustrated_logo.svg.png",
+                "dark_bg": "#000",
+                "light_bg": "#fff",
+                "dark_text": "#fff",
+                "light_text": "#000"
+            },
+            "created_at": "2024-03-19T14:30:00Z",
+            "topic": {
+                "id": "boxing",
+                "name": "boxing"
+            },
+            "show_topic": true,
+            "author": {
+                "name": "Chris Mannix"
+            },
+            "featured_image": "https://www.aljazeera.com/wp-content/uploads/2024/11/AFP__20241115__36MH9YH__v2__HighRes__BoxHeavyUsaTysonPaulWeighIn-1731720368.jpg?resize=570%2C380&quality=80",
+            "card_type": "full"
+        },
+        {
+            "id": "2",
+            "title": "The NBA is reportedly considering dropping the All-Star Game for a four-team tournament",
+            "source": {
+                "id": "espn",
+                "name": "ESPN",
+                "logo_transparent_light": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ESPN_wordmark.svg/2560px-ESPN_wordmark.svg.png",
+                "logo_transparent_dark": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ESPN_wordmark.svg/2560px-ESPN_wordmark.svg.png",
+                "dark_bg": "#000",
+                "light_bg": "#fff",
+                "dark_text": "#fff",
+                "light_text": "#000"
+            },
+            "created_at": "2024-03-19T13:15:00Z",
+            "topic": {
+                "id": "nba",
+                "name": "NBA"
+            },
+            "show_topic": true,
+            "author": {
+                "name": "Adrian Wojnarowski"
+            },
+            "featured_image": "https://cdn.prod.website-files.com/66fd72ac6f0cd08e0277f262/67187f9e548681aef3643dbb_AS25%20Banners%20-%20728x485.png",
+            "card_type": "medium"
+        }
+    ]
+}
