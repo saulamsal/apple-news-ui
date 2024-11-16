@@ -6,6 +6,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Ionicons } from '@expo/vector-icons';
+import Animated, { useSharedValue } from 'react-native-reanimated';
 
 export default function ContentScreen() {
   const { id } = useLocalSearchParams();
@@ -22,29 +23,34 @@ export default function ContentScreen() {
     );
   }
 
-  const HeaderComponent = ({ showNavBar }: ScrollHeaderProps) => (
-    <Header
-      showNavBar={showNavBar}
-      headerLeft={
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-          <Ionicons name="chevron-back" size={24} color={colorScheme === 'light' ? content.source.light_text : content.source.dark_text} />
-        </TouchableOpacity>
-      }
-      headerCenter={
-        <Image 
-          source={{ 
-            uri: colorScheme === 'light' 
-              ? content.source.logo_transparent_light 
-              : content.source.logo_transparent_dark 
-          }}
-          style={styles.headerLogo}
-        />
-      }
-      style={{
-        backgroundColor: colorScheme === 'light' ? content.source.light_bg : content.source.dark_bg,
-      }}
-    />
-  );
+  const HeaderComponent = ({ showNavBar }: ScrollHeaderProps) => {
+    const animatedValue = useSharedValue(1);
+
+    return (
+      <Header
+      //always visible 
+        showNavBar={animatedValue}
+        headerLeft={
+          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+            <Ionicons name="chevron-back" size={24} color={colorScheme === 'light' ? content.source.light_text : content.source.dark_text} />
+          </TouchableOpacity>
+        }
+        headerCenter={
+          <Image 
+            source={{ 
+              uri: colorScheme === 'light' 
+                ? content.source.logo_transparent_light 
+                : content.source.logo_transparent_dark 
+            }}
+            style={styles.headerLogo}
+          />
+        }
+        style={{
+          backgroundColor: colorScheme === 'light' ? content.source.light_bg : content.source.dark_bg,
+        }}
+      />
+    );
+  };
 
   const LargeHeaderComponent = () => (
     <View style={[
@@ -67,8 +73,9 @@ export default function ContentScreen() {
   return (
     <ScrollViewWithHeaders
       HeaderComponent={HeaderComponent}
-      LargeHeaderComponent={LargeHeaderComponent}
+      // LargeHeaderComponent={LargeHeaderComponent}
       contentContainerStyle={styles.container}
+      
     >
       <ThemedView style={styles.container}>
         <Image 
