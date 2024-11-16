@@ -44,19 +44,19 @@ export default function HomeScreen() {
       return (
         <ThemedView style={styles.card}>
           <Image source={{ uri: item.featured_image }} style={styles.fullImage} />
-        <View>
+        <View style={styles.fullCardContent}>
         <Image 
             source={{ uri: colorScheme === 'light' ? item.source.logo_transparent_light : item.source.logo_transparent_dark }}
             style={styles.sourceLogo}
           />
-          <ThemedText type="title" style={[styles.newsTitle, item.card_type === 'full' ? styles.newsTitleFull : styles.newsTitleMedium]}>
+          <ThemedText type="title" style={[styles.newsTitle, styles.newsTitleFull]}>
             {item.title}
           </ThemedText>
     
  
         </View>
      
-     <View>
+     <View style={styles.moreContainer}>
      {item.show_topic && (
             <Pressable style={styles.topicButton}>
               <ThemedText type="subtitle" style={styles.topicText}>
@@ -82,14 +82,14 @@ export default function HomeScreen() {
             source={{ uri: colorScheme === 'light' ? item.source.logo_transparent_light : item.source.logo_transparent_dark }}
             style={styles.sourceLogo}
           />
-          <ThemedText type="title" style={styles.newsTitle}>
+          <ThemedText type="title" style={[styles.newsTitle, styles.newsTitleMedium]}>
             {item.title}
           </ThemedText>
       
        <Image source={{ uri: item.featured_image }} style={styles.mediumImage} />
         </View>
       
-        <View>
+        <View style={styles.moreContainer}>
      {item.show_topic && (
             <Pressable style={styles.topicButton}>
               <ThemedText type="subtitle" style={styles.topicText}>
@@ -185,6 +185,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     marginBottom: 8,
     marginTop: 8,
+    marginLeft:-10
   },
   newsTitle: {
     fontSize: 18,
@@ -217,5 +218,13 @@ const styles = StyleSheet.create({
     right: 8,
     top: 8,
     padding: 8,
-  }
+  },
+  moreContainer: {
+    paddingHorizontal: 8,
+    // backgroundColor: 'blue',
+  },
+  fullCardContent: {
+    paddingHorizontal: 16,
+    // backgroundColor: 'red',
+  },
 });
