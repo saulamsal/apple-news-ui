@@ -103,13 +103,15 @@ export const styles = StyleSheet.create({
     headerLeft: {
       flexDirection: 'column',
       // alignItems: 'center',
-      gap: 4,
+      gap: 0,
   
     },
     headerDate: {
-      fontSize: 26,
+      fontSize: 28,
       fontWeight: '800',
       opacity: 0.5,
+      letterSpacing: -1,
+      paddingTop: 4,
     },
     listHeaderText: {
       fontSize: 26,
@@ -142,7 +144,8 @@ export const styles = StyleSheet.create({
       alignItems: 'center',
     },
     listHeader: {
-      paddingVertical: 16,
+      paddingTop: 16,
+      marginBottom: -8,
     },
     rowBack: {
       alignItems: 'center',
