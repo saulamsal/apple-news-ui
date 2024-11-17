@@ -2,7 +2,7 @@ import { Text, Image, View, StyleSheet, Pressable } from 'react-native';
 import { useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
-import { SwipeRow, SwipeRowProps } from 'react-native-swipe-list-view';
+import { SwipeListView } from 'react-native-swipe-list-view';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -12,13 +12,6 @@ import { NewsLogo } from '@/components/NewsLogo';
 import { formatSimpleDate } from '@/utils/dateFormatters';
 import { styles } from '@/styles/screens/home';
 import { FlashList } from '@shopify/flash-list';
-
-// Add this type to handle FlashList rendering
-type RenderItemParams = {
-  item: NewsItem;
-  index: number;
-};
-
 interface Source {
   id: string;
   name: string;
@@ -60,7 +53,7 @@ export default function HomeScreen() {
 
   const backgroundColor = colorScheme === 'light' ? '#F2F2F6' : '#1C1C1E';
 
-  const renderNewsItem = ({ item }: RenderItemParams) => {
+  const renderNewsItem = ({ item }: { item: NewsItem }) => {
     // Fix the href typing by making it more specific
     const href = {
       pathname: '/topic/[id]' as const,
@@ -140,7 +133,7 @@ export default function HomeScreen() {
     );
   };
 
-  const renderHiddenItem = ({ item }: RenderItemParams) => (
+  const renderHiddenItem = ({ item }: { item: NewsItem }) => (
     <View style={styles.rowBack}>
       {/* Left swipe actions */}
       <View style={styles.leftActions}>
@@ -194,23 +187,15 @@ export default function HomeScreen() {
         </View>
       </View>
       
-      <FlashList
+      <SwipeListView
         data={news as NewsItem[]}
-        estimatedItemSize={200}
-        renderItem={({ item, index }) => (
-          <SwipeRow<NewsItem>
-            leftOpenValue={120}
-            rightOpenValue={-120}
-            stopLeftSwipe={150}
-            stopRightSwipe={-150}
-            disableLeftSwipe={false}
-            disableRightSwipe={false}
-            item={item}
-            renderHiddenItem={() => renderHiddenItem({ item, index })}
-          >
-            {renderNewsItem({ item, index })}
-          </SwipeRow>
-        )}
+        renderItem={renderNewsItem}
+        renderHiddenItem={renderHiddenItem}
+        leftOpenValue={120}
+        rightOpenValue={-120}
+        previewRowKey={'0'}
+        previewOpenValue={-40}
+        previewOpenDelay={3000}
         keyExtractor={item => item.id}
         contentContainerStyle={styles.listContent}
         ListHeaderComponent={
