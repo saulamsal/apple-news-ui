@@ -55,21 +55,26 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     const playEpisode = async (episode: PodcastEpisode) => {
         try {
             if (sound) {
+                await sound.stopAsync();
                 await sound.unloadAsync();
+                setSound(null);
             }
+
+            console.log('Playing episode:', episode.title, 'URL:', episode.streamUrl);
 
             const { sound: newSound } = await Audio.Sound.createAsync(
                 { uri: episode.streamUrl },
-                { shouldPlay: true },
+                { shouldPlay: true, progressUpdateIntervalMillis: 1000 },
                 onPlaybackStatusUpdate
             );
 
             setSound(newSound);
             setCurrentEpisode(episode);
             setIsPlaying(true);
-            await newSound.playAsync();
         } catch (error) {
-            console.error('Error playing sound:', error);
+            console.error('Error playing episode:', error);
+            setSound(null);
+            setIsPlaying(false);
         }
     };
 

@@ -12,11 +12,12 @@ import { AudioProvider } from '@/contexts/AudioContext';
 import { useRouter } from 'expo-router';
 import { useAudio } from '@/contexts/AudioContext';
 import { StatusBar } from 'expo-status-bar';
+import { MiniPlayer } from '@/components/BottomSheet/MiniPlayer';
 
 function AnimatedStack() {
   const { scale } = useRootScale();
   const router = useRouter();
-  const { currentSong, isPlaying, togglePlayPause } = useAudio();
+  const { currentEpisode, isPlaying, togglePlayPause } = useAudio();
 
   const animatedStyle = useAnimatedStyle(() => {
     console.log(scale.value)
@@ -33,8 +34,12 @@ function AnimatedStack() {
 
   const shouldAnimate = Platform.OS === 'ios';
   
+  const handleMiniPlayerPress = () => {
+    router.push('/audio/current');
+  };
+
   return (
-    <View style={{ flex: 1, }}>
+    <View style={{ flex: 1 }}>
       <Animated.View style={[
         styles.stackContainer, 
         shouldAnimate ? animatedStyle : undefined
@@ -57,6 +62,7 @@ function AnimatedStack() {
           <Stack.Screen name="+not-found" />
         </Stack>
       </Animated.View>
+      <MiniPlayer onPress={handleMiniPlayerPress} />
     </View>
   );
 }
@@ -89,6 +95,7 @@ export default function RootLayout() {
     </>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

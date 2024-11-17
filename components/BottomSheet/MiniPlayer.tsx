@@ -1,26 +1,29 @@
 import { StyleSheet, Pressable, Image, Platform, ImageBackground, View, Text } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
-import { Audio } from 'expo-av';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useAudio } from '@/contexts/AudioContext';
 
-export function MiniPlayer({ onPress, song, isPlaying, onPlayPause }: MiniPlayerProps) {
+export function MiniPlayer({ onPress }: { onPress: () => void }) {
     const insets = useSafeAreaInsets();
     const colorScheme = useColorScheme();
+    const { currentEpisode, isPlaying, togglePlayPause } = useAudio();
+
+    // Don't render if no episode is selected
+    if (!currentEpisode) return null;
 
     const bottomPosition = Platform.OS === 'ios' ? insets.bottom + 57 : 60;
 
     return (
-        <Pressable onPress={onPress} style={[
-            styles.container,
-            { bottom: 0 }
-        ]}>
+        <Pressable 
+            onPress={onPress} 
+            style={[styles.container, { bottom: 0 }]}
+        >
             <ImageBackground
-                source={{ uri: 'https://www.hollywoodreporter.com/wp-content/uploads/2024/11/FotoJet-2024-11-06T105229.459.jpg' }}
+                source={{ uri: currentEpisode.artwork.url }}
                 style={styles.backgroundImage}
                 blurRadius={20}
             >
@@ -28,77 +31,55 @@ export function MiniPlayer({ onPress, song, isPlaying, onPlayPause }: MiniPlayer
                     <BlurView
                         tint={'systemThickMaterialDark'}
                         intensity={99}
-                        style={[styles.content, styles.blurContainer]}>
-                        <MiniPlayerContent song={song} isPlaying={isPlaying} onPlayPause={onPlayPause} />
+                        style={[styles.content, styles.blurContainer]}
+                    >
+                        <MiniPlayerContent 
+                            episode={currentEpisode}
+                            isPlaying={isPlaying}
+                            onPlayPause={togglePlayPause}
+                        />
                     </BlurView>
                 ) : (
                     <ThemedView style={[styles.content, styles.androidContainer]}>
-                        <MiniPlayerContent song={song} isPlaying={isPlaying} onPlayPause={onPlayPause} />
+                        <MiniPlayerContent 
+                            episode={currentEpisode}
+                            isPlaying={isPlaying}
+                            onPlayPause={togglePlayPause}
+                        />
                     </ThemedView>
                 )}
             </ImageBackground>
         </Pressable>
     );
 }
-const Rewind15SecIcon = () => {
-    const colorScheme = useColorScheme();
-    return (
-        <View style={styles.controlButton}>
-            <View>
-                <View style={{ position: 'relative' }}>
-                    <Ionicons name="refresh-sharp" size={28} color={'#fff'} style={{ transform: [{ scaleX: -1 }] }} />
-                    <Text style={{
-                        color: '#fff',
-                        position: 'absolute',
-                        fontSize: 8,
-                        top: '50%',
-                        left: '50%',
-                        fontWeight: '500',
-                        transform: [{ translateX: -5 }, { translateY: -2 }]
-                    }}>15</Text>
-                </View>
-            </View>
-        </View>
-    )
-}
 
-// Extract the content into a separate component for reusability
-function MiniPlayerContent({ song, isPlaying, onPlayPause }: {
-    song: any;
+function MiniPlayerContent({ 
+    episode,
+    isPlaying,
+    onPlayPause 
+}: {
+    episode: any;
     isPlaying: boolean;
     onPlayPause: () => void;
 }) {
     const colorScheme = useColorScheme();
-    const { playNext } = useAudio();
 
     return (
-        <ThemedView style={[styles.miniPlayerContent, { backgroundColor: colorScheme === 'light' ? '#ffffffa4' : 'transparent' }]}>
-
+        <ThemedView style={[
+            styles.miniPlayerContent, 
+            { backgroundColor: colorScheme === 'light' ? '#ffffffa4' : 'transparent' }
+        ]}>
             <ThemedView style={styles.textContainer}>
-                <Text style={styles.title}>How Starbucks become Teen Emporium</Text>
+                <Text style={styles.title} numberOfLines={1}>{episode.title}</Text>
+                <Text style={styles.subtitle} numberOfLines={1}>{episode.showTitle}</Text>
             </ThemedView>
             <ThemedView style={styles.controls}>
-                <Pressable style={styles.controlButton} onPress={playNext}>
-                    <Rewind15SecIcon />
-                </Pressable>
-
                 <Pressable style={styles.controlButton} onPress={onPlayPause}>
-                    <Ionicons name={isPlaying ? "pause" : "play"} size={24} color={'#fff'} />
-                </Pressable>
-                <Pressable
-                    style={[styles.controlButton, styles.closeButton]}
-                    onPress={playNext}
-                >
-                    <BlurView
-                        tint={colorScheme === 'light' ? 'light' : 'dark'}
-                        intensity={99}
-                        style={styles.closeButtonBlur}>
-                        <Ionicons
-                            name="close-sharp"
-                            size={24}
-                            color={'#fff'}
-                        />
-                    </BlurView>
+                    <Ionicons 
+                        name={isPlaying ? "pause" : "play"} 
+                        size={24} 
+                        color={'#fff'} 
+                    />
                 </Pressable>
             </ThemedView>
         </ThemedView>
@@ -107,7 +88,7 @@ function MiniPlayerContent({ song, isPlaying, onPlayPause }: {
 
 const styles = StyleSheet.create({
     container: {
-        // position: 'absolute',
+        position: 'absolute',
         left: 0,
         right: 0,
         height: 86,
@@ -127,15 +108,12 @@ const styles = StyleSheet.create({
     content: {
         flexDirection: 'row',
         alignItems: 'center',
-        // height: 40,
         paddingHorizontal: 10,
         borderRadius: 12,
         overflow: 'hidden',
         zIndex: 1000,
         flex: 1,
         paddingVertical: 0,
-
-
     },
     miniPlayerContent: {
         flex: 1,
@@ -143,23 +121,27 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: '100%',
         paddingHorizontal: 10,
-        // backgroundColor: 'red',
-
     },
     blurContainer: {
-        // backgroundColor: '#00000000',
+        backgroundColor: 'transparent',
     },
     androidContainer: {
-
+        backgroundColor: 'rgba(0,0,0,0.8)',
     },
     title: {
         fontWeight: '500',
+        color: '#fff',
+        fontSize: 16,
     },
-
+    subtitle: {
+        color: '#rgba(255,255,255,0.8)',
+        fontSize: 14,
+    },
     textContainer: {
         flex: 1,
         marginLeft: 12,
         backgroundColor: 'transparent',
+        justifyContent: 'center',
     },
     controls: {
         flexDirection: 'row',
@@ -175,23 +157,4 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
     },
-    closeButton: {
-        overflow: 'hidden',
-        borderRadius: 20,
-        padding: 0,
-    },
-    closeButtonBlur: {
-        width: 36,
-        height: 36,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
 });
-
-interface MiniPlayerProps {
-    onPress: () => void;
-    song: any;
-    sound?: Audio.Sound | null;
-    isPlaying: boolean;
-    onPlayPause: () => void;
-}
