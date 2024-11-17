@@ -1,7 +1,7 @@
-import { StyleSheet, Pressable, Image, Platform, ImageBackground, View, Text } from 'react-native';
+import { StyleSheet, Pressable, Image, Platform, ImageBackground, View, Text, Animated } from 'react-native';
 import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -10,7 +10,7 @@ import { useAudio } from '@/contexts/AudioContext';
 export function MiniPlayer({ onPress }: { onPress: () => void }) {
     const insets = useSafeAreaInsets();
     const colorScheme = useColorScheme();
-    const { currentEpisode, isPlaying, togglePlayPause } = useAudio();
+    const { currentEpisode, isPlaying, togglePlayPause, seek } = useAudio();
 
     // Don't render if no episode is selected
     if (!currentEpisode) return null;
@@ -63,23 +63,84 @@ function MiniPlayerContent({
     onPlayPause: () => void;
 }) {
     const colorScheme = useColorScheme();
+    const scrollX = useRef(new Animated.Value(0)).current;
+    const { seek } = useAudio();
+    
+    // Animation for long titles
+    useEffect(() => {
+        const startAnimation = () => {
+            Animated.sequence([
+                Animated.timing(scrollX, {
+                    toValue: -1000,
+                    duration: 15000,
+                    useNativeDriver: true,
+                }),
+                Animated.delay(1000),
+                Animated.timing(scrollX, {
+                    toValue: 0,
+                    duration: 0,
+                    useNativeDriver: true,
+                })
+            ]).start(() => startAnimation());
+        };
+
+        startAnimation();
+    }, [episode.title]);
+
+    const rewind15Seconds = () => {
+        seek(-15);
+    };
 
     return (
-        <ThemedView style={[
-            styles.miniPlayerContent, 
-            { backgroundColor: colorScheme === 'light' ? '#ffffffa4' : 'transparent' }
-        ]}>
-            <ThemedView style={styles.textContainer}>
-                <Text style={styles.title} numberOfLines={1}>{episode.title}</Text>
-                <Text style={styles.subtitle} numberOfLines={1}>{episode.showTitle}</Text>
+        <ThemedView style={styles.miniPlayerContent}>
+            <ThemedView style={styles.leftSection}>
+                <Text style={styles.source} numberOfLines={1}>{episode.showTitle}</Text>
+                <Animated.View style={{ transform: [{ translateX: scrollX }] }}>
+                    <Text style={styles.title} numberOfLines={1}>{episode.title}</Text>
+                </Animated.View>
             </ThemedView>
             <ThemedView style={styles.controls}>
+                <Pressable 
+                    style={styles.controlButton} 
+                    onPress={rewind15Seconds}
+                >
+                    <BlurView
+                        tint="dark"
+                        intensity={80}
+                        style={styles.buttonBlur}
+                    >
+                        <Ionicons 
+                            name="play-back" 
+                            size={18} 
+                            color={'#fff'} 
+                        />
+                    </BlurView>
+                </Pressable>
                 <Pressable style={styles.controlButton} onPress={onPlayPause}>
-                    <Ionicons 
-                        name={isPlaying ? "pause" : "play"} 
-                        size={24} 
-                        color={'#fff'} 
-                    />
+                    <BlurView
+                        tint="dark"
+                        intensity={80}
+                        style={styles.buttonBlur}
+                    >
+                        <Ionicons 
+                            name={isPlaying ? "pause" : "play"} 
+                            size={20} 
+                            color={'#fff'} 
+                        />
+                    </BlurView>
+                </Pressable>
+                <Pressable style={styles.controlButton}>
+                    <BlurView
+                        tint="dark"
+                        intensity={80}
+                        style={styles.buttonBlur}
+                    >
+                        <Ionicons 
+                            name="close" 
+                            size={18} 
+                            color={'#fff'} 
+                        />
+                    </BlurView>
                 </Pressable>
             </ThemedView>
         </ThemedView>
@@ -119,39 +180,44 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'space-between',
         height: '100%',
-        paddingHorizontal: 10,
-    },
-    blurContainer: {
+        paddingHorizontal: 16,
         backgroundColor: 'transparent',
     },
-    androidContainer: {
-        backgroundColor: 'rgba(0,0,0,0.8)',
+    leftSection: {
+        flex: 1,
+        backgroundColor: 'transparent',
+        justifyContent: 'center',
+        marginRight: 16,
+    },
+    source: {
+        color: '#rgba(255,255,255,0.7)',
+        fontSize: 13,
+        marginBottom: 2,
     },
     title: {
         fontWeight: '500',
         color: '#fff',
-        fontSize: 16,
-    },
-    subtitle: {
-        color: '#rgba(255,255,255,0.8)',
-        fontSize: 14,
-    },
-    textContainer: {
-        flex: 1,
-        marginLeft: 12,
-        backgroundColor: 'transparent',
-        justifyContent: 'center',
+        fontSize: 15,
     },
     controls: {
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 4,
-        marginRight: 4,
+        gap: 8,
         backgroundColor: 'transparent',
     },
     controlButton: {
-        padding: 8,
+        padding: 2,
+    },
+    buttonBlur: {
+        borderRadius: 16,
+        width: 32,
+        height: 32,
+        overflow: 'hidden',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(0,0,0,0.3)',
     },
     backgroundImage: {
         width: '100%',
