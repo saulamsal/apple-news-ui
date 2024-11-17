@@ -54,9 +54,11 @@ interface NewsItem {
 }
 
 const TABS = [
-  { id: 'best', label: 'Best of News+' },
-  { id: 'magazines', label: 'My Magazines' },
-  { id: 'downloaded', label: 'Downloaded' },
+  { id: 'best', label: 'Best of News+', icon: 'heart' },
+  { id: 'magazines', label: 'My Magazines', icon: 'book' },
+  { id: 'downloaded', label: 'Downloaded', icon: 'download' },
+  { id: 'newspapers', label: 'Newspapers', icon: 'newspaper' },
+  { id: 'catalog', label: 'Catalog', icon: 'list' },
 ];
 
 export default function NewsPlusScreen() {

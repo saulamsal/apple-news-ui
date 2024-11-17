@@ -1,10 +1,12 @@
 import React from 'react';
 import { View, Text, ScrollView, Pressable, StyleSheet } from 'react-native';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { Ionicons } from '@expo/vector-icons';
 
 interface Tab {
   id: string;
   label: string;
+  icon?: string;
 }
 
 interface TabMenuProps {
@@ -37,6 +39,8 @@ export function TabMenu({ tabs, activeTab, onTabPress }: TabMenuProps) {
               isActive && isDark && styles.activeDarkTab
             ]}
           >
+                {tab.icon && <Ionicons name={tab.icon} size={22} color={isActive ? '#FFF' : '#666'}  style={styles.tabIcon}/>}
+
             <Text 
               style={[
                 styles.tabText,
@@ -45,8 +49,8 @@ export function TabMenu({ tabs, activeTab, onTabPress }: TabMenuProps) {
                 isActive && isDark && styles.activeDarkTabText
               ]}
             >
-              {tab.label}
-            </Text>
+                {tab.label}
+                </Text>
           </Pressable>
         );
       })}
@@ -61,16 +65,20 @@ const styles = StyleSheet.create({
     // gap: 12,
   },
   container: {
-    paddingHorizontal: 16,
+    // paddingHorizontal: 16,
     paddingVertical: 8,
     gap: 8,
   },
   tab: {
     paddingHorizontal: 16,
-    paddingVertical: 14,
+    paddingVertical: 10,
     borderRadius: 8,
     backgroundColor: '#FFFFFF',
     marginRight: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    justifyContent: 'center',
   },
   activeTab: {
     backgroundColor: '#000',
@@ -84,7 +92,11 @@ const styles = StyleSheet.create({
   tabText: {
     fontSize: 13.5,
     fontWeight: '600',
-    // color: '#666',
+  },
+  tabIcon: {
+    marginRight: 4,
+    marginTop: 2,
+    
   },
   activeTabText: {
     color: '#FFF',
