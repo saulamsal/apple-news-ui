@@ -7,6 +7,8 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { NewsLogo } from '@/components/NewsLogo';
+import { formatSimpleDate } from '@/utils/dateFormatters';
 
 interface Source {
   id: string;
@@ -45,9 +47,9 @@ export default function HomeScreen() {
   const currentGroup = segments[1]; // Should return 'index', 'news+', 'sports', etc.
 
   const renderNewsItem = ({ item }: { item: NewsItem }) => {
-    // Create the href that maintains the current group context
+    // Fix the href typing by making it more specific
     const href = {
-      pathname: `/${currentGroup}/content/[id]`,
+      pathname: '/topic/[id]' as const,
       params: { id: item.id }
     };
 
@@ -127,15 +129,19 @@ export default function HomeScreen() {
   return (
     <ThemedView style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
       <View style={styles.header}>
-        <ThemedText style={styles.headerTitle}>Sports</ThemedText>
-        <MaterialIcons 
-          name="menu" 
-          size={24} 
-          color={colorScheme === 'light' ? '#000' : '#fff'} 
-        />
+        <View style={styles.headerLeft}>
+          <NewsLogo
+            color={colorScheme === 'light' ? '#000' : '#fff'}
+            size={36}
+          />
+          <ThemedText style={styles.headerDate}>
+            {formatSimpleDate()}
+          </ThemedText>
+        </View>
       </View>
-      <FlatList
-        data={news}
+      
+      <FlatList<NewsItem>
+        data={news as NewsItem[]}
         renderItem={renderNewsItem}
         keyExtractor={item => item.id}
         contentContainerStyle={styles.listContent}
@@ -243,4 +249,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     // backgroundColor: 'red',
   },
+  headerLeft: {
+    flexDirection: 'column',
+    // alignItems: 'center',
+    // gap: 16,
+
+  },
+  headerDate: {
+    fontSize: 26,
+    fontWeight: '800',
+    opacity: 0.5,
+  }
 });
