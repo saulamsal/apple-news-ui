@@ -62,10 +62,11 @@ export default function SearchScreen() {
 
     return (
         <ScrollViewWithHeaders
-            // LargeHeaderComponent={LargeHeaderComponent}
+            LargeHeaderComponent={LargeHeaderComponent}
             HeaderComponent={HeaderComponent}
             contentContainerStyle={[styles.container, { paddingBottom: bottom }]}
             style={styles.scrollView}
+            absoluteHeader={true}
         >
             <View style={styles.categoriesContainer}>
                 {typedSearchEntities.categories.map((category) => (
