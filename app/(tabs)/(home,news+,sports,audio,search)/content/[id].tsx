@@ -27,6 +27,8 @@ export default function ContentScreen() {
 
   const [index, setIndex] = useState(1);
 
+  const [isAnimating, setIsAnimating] = useState(false);
+
   const renderScene = useCallback(({ route }: { route: { key: string } }) => {
     switch (route.key) {
       case 'prev':
@@ -43,24 +45,22 @@ export default function ContentScreen() {
   const handleIndexChange = useCallback((newIndex: number) => {
     // Only allow navigation if content exists
     if ((newIndex === 0 && !hasPrevious) || (newIndex === 2 && !hasNext)) {
-      setIndex(1);
       return;
     }
 
-    setIndex(newIndex);
+    if (isAnimating) return;
+    setIsAnimating(true);
 
-    // Update URL after a short delay to allow animation to complete
-    if (newIndex !== 1) {
-      setTimeout(() => {
-        if (newIndex === 0 && prevContent) {
-          router.setParams({ id: prevContent.id });
-        } else if (newIndex === 2 && nextContent) {
-          router.setParams({ id: nextContent.id });
-        }
-        setIndex(1);
-      }, 150); // Adjust timing as needed
-    }
-  }, [prevContent, nextContent, hasPrevious, hasNext]);
+    // Wait for animation to complete before updating URL
+    setTimeout(() => {
+      if (newIndex === 0 && prevContent) {
+        router.setParams({ id: prevContent.id });
+      } else if (newIndex === 2 && nextContent) {
+        router.setParams({ id: nextContent.id });
+      }
+      setIsAnimating(false);
+    }, 300); // Adjust timing to match swipe animation duration
+  }, [prevContent, nextContent, hasPrevious, hasNext, isAnimating]);
 
   if (!currentContent) {
     return (
@@ -77,7 +77,7 @@ export default function ContentScreen() {
       renderTabBar={() => null}
       onIndexChange={handleIndexChange}
       initialLayout={{ width: layout.width }}
-      swipeEnabled={true}
+      swipeEnabled={!isAnimating}  // Disable swipe while animating
       style={{ backgroundColor: 'transparent' }}
     />
   );
