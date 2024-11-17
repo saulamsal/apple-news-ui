@@ -88,7 +88,7 @@ function MiniPlayerContent({
 
 const styles = StyleSheet.create({
     container: {
-        position: 'absolute',
+        // position: 'absolute',
         left: 0,
         right: 0,
         height: 86,
