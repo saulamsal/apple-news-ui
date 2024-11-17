@@ -3,6 +3,13 @@ import { useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import { SwipeListView } from 'react-native-swipe-list-view';
+import { useState, useRef } from 'react';
+import Animated, { 
+  useAnimatedScrollHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -53,6 +60,37 @@ export default function HomeScreen() {
   const iconColor = '#fff';
 
   const backgroundColor = colorScheme === 'light' ? '#F2F2F6' : '#1C1C1E';
+
+  const lastScrollY = useSharedValue(0);
+  const translationY = useSharedValue(-40);
+
+  const AnimatedSwipeListView = Animated.createAnimatedComponent(SwipeListView);
+
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      const currentScrollY = event.contentOffset.y;
+      
+      if (currentScrollY > lastScrollY.value) {
+        // Scrolling down - hide header
+        translationY.value = withTiming(-40, {
+          duration: 300
+        });
+      } else {
+        // Scrolling up - show header
+        translationY.value = withTiming(0, {
+          duration: 300
+        });
+      }
+      
+      lastScrollY.value = currentScrollY;
+    }
+  });
+
+  const headerAnimatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: translationY.value }],
+    };
+  });
 
   const renderNewsItem = ({ item }: { item: NewsItem }) => {
     // Fix the href typing by making it more specific
@@ -171,44 +209,58 @@ export default function HomeScreen() {
   );
 
   return (
-
     <SafeAreaView style={{ flex: 1 }}>
       <ThemedView style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
+        <Animated.View 
+          style={[
+            styles.todayContainer, 
+            {
+              backgroundColor: colorScheme === 'light' 
+                ? 'rgba(242,242,246,0.9)' 
+                : 'rgba(13,13,9,0.9)'
+            },
+            headerAnimatedStyle
+          ]}
+        >
+          <ThemedText style={styles.todayText}>Today</ThemedText>
+        </Animated.View>
 
-      <SwipeListView
-        data={news as NewsItem[]}
-        renderItem={renderNewsItem}
-        renderHiddenItem={renderHiddenItem}
-        leftOpenValue={120}
-        rightOpenValue={-120}
-        previewRowKey={'0'}
-        previewOpenValue={-40}
-        previewOpenDelay={3000}
-        keyExtractor={item => item.id}
-        contentContainerStyle={styles.listContent}
-        ListHeaderComponent={
-          <>
-            <View style={styles.header}>
-              <View style={styles.headerLeft}>
-                <NewsLogo
-                  color={colorScheme === 'light' ? '#000' : '#fff'}
-                  size={36}
-                />
-                <ThemedText style={styles.headerDate}>
-                  {formatSimpleDate()}
-                </ThemedText>
-              </View>
+        <AnimatedSwipeListView
+          onScroll={scrollHandler}
+          scrollEventThrottle={16}
+          data={news as NewsItem[]}
+          renderItem={renderNewsItem}
+          renderHiddenItem={renderHiddenItem}
+          leftOpenValue={120}
+          rightOpenValue={-120}
+          previewRowKey={'0'}
+          previewOpenValue={-40}
+          previewOpenDelay={3000}
+          keyExtractor={item => item.id}
+          contentContainerStyle={styles.listContent}
+          ListHeaderComponent={
+            <>
+              <View style={styles.header}>
+                <View style={styles.headerLeft}>
+                  <NewsLogo
+                    color={colorScheme === 'light' ? '#000' : '#fff'}
+                    size={36}
+                  />
+                  <ThemedText style={styles.headerDate}>
+                    {formatSimpleDate()}
+                  </ThemedText>
+                </View>
 
-              <View style={styles.headerRight}>
-                <Image source={{ uri: colorScheme === 'light' ? 'https://i.imgur.com/EfImlCx.png' : 'https://i.imgur.com/bMJtV6x.png' }} style={styles.headerIcon} />
+                <View style={styles.headerRight}>
+                  <Image source={{ uri: colorScheme === 'light' ? 'https://i.imgur.com/EfImlCx.png' : 'https://i.imgur.com/bMJtV6x.png' }} style={styles.headerIcon} />
+                </View>
               </View>
-            </View>
-            <View style={styles.listHeader}>
-              <Text style={styles.listHeaderText}>Top Stories</Text>
-            </View>
-          </>
-        }
-      />
+              <View style={styles.listHeader}>
+                <Text style={styles.listHeaderText}>Top Stories</Text>
+              </View>
+            </>
+          }
+        />
       </ThemedView>
     </SafeAreaView>
   );
