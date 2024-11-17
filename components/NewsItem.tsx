@@ -88,7 +88,7 @@ export const NewsItem = ({ item }: NewsItemProps) => {
                 colors={['rgba(0,0,0,0.1)', 'transparent']}
                 start={{ x: 0.2, y: 0 }}
                 end={{ x: 0.5, y: 0 }}
-                style={[styles.newsPlusOverlay, { flexDirection: 'row' , position: 'absolute', top: 0, left: 0, width: '100%', zIndex: 1 }]}
+                style={[styles.newsPlusOverlay, { flexDirection: 'row' , position: 'absolute', top: 0, left: 0, width: '100%', zIndex: 1 , borderTopLeftRadius: 12, borderTopLeftRadius: 12}]}
               >
                 <NewsLogo size={16} color="#F92B53" />
               </LinearGradient>
