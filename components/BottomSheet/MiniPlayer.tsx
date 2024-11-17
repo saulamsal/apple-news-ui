@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         height: 86,
-        zIndex: 1000,
+        zIndex: 1,
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.15,
         shadowRadius: 8,
         elevation: 5,
-        marginTop: -20,
+        marginTop: 10,
         backgroundColor: '#000',
         overflow: 'hidden',
     },

@@ -244,6 +244,8 @@ const styles = StyleSheet.create({
         width: '100%',
         borderTopLeftRadius: 40,
         borderTopRightRadius: 40,
+        zIndex: 1000,
+     
     },
     dragHandle: {
         width: 40,

@@ -1,6 +1,5 @@
-import { Stack, useSegments } from "expo-router";
+import { Stack, useSegments, useRouter } from "expo-router";
 import { Platform, StyleSheet, View, Pressable, useWindowDimensions } from 'react-native';
-import { Link } from 'expo-router';
 import { AppleNewsLogo } from '@/components/icons/AppleNewsLogo';
 import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -22,6 +21,13 @@ type Styles = {
   contentInner: ViewStyle;
 };
 
+type AppRoutes = 
+  | "/(tabs)/(home)/home"
+  | "/(tabs)/(news+)/news+"
+  | "/(tabs)/(sports)/sports"
+  | "/(tabs)/(audio)/audio"
+  | "/(tabs)/(search)/search";
+
 // Helper component for sidebar items
 function SidebarItem({ 
   icon, 
@@ -32,39 +38,39 @@ function SidebarItem({
 }: { 
   icon: keyof typeof Ionicons.glyphMap;
   label: string;
-  href: string;
+  href: AppRoutes;
   isActive?: boolean;
   compact?: boolean;
 }) {
   const colorScheme = useColorScheme();
+  const router = useRouter();
   const hoverBg = colorScheme === 'dark' ? 'rgba(239, 243, 244, 0.1)' : 'rgba(15, 20, 25, 0.1)';
   const activeBg = colorScheme === 'dark' ? 'rgba(250, 45, 72, 0.1)' : 'rgba(250, 45, 72, 0.1)';
   
   return (
-    <Link href={href}>
-      <Pressable 
-        style={({ pressed, hovered }) => [
-          styles.sidebarItem,
-          compact && styles.sidebarItemCompact,
-          isActive && { backgroundColor: activeBg },
-          (pressed || hovered) && { backgroundColor: hoverBg }
-        ]}
-      >
-        <Ionicons 
-          name={icon} 
-          size={28}
-          color={isActive ? '#FA2D48' : colorScheme === 'dark' ? '#e7e9ea' : '#0f1419'} 
-        />
-        {!compact && (
-          <ThemedText style={[
-            styles.sidebarLabel,
-            isActive && styles.sidebarLabelActive
-          ]}>
-            {label}
-          </ThemedText>
-        )}
-      </Pressable>
-    </Link>
+    <Pressable 
+      onPress={() => router.push(href)}
+      style={({ pressed, hovered }) => [
+        styles.sidebarItem,
+        compact && styles.sidebarItemCompact,
+        isActive && { backgroundColor: activeBg },
+        (pressed || hovered) && { backgroundColor: hoverBg }
+      ]}
+    >
+      <Ionicons 
+        name={icon} 
+        size={28}
+        color={isActive ? '#FA2D48' : colorScheme === 'dark' ? '#e7e9ea' : '#0f1419'} 
+      />
+      {!compact && (
+        <ThemedText style={[
+          styles.sidebarLabel,
+          isActive && styles.sidebarLabelActive
+        ]}>
+          {label}
+        </ThemedText>
+      )}
+    </Pressable>
   );
 }
 
