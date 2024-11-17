@@ -108,7 +108,7 @@ export default function NewsPlusScreen() {
             keyExtractor={item => item.id}
             contentContainerStyle={styles.listContent}
             ListHeaderComponent={
-                <View>
+                <View style={{gap: 8}}>
               <View style={styles.header}>
                 <NewsHeaderLeftItem size="md" secondaryTitle="Discover" />
                 
