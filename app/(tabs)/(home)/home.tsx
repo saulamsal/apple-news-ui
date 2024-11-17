@@ -172,6 +172,20 @@ export default function HomeScreen() {
     );
   };
 
+  const NewsHeaderLeftItem = ({ size }: { size: 'sm' | 'md' }) => {
+    return (
+      <View style={styles.headerLeft}>
+      <NewsLogo
+        color={colorScheme === 'light' ? '#000' : '#fff'}
+        size={size === 'sm' ? 24 : 36}
+      />
+        <ThemedText style={[styles.headerDate, { fontSize: size === 'sm' ? 16 : 28, paddingTop: size === 'sm' ? 0 : 4 }]}>
+          {formatSimpleDate()}
+        </ThemedText>
+      </View>
+    );
+  };
+
   const renderHiddenItem = ({ item }: { item: NewsItem }) => (
     <View style={styles.rowBack}>
       {/* Left swipe actions */}
@@ -211,18 +225,19 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ThemedView style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
+       
         <Animated.View 
           style={[
             styles.todayContainer, 
             {
               backgroundColor: colorScheme === 'light' 
-                ? 'rgba(242,242,246,0.9)' 
-                : 'rgba(13,13,9,0.9)'
+                ? '#F2F2F2' 
+                : '#000'
             },
             headerAnimatedStyle
           ]}
         >
-          <ThemedText style={styles.todayText}>Today</ThemedText>
+          <NewsHeaderLeftItem size={'sm'} />
         </Animated.View>
 
         <AnimatedSwipeListView
@@ -241,15 +256,7 @@ export default function HomeScreen() {
           ListHeaderComponent={
             <>
               <View style={styles.header}>
-                <View style={styles.headerLeft}>
-                  <NewsLogo
-                    color={colorScheme === 'light' ? '#000' : '#fff'}
-                    size={36}
-                  />
-                  <ThemedText style={styles.headerDate}>
-                    {formatSimpleDate()}
-                  </ThemedText>
-                </View>
+             <NewsHeaderLeftItem />
 
                 <View style={styles.headerRight}>
                   <Image source={{ uri: colorScheme === 'light' ? 'https://i.imgur.com/EfImlCx.png' : 'https://i.imgur.com/bMJtV6x.png' }} style={styles.headerIcon} />

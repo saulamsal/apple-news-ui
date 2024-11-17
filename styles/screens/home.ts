@@ -107,11 +107,10 @@ export const styles = StyleSheet.create({
   
     },
     headerDate: {
-      fontSize: 28,
       fontWeight: '800',
       opacity: 0.5,
       letterSpacing: -1,
-      paddingTop: 4,
+   
     },
     listHeaderText: {
       fontSize: 26,
@@ -203,7 +202,7 @@ export const styles = StyleSheet.create({
       backgroundColor: 'rgba(255,255,255,0.9)',
       zIndex: 1,
       top: 0,
-      height: 40,
+    //   height: 40,
       justifyContent: 'center',
     },
     todayText: {
