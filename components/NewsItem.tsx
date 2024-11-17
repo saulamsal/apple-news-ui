@@ -40,7 +40,7 @@ export const NewsItem = ({ item }: NewsItemProps) => {
   const colorScheme = useColorScheme();
   
   const href = {
-    pathname: '/topic/[id]' as const,
+    pathname: '/content/[id]' as const,
     params: { id: item.id }
   };
 
