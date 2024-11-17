@@ -16,7 +16,7 @@ import { ThemedView } from '@/components/ThemedView';
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { NewsLogo } from '@/components/NewsLogo';
-import { styles } from '@/styles/screens/home';
+import { styles } from '@/styles/screens/news+';
 import { FlashList } from '@shopify/flash-list';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -108,28 +108,34 @@ export default function NewsPlusScreen() {
             keyExtractor={item => item.id}
             contentContainerStyle={styles.listContent}
             ListHeaderComponent={
-                <View style={{gap: 8}}>
-              <View style={styles.header}>
-                <NewsHeaderLeftItem size="md" secondaryTitle="Discover" />
-                
-                <View style={styles.headerRight}>
-                  <Image 
-                    source={{ 
-                      uri: colorScheme === 'light' 
-                        ? 'https://i.imgur.com/EfImlCx.png' 
-                        : 'https://i.imgur.com/bMJtV6x.png' 
-                    }} 
-                    style={styles.headerIcon} 
-                  />
+              <View style={{gap: 16}}>
+                <View style={styles.header}>
+                  <NewsHeaderLeftItem size="md" secondaryTitle="Discover" />
+                  <View style={styles.headerRight}>
+                    <Image 
+                      source={{ 
+                        uri: colorScheme === 'light' 
+                          ? 'https://i.imgur.com/EfImlCx.png' 
+                          : 'https://i.imgur.com/bMJtV6x.png' 
+                      }} 
+                      style={styles.headerIcon} 
+                    />
+                  </View>
                 </View>
                 
-      
-              </View>
-              <TabMenu 
-          tabs={TABS}
-          activeTab={activeTab}
-          onTabPress={handleTabPress}
-        />
+                <TabMenu 
+                  tabs={TABS}
+                  activeTab={activeTab}
+                  onTabPress={handleTabPress}
+                />
+
+                <View style={styles.forYouSection}>
+                  <Text style={styles.forYouTitle}>FOR YOU</Text>
+                  <Text style={styles.forYouSubtitle}>
+                    NEWS+ RECOMMENDATIONS{'\n'}
+                    BASED ON WHAT YOU READ.
+                  </Text>
+                </View>
               </View>
             }
           />
@@ -154,7 +160,6 @@ export default function NewsPlusScreen() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }}>
       <ThemedView style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
-     
         {renderContent()}
       </ThemedView>
     </SafeAreaView>

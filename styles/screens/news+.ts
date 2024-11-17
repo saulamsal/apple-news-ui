@@ -32,4 +32,22 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     color: '#666',
   },
+  forYouSection: {
+    paddingHorizontal: 16,
+    paddingVertical: 20,
+    gap: 8,
+    alignItems: 'center',
+  },
+  forYouTitle: {
+    fontSize: 44,
+    fontWeight: '800',
+    letterSpacing: -2,
+  },
+  forYouSubtitle: {
+    fontSize: 13,
+    fontWeight: '600',
+    letterSpacing: 0.5,
+    lineHeight: 20,
+    color: '#000',
+  },
 });
