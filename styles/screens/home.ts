@@ -115,7 +115,71 @@ export const styles = StyleSheet.create({
       fontSize: 26,
       fontWeight: '800',
       color: Colors.light.tint,
-    }
-    
+    },
+    quickActionLeft: {
+      flexDirection: 'row',
+      width: 120,
+      justifyContent: 'space-evenly',
+      alignItems: 'center',
+      position: 'absolute',
+      left: 0,
+      height: '100%',
+    },
+    quickActionRight: {
+      flexDirection: 'row',
+      width: 120,
+      justifyContent: 'space-evenly',
+      alignItems: 'center',
+      position: 'absolute',
+      right: 0,
+      height: '100%',
+    },
+    quickActionButton: {
+      width: 50,
+      height: 50,
+      borderRadius: 25,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    listHeader: {
+      paddingVertical: 16,
+    },
+    rowBack: {
+      alignItems: 'center',
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingLeft: 15,
+      paddingRight: 15,
+      marginBottom: 8,
+      height: '100%',
+    },
+    leftActions: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      gap: 20,
+    },
+    rightActions: {
+      flex: 1,
+      flexDirection: 'row',
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+      gap: 20,
+    },
+    actionButton: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: 44,
+      height: 44,
+      borderRadius: 22,
+    },
+    leftActionButton: {
+      backgroundColor: 'rgba(0,0,0,0.05)',
+    },
+    rightActionButton: {
+      backgroundColor: 'rgba(0,0,0,0.05)',
+    },
   });
   

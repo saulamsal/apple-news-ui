@@ -1,7 +1,8 @@
-import { Text, Image, View, StyleSheet, Pressable, FlatList } from 'react-native';
+import { Text, Image, View, StyleSheet, Pressable } from 'react-native';
 import { useRouter, useSegments } from 'expo-router';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
+import { SwipeListView } from 'react-native-swipe-list-view';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -46,6 +47,9 @@ export default function HomeScreen() {
   
   // Get the current group (tab) from segments
   const currentGroup = segments[1]; // Should return 'index', 'news+', 'sports', etc.
+
+  const iconColor = colorScheme === 'light' ? '#000' : '#fff';
+  const backgroundColor = colorScheme === 'light' ? '#F2F2F6' : '#1C1C1E';
 
   const renderNewsItem = ({ item }: { item: NewsItem }) => {
     // Fix the href typing by making it more specific
@@ -127,6 +131,42 @@ export default function HomeScreen() {
     );
   };
 
+  const renderHiddenItem = ({ item }: { item: NewsItem }) => (
+    <View style={styles.rowBack}>
+      {/* Left swipe actions */}
+      <View style={styles.leftActions}>
+        <Pressable 
+          onPress={() => console.log('Thumbs up:', item.id)}
+          style={[styles.actionButton, styles.leftActionButton]}
+        >
+          <Ionicons name="thumbs-up" size={24} color={iconColor} />
+        </Pressable>
+        <Pressable 
+          onPress={() => console.log('Thumbs down:', item.id)}
+          style={[styles.actionButton, styles.leftActionButton]}
+        >
+          <Ionicons name="thumbs-down" size={24} color={iconColor} />
+        </Pressable>
+      </View>
+
+      {/* Right swipe actions */}
+      <View style={styles.rightActions}>
+        <Pressable 
+          onPress={() => console.log('Share:', item.id)}
+          style={[styles.actionButton, styles.rightActionButton]}
+        >
+          <Ionicons name="share-outline" size={24} color={iconColor} />
+        </Pressable>
+        <Pressable 
+          onPress={() => console.log('Save:', item.id)}
+          style={[styles.actionButton, styles.rightActionButton]}
+        >
+          <Ionicons name="bookmark-outline" size={24} color={iconColor} />
+        </Pressable>
+      </View>
+    </View>
+  );
+
   return (
     <ThemedView style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
       <View style={styles.header}>
@@ -141,12 +181,22 @@ export default function HomeScreen() {
         </View>
       </View>
       
-      <FlatList<NewsItem>
+      <SwipeListView
         data={news as NewsItem[]}
         renderItem={renderNewsItem}
+        renderHiddenItem={renderHiddenItem}
+        leftOpenValue={120}
+        rightOpenValue={-120}
+        previewRowKey={'0'}
+        previewOpenValue={-40}
+        previewOpenDelay={3000}
         keyExtractor={item => item.id}
         contentContainerStyle={styles.listContent}
-        ListHeaderComponent={<View style={styles.listHeader}><Text style={styles.listHeaderText}>Top Stories</Text></View>}
+        ListHeaderComponent={
+          <View style={styles.listHeader}>
+            <Text style={styles.listHeaderText}>Top Stories</Text>
+          </View>
+        }
       />
     </ThemedView>
   );
