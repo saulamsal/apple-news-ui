@@ -6,47 +6,48 @@ import { useRouter } from 'expo-router';
 import { useAudio } from '@/contexts/AudioContext';
 
 interface PodcastItemProps {
-  episode: PodcastEpisode;
+  episode: any; // Using any temporarily for the raw podcast data
 }
 
 export function PodcastItem({ episode }: PodcastItemProps) {
-  const router = useRouter();
-  const { playSound, currentSong } = useAudio();
+  const { playEpisode, currentEpisode } = useAudio();
   
-  const durationInMinutes = Math.floor(episode.duration / 60);
-  const releaseDate = new Date(episode.releaseDate).toLocaleDateString();
+  const durationInMinutes = episode.duration ? Math.floor(episode.duration / 60) : 0;
+  const releaseDate = episode.releaseDate ? new Date(episode.releaseDate).toLocaleDateString() : '';
   
-  const imageUrl = episode.episodeArtwork?.template 
-    ? episode.episodeArtwork.template
-        .replace('{w}', '300')
-        .replace('{h}', '300')
-        .replace('{f}', 'jpg')
-    : episode.icon?.template
-        ? episode.icon.template
-            .replace('{w}', '300')
-            .replace('{h}', '300')
-            .replace('{f}', 'jpg')
-        : 'https://via.placeholder.com/300';
+  // Extract artwork URL from either episodeArtwork or icon
+  const imageUrl = episode.episodeArtwork?.template?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') ||
+                  episode.icon?.template?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') ||
+                  'https://via.placeholder.com/300';
 
   const handlePress = () => {
-    // Convert podcast episode to song format
-    const podcastAsSong = {
-      id: parseInt(episode.id),
-      title: episode.title,
-      artist: episode.showTitle,
-      artwork: imageUrl,
-      mp4_link: episode.streamUrl,
-      artwork_bg_color: '#000000'
-    };
+    if (playEpisode) {
+      // Extract streamUrl from playAction.episodeOffer
+      const streamUrl = episode.playAction?.episodeOffer?.streamUrl;
+      
+      if (!streamUrl) {
+        console.error('No stream URL found for episode:', episode.id);
+        return;
+      }
 
-    // Play the podcast
-    playSound(podcastAsSong);
-    
-    // Navigate to the audio player screen using the existing route
-    router.push(`/audio/${episode.id}`);
+      const podcastEpisode: PodcastEpisode = {
+        id: episode.id,
+        title: episode.title,
+        streamUrl: streamUrl,
+        artwork: {
+          url: imageUrl
+        },
+        showTitle: episode.showTitle,
+        duration: episode.duration,
+        releaseDate: episode.releaseDate,
+        summary: episode.summary
+      };
+
+      playEpisode(podcastEpisode);
+    }
   };
 
-  const isCurrentlyPlaying = currentSong?.id === parseInt(episode.id);
+  const isCurrentlyPlaying = currentEpisode?.id === episode.id;
 
   return (
     <TouchableOpacity style={styles.container} onPress={handlePress}>

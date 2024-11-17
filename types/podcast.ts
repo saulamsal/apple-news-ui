@@ -1,28 +1,49 @@
 export interface PodcastEpisode {
   id: string;
   title: string;
-  showTitle: string;
-  duration: number;
-  releaseDate: string;
-  summary: string;
   streamUrl: string;
-  icon?: {
-    template: string;
-    width: number;
-    height: number;
+  artwork: {
+    url: string;
   };
-  episodeArtwork?: {
-    template: string;
-    width: number;
-    height: number;
-  };
-}
-
-export interface PodcastShelf {
-  contentType: string;
-  items: PodcastEpisode[];
+  showTitle?: string;
+  duration?: number;
+  releaseDate?: string;
+  summary?: string;
 }
 
 export interface PodcastData {
-  shelves: PodcastShelf[];
+  intent: {
+    storefront: string;
+    language: null | string;
+    roomId: string;
+    $kind: string;
+  };
+  data: {
+    shelves: Array<{
+      contentType: string;
+      items: Array<{
+        id: string;
+        title: string;
+        duration: number;
+        releaseDate: string;
+        showTitle: string;
+        summary: string;
+        episodeArtwork?: {
+          template: string;
+          width: number;
+          height: number;
+        };
+        icon?: {
+          template: string;
+          width: number;
+          height: number;
+        };
+        playAction: {
+          episodeOffer: {
+            streamUrl: string;
+          };
+        };
+      }>;
+    }>;
+  };
 } 

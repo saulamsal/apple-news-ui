@@ -45,6 +45,7 @@ export default function TabLayout() {
             borderTopWidth: StyleSheet.hairlineWidth,
             borderTopColor: colorScheme === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)',
             elevation: 0,
+            marginBottom: currentSong ? 86 : 0,
           },
           headerStyle: {
             height: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
@@ -132,7 +133,7 @@ export default function TabLayout() {
           song={currentSong}
           isPlaying={isPlaying}
           onPlayPause={togglePlayPause}
-          onPress={() => router.push(`/music/${currentSong.id}`)}
+          onPress={() => router.push(`/audio/${currentSong.id}`)}
         />
       )}
     </>

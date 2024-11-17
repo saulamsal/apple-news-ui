@@ -13,7 +13,7 @@ import Animated, {
     runOnJS,
 } from 'react-native-reanimated';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
-import { songs } from '@/data/songs.json';
+import { podcasts } from '@/data/podcasts.json';
 import { haptics } from '@/helper/haptics';
 
 const SCALE_FACTOR = 0.83;
@@ -22,7 +22,7 @@ const HORIZONTAL_DRAG_THRESHOLD = Math.min(Dimensions.get('window').width * 0.51
 const DIRECTION_LOCK_ANGLE = 45; // Angle in degrees to determine horizontal vs vertical movement
 const ENABLE_HORIZONTAL_DRAG_CLOSE = false;
 
-export default function MusicScreen() {
+export default function AudioScreen() {
     const { id } = useLocalSearchParams();
     const router = useRouter();
     const { setScale, scale } = useRootScale();
@@ -37,8 +37,9 @@ export default function MusicScreen() {
     const isHorizontalGesture = useSharedValue(false);
     const isScrolling = useSharedValue(false);
 
-    const numericId = typeof id === 'string' ? parseInt(id, 10) : Array.isArray(id) ? parseInt(id[0], 10) : 0;
-    const song = songs.find(s => s.id === numericId) || songs[0];
+    const numericId = typeof id === 'string' ? id : Array.isArray(id) ? id[0] : '0';
+    const episode = podcasts?.data?.shelves?.[0]?.items?.find(ep => ep.id === numericId) || 
+                   podcasts?.data?.shelves?.[0]?.items?.[0];
 
     const handleHapticFeedback = useCallback(() => {
         haptics.impact();
