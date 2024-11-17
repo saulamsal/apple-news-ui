@@ -34,7 +34,15 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '700',
     color: '#ffffff'
-  }
- 
+  },
+  emptyContent: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyText: {
+    fontSize: 16,
+    color: '#666',
+  },
 });
   

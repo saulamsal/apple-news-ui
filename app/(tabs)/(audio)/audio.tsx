@@ -25,6 +25,11 @@ import { SwipeableNewsItem } from '@/components/SwipeableNewsItem';
 import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
 import { TabMenu } from '@/components/TabMenu';
 import { Colors } from '@/constants/Colors';
+import { PodcastItem } from '@/components/PodcastItem';
+import { PodcastEpisode } from '@/types/podcast';
+import podcasts from '@/data/podcasts.json';
+import type { ListRenderItemInfo } from '@shopify/flash-list';
+
 interface Source {
   id: string;
   name: string;
@@ -91,32 +96,32 @@ export default function AudioScreen() {
     <SwipeableNewsItem item={item} />
   );
 
+  const renderPodcastItem = ({ item }: ListRenderItemInfo<PodcastEpisode>) => (
+    <PodcastItem episode={item} />
+  );
+
   const renderContent = () => {
     switch (activeTab) {
       case 'best':
+        // Get the first shelf's items from the podcasts data
+        const episodes = podcasts[0]?.data?.shelves[0]?.items || [];
+        
         return (
-          <AnimatedSwipeListView
-            scrollEventThrottle={16}
-            data={news as NewsItem[]}
-            renderItem={renderNewsItem as any}
-            renderHiddenItem={renderHiddenItem as any}
-            leftOpenValue={120}
-            rightOpenValue={-120}
-            previewRowKey={'0'}
-            previewOpenValue={-40}
-            previewOpenDelay={3000}
-            keyExtractor={(item: NewsItem) => item.id}
+          <FlashList
+            data={episodes}
+            renderItem={renderPodcastItem}
+            estimatedItemSize={84}
+            keyExtractor={(item) => item.id}
             contentContainerStyle={styles.listContent}
             ListHeaderComponent={
               <View style={{gap: 16}}>
                 <View style={styles.header}>
                   <NewsHeaderLeftItem size="md" secondaryTitle="Audio" />
                   <View style={styles.headerRight}>
-                   
-                   <TouchableOpacity style={styles.headerRightButton}>
-                    <Ionicons name="headset" size={14} color={'#fff'} />
-                    <Text style={styles.headerRightText}>Play</Text>
-                   </TouchableOpacity>
+                    <TouchableOpacity style={styles.headerRightButton}>
+                      <Ionicons name="headset" size={14} color={'#fff'} />
+                      <Text style={styles.headerRightText}>Play</Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
               </View>
