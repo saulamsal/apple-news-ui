@@ -42,7 +42,8 @@ export default function TabLayout() {
               ios: 'transparent',
               android: 'rgba(255, 255, 255, 0.8)',
             }),
-            borderTopWidth: 0,
+            borderTopWidth: StyleSheet.hairlineWidth,
+            borderTopColor: colorScheme === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)',
             elevation: 0,
           },
           headerStyle: {

@@ -51,6 +51,32 @@
             "featured_image": "https://cdn.prod.website-files.com/66fd72ac6f0cd08e0277f262/67187f9e548681aef3643dbb_AS25%20Banners%20-%20728x485.png",
             "card_type": "medium",
             "has_previous": "false"
+        },
+        {
+            "id": "3",
+            "title": "The NBA is reportedly considering dropping the All-Star Game for a four-team tournament",
+            "source": {
+                "id": "espn",
+                "name": "ESPN",
+                "logo_transparent_light": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ESPN_wordmark.svg/2560px-ESPN_wordmark.svg.png",
+                "logo_transparent_dark": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ESPN_wordmark.svg/2560px-ESPN_wordmark.svg.png",
+                "dark_bg": "#000",
+                "light_bg": "#fff",
+                "dark_text": "#fff",
+                "light_text": "#000"
+            },
+            "created_at": "2024-03-19T13:15:00Z",
+            "topic": {
+                "id": "nba",
+                "name": "NBA"
+            },
+            "show_topic": true,
+            "author": {
+                "name": "Adrian Wojnarowski"
+            },
+            "featured_image": "https://cdn.prod.website-files.com/66fd72ac6f0cd08e0277f262/67187f9e548681aef3643dbb_AS25%20Banners%20-%20728x485.png",
+            "card_type": "full",
+            "has_previous": "false"
         }
     ]
 }
