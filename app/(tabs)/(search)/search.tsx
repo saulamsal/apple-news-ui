@@ -62,7 +62,7 @@ export default function SearchScreen() {
 
     return (
         <ScrollViewWithHeaders
-            LargeHeaderComponent={LargeHeaderComponent}
+            // LargeHeaderComponent={LargeHeaderComponent}
             HeaderComponent={HeaderComponent}
             contentContainerStyle={[styles.container, { paddingBottom: bottom }]}
             style={styles.scrollView}
@@ -104,7 +104,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#F2F2F7',
         paddingHorizontal: 12,
-        // paddingVertical: 8,
+        paddingVertical: 10,
+        height: 36,
         borderRadius: 10,
         flex: 1,
         marginHorizontal: 16,
@@ -116,9 +117,8 @@ const styles = StyleSheet.create({
     },
     categoriesContainer: {
         padding: 16,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: 12,
+        flexDirection: 'column',
+        gap: 16,
     },
     sectionContent: {
         padding: 16,
@@ -131,35 +131,38 @@ const styles = StyleSheet.create({
     },
     largeHeaderContainer: {
         paddingHorizontal: 16,
-        paddingTop: 16,
-        paddingBottom: 8,
+        paddingTop: 8,
+        paddingBottom: 12,
         backgroundColor: '#fff',
+        gap: 12,
     },
     headerTopRow: {
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        marginBottom: 4,
+        gap: 2,
     },
     followingText: {
-        fontSize: 28,
-        fontWeight: '800',
-        color: '#a8a8a8',
+        fontSize: 34,
+        fontWeight: '700',
+        color: '#6e6e6e',
+        marginTop: 4,
     },
     editButton: {
         fontSize: 17,
         color: '#fe425f',
         fontWeight: '400',
+        height: 40,
     },
     scrollView: {
         flex: 1,
         backgroundColor: '#fff',
     },
     headerCenter: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        // flexDirection: 'row',
+        // alignItems: 'center',
 
-        height: 50,
+        // height: 50,
     },
     headerRight: {
         flexDirection: 'row',
@@ -172,8 +175,9 @@ const styles = StyleSheet.create({
 
 
     followingTextCenter: {
-        fontSize: 16,
-        fontWeight: '500',
-        color: '#a8a8a8',
+        fontSize: 22,
+        fontWeight: '700',
+        letterSpacing: -0.5,
+        color: '#000',
     },
 }); 

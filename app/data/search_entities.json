@@ -77,6 +77,36 @@
                     "title": "Premier League",
                     "logo": "/assets/leagues/premier-league.png",
                     "entity_type": "sport_league"
+                },
+                {
+                    "id": "nba",
+                    "title": "NBA",
+                    "logo": "/assets/leagues/nba.png",
+                    "entity_type": "sport_league"
+                },
+                {
+                    "id": "nfl",
+                    "title": "NFL",
+                    "logo": "/assets/leagues/nfl.png",
+                    "entity_type": "sport_league"
+                },
+                {
+                    "id": "mlb",
+                    "title": "MLB",
+                    "logo": "/assets/leagues/mlb.png",
+                    "entity_type": "sport_league"
+                },
+                {
+                    "id": "f1",
+                    "title": "F1",
+                    "logo": "/assets/leagues/f1.png",
+                    "entity_type": "sport_league"
+                },
+                {
+                    "id": "ufc",
+                    "title": "UFC",
+                    "logo": "/assets/leagues/ufc.png",
+                    "entity_type": "sport_league"
                 }
             ]
         }
