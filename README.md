@@ -102,3 +102,12 @@ Feel free to contribute to this project by:
 ## License
 
 This project is open source and available under the MIT License.
+
+
+## Dummy data scraped:
+1. Podcast: https://podcasts.apple.com/us/room/1589753370 (#serialized-server-data)
+fyi: 
+i. replace: {w}x{h}
+with : /376x376bb.webp
+
+ii.
