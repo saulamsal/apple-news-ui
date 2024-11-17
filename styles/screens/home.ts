@@ -162,14 +162,15 @@ export const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'flex-start',
       alignItems: 'center',
-      gap: 20,
+      gap: 10,
     },
     rightActions: {
       flex: 1,
       flexDirection: 'row',
       justifyContent: 'flex-end',
       alignItems: 'center',
-      gap: 20,
+      gap: 10,
+ 
     },
     actionButton: {
       alignItems: 'center',
@@ -184,5 +185,14 @@ export const styles = StyleSheet.create({
     rightActionButton: {
       backgroundColor: 'rgba(0,0,0,0.05)',
     },
+    headerIcon: {
+      width: 60,
+      height: 60,
+      resizeMode: 'contain',
+      
+    },
+    headerRight: {
+      paddingRight: 8,
+    }
   });
   

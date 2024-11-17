@@ -18,6 +18,7 @@
     "@codeherence/react-native-header": "^0.14.0",
     "@expo/vector-icons": "^14.0.2",
     "@react-navigation/native": "^7.0.0",
+    "@shopify/flash-list": "^1.7.2",
     "date-fns": "^4.1.0",
     "expo": "~52.0.7",
     "expo-av": "~15.0.1",
