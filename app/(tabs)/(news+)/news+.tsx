@@ -23,6 +23,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { NewsItem, NewsItemType } from '@/components/NewsItem';
 import { SwipeableNewsItem } from '@/components/SwipeableNewsItem';
 import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
+import { TabMenu } from '@/components/TabMenu';
 
 interface Source {
   id: string;
@@ -52,6 +53,12 @@ interface NewsItem {
   card_type: 'full' | 'medium';
 }
 
+const TABS = [
+  { id: 'best', label: 'Best of News+' },
+  { id: 'magazines', label: 'My Magazines' },
+  { id: 'downloaded', label: 'Downloaded' },
+];
+
 export default function NewsPlusScreen() {
   const router = useRouter();
   const colorScheme = useColorScheme();
@@ -68,8 +75,11 @@ export default function NewsPlusScreen() {
 
   const AnimatedSwipeListView = Animated.createAnimatedComponent(SwipeListView);
 
- 
- 
+  const [activeTab, setActiveTab] = useState('best');
+
+  const handleTabPress = (tabId: string) => {
+    setActiveTab(tabId);
+  };
 
   const renderNewsItem = ({ item }: { item: NewsItemType }) => (
     <NewsItem item={item} />
@@ -79,28 +89,27 @@ export default function NewsPlusScreen() {
     <SwipeableNewsItem item={item} />
   );
 
-  return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }}>
-  
-      
-      <ThemedView style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
-        <AnimatedSwipeListView
-        //   onScroll={scrollHandler}
-          scrollEventThrottle={16}
-          data={news as NewsItem[]}
-          renderItem={renderNewsItem}
-          renderHiddenItem={renderHiddenItem}
-          leftOpenValue={120}
-          rightOpenValue={-120}
-          previewRowKey={'0'}
-          previewOpenValue={-40}
-          previewOpenDelay={3000}
-          keyExtractor={item => item.id}
-          contentContainerStyle={styles.listContent}
-          ListHeaderComponent={
-            <>
+  const renderContent = () => {
+    switch (activeTab) {
+      case 'best':
+        return (
+          <AnimatedSwipeListView
+            scrollEventThrottle={16}
+            data={news as NewsItem[]}
+            renderItem={renderNewsItem}
+            renderHiddenItem={renderHiddenItem}
+            leftOpenValue={120}
+            rightOpenValue={-120}
+            previewRowKey={'0'}
+            previewOpenValue={-40}
+            previewOpenDelay={3000}
+            keyExtractor={item => item.id}
+            contentContainerStyle={styles.listContent}
+            ListHeaderComponent={
+                <View>
               <View style={styles.header}>
-              <NewsHeaderLeftItem size="md" secondaryTitle="Discover" />
+                <NewsHeaderLeftItem size="md" secondaryTitle="Discover" />
+                
                 <View style={styles.headerRight}>
                   <Image 
                     source={{ 
@@ -111,13 +120,40 @@ export default function NewsPlusScreen() {
                     style={styles.headerIcon} 
                   />
                 </View>
+                
+      
               </View>
-              <View style={styles.listHeader}>
-                <Text style={styles.listHeaderText}>Top Stories</Text>
-              </View>
-            </>
-          }
+              <TabMenu 
+          tabs={TABS}
+          activeTab={activeTab}
+          onTabPress={handleTabPress}
         />
+              </View>
+            }
+          />
+        );
+      case 'magazines':
+        return (
+          <View style={styles.emptyContent}>
+            <Text style={styles.emptyText}>My Magazines Content</Text>
+          </View>
+        );
+      case 'downloaded':
+        return (
+          <View style={styles.emptyContent}>
+            <Text style={styles.emptyText}>Downloaded Content</Text>
+          </View>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }}>
+      <ThemedView style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
+     
+        {renderContent()}
       </ThemedView>
     </SafeAreaView>
   );
