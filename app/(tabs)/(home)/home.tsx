@@ -21,6 +21,10 @@ import { styles } from '@/styles/screens/home';
 import { FlashList } from '@shopify/flash-list';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { NewsItem, NewsItemType } from '@/components/NewsItem';
+import { SwipeableNewsItem } from '@/components/SwipeableNewsItem';
+import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
+
 interface Source {
   id: string;
   name: string;
@@ -107,158 +111,29 @@ export default function HomeScreen() {
     };
   });
 
-  const renderNewsItem = ({ item }: { item: NewsItem }) => {
-    // Fix the href typing by making it more specific
-    const href = {
-      pathname: '/topic/[id]' as const,
-      params: { id: item.id }
-    };
+  const renderNewsItem = ({ item }: { item: NewsItemType }) => (
+    <NewsItem item={item} />
+  );
 
-    if (item.card_type === 'full') {
-      return (
-        <Link href={href} asChild>
-          <Pressable>
-            <ThemedView style={[styles.card, { backgroundColor: colorScheme === 'light' ? '#fff' : '#000' }]}>
-              <Image source={{ uri: item.featured_image }} style={styles.fullImage} />
-              <View style={styles.fullCardContent}>
-                <Image
-                  source={{ uri: colorScheme === 'light' ? item.source.logo_transparent_light : item.source.logo_transparent_dark }}
-                  style={styles.sourceLogo}
-                />
-                <ThemedText type="title" style={[styles.newsTitle, styles.newsTitleFull]}>
-                  {item.title}
-                </ThemedText>
-              </View>
-
-              <View style={styles.moreContainer}>
-                {item.show_topic && (
-                  <Pressable style={styles.topicButton} onPress={(e) => e.stopPropagation()}>
-                    <ThemedText type="subtitle" style={styles.topicText}>
-                      More {item.topic.name} coverage
-                    </ThemedText>
-                  </Pressable>
-                )}
-                <MaterialIcons
-                  name="more-horiz"
-                  size={24}
-                  color={colorScheme === 'light' ? '#000' : '#fff'}
-                  style={styles.moreIcon}
-                />
-              </View>
-            </ThemedView>
-          </Pressable>
-        </Link>
-      );
-    }
-
-    return (
-      <Link href={href} asChild>
-        <Pressable>
-          <ThemedView style={[styles.card, { backgroundColor: colorScheme === 'light' ? '#fff' : '#000' }]}>
-            <View style={styles.mediumContent}>
-              <Image
-                source={{ uri: colorScheme === 'light' ? item.source.logo_transparent_light : item.source.logo_transparent_dark }}
-                style={styles.sourceLogo}
-              />
-              <ThemedText type="title" style={styles.newsTitle}>
-                {item.title}
-              </ThemedText>
-              <Image source={{ uri: item.featured_image }} style={styles.mediumImage} />
-            </View>
-
-            <View style={styles.moreContainer}>
-              {item.show_topic && (
-                <Pressable style={styles.topicButton} onPress={(e) => e.stopPropagation()}>
-                  <ThemedText type="subtitle" style={styles.topicText}>
-                    More {item.topic.name} coverage
-                  </ThemedText>
-                </Pressable>
-              )}
-              <MaterialIcons
-                name="more-horiz"
-                size={24}
-                color={colorScheme === 'light' ? '#000' : '#fff'}
-                style={styles.moreIcon}
-              />
-            </View>
-          </ThemedView>
-        </Pressable>
-      </Link>
-    );
-  };
-
-  const NewsHeaderLeftItem = ({ size }: { size: 'sm' | 'md' }) => {
-    return (
-      <View style={styles.headerLeft}>
-      <NewsLogo
-        color={colorScheme === 'light' ? '#000' : '#fff'}
-        size={size === 'sm' ? 24 : 36}
-      />
-        <ThemedText style={[styles.headerDate, { fontSize: size === 'sm' ? 16 : 28, paddingTop: size === 'sm' ? 0 : 4 }]}>
-          {formatSimpleDate()}
-        </ThemedText>
-      </View>
-    );
-  };
-
-  const renderHiddenItem = ({ item }: { item: NewsItem }) => (
-    <View style={styles.rowBack}>
-      {/* Left swipe actions */}
-      <View style={styles.leftActions}>
-        <Pressable
-          onPress={() => console.log('Thumbs down:', item.id)}
-          style={[styles.actionButton, styles.leftActionButton, { backgroundColor: '#FF3A31' }]}
-        >
-          <Ionicons name="thumbs-down" size={24} color={iconColor} />
-        </Pressable>
-        <Pressable
-          onPress={() => console.log('Thumbs up:', item.id)}
-          style={[styles.actionButton, styles.leftActionButton, { backgroundColor: '#54B583' }]}
-        >
-          <Ionicons name="thumbs-up" size={24} color={iconColor} />
-        </Pressable>
-      </View>
-
-      {/* Right swipe actions */}
-      <View style={styles.rightActions}>
-        <Pressable
-          onPress={() => console.log('Share:', item.id)}
-          style={[styles.actionButton, styles.rightActionButton, { backgroundColor: '#027BFF' }]}
-        >
-          <Ionicons name="share-outline" size={24} color={iconColor} />
-        </Pressable>
-        <Pressable
-          onPress={() => console.log('Save:', item.id)}
-          style={[styles.actionButton, styles.rightActionButton, { backgroundColor: '#FF9502' }]}
-        >
-          <Ionicons name="bookmark-outline" size={24} color={iconColor} />
-        </Pressable>
-      </View>
-    </View>
+  const renderHiddenItem = ({ item }: { item: NewsItemType }) => (
+    <SwipeableNewsItem item={item} />
   );
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }}>
-        <Animated.View 
-          style={[
-            styles.todayContainer, 
-            {
-              backgroundColor: colorScheme === 'dark' ? '#0D0D09' : '#F2F2F6'
-            },
-            // {
-            //   backgroundColor: 'red',
-            //   // paddingTop: insets.top,
-            // },
-            headerAnimatedStyle
-          ]}
-        >
-          <NewsHeaderLeftItem size={'sm'} />
-        </Animated.View>
-        
-         <ThemedView style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
-       
-     
-
+      <Animated.View 
+        style={[
+          styles.todayContainer, 
+          {
+            backgroundColor: colorScheme === 'dark' ? '#0D0D09' : '#F2F2F6'
+          },
+          headerAnimatedStyle
+        ]}
+      >
+        <NewsHeaderLeftItem size="sm" />
+      </Animated.View>
+      
+      <ThemedView style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
         <AnimatedSwipeListView
           onScroll={scrollHandler}
           scrollEventThrottle={16}
@@ -275,10 +150,16 @@ export default function HomeScreen() {
           ListHeaderComponent={
             <>
               <View style={styles.header}>
-             <NewsHeaderLeftItem />
-
+                <NewsHeaderLeftItem size="md" />
                 <View style={styles.headerRight}>
-                  <Image source={{ uri: colorScheme === 'light' ? 'https://i.imgur.com/EfImlCx.png' : 'https://i.imgur.com/bMJtV6x.png' }} style={styles.headerIcon} />
+                  <Image 
+                    source={{ 
+                      uri: colorScheme === 'light' 
+                        ? 'https://i.imgur.com/EfImlCx.png' 
+                        : 'https://i.imgur.com/bMJtV6x.png' 
+                    }} 
+                    style={styles.headerIcon} 
+                  />
                 </View>
               </View>
               <View style={styles.listHeader}>

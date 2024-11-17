@@ -100,18 +100,7 @@ export const styles = StyleSheet.create({
       paddingHorizontal: 16,
       // backgroundColor: 'red',
     },
-    headerLeft: {
-      flexDirection: 'column',
-      // alignItems: 'center',
-      gap: 0,
-  
-    },
-    headerDate: {
-      fontWeight: '800',
-      opacity: 0.5,
-      letterSpacing: -1,
-   
-    },
+
     listHeaderText: {
       fontSize: 26,
       fontWeight: '800',
