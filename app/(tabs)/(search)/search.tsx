@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TextInput, Text, Button, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, TextInput, Text, Button, TouchableOpacity, ScrollView } from 'react-native';
 import { ScrollViewWithHeaders, Header, ScrollHeaderProps } from '@codeherence/react-native-header';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -9,12 +9,13 @@ import { CategoryCard } from '@/components/CategoryCard';
 import { SearchData, SearchEntity } from '@/app/types/search';
 import { SharedValue } from 'react-native-reanimated';
 import { NewsLogo } from '@/components/NewsLogo';
+import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
 
 const typedSearchEntities = searchEntities as SearchData;
 
 export default function SearchScreen() {
     const { top, bottom } = useSafeAreaInsets();
-
+    const scrollRef = React.useRef(null);
 
     const SearchComponent = () => (
         <View style={styles.searchContainer}>
@@ -29,6 +30,7 @@ export default function SearchScreen() {
 
     const HeaderComponent = ({ showNavBar }: ScrollHeaderProps) => (
         <Header
+            borderWidth={0}
             showNavBar={showNavBar}
             headerCenter={
                 <View style={styles.headerCenter}>
@@ -46,52 +48,61 @@ export default function SearchScreen() {
         />
     );
 
-    const LargeHeaderComponent = () => (
-        <View style={styles.largeHeaderContainer}>
-            <View style={styles.largeHeaderTopRow}>
-                <View style={styles.headerTopRow}>
-                    <NewsLogo size={28} />
-                    <Text style={styles.followingText}>Following</Text>
+    const LargeHeaderComponent = () => {
+        const insets = useSafeAreaInsets();
+        return (
+            <View style={[styles.largeHeaderContainer, { marginTop: -insets.top }]}>
+                <View style={styles.largeHeaderTopRow}>
+                    <NewsHeaderLeftItem size={'md'} secondaryTitle='Following' />
+
+                </View>
+                <SearchComponent />
+            </View>
+        );
+    }
+
+    return (
+        <View style={styles.container}>
+
+            <ScrollViewWithHeaders
+                ref={scrollRef}
+                contentContainerStyle={[styles.scrollContent, { paddingBottom: bottom }]}
+                style={styles.scrollView}
+                stickyHeaderIndices={[0]}
+                maintainVisibleContentPosition={{
+                    minIndexForVisible: 0,
+                    autoscrollToTopThreshold: 0
+                }}
+                removeClippedSubviews={false}
+                LargeHeaderComponent={LargeHeaderComponent}
+                absoluteHeader={true}
+                HeaderComponent={HeaderComponent}>
+                <View style={styles.categoriesContainer}>
+                    {typedSearchEntities.categories.map((category) => (
+                        <CategoryCard
+                            key={category.id}
+                            title={category.title}
+                            icon={category.icon}
+                        />
+                    ))}
 
                 </View>
 
-            </View>
-            <SearchComponent />
-        </View>
-    );
-
-    return (
-        <ScrollViewWithHeaders
-            LargeHeaderComponent={LargeHeaderComponent}
-            HeaderComponent={HeaderComponent}
-            contentContainerStyle={[styles.container, { paddingBottom: bottom }]}
-            style={styles.scrollView}
-            absoluteHeader={true}
-        >
-            <View style={styles.categoriesContainer}>
-                {typedSearchEntities.categories.map((category) => (
-                    <CategoryCard
-                        key={category.id}
-                        title={category.title}
-                        icon={category.icon}
-                    />
+                {typedSearchEntities.sections.map((section) => (
+                    <AnimatedAccordion key={section.id} title={section.title}>
+                        <View style={styles.sectionContent}>
+                            {section.items.map((item) => (
+                                <CategoryCard
+                                    key={item.id}
+                                    title={item.title}
+                                    logo={item.logo}
+                                />
+                            ))}
+                        </View>
+                    </AnimatedAccordion>
                 ))}
-            </View>
-
-            {typedSearchEntities.sections.map((section) => (
-                <AnimatedAccordion key={section.id} title={section.title}>
-                    <View style={styles.sectionContent}>
-                        {section.items.map((item) => (
-                            <CategoryCard
-                                key={item.id}
-                                title={item.title}
-                                logo={item.logo}
-                            />
-                        ))}
-                    </View>
-                </AnimatedAccordion>
-            ))}
-        </ScrollViewWithHeaders>
+            </ScrollViewWithHeaders>
+        </View>
     );
 }
 
@@ -103,7 +114,7 @@ const styles = StyleSheet.create({
     searchContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#F2F2F7',
+        backgroundColor: '#E3E2EA',
         paddingHorizontal: 12,
         paddingVertical: 10,
         height: 36,
@@ -141,7 +152,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
-        gap: 2,
+        // gap: 2,
     },
     followingText: {
         fontSize: 34,
@@ -180,5 +191,8 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         letterSpacing: -0.5,
         color: '#000',
+    },
+    scrollContent: {
+        flexGrow: 1,
     },
 }); 
