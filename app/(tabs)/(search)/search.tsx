@@ -116,11 +116,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#E3E2EA',
         paddingHorizontal: 12,
-        paddingVertical: 10,
+        // paddingVertical: 10,
         height: 36,
         borderRadius: 10,
         flex: 1,
-        marginHorizontal: 16,
+        // marginHorizontal: 16,
+
     },
     searchInput: {
         flex: 1,

@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Text, Image, View, Button } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { Colors } from '@/constants/Colors';
 
 interface CategoryCardProps {
     title: string;
@@ -12,7 +13,7 @@ export function CategoryCard({ title, icon, logo }: CategoryCardProps) {
     return (
         <TouchableOpacity style={styles.container}>
             {icon ? (
-                <Ionicons name={icon as any} size={24} color="#FF3B30" />
+                <Ionicons name={icon as any} size={28} color={Colors.light.tint} />
             ) : logo ? (
                 <Image source={{ uri: logo }} style={styles.logo} />
             ) : null}
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 10,
-        paddingVertical: 4,
+        paddingVertical: 2,
         // backgroundColor: '#F2F2F7',
         borderRadius: 10,
         minWidth: '45%',
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     title: {
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: '500',
     },
     icon: {
