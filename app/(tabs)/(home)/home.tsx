@@ -76,18 +76,18 @@ export default function HomeScreen() {
       if (currentScrollY > 90) {
         if (currentScrollY > lastScrollY.value) {
           // Scrolling down - hide header
-          translationY.value = withTiming(-insets.top*3, {
+          translationY.value = withTiming(0, {
             duration: 300
           });
         } else {
           // Scrolling up - show header
-          translationY.value = withTiming(0, {
+          translationY.value = withTiming(insets.top, {
             duration: 300
           });
         }
       } else {
         // Always hide header when scroll position is less than 90px
-        translationY.value = withTiming(-insets.top*3, {
+        translationY.value = withTiming(0, {
           duration: 300
         });
       }
@@ -97,8 +97,13 @@ export default function HomeScreen() {
   });
 
   const headerAnimatedStyle = useAnimatedStyle(() => {
+    // const opacity = translationY.value === -40 ? 0 : 1;
+    
     return {
       transform: [{ translateY: translationY.value }],
+      // opacity: withTiming(opacity, {
+      //   duration: 200
+      // }),
     };
   });
 
@@ -234,8 +239,6 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }}>
-      <ThemedView style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
-       
         <Animated.View 
           style={[
             styles.todayContainer, 
@@ -251,6 +254,10 @@ export default function HomeScreen() {
         >
           <NewsHeaderLeftItem size={'sm'} />
         </Animated.View>
+        
+         <ThemedView style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
+       
+     
 
         <AnimatedSwipeListView
           onScroll={scrollHandler}
