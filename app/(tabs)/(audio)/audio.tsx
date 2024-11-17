@@ -1,4 +1,4 @@
-import { Text, Image, View, StyleSheet, Pressable } from 'react-native';
+import { Text, Image, View, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
 import { useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
@@ -24,7 +24,7 @@ import { NewsItem, NewsItemType } from '@/components/NewsItem';
 import { SwipeableNewsItem } from '@/components/SwipeableNewsItem';
 import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
 import { TabMenu } from '@/components/TabMenu';
-
+import { Colors } from '@/constants/Colors';
 interface Source {
   id: string;
   name: string;
@@ -112,18 +112,13 @@ export default function AudioScreen() {
                 <View style={styles.header}>
                   <NewsHeaderLeftItem size="md" secondaryTitle="Audio" />
                   <View style={styles.headerRight}>
-                    <Image 
-                      source={{ 
-                        uri: colorScheme === 'light' 
-                          ? 'https://i.imgur.com/EfImlCx.png' 
-                          : 'https://i.imgur.com/bMJtV6x.png' 
-                      }} 
-                      style={styles.headerIcon} 
-                    />
+                   
+                   <TouchableOpacity style={styles.headerRightButton}>
+                    <Ionicons name="headset" size={14} color={'#fff'} />
+                    <Text style={styles.headerRightText}>Play</Text>
+                   </TouchableOpacity>
                   </View>
                 </View>
-           
-              
               </View>
             }
           />

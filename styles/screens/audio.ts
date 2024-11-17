@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   listContent: {
-    padding: 16,
+    // padding: 16,
   },
   header: {
     flexDirection: 'row',
@@ -19,19 +19,22 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 16,
   },
-  headerIcon: {
-    width: 24,
-    height: 24,
-    resizeMode: 'contain',
-  },
-  emptyContent: {
-    flex: 1,
-    justifyContent: 'center',
+  headerRightButton: {
+    display: 'flex',
+    flexDirection: 'row',
     alignItems: 'center',
+    gap: 4,
+    backgroundColor: Colors.light.tint,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 50,
+    boxShadow: "#000 0px 0px 10px -4px"
   },
-  emptyText: {
-    fontSize: 16,
-    color: '#666',
-  },
+  headerRightText: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#ffffff'
+  }
+ 
 });
   
