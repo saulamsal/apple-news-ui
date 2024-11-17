@@ -12,6 +12,7 @@ import { NewsLogo } from '@/components/NewsLogo';
 import { formatSimpleDate } from '@/utils/dateFormatters';
 import { styles } from '@/styles/screens/home';
 import { FlashList } from '@shopify/flash-list';
+import { SafeAreaView } from 'react-native-safe-area-context';
 interface Source {
   id: string;
   name: string;
@@ -44,12 +45,12 @@ export default function HomeScreen() {
   const router = useRouter();
   const colorScheme = useColorScheme();
   const segments = useSegments();
-  
+
   // Get the current group (tab) from segments
   const currentGroup = segments[1]; // Should return 'index', 'news+', 'sports', etc.
 
   // const iconColor = colorScheme === 'light' ? '#000' : '#fff';
-  const iconColor =  '#fff';
+  const iconColor = '#fff';
 
   const backgroundColor = colorScheme === 'light' ? '#F2F2F6' : '#1C1C1E';
 
@@ -67,7 +68,7 @@ export default function HomeScreen() {
             <ThemedView style={styles.card}>
               <Image source={{ uri: item.featured_image }} style={styles.fullImage} />
               <View style={styles.fullCardContent}>
-                <Image 
+                <Image
                   source={{ uri: colorScheme === 'light' ? item.source.logo_transparent_light : item.source.logo_transparent_dark }}
                   style={styles.sourceLogo}
                 />
@@ -75,7 +76,7 @@ export default function HomeScreen() {
                   {item.title}
                 </ThemedText>
               </View>
-              
+
               <View style={styles.moreContainer}>
                 {item.show_topic && (
                   <Pressable style={styles.topicButton} onPress={(e) => e.stopPropagation()}>
@@ -84,10 +85,10 @@ export default function HomeScreen() {
                     </ThemedText>
                   </Pressable>
                 )}
-                <MaterialIcons 
-                  name="more-horiz" 
-                  size={24} 
-                  color={colorScheme === 'light' ? '#000' : '#fff'} 
+                <MaterialIcons
+                  name="more-horiz"
+                  size={24}
+                  color={colorScheme === 'light' ? '#000' : '#fff'}
                   style={styles.moreIcon}
                 />
               </View>
@@ -102,7 +103,7 @@ export default function HomeScreen() {
         <Pressable>
           <ThemedView style={styles.card}>
             <View style={styles.mediumContent}>
-              <Image 
+              <Image
                 source={{ uri: colorScheme === 'light' ? item.source.logo_transparent_light : item.source.logo_transparent_dark }}
                 style={styles.sourceLogo}
               />
@@ -111,7 +112,7 @@ export default function HomeScreen() {
               </ThemedText>
               <Image source={{ uri: item.featured_image }} style={styles.mediumImage} />
             </View>
-            
+
             <View style={styles.moreContainer}>
               {item.show_topic && (
                 <Pressable style={styles.topicButton} onPress={(e) => e.stopPropagation()}>
@@ -120,10 +121,10 @@ export default function HomeScreen() {
                   </ThemedText>
                 </Pressable>
               )}
-              <MaterialIcons 
-                name="more-horiz" 
-                size={24} 
-                color={colorScheme === 'light' ? '#000' : '#fff'} 
+              <MaterialIcons
+                name="more-horiz"
+                size={24}
+                color={colorScheme === 'light' ? '#000' : '#fff'}
                 style={styles.moreIcon}
               />
             </View>
@@ -137,13 +138,13 @@ export default function HomeScreen() {
     <View style={styles.rowBack}>
       {/* Left swipe actions */}
       <View style={styles.leftActions}>
-      <Pressable 
+        <Pressable
           onPress={() => console.log('Thumbs down:', item.id)}
           style={[styles.actionButton, styles.leftActionButton, { backgroundColor: '#FF3A31' }]}
         >
           <Ionicons name="thumbs-down" size={24} color={iconColor} />
         </Pressable>
-        <Pressable 
+        <Pressable
           onPress={() => console.log('Thumbs up:', item.id)}
           style={[styles.actionButton, styles.leftActionButton, { backgroundColor: '#54B583' }]}
         >
@@ -153,13 +154,13 @@ export default function HomeScreen() {
 
       {/* Right swipe actions */}
       <View style={styles.rightActions}>
-        <Pressable 
+        <Pressable
           onPress={() => console.log('Share:', item.id)}
           style={[styles.actionButton, styles.rightActionButton, { backgroundColor: '#027BFF' }]}
         >
           <Ionicons name="share-outline" size={24} color={iconColor} />
         </Pressable>
-        <Pressable 
+        <Pressable
           onPress={() => console.log('Save:', item.id)}
           style={[styles.actionButton, styles.rightActionButton, { backgroundColor: '#FF9502' }]}
         >
@@ -170,23 +171,10 @@ export default function HomeScreen() {
   );
 
   return (
-    <ThemedView style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
-      <View style={styles.header}>
-        <View style={styles.headerLeft}>
-          <NewsLogo
-            color={colorScheme === 'light' ? '#000' : '#fff'}
-            size={36}
-          />
-          <ThemedText style={styles.headerDate}>
-            {formatSimpleDate()}
-          </ThemedText>
-        </View>
 
-        <View style={styles.headerRight}>
-          <Image source={{ uri: colorScheme === 'light' ? 'https://i.imgur.com/EfImlCx.png' : 'https://i.imgur.com/bMJtV6x.png' }} style={styles.headerIcon} />
-        </View>
-      </View>
-      
+    <SafeAreaView style={{ flex: 1 }}>
+      <ThemedView style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
+
       <SwipeListView
         data={news as NewsItem[]}
         renderItem={renderNewsItem}
@@ -199,12 +187,30 @@ export default function HomeScreen() {
         keyExtractor={item => item.id}
         contentContainerStyle={styles.listContent}
         ListHeaderComponent={
-          <View style={styles.listHeader}>
-            <Text style={styles.listHeaderText}>Top Stories</Text>
-          </View>
+          <>
+            <View style={styles.header}>
+              <View style={styles.headerLeft}>
+                <NewsLogo
+                  color={colorScheme === 'light' ? '#000' : '#fff'}
+                  size={36}
+                />
+                <ThemedText style={styles.headerDate}>
+                  {formatSimpleDate()}
+                </ThemedText>
+              </View>
+
+              <View style={styles.headerRight}>
+                <Image source={{ uri: colorScheme === 'light' ? 'https://i.imgur.com/EfImlCx.png' : 'https://i.imgur.com/bMJtV6x.png' }} style={styles.headerIcon} />
+              </View>
+            </View>
+            <View style={styles.listHeader}>
+              <Text style={styles.listHeaderText}>Top Stories</Text>
+            </View>
+          </>
         }
       />
-    </ThemedView>
+      </ThemedView>
+    </SafeAreaView>
   );
 }
 
