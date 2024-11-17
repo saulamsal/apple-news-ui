@@ -9,6 +9,7 @@ import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { NewsLogo } from '@/components/NewsLogo';
 import { formatSimpleDate } from '@/utils/dateFormatters';
+import { Colors } from '@/constants/Colors';
 
 interface Source {
   id: string;
@@ -145,6 +146,7 @@ export default function HomeScreen() {
         renderItem={renderNewsItem}
         keyExtractor={item => item.id}
         contentContainerStyle={styles.listContent}
+        ListHeaderComponent={<View style={styles.listHeader}><Text style={styles.listHeaderText}>Top Stories</Text></View>}
       />
     </ThemedView>
   );
@@ -252,12 +254,18 @@ const styles = StyleSheet.create({
   headerLeft: {
     flexDirection: 'column',
     // alignItems: 'center',
-    // gap: 16,
+    gap: 4,
 
   },
   headerDate: {
     fontSize: 26,
     fontWeight: '800',
     opacity: 0.5,
+  },
+  listHeaderText: {
+    fontSize: 26,
+    fontWeight: '800',
+    color: Colors.light.tint,
   }
+  
 });
