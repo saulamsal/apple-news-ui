@@ -20,6 +20,7 @@ import { formatSimpleDate } from '@/utils/dateFormatters';
 import { styles } from '@/styles/screens/home';
 import { FlashList } from '@shopify/flash-list';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 interface Source {
   id: string;
   name: string;
@@ -60,6 +61,7 @@ export default function HomeScreen() {
   const iconColor = '#fff';
 
   const backgroundColor = colorScheme === 'light' ? '#F2F2F6' : '#1C1C1E';
+  const insets = useSafeAreaInsets();
 
   const lastScrollY = useSharedValue(0);
   const translationY = useSharedValue(-40);
@@ -70,14 +72,22 @@ export default function HomeScreen() {
     onScroll: (event) => {
       const currentScrollY = event.contentOffset.y;
       
-      if (currentScrollY > lastScrollY.value) {
-        // Scrolling down - hide header
-        translationY.value = withTiming(-40, {
-          duration: 300
-        });
+      // Only show header when scrolled past 90px
+      if (currentScrollY > 90) {
+        if (currentScrollY > lastScrollY.value) {
+          // Scrolling down - hide header
+          translationY.value = withTiming(-insets.top*3, {
+            duration: 300
+          });
+        } else {
+          // Scrolling up - show header
+          translationY.value = withTiming(0, {
+            duration: 300
+          });
+        }
       } else {
-        // Scrolling up - show header
-        translationY.value = withTiming(0, {
+        // Always hide header when scroll position is less than 90px
+        translationY.value = withTiming(-insets.top*3, {
           duration: 300
         });
       }
@@ -234,6 +244,10 @@ export default function HomeScreen() {
                 ? '#F2F2F2' 
                 : '#000'
             },
+            // {
+            //   backgroundColor: 'red',
+            //   // paddingTop: insets.top,
+            // },
             headerAnimatedStyle
           ]}
         >
