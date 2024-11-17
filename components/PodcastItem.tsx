@@ -2,20 +2,20 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { PodcastEpisode } from '@/types/podcast';
+import { useRouter } from 'expo-router';
+import { useAudio } from '@/contexts/AudioContext';
 
 interface PodcastItemProps {
   episode: PodcastEpisode;
-  onPress?: () => void;
 }
 
-export function PodcastItem({ episode, onPress }: PodcastItemProps) {
-  // Format duration to minutes
-  const durationInMinutes = Math.floor(episode.duration / 60);
+export function PodcastItem({ episode }: PodcastItemProps) {
+  const router = useRouter();
+  const { playSound, currentSong } = useAudio();
   
-  // Format release date
+  const durationInMinutes = Math.floor(episode.duration / 60);
   const releaseDate = new Date(episode.releaseDate).toLocaleDateString();
   
-  // Use episode artwork if available, otherwise fall back to show icon
   const imageUrl = episode.episodeArtwork?.template 
     ? episode.episodeArtwork.template
         .replace('{w}', '300')
@@ -28,8 +28,28 @@ export function PodcastItem({ episode, onPress }: PodcastItemProps) {
             .replace('{f}', 'jpg')
         : 'https://via.placeholder.com/300';
 
+  const handlePress = () => {
+    // Convert podcast episode to song format
+    const podcastAsSong = {
+      id: parseInt(episode.id),
+      title: episode.title,
+      artist: episode.showTitle,
+      artwork: imageUrl,
+      mp4_link: episode.streamUrl, // Make sure this is added to PodcastEpisode type
+      artwork_bg_color: '#000000'
+    };
+
+    // Play the podcast
+    playSound(podcastAsSong);
+    
+    // Navigate to the podcast player screen
+    router.push(`/podcast/${episode.id}`);
+  };
+
+  const isCurrentlyPlaying = currentSong?.id === parseInt(episode.id);
+
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <TouchableOpacity style={styles.container} onPress={handlePress}>
       <Image 
         source={{ uri: imageUrl }} 
         style={styles.artwork}
@@ -43,8 +63,12 @@ export function PodcastItem({ episode, onPress }: PodcastItemProps) {
           </Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.playButton}>
-        <Ionicons name="play-circle-outline" size={40} color="#0066CC" />
+      <TouchableOpacity style={styles.playButton} onPress={handlePress}>
+        <Ionicons 
+          name={isCurrentlyPlaying ? "pause-circle-outline" : "play-circle-outline"} 
+          size={40} 
+          color="#0066CC" 
+        />
       </TouchableOpacity>
     </TouchableOpacity>
   );

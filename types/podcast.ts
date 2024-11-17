@@ -5,6 +5,7 @@ export interface PodcastEpisode {
   duration: number;
   releaseDate: string;
   summary: string;
+  streamUrl: string;
   icon?: {
     template: string;
     width: number;
