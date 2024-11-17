@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
       marginBottom: 8,
       borderRadius: 12,
       overflow: 'hidden',
-      backgroundColor: '#fff',
+    //   backgroundColor: '#fff',
       shadowColor: '#000',
       shadowOffset: {
         width: 0,

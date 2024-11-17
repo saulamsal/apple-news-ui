@@ -113,7 +113,7 @@ export default function HomeScreen() {
       return (
         <Link href={href} asChild>
           <Pressable>
-            <ThemedView style={styles.card}>
+            <ThemedView style={[styles.card, { backgroundColor: colorScheme === 'light' ? '#fff' : '#000' }]}>
               <Image source={{ uri: item.featured_image }} style={styles.fullImage} />
               <View style={styles.fullCardContent}>
                 <Image
@@ -149,7 +149,7 @@ export default function HomeScreen() {
     return (
       <Link href={href} asChild>
         <Pressable>
-          <ThemedView style={styles.card}>
+          <ThemedView style={[styles.card, { backgroundColor: colorScheme === 'light' ? '#fff' : '#000' }]}>
             <View style={styles.mediumContent}>
               <Image
                 source={{ uri: colorScheme === 'light' ? item.source.logo_transparent_light : item.source.logo_transparent_dark }}
@@ -233,16 +233,14 @@ export default function HomeScreen() {
   );
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }}>
       <ThemedView style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
        
         <Animated.View 
           style={[
             styles.todayContainer, 
             {
-              backgroundColor: colorScheme === 'light' 
-                ? '#F2F2F2' 
-                : '#000'
+              backgroundColor: colorScheme === 'dark' ? '#0D0D09' : '#F2F2F6'
             },
             // {
             //   backgroundColor: 'red',
