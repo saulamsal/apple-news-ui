@@ -35,15 +35,15 @@ export function PodcastItem({ episode }: PodcastItemProps) {
       title: episode.title,
       artist: episode.showTitle,
       artwork: imageUrl,
-      mp4_link: episode.streamUrl, // Make sure this is added to PodcastEpisode type
+      mp4_link: episode.streamUrl,
       artwork_bg_color: '#000000'
     };
 
     // Play the podcast
     playSound(podcastAsSong);
     
-    // Navigate to the podcast player screen
-    router.push(`/podcast/${episode.id}`);
+    // Navigate to the audio player screen using the existing route
+    router.push(`/audio/${episode.id}`);
   };
 
   const isCurrentlyPlaying = currentSong?.id === parseInt(episode.id);

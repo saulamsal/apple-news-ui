@@ -29,6 +29,7 @@ import { PodcastItem } from '@/components/PodcastItem';
 import { PodcastEpisode } from '@/types/podcast';
 import podcasts from '@/data/podcasts.json';
 import type { ListRenderItemInfo } from '@shopify/flash-list';
+import { useAudio } from '@/contexts/AudioContext';
 
 interface Source {
   id: string;
@@ -88,6 +89,43 @@ export default function AudioScreen() {
     setActiveTab(tabId);
   };
 
+  const { playSound } = useAudio();
+  
+  const handlePlayAll = () => {
+    // Get the first episode from the podcasts data
+    const firstEpisode = podcasts[0]?.data?.shelves[0]?.items[0];
+    
+    if (firstEpisode) {
+      const imageUrl = firstEpisode.episodeArtwork?.template 
+        ? firstEpisode.episodeArtwork.template
+            .replace('{w}', '300')
+            .replace('{h}', '300')
+            .replace('{f}', 'jpg')
+        : firstEpisode.icon?.template
+            ? firstEpisode.icon.template
+                .replace('{w}', '300')
+                .replace('{h}', '300')
+                .replace('{f}', 'jpg')
+            : 'https://via.placeholder.com/300';
+
+      // Convert podcast episode to song format
+      const podcastAsSong = {
+        id: parseInt(firstEpisode.id),
+        title: firstEpisode.title,
+        artist: firstEpisode.showTitle,
+        artwork: imageUrl,
+        mp4_link: firstEpisode.streamUrl,
+        artwork_bg_color: '#000000'
+      };
+
+      // Play the podcast
+      playSound(podcastAsSong);
+      
+      // Navigate to the audio player screen
+      router.push(`/audio/${firstEpisode.id}`);
+    }
+  };
+
   const renderNewsItem = ({ item }: ListRenderItemInfo<NewsItem>) => (
     <NewsItem item={item} />
   );
@@ -103,7 +141,6 @@ export default function AudioScreen() {
   const renderContent = () => {
     switch (activeTab) {
       case 'best':
-        // Get the first shelf's items from the podcasts data
         const episodes = podcasts[0]?.data?.shelves[0]?.items || [];
         
         return (
@@ -118,7 +155,10 @@ export default function AudioScreen() {
                 <View style={styles.header}>
                   <NewsHeaderLeftItem size="md" secondaryTitle="Audio" />
                   <View style={styles.headerRight}>
-                    <TouchableOpacity style={styles.headerRightButton}>
+                    <TouchableOpacity 
+                      style={styles.headerRightButton}
+                      onPress={handlePlayAll}
+                    >
                       <Ionicons name="headset" size={14} color={'#fff'} />
                       <Text style={styles.headerRightText}>Play</Text>
                     </TouchableOpacity>
