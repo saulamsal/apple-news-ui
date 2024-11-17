@@ -7,9 +7,11 @@ import { useAudio } from '@/contexts/AudioContext';
 
 interface PodcastItemProps {
   episode: any; // Using any temporarily for the raw podcast data
+  index?: number;
+  totalItems?: number;
 }
 
-export function PodcastItem({ episode }: PodcastItemProps) {
+export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps) {
   const { playEpisode, currentEpisode } = useAudio();
   
   const durationInMinutes = episode.duration ? Math.floor(episode.duration / 60) : 0;
@@ -50,7 +52,14 @@ export function PodcastItem({ episode }: PodcastItemProps) {
   const isCurrentlyPlaying = currentEpisode?.id === episode.id;
 
   return (
-    <TouchableOpacity style={styles.container} onPress={handlePress}>
+    <TouchableOpacity 
+      style={[
+        styles.container,
+        index === 0 && styles.firstItem,
+      ]} 
+      onPress={handlePress}
+    >
+  
       <Image 
         source={{ uri: imageUrl }} 
         style={styles.artwork}
@@ -84,9 +93,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#E5E5EA',
   },
+  firstItem: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+  },
   artwork: {
-    width: 50,
-    height: 50,
+    width: 100,
+    height: 100,
     borderRadius: 8,
     backgroundColor: '#f0f0f0',
   },
@@ -97,8 +110,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   title: {
-    fontSize: 17,
-    fontWeight: '400',
+    fontSize: 18,
+    fontWeight: '600',
+    letterSpacing: -0.8,
     color: '#000',
     marginBottom: 4,
     lineHeight: 22,

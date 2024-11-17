@@ -134,8 +134,12 @@ export default function AudioScreen() {
     <SwipeableNewsItem item={item} />
   );
 
-  const renderPodcastItem = ({ item }: ListRenderItemInfo<PodcastEpisode>) => (
-    <PodcastItem episode={item} />
+  const renderPodcastItem = ({ item, index }: ListRenderItemInfo<PodcastEpisode>) => (
+    <PodcastItem 
+      episode={item} 
+      index={index}
+    //   totalItems={episodes.length}
+    />
   );
 
   const renderContent = () => {
@@ -151,7 +155,7 @@ export default function AudioScreen() {
             keyExtractor={(item) => item.id}
             contentContainerStyle={styles.listContent}
             ListHeaderComponent={
-              <View style={{gap: 16}}>
+              <View style={styles.headerContainer}>
                 <View style={styles.header}>
                   <NewsHeaderLeftItem size="md" secondaryTitle="Audio" />
                   <View style={styles.headerRight}>

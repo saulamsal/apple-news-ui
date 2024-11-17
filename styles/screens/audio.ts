@@ -6,13 +6,19 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   listContent: {
-    // padding: 16,
+    paddingHorizontal: 16,
+    paddingTop: 0,
+    paddingBottom: 16,
+  },
+  headerContainer: {
+    marginBottom: 16,
+    paddingHorizontal: 16,
+    backgroundColor: 'transparent',
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 16,
   },
   headerRight: {
     flexDirection: 'row',
