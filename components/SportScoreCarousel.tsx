@@ -1,13 +1,15 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { format } from 'date-fns';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useRouter } from 'expo-router';
+
 
 interface Team {
   id: string;
   name: string;
   current_form: string;
+  logo: string;
 }
 
 interface Competition {
@@ -33,7 +35,7 @@ export const SportScoreCarousel: React.FC<SportScoreCarouselProps> = ({ scores }
   const router = useRouter();
 
   const formatTime = (timestamp: string) => {
-    return format(new Date(timestamp), 'h:mm a');
+    return format(new Date(timestamp), 'M/dd . h:mm a');
   };
 
   const handleScorePress = (scoreId: string) => {
@@ -65,6 +67,7 @@ export const SportScoreCarousel: React.FC<SportScoreCarouselProps> = ({ scores }
               
               <View style={styles.teamsContainer}>
                 <View style={styles.teamRow}>
+                    <Image source={{ uri: score.team1.logo }} style={styles.teamLogo} />
                   <Text style={[styles.teamName, { color: isDark ? '#FFFFFF' : '#000000' }]}>
                     {score.team1.name}
                   </Text>
@@ -72,6 +75,7 @@ export const SportScoreCarousel: React.FC<SportScoreCarouselProps> = ({ scores }
                 </View>
                 
                 <View style={styles.teamRow}>
+                <Image source={{ uri: score.team2.logo }} style={styles.teamLogo} />
                   <Text style={[styles.teamName, { color: isDark ? '#FFFFFF' : '#000000' }]}>
                     {score.team2.name}
                   </Text>
@@ -122,8 +126,9 @@ const styles = StyleSheet.create({
   },
   teamRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
     alignItems: 'center',
+    gap: 2,
   },
   teamName: {
     fontSize: 15,
@@ -139,4 +144,8 @@ const styles = StyleSheet.create({
     color: '#8E8E93',
     marginTop: 8,
   },
+  teamLogo:{
+    width: 16,
+    height: 16,
+  }
 }); 
