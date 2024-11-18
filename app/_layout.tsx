@@ -75,24 +75,24 @@ export default function RootLayout() {
   }, []);
 
   return (
-    <>
-      <StatusBar 
-        style={colorScheme === 'dark' ? 'light' : 'dark'} 
-        backgroundColor="transparent" 
-        translucent={true} 
-      />
-      <GestureHandlerRootView style={styles.container}>
-        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-          <RootScaleProvider>
-            <AudioProvider>
-              <OverlayProvider>
-                <AnimatedStack />
-              </OverlayProvider>
-            </AudioProvider>
-          </RootScaleProvider>
-        </ThemeProvider>
-      </GestureHandlerRootView>
-    </>
+      <View style={{ flex: 1 }}>
+        <StatusBar 
+          style={colorScheme === 'dark' ? 'light' : 'dark'} 
+          backgroundColor="transparent" 
+          translucent={true} 
+        />
+        <GestureHandlerRootView style={styles.container}>
+          <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+            <RootScaleProvider>
+              <AudioProvider>
+                <OverlayProvider>
+                  <AnimatedStack />
+                </OverlayProvider>
+              </AudioProvider>
+            </RootScaleProvider>
+          </ThemeProvider>
+        </GestureHandlerRootView>
+      </View>
   );
 }
 

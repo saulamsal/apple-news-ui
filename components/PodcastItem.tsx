@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { PodcastEpisode } from '@/types/podcast';
 import { useAudio } from '@/contexts/AudioContext';
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
@@ -50,7 +50,6 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
 
   const isCurrentlyPlaying = currentEpisode?.id === episode.id;
 
-  // Calculate remaining time for currently playing episode
   const remainingTime = isCurrentlyPlaying && episode.duration && progress.value ? 
     Math.floor((episode.duration - progress.value * episode.duration) / 60) : null;
 
@@ -93,9 +92,20 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
           </View>
         )}
       </View>
+
+      <Ionicons name="ellipsis-horizontal" size={24} color="#8E8E93" style={styles.menuTrigger} />
+
     </TouchableOpacity>
   );
 }
+
+const menuOptionsStyles = {
+  optionsContainer: {
+    borderRadius: 14,
+    padding: 0,
+    width: 250,
+  },
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -155,7 +165,7 @@ const styles = StyleSheet.create({
   },
   seeDetails: {
     fontSize: 13,
-    color: '#0066CC',
+    color: '#007AFF',
     fontWeight: '500',
   },
   progressContainer: {
@@ -168,5 +178,19 @@ const styles = StyleSheet.create({
     height: '100%',
     backgroundColor: '#0066CC',
     borderRadius: 1,
+  },
+  menuTrigger: {
+    padding: 8,
+    marginRight: -8,
+  },
+  menuOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    gap: 12,
+  },
+  menuOptionText: {
+    fontSize: 17,
+    color: '#007AFF',
   },
 }); 
