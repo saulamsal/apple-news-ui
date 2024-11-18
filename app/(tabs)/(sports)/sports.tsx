@@ -27,6 +27,9 @@ import { SwipeableNewsItem } from '@/components/SwipeableNewsItem';
 import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
 import { SportsStyles } from '@/styles/screens/sports'
 import { Platform } from 'react-native';
+import { SportScoreCarousel } from '@/components/SportScoreCarousel';
+import { scores } from '@/data/scores.json';
+
 interface Source {
     id: string;
     name: string;
@@ -177,6 +180,7 @@ export default function SportsScreen() {
                                         </TouchableOpacity>
                                     </View>
                                 </View>
+                                <SportScoreCarousel scores={scores} />
                                 <View style={SportsStyles.listHeader}>
                                     <Text style={[styles.listHeaderText, { color: colorScheme === 'light' ? '#000000' : '#ffffff', marginTop: 30 }]}>Top Stories</Text>
                                     <Text style={SportsStyles.listHeaderSubText}>Selected by the Apple News editors.</Text>

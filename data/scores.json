@@ -1,0 +1,58 @@
+{
+  "scores": [
+    {
+      "id": "1",
+      "competition": {
+        "id": "epl",
+        "name": "EPL"
+      },
+      "team1": {
+        "id": "ips",
+        "name": "IPS",
+        "current_form": "1-5-5"
+      },
+      "team2": {
+        "id": "man",
+        "name": "MAN",
+        "current_form": "4-3-4"
+      },
+      "startTime": "2024-11-24T11:30:00Z"
+    },
+    {
+      "id": "2",
+      "competition": {
+        "id": "lfp",
+        "name": "LFP"
+      },
+      "team1": {
+        "id": "lgn",
+        "name": "LGN",
+        "current_form": "3-5-5"
+      },
+      "team2": {
+        "id": "rma",
+        "name": "RMA",
+        "current_form": "8-3-1"
+      },
+      "startTime": "2024-11-24T12:30:00Z"
+    },
+    {
+      "id": "3",
+      "competition": {
+        "id": "ucl",
+        "name": "UCL"
+      },
+      "team1": {
+        "id": "liv",
+        "name": "LIV",
+        "current_form": ""
+      },
+      "team2": {
+        "id": "rma",
+        "name": "RMA",
+        "current_form": ""
+      },
+      "startTime": "2024-11-27T15:00:00Z"
+    }
+  ]
+} 
