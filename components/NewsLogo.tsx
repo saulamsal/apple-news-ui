@@ -11,7 +11,7 @@ export const NewsLogo = ({ size = 24, color = '#000' }: NewsLogoProps) => {
     return (
         <View style={styles.container}>
             <Ionicons name="logo-apple" size={size * 0.8} color={color} />
-            <Text style={[styles.text, { fontSize: size * 0.8, color }]}>News+</Text>
+            <Text style={[styles.text, { fontSize: size * 0.8, color }]}>Expo</Text>
         </View>
     );
 };

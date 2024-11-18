@@ -26,6 +26,7 @@ export const styles = StyleSheet.create({
       fontWeight: '800',
       color: Colors.light.tint,
     },
+ 
     quickActionLeft: {
       flexDirection: 'row',
       width: 120,

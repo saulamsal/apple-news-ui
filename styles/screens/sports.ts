@@ -37,7 +37,10 @@ export const SportsStyles = StyleSheet.create({
     },
     listHeader: {
        gap: 4,
-       marginTop: 20
+       marginTop: 20,
+       alignItems: 'center',
+       flexDirection: 'row',
+       justifyContent: 'space-between',
     },
     headerIconRightText: {
         fontSize: 15,
@@ -51,6 +54,14 @@ export const SportsStyles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         height: 60,
+    },
+    seeAll: {
+        backgroundColor: '#E8E8E8',
+        width: 32,
+        height: 32,
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
   

@@ -33,13 +33,13 @@
                 {
                     "id": "election_2024",
                     "title": "Election 2024",
-                    "logo": "🗳️",
+                    "logo": "https://bloximages.newyork1.vip.townnews.com/hermistonherald.com/content/tncms/assets/v3/editorial/b/e8/be8fb83d-6ede-5302-9d18-162ee39bc357/663a950fb6ed9.image.png",
                     "entity_type": "politics_topic"
                 },
                 {
                     "id": "climate_change",
                     "title": "Climate Crisis",
-                    "logo": "🌍",
+                    "logo": "https://img.freepik.com/premium-vector/climate-crisis-emblem-with-earth-rising-heat-black-icon-globe-with-rays-vector-illustration_118339-6705.jpg",
                     "entity_type": "science_topic"
                 }
             ]
@@ -51,13 +51,13 @@
                 {
                     "id": "tech_news",
                     "title": "Technology",
-                    "logo": "💻",
+                    "logo": "https://static.vecteezy.com/system/resources/thumbnails/013/760/485/small_2x/abstract-connection-logo-illustration-in-trendy-and-minimal-style-png.png",
                     "entity_type": "news_category"
                 },
                 {
                     "id": "business",
                     "title": "Business",
-                    "logo": "📈",
+                    "logo": "https://www.shutterstock.com/image-vector/letter-o-leaf-logo-vector-600nw-2485074717.jpg",
                     "entity_type": "news_category"
                 }
             ]
@@ -69,13 +69,13 @@
                 {
                     "id": "man_utd",
                     "title": "Manchester United",
-                    "logo": "/assets/teams/man-utd.png",
+                    "logo": "https://api.sofascore.app/api/v1/team/35/image",
                     "entity_type": "sport_team"
                 },
                 {
                     "id": "premier_league",
                     "title": "Premier League",
-                    "logo": "/assets/leagues/premier-league.png",
+                    "logo": "https://api.sofascore.app/api/v1/unique-tournament/17/image",
                     "entity_type": "sport_league"
                 },
                 {

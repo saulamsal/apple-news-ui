@@ -160,7 +160,7 @@ export default function SportsScreen() {
                         <View style={SportsStyles.listHeaderContainer}>
                             <Image
                                 source={colorScheme === 'light' ? require('@/assets/images/temp/sports-light-bg.png') : require('@/assets/images/temp/sports-dark-bg.png')}
-                                style={{ width: '100%', height: Platform.OS === "ios" ? 140 : 100, position: 'absolute', left: 0, right: 0, top: 0 }}
+                                style={{ width: '100%', height: Platform.OS === "ios" ? 140 : 120, position: 'absolute', left: 0, right: 0, top: 0 }}
                             />
 
                             <View style={{ paddingTop: insets.top, paddingHorizontal: 16 }}>
@@ -181,9 +181,22 @@ export default function SportsScreen() {
                                     </View>
                                 </View>
                                 <SportScoreCarousel scores={scores} />
+
                                 <View style={SportsStyles.listHeader}>
-                                    <Text style={[styles.listHeaderText, { color: colorScheme === 'light' ? '#000000' : '#ffffff', marginTop: 30 }]}>Top Stories</Text>
-                                    <Text style={SportsStyles.listHeaderSubText}>Selected by the Apple News editors.</Text>
+                                   
+                                   <View>
+                                   <Text style={[styles.listHeaderText, { color: colorScheme === 'light' ? '#000000' : '#ffffff', marginTop: 30 }]}>Top Stories</Text>
+                                   <Text style={SportsStyles.listHeaderSubText}>Selected by the Apple News editors.</Text>
+                                   </View>
+
+                                    <Pressable style={SportsStyles.seeAll}>
+                                        <MaterialIcons
+                                            name="more-horiz"
+                                            size={24}
+                                            color={colorScheme === 'light' ? '#000' : '#fff'}
+                                            style={styles.moreIcon}
+                                        />
+                                    </Pressable>
                                 </View>
                             </View>
 

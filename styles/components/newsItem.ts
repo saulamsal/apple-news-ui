@@ -61,16 +61,19 @@ export const styles = StyleSheet.create({
     borderRadius: 16,
     marginTop: 8,
     marginBottom: 16,
+    marginLeft: 8,
   },
   topicText: {
-    fontSize: 15,
-    color: '#666',
+    fontSize: 13,
+    color: '#000',
+    letterSpacing: -0.3,
   },
   moreIcon: {
     position: 'absolute',
     right: 8,
     top: 8,
     padding: 8,
+    opacity: 0.4
   },
   moreContainer: {
     paddingHorizontal: 8,

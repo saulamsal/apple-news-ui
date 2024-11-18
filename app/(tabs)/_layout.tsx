@@ -11,6 +11,7 @@ import { useAudio } from '@/contexts/AudioContext';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
+
 // Helper component for cross-platform icons
 function TabIcon({ sfSymbol, ionIcon, color }: { 
   sfSymbol: string; 
@@ -40,7 +41,7 @@ export default function TabLayout() {
             position: 'absolute',
             backgroundColor: Platform.select({
               ios: 'transparent',
-              android: 'rgba(255, 255, 255, 0.8)',
+              android: 'rgba(255, 255, 255, 1)',
             }),
             borderTopWidth: StyleSheet.hairlineWidth,
             borderTopColor: colorScheme === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)',
