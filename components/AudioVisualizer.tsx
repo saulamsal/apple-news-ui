@@ -5,15 +5,17 @@ interface Props {
     isPlaying: boolean;
 }
 
-const BAR_COUNT = 5;
-const ANIMATION_DURATION = 300;
+const BAR_COUNT = 4;
+const ANIMATION_DURATION = 500;
 
-export function MusicVisualizer({ isPlaying }: Props) {
+export function AudioVisualizer({ isPlaying }: Props) {
     const animatedValues = useRef(
         Array(BAR_COUNT).fill(0).map(() => new Animated.Value(0))
     ).current;
     const [prominentBar, setProminentBar] = useState(0);
-    const randomScales = useRef(Array(BAR_COUNT).fill(0).map(() => 0.3 + Math.random() * 0.4)).current;
+    const randomScales = useRef(
+        Array(BAR_COUNT).fill(0).map(() => 0.4 + Math.random() * 0.3)
+    ).current;
 
     useEffect(() => {
         let prominentInterval: NodeJS.Timeout;
@@ -22,20 +24,20 @@ export function MusicVisualizer({ isPlaying }: Props) {
             prominentInterval = setInterval(() => {
                 setProminentBar(prev => (prev + 1) % BAR_COUNT);
                 randomScales.forEach((_, i) => {
-                    randomScales[i] = 0.3 + Math.random() * 0.4;
+                    randomScales[i] = 0.4 + Math.random() * 0.3;
                 });
-            }, 250);
+            }, 400);
 
             const animations = animatedValues.map((value, index) => {
                 return Animated.sequence([
                     Animated.timing(value, {
                         toValue: 1,
-                        duration: ANIMATION_DURATION * (0.2 + Math.random() * 0.3),
+                        duration: ANIMATION_DURATION * 0.4,
                         useNativeDriver: true,
                     }),
                     Animated.timing(value, {
                         toValue: 0,
-                        duration: ANIMATION_DURATION * (0.2 + Math.random() * 0.3),
+                        duration: ANIMATION_DURATION * 0.4,
                         useNativeDriver: true,
                     }),
                 ]);
@@ -67,7 +69,7 @@ export function MusicVisualizer({ isPlaying }: Props) {
                                 {
                                     scaleY: value.interpolate({
                                         inputRange: [0, 1],
-                                        outputRange: [0.2, index === prominentBar ? 1.4 : randomScales[index]],
+                                        outputRange: [0.3, index === prominentBar ? 1.2 : randomScales[index]],
                                     }),
                                 },
                             ],

@@ -30,7 +30,7 @@ import { PodcastEpisode } from '@/types/podcast';
 import podcasts from '@/data/podcasts.json';
 import type { ListRenderItemInfo } from '@shopify/flash-list';
 import { useAudio } from '@/contexts/AudioContext';
-import { MusicVisualizer } from '@/components/MusicVisualizer';
+import { AudioVisualizer } from '@/components/AudioVisualizer';
 
 interface Source {
   id: string;
@@ -158,7 +158,7 @@ export default function AudioScreen() {
                       onPress={currentEpisode  ? togglePlayPause : handlePlayAll}
                     >
                       {isPlaying ? (
-                        <MusicVisualizer isPlaying={true} />
+                        <AudioVisualizer isPlaying={true} />
                       ) : (
                      
                           <Ionicons name="headset" size={14} color={'#fff'} />
