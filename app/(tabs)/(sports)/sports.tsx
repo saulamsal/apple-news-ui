@@ -115,41 +115,29 @@ export default function SportsScreen() {
     return (
         <View style={{ flex: 1, backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }}>
 
-   
+
+
 
             <Animated.View
                 style={[
                     styles.todayContainer,
                     {
+                        backgroundColor: colorScheme === 'dark' ? '#0D0D09' : '#F2F2F6',
                         paddingTop: insets.top
                     },
                     headerAnimatedStyle
                 ]}
             >
-                <BlurView 
-                    intensity={90} 
-                    
-                    tint={colorScheme === 'dark' ? 'dark' : 'light'}
-                    style={StyleSheet.absoluteFill}
-                />
                 <View style={SportsStyles.headerLeft}>
-                    <Text style={[
-                        SportsStyles.headerLeftText,
-                        { color: colorScheme === 'dark' ? '#FFFFFF' : '#000000' }
-                    ]}>Sports</Text>
+                    <Text style={SportsStyles.headerLeftText}>Sports</Text>
 
-                    <TouchableOpacity style={[
-                        SportsStyles.headerIconRight,
-                        { backgroundColor: colorScheme === 'dark' ? 'rgba(255,255,255,0.1)' : '#E5E4EB' }
-                    ]}>
-                        <Ionicons 
-                            name="menu" 
-                            size={18} 
-                            color={colorScheme === 'dark' ? '#FFFFFF' : '#1E1E1F'} 
-                        />
+                    <TouchableOpacity style={SportsStyles.headerIconRight}>
+                        <Ionicons name="menu" size={18} color={'#1E1E1F'} />
                     </TouchableOpacity>
                 </View>
             </Animated.View>
+
+
 
             <ThemedView style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
                 <AnimatedSwipeListView
@@ -167,34 +155,41 @@ export default function SportsScreen() {
                     contentContainerStyle={styles.listContent}
                     ListHeaderComponent={
                         <View style={SportsStyles.listHeaderContainer}>
-           <Image
-                source={colorScheme === 'light' ? require('@/assets/images/temp/sports-light-bg.png') : require('@/assets/images/temp/sports-dark-bg.png')}
-                style={{ width: '100%', height:Platform.OS === "ios" ?  140 : 100, position: 'absolute', left: 0, right: 0, top: 0 }}
-            />
-                          
-                          <View style={{ paddingTop: insets.top, paddingHorizontal: 16 }}>
-                          <View style={styles.header}>
-                                <NewsHeaderLeftItem size="md" secondaryTitle='Sports' />
-                                <View style={styles.headerRight}>
-                                    <TouchableOpacity style={SportsStyles.headerIconRight}>
-                                        <Ionicons name="menu" size={24} color={'#1E1E1F'} />
-                                        <Text style={SportsStyles.headerIconRightText}>All Sports</Text>
-                                    </TouchableOpacity>
+                            <Image
+                                source={colorScheme === 'light' ? require('@/assets/images/temp/sports-light-bg.png') : require('@/assets/images/temp/sports-dark-bg.png')}
+                                style={{ width: '100%', height: Platform.OS === "ios" ? 140 : 100, position: 'absolute', left: 0, right: 0, top: 0 }}
+                            />
+
+                            <View style={{ paddingTop: insets.top, paddingHorizontal: 16 }}>
+                                <View style={styles.header}>
+                                    <NewsHeaderLeftItem size="md" secondaryTitle='Sports' />
+                                    <View style={styles.headerRight}>
+                                        <TouchableOpacity style={SportsStyles.headerIconRightWrapper}>
+                                            <BlurView
+                                                intensity={70}
+                                                tint={colorScheme === 'dark' ? 'systemChromeMaterialDark' : 'systemChromeMaterialLight'}
+                                                style={SportsStyles.headerIconRight}
+
+                                            >
+                                                <Ionicons name="menu" size={24} color={'#1E1E1F'} />
+                                                <Text style={SportsStyles.headerIconRightText}>All Sports</Text>
+                                            </BlurView>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                                <View style={SportsStyles.listHeader}>
+                                    <Text style={[styles.listHeaderText, { color: colorScheme === 'light' ? '#000000' : '#ffffff', marginTop: 30 }]}>Top Stories</Text>
+                                    <Text style={SportsStyles.listHeaderSubText}>Selected by the Apple News editors.</Text>
                                 </View>
                             </View>
-                            <View style={SportsStyles.listHeader}>
-                                <Text style={[styles.listHeaderText, { color: colorScheme === 'light' ? '#000000' : '#ffffff', marginTop: 30 }]}>Top Stories</Text>
-                                <Text style={SportsStyles.listHeaderSubText}>Selected by the Apple News editors.</Text>
-                            </View>
-                          </View>
 
-                 
+
                         </View>
                     }
                 />
             </ThemedView>
 
-       
+
 
         </View>
     );

@@ -15,14 +15,19 @@ export const SportsStyles = StyleSheet.create({
     },
     headerIconRight: {
         borderRadius: 50,
-        position: 'absolute',
-        right: 0,
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row',
         gap: 4,
         paddingVertical: 4,
         paddingHorizontal: 12,
+        overflow: 'hidden',
+        position: 'absolute',
+        right: 0,
+    },
+    headerIconRightWrapper: {
+        position: 'absolute',
+        right: 0,
     },
     listHeaderSubText: {
         fontSize: 15,
