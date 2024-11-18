@@ -166,7 +166,7 @@ export default function SportsScreen() {
                                 </View>
                             </View>
                             <View style={SportsStyles.listHeader}>
-                                <Text style={[styles.listHeaderText, { color: colorScheme === 'light' ? '#000000' : '#ffffff' }]}>Top Stories</Text>
+                                <Text style={[styles.listHeaderText, { color: colorScheme === 'light' ? '#000000' : '#ffffff', marginTop: 30 }]}>Top Stories</Text>
                                 <Text style={SportsStyles.listHeaderSubText}>Selected by the Apple News editors.</Text>
                             </View>
                           </View>

@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
     },
     listContent: {
     //   paddingHorizontal: 16,
-      gap: 16,
+      gap: 20,
     },
     listHeaderText: {
       fontSize: 26,
