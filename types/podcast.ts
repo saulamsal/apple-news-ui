@@ -1,3 +1,5 @@
+import { SharedValue } from 'react-native-reanimated';
+
 export interface PodcastEpisode {
   id: string;
   title: string;
@@ -46,4 +48,9 @@ export interface PodcastData {
       }>;
     }>;
   };
+}
+
+export interface AudioContextType {
+  // ... other types
+  progress: SharedValue<number>;
 } 

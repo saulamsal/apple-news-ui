@@ -2,6 +2,7 @@ import { createContext, useContext, useState, useEffect, useCallback } from 'rea
 import { Audio, AVPlaybackStatus } from 'expo-av';
 import { PodcastEpisode } from '@/types/podcast';
 import podcastData from '@/data/podcasts.json';
+import { useSharedValue } from 'react-native-reanimated';
 
 interface AudioContextType {
     sound: Audio.Sound | null;
@@ -17,6 +18,7 @@ interface AudioContextType {
     togglePlayPause: () => Promise<void>;
     playNext: () => Promise<void>;
     playPreviousEpisode: () => Promise<void>;
+    progress: any;
 }
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
@@ -27,6 +29,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     const [currentEpisode, setCurrentEpisode] = useState<PodcastEpisode | null>(null);
     const [position, setPosition] = useState(0);
     const [duration, setDuration] = useState(0);
+    const progress = useSharedValue(0);
 
     useEffect(() => {
         return () => {
@@ -164,6 +167,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
             togglePlayPause,
             playNext,
             playPreviousEpisode,
+            progress,
         }}>
             {children}
         </AudioContext.Provider>
