@@ -22,6 +22,16 @@ export const SportsStyles = StyleSheet.create({
         right: 0,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    listHeaderSubText: {
+        fontSize: 15,
+        fontWeight: '400',
+        color: '#000000',
+        opacity: 0.5
+    },
+    listHeader: {
+       gap: 4,
+       marginTop: 20
     }
 });
   

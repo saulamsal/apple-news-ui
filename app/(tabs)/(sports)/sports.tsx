@@ -159,8 +159,9 @@ export default function SportsScreen() {
                   />
                 </View>
               </View>
-              <View style={styles.listHeader}>
+              <View style={SportsStyles.listHeader}>
                 <Text style={styles.listHeaderText}>Top Stories</Text>
+                <Text style={SportsStyles.listHeaderSubText}>Selected by the Apple News editors.</Text>
               </View>
             </>
           }
