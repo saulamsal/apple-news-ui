@@ -147,20 +147,16 @@ export default function SportsScreen() {
           ListHeaderComponent={
             <>
               <View style={styles.header}>
-                <NewsHeaderLeftItem size="md" />
+                <NewsHeaderLeftItem size="md" secondaryTitle='Sports' />
                 <View style={styles.headerRight}>
-                  <Image 
-                    source={{ 
-                      uri: colorScheme === 'light' 
-                        ? 'https://i.imgur.com/EfImlCx.png' 
-                        : 'https://i.imgur.com/bMJtV6x.png' 
-                    }} 
-                    style={styles.headerIcon} 
-                  />
+                 <TouchableOpacity style={SportsStyles.headerIconRight}>
+                 <Ionicons name="ellipsis-horizontal" size={24} color={'#1E1E1F'}/>
+                 <Text style={SportsStyles.headerIconRightText}>All Sports</Text>
+                 </TouchableOpacity>
                 </View>
               </View>
               <View style={SportsStyles.listHeader}>
-                <Text style={styles.listHeaderText}>Top Stories</Text>
+                <Text style={[styles.listHeaderText, {color: colorScheme === 'light' ? '#000000' : '#ffffff'}]}>Top Stories</Text>
                 <Text style={SportsStyles.listHeaderSubText}>Selected by the Apple News editors.</Text>
               </View>
             </>
