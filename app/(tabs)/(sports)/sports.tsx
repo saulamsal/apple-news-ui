@@ -10,6 +10,7 @@ import Animated, {
     useSharedValue,
     withTiming,
 } from 'react-native-reanimated';
+import { BlurView } from 'expo-blur';
 
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
@@ -25,6 +26,7 @@ import { NewsItem, NewsItemType } from '@/components/NewsItem';
 import { SwipeableNewsItem } from '@/components/SwipeableNewsItem';
 import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
 import { SportsStyles } from '@/styles/screens/sports'
+import { Platform } from 'react-native';
 interface Source {
     id: string;
     name: string;
@@ -92,13 +94,13 @@ export default function SportsScreen() {
 
 
     const headerAnimatedStyle = useAnimatedStyle(() => {
-        // const opacity = translationY.value === -40 ? 0 : 1;
-
         return {
             transform: [{ translateY: translationY.value }],
-            // opacity: withTiming(opacity, {
-            //   duration: 200
-            // }),
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            zIndex: 100,
         };
     });
 
@@ -119,17 +121,32 @@ export default function SportsScreen() {
                 style={[
                     styles.todayContainer,
                     {
-                        backgroundColor: colorScheme === 'dark' ? '#0D0D09' : '#F2F2F6',
                         paddingTop: insets.top
                     },
                     headerAnimatedStyle
                 ]}
             >
+                <BlurView 
+                    intensity={90} 
+                    
+                    tint={colorScheme === 'dark' ? 'dark' : 'light'}
+                    style={StyleSheet.absoluteFill}
+                />
                 <View style={SportsStyles.headerLeft}>
-                    <Text style={SportsStyles.headerLeftText}>Sports</Text>
+                    <Text style={[
+                        SportsStyles.headerLeftText,
+                        { color: colorScheme === 'dark' ? '#FFFFFF' : '#000000' }
+                    ]}>Sports</Text>
 
-                    <TouchableOpacity style={SportsStyles.headerIconRight}>
-                        <Ionicons name="menu" size={18} color={'#1E1E1F'} />
+                    <TouchableOpacity style={[
+                        SportsStyles.headerIconRight,
+                        { backgroundColor: colorScheme === 'dark' ? 'rgba(255,255,255,0.1)' : '#E5E4EB' }
+                    ]}>
+                        <Ionicons 
+                            name="menu" 
+                            size={18} 
+                            color={colorScheme === 'dark' ? '#FFFFFF' : '#1E1E1F'} 
+                        />
                     </TouchableOpacity>
                 </View>
             </Animated.View>
@@ -152,7 +169,7 @@ export default function SportsScreen() {
                         <View style={SportsStyles.listHeaderContainer}>
            <Image
                 source={colorScheme === 'light' ? require('@/assets/images/temp/sports-light-bg.png') : require('@/assets/images/temp/sports-dark-bg.png')}
-                style={{ width: '100%', height: 140, position: 'absolute', left: 0, right: 0, top: 0 }}
+                style={{ width: '100%', height:Platform.OS === "ios" ?  140 : 100, position: 'absolute', left: 0, right: 0, top: 0 }}
             />
                           
                           <View style={{ paddingTop: insets.top, paddingHorizontal: 16 }}>

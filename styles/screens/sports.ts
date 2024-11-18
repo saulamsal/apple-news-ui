@@ -14,10 +14,7 @@ export const SportsStyles = StyleSheet.create({
         gap: 8
     },
     headerIconRight: {
-        // width: 32,
-        // height: 32,
         borderRadius: 50,
-        backgroundColor: '#E5E4EB',
         position: 'absolute',
         right: 0,
         justifyContent: 'center',
@@ -25,7 +22,7 @@ export const SportsStyles = StyleSheet.create({
         flexDirection: 'row',
         gap: 4,
         paddingVertical: 4,
-        paddingHorizontal: 12
+        paddingHorizontal: 12,
     },
     listHeaderSubText: {
         fontSize: 15,
@@ -41,6 +38,14 @@ export const SportsStyles = StyleSheet.create({
         fontSize: 15,
         fontWeight: '700',
       
-    }
+    },
+    todayContainer: {
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        height: 60,
+    },
 });
   

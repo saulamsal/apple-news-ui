@@ -13,6 +13,8 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 2.22,
     elevation: 3,
+    marginHorizontal: 16,
+    position: 'relative'
   },
   fullImage: {
     width: '100%',
