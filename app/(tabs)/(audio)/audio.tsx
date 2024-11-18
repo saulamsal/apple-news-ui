@@ -126,13 +126,8 @@ export default function AudioScreen() {
     }
   };
 
-  const renderNewsItem = ({ item }: ListRenderItemInfo<NewsItem>) => (
-    <NewsItem item={item} />
-  );
 
-  const renderHiddenItem = ({ item }: ListRenderItemInfo<NewsItem>) => (
-    <SwipeableNewsItem item={item} />
-  );
+
 
   const renderPodcastItem = ({ item, index }: ListRenderItemInfo<PodcastEpisode>) => (
     <PodcastItem 
@@ -167,7 +162,10 @@ export default function AudioScreen() {
                       <Text style={styles.headerRightText}>Play</Text>
                     </TouchableOpacity>
                   </View>
+
+         
                 </View>
+                <Text style={styles.sectionTitle}>For You</Text>
               </View>
             }
           />

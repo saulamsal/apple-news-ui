@@ -50,5 +50,10 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     color: '#666',
   },
+  sectionTitle: {
+    fontSize: 22,
+    fontWeight: '800',
+    marginTop: 16,
+  }
 });
   
