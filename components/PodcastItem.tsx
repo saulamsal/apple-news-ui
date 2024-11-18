@@ -4,7 +4,7 @@ import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { PodcastEpisode } from '@/types/podcast';
 import { useAudio } from '@/contexts/AudioContext';
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
-
+import { Colors } from '@/constants/Colors';
 interface PodcastItemProps {
   episode: any;
   index?: number;
@@ -71,11 +71,19 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
           <Text style={styles.showTitle} numberOfLines={1}>{episode.showTitle}</Text>
           
           <View style={styles.metadataContainer}>
-            <TouchableOpacity onPress={handleSeeDetails}>
-              <Text style={styles.seeDetails}>See Details</Text>
+            <View style={styles.metadataLeft}>
+              <TouchableOpacity onPress={handleSeeDetails}>
+                <Text style={styles.seeDetails}>See Details</Text>
             </TouchableOpacity>
             
-            <View style={styles.durationContainer}>
+           
+           {isCurrentlyPlaying ? (
+          <View style={styles.progressContainer}>
+            <Animated.View style={[styles.progressBar, progressBarStyle]} />
+            <Text style={styles.progressText}>{remainingTime}</Text>
+          </View>
+        ) : (
+         <View style={styles.durationContainer}>
               <Ionicons name="headset-outline" size={16} color="#8E8E93" />
               <Text style={styles.duration}>
                 {isCurrentlyPlaying && remainingTime != null ? 
@@ -83,17 +91,21 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
                   durationInMinutes ? `${durationInMinutes}` : '--'} min
               </Text>
             </View>
+        )}
+
+
+            </View>
+            <Ionicons name="ellipsis-horizontal" size={24} color="#8E8E93" style={styles.menuTrigger} />
+
           </View>
+          
         </View>
         
-        {isCurrentlyPlaying && (
-          <View style={styles.progressContainer}>
-            <Animated.View style={[styles.progressBar, progressBarStyle]} />
-          </View>
-        )}
+    
+
+        
       </View>
 
-      <Ionicons name="ellipsis-horizontal" size={24} color="#8E8E93" style={styles.menuTrigger} />
 
     </TouchableOpacity>
   );
@@ -165,8 +177,8 @@ const styles = StyleSheet.create({
   },
   seeDetails: {
     fontSize: 13,
-    color: '#007AFF',
-    fontWeight: '500',
+    color: Colors.light.tint,
+    fontWeight: '600',
   },
   progressContainer: {
     height: 2,
@@ -176,7 +188,7 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     height: '100%',
-    backgroundColor: '#0066CC',
+    backgroundColor: Colors.light.tint,
     borderRadius: 1,
   },
   menuTrigger: {
@@ -191,6 +203,15 @@ const styles = StyleSheet.create({
   },
   menuOptionText: {
     fontSize: 17,
-    color: '#007AFF',
+    color: Colors.light.tint,
   },
+  metadataLeft:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 16,
+  },
+  progressText: {
+    fontSize: 13,
+    color: Colors.light.tint,
+  }
 }); 
