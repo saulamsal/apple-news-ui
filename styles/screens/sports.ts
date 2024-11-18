@@ -14,14 +14,18 @@ export const SportsStyles = StyleSheet.create({
         gap: 8
     },
     headerIconRight: {
-        width: 32,
-        height: 32,
+        // width: 32,
+        // height: 32,
         borderRadius: 50,
         backgroundColor: '#E5E4EB',
         position: 'absolute',
         right: 0,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        flexDirection: 'row',
+        gap: 4,
+        paddingVertical: 4,
+        paddingHorizontal: 12
     },
     listHeaderSubText: {
         fontSize: 15,
@@ -32,6 +36,11 @@ export const SportsStyles = StyleSheet.create({
     listHeader: {
        gap: 4,
        marginTop: 20
+    },
+    headerIconRightText: {
+        fontSize: 15,
+        fontWeight: '700',
+      
     }
 });
   

@@ -125,7 +125,7 @@ export default function SportsScreen() {
        <Text style={SportsStyles.headerLeftText}>Sports</Text>
 
        <TouchableOpacity style={SportsStyles.headerIconRight}>
-       <Ionicons name="document-text" size={18} color={'#1E1E1F'} />
+       <Ionicons name="menu" size={18} color={'#1E1E1F'} />
        </TouchableOpacity>
        </View>
       </Animated.View>
@@ -150,7 +150,7 @@ export default function SportsScreen() {
                 <NewsHeaderLeftItem size="md" secondaryTitle='Sports' />
                 <View style={styles.headerRight}>
                  <TouchableOpacity style={SportsStyles.headerIconRight}>
-                 <Ionicons name="ellipsis-horizontal" size={24} color={'#1E1E1F'}/>
+                 <Ionicons name="menu" size={24} color={'#1E1E1F'}/>
                  <Text style={SportsStyles.headerIconRightText}>All Sports</Text>
                  </TouchableOpacity>
                 </View>

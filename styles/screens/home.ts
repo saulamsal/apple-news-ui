@@ -101,6 +101,9 @@ export const styles = StyleSheet.create({
     },
     headerRight: {
       paddingRight: 8,
+      alignItems: 'center',
+      flexDirection: 'row',
+     
     },
     todayContainer: {
       position: 'absolute',
