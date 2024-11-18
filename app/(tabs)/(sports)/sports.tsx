@@ -78,7 +78,7 @@ export default function SportsScreen() {
 
             // Only show header when scrolled past 90px
             if (currentScrollY > 90) {
-                translationY.value = withTiming(insets.top, {
+                translationY.value = withTiming(0, {
                     duration: 300
                 });
             } else {
@@ -119,7 +119,8 @@ export default function SportsScreen() {
                 style={[
                     styles.todayContainer,
                     {
-                        backgroundColor: colorScheme === 'dark' ? '#0D0D09' : '#F2F2F6'
+                        backgroundColor: colorScheme === 'dark' ? '#0D0D09' : '#F2F2F6',
+                        paddingTop: insets.top
                     },
                     headerAnimatedStyle
                 ]}
@@ -133,7 +134,7 @@ export default function SportsScreen() {
                 </View>
             </Animated.View>
 
-            <ThemedView style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09', paddingTop: insets.top }]}>
+            <ThemedView style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
                 <AnimatedSwipeListView
                     onScroll={scrollHandler}
                     scrollEventThrottle={16}
@@ -151,9 +152,11 @@ export default function SportsScreen() {
                         <View style={SportsStyles.listHeaderContainer}>
            <Image
                 source={colorScheme === 'light' ? require('@/assets/images/temp/sports-light-bg.png') : require('@/assets/images/temp/sports-dark-bg.png')}
-                style={{ width: '100%', height: 100, position: 'absolute', left: 0, right: 0, top: -20 }}
+                style={{ width: '100%', height: 140, position: 'absolute', left: 0, right: 0, top: 0 }}
             />
-                            <View style={styles.header}>
+                          
+                          <View style={{ paddingTop: insets.top, paddingHorizontal: 16 }}>
+                          <View style={styles.header}>
                                 <NewsHeaderLeftItem size="md" secondaryTitle='Sports' />
                                 <View style={styles.headerRight}>
                                     <TouchableOpacity style={SportsStyles.headerIconRight}>
@@ -166,6 +169,7 @@ export default function SportsScreen() {
                                 <Text style={[styles.listHeaderText, { color: colorScheme === 'light' ? '#000000' : '#ffffff' }]}>Top Stories</Text>
                                 <Text style={SportsStyles.listHeaderSubText}>Selected by the Apple News editors.</Text>
                             </View>
+                          </View>
 
                  
                         </View>

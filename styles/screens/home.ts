@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
       fontWeight: 'bold',
     },
     listContent: {
-      paddingHorizontal: 16,
+    //   paddingHorizontal: 16,
       gap: 16,
     },
     listHeaderText: {
