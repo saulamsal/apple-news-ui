@@ -7,10 +7,10 @@ export interface PodcastEpisode {
   artwork: {
     url: string;
   };
-  showTitle?: string;
-  duration?: number;
-  releaseDate?: string;
-  summary?: string;
+  showTitle: string;
+  duration: number;
+  releaseDate: string;
+  summary: string;
 }
 
 export interface PodcastData {

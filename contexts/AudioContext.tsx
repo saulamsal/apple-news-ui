@@ -19,6 +19,7 @@ interface AudioContextType {
     playNext: () => Promise<void>;
     playPreviousEpisode: () => Promise<void>;
     progress: any;
+    seek: (seconds: number) => Promise<void>;
 }
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
@@ -152,6 +153,16 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         await playEpisode(previousEpisode);
     }, [currentEpisode, playEpisode]);
 
+    const seek = async (seconds: number) => {
+        if (!sound) return;
+        
+        const status = await sound.getStatusAsync();
+        if (!status.isLoaded) return;
+
+        const newPosition = status.positionMillis + (seconds * 1000);
+        await sound.setPositionAsync(newPosition);
+    };
+
     return (
         <AudioContext.Provider value={{
             sound,
@@ -168,6 +179,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
             playNext,
             playPreviousEpisode,
             progress,
+            seek,
         }}>
             {children}
         </AudioContext.Provider>

@@ -93,7 +93,6 @@ export default function AudioScreen() {
   const { playEpisode, isPlaying, togglePlayPause } = useAudio();
   
   const handlePlayAll = () => {
-    // Get the first episode from the podcasts data
     const firstEpisode = podcasts[0]?.data?.shelves[0]?.items[0];
     
     if (firstEpisode) {
@@ -109,20 +108,19 @@ export default function AudioScreen() {
                 .replace('{f}', 'jpg')
             : 'https://via.placeholder.com/300';
 
-      // Convert podcast episode to song format
-      const podcast = {
-        id: parseInt(firstEpisode.id),
+      // Convert to PodcastEpisode type
+      const podcast: PodcastEpisode = {
+        id: firstEpisode.id,
         title: firstEpisode.title,
-        artist: firstEpisode.showTitle,
-        artwork: imageUrl,
-        mp4_link: firstEpisode.streamUrl,
-        artwork_bg_color: '#000000'
+        streamUrl: firstEpisode.playAction?.episodeOffer?.streamUrl,
+        artwork: { url: imageUrl },
+        showTitle: firstEpisode.showTitle,
+        duration: firstEpisode.duration,
+        releaseDate: firstEpisode.releaseDate,
+        summary: firstEpisode.summary
       };
 
-      // Play the podcast
       playEpisode(podcast);
-      
-      // Navigate to the audio player screen
       router.push(`/audio/${firstEpisode.id}`);
     }
   };
@@ -156,13 +154,17 @@ export default function AudioScreen() {
                   <NewsHeaderLeftItem size="md" secondaryTitle="Audio" />
                   <View style={styles.headerRight}>
                     <TouchableOpacity 
-                      style={styles.headerRightButton}
-                      onPress={isPlaying ? togglePlayPause : handlePlayAll}
+                      style={[styles.headerRightButton, { backgroundColor: isPlaying ? '#86858D' : undefined }]}
+                      onPress={handlePlayAll}
                     >
-                     {isPlaying ? <><Ionicons name="headset" size={14} color={'#fff'} />    <Text style={styles.headerRightText}>Play</Text> </> :
-                      <MusicVisualizer isPlaying={isPlaying} />
-                    }
-                
+                      {isPlaying ? (
+                        <MusicVisualizer isPlaying={true} />
+                      ) : (
+                     
+                          <Ionicons name="headset" size={14} color={'#fff'} />
+                       
+                      )}
+                         <Text style={styles.headerRightText}>{isPlaying ? 'Playing' : 'Play'}</Text>
                     </TouchableOpacity>
                   </View>
 
