@@ -90,7 +90,7 @@ export default function AudioScreen() {
     setActiveTab(tabId);
   };
 
-  const { playEpisode, isPlaying, togglePlayPause } = useAudio();
+  const { currentEpisode, playEpisode, isPlaying, togglePlayPause } = useAudio();
   
   const handlePlayAll = () => {
     const firstEpisode = podcasts[0]?.data?.shelves[0]?.items[0];
@@ -154,8 +154,8 @@ export default function AudioScreen() {
                   <NewsHeaderLeftItem size="md" secondaryTitle="Audio" />
                   <View style={styles.headerRight}>
                     <TouchableOpacity 
-                      style={[styles.headerRightButton, { backgroundColor: isPlaying ? '#86858D' : undefined }]}
-                      onPress={handlePlayAll}
+                      style={[styles.headerRightButton, { backgroundColor: currentEpisode ? '#86858D' : Colors.light.tint }]}
+                      onPress={currentEpisode  ? togglePlayPause : handlePlayAll}
                     >
                       {isPlaying ? (
                         <MusicVisualizer isPlaying={true} />
@@ -164,7 +164,7 @@ export default function AudioScreen() {
                           <Ionicons name="headset" size={14} color={'#fff'} />
                        
                       )}
-                         <Text style={styles.headerRightText}>{isPlaying ? 'Playing' : 'Play'}</Text>
+                         <Text style={styles.headerRightText}>{currentEpisode ? (isPlaying ? 'Playing' : 'Paused') : 'Play'}</Text>
                     </TouchableOpacity>
                   </View>
 

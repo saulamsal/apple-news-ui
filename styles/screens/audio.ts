@@ -30,11 +30,10 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: Colors.light.tint,
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 50,
-    boxShadow: "#000 0px 0px 10px -4px",
+    // boxShadow: "#000 0px 0px 10px -4px",
     position: 'relative',
   },
   headerRightText: {
