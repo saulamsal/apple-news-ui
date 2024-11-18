@@ -30,6 +30,7 @@ import { PodcastEpisode } from '@/types/podcast';
 import podcasts from '@/data/podcasts.json';
 import type { ListRenderItemInfo } from '@shopify/flash-list';
 import { useAudio } from '@/contexts/AudioContext';
+import { MusicVisualizer } from '@/components/MusicVisualizer';
 
 interface Source {
   id: string;
@@ -89,7 +90,7 @@ export default function AudioScreen() {
     setActiveTab(tabId);
   };
 
-  const { playSound } = useAudio();
+  const { playSound, isPlaying, togglePlayPause } = useAudio();
   
   const handlePlayAll = () => {
     // Get the first episode from the podcasts data
@@ -156,10 +157,12 @@ export default function AudioScreen() {
                   <View style={styles.headerRight}>
                     <TouchableOpacity 
                       style={styles.headerRightButton}
-                      onPress={handlePlayAll}
+                      onPress={isPlaying ? togglePlayPause : handlePlayAll}
                     >
-                      <Ionicons name="headset" size={14} color={'#fff'} />
-                      <Text style={styles.headerRightText}>Play</Text>
+                     {isPlaying ?  <><Ionicons name="headset" size={14} color={'#fff'} />      <Text style={styles.headerRightText}>Play</Text> </> :
+                      <MusicVisualizer isPlaying={isPlaying} />
+                    }
+                
                     </TouchableOpacity>
                   </View>
 
