@@ -159,7 +159,7 @@ export default function AudioScreen() {
                       style={styles.headerRightButton}
                       onPress={isPlaying ? togglePlayPause : handlePlayAll}
                     >
-                     {isPlaying ?  <><Ionicons name="headset" size={14} color={'#fff'} />      <Text style={styles.headerRightText}>Play</Text> </> :
+                     {isPlaying ? <><Ionicons name="headset" size={14} color={'#fff'} />    <Text style={styles.headerRightText}>Play</Text> </> :
                       <MusicVisualizer isPlaying={isPlaying} />
                     }
                 
