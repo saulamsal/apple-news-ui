@@ -90,7 +90,7 @@ export default function AudioScreen() {
     setActiveTab(tabId);
   };
 
-  const { playSound, isPlaying, togglePlayPause } = useAudio();
+  const { playEpisode, isPlaying, togglePlayPause } = useAudio();
   
   const handlePlayAll = () => {
     // Get the first episode from the podcasts data
@@ -110,7 +110,7 @@ export default function AudioScreen() {
             : 'https://via.placeholder.com/300';
 
       // Convert podcast episode to song format
-      const podcastAsSong = {
+      const podcast = {
         id: parseInt(firstEpisode.id),
         title: firstEpisode.title,
         artist: firstEpisode.showTitle,
@@ -120,7 +120,7 @@ export default function AudioScreen() {
       };
 
       // Play the podcast
-      playSound(podcastAsSong);
+      playEpisode(podcast);
       
       // Navigate to the audio player screen
       router.push(`/audio/${firstEpisode.id}`);
