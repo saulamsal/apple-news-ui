@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 import { format } from 'date-fns';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { useRouter } from 'expo-router';
 
 interface Team {
   id: string;
@@ -29,9 +30,14 @@ interface SportScoreCarouselProps {
 export const SportScoreCarousel: React.FC<SportScoreCarouselProps> = ({ scores }) => {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
+  const router = useRouter();
 
   const formatTime = (timestamp: string) => {
     return format(new Date(timestamp), 'h:mm a');
+  };
+
+  const handleScorePress = (scoreId: string) => {
+    router.push(`/scores/${scoreId}`);
   };
 
   return (
@@ -42,37 +48,42 @@ export const SportScoreCarousel: React.FC<SportScoreCarouselProps> = ({ scores }
         contentContainerStyle={styles.container}
       >
         {scores.map((score, index) => (
-          <View
+          <TouchableOpacity
             key={score.id}
-            style={[
-              styles.scoreCard,
-              index < scores.length - 1 && styles.scoreCardBorder
-            ]}
+            onPress={() => handleScorePress(score.id)}
+            activeOpacity={0.7}
           >
-            <Text style={styles.competitionText}>
-              {score.competition.name}
-            </Text>
-            
-            <View style={styles.teamsContainer}>
-              <View style={styles.teamRow}>
-                <Text style={styles.teamName}>
-                  {score.team1.name}
-                </Text>
-                <Text style={styles.formText}>{score.team1.current_form}</Text>
-              </View>
+            <View
+              style={[
+                styles.scoreCard,
+                index < scores.length - 1 && styles.scoreCardBorder
+              ]}
+            >
+              <Text style={styles.competitionText}>
+                {score.competition.name}
+              </Text>
               
-              <View style={styles.teamRow}>
-                <Text style={styles.teamName}>
-                  {score.team2.name}
-                </Text>
-                <Text style={styles.formText}>{score.team2.current_form}</Text>
+              <View style={styles.teamsContainer}>
+                <View style={styles.teamRow}>
+                  <Text style={[styles.teamName, { color: isDark ? '#FFFFFF' : '#000000' }]}>
+                    {score.team1.name}
+                  </Text>
+                  <Text style={styles.formText}>{score.team1.current_form}</Text>
+                </View>
+                
+                <View style={styles.teamRow}>
+                  <Text style={[styles.teamName, { color: isDark ? '#FFFFFF' : '#000000' }]}>
+                    {score.team2.name}
+                  </Text>
+                  <Text style={styles.formText}>{score.team2.current_form}</Text>
+                </View>
               </View>
-            </View>
 
-            <Text style={styles.timeText}>
-              {formatTime(score.startTime)}
-            </Text>
-          </View>
+              <Text style={styles.timeText}>
+                {formatTime(score.startTime)}
+              </Text>
+            </View>
+          </TouchableOpacity>
         ))}
       </ScrollView>
       <View style={styles.bottomBorder} />

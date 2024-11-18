@@ -4,55 +4,90 @@
       "id": "1",
       "competition": {
         "id": "epl",
-        "name": "EPL"
+        "name": "EPL",
+        "full_name": "Premier League",
+        "matchweek": 12
       },
       "team1": {
         "id": "ips",
         "name": "IPS",
-        "current_form": "1-5-5"
+        "full_name": "Ipswich Town",
+        "current_form": "1-5-5",
+        "points": 8,
+        "position": 17,
+        "position_suffix": "th",
+        "bg_color": "#0039A6",
+        "logo": "https://api.sofascore.app/api/v1/team/32/image",
+        "stadium": {
+          "name": "Portman Road",
+          "location": "Ipswich, Suffolk, England"
+        }
       },
       "team2": {
         "id": "man",
         "name": "MAN",
-        "current_form": "4-3-4"
+        "full_name": "Manchester United",
+        "current_form": "4-3-4",
+        "points": 15,
+        "position": 13,
+        "position_suffix": "th",
+        "bg_color": "#DA020E",
+        "logo": "https://api.sofascore.app/api/v1/team/35/image"
       },
-      "startTime": "2024-11-24T11:30:00Z"
+      "startTime": "2024-11-24T11:30:00Z",
+      "status": "upcoming"
     },
     {
       "id": "2",
       "competition": {
         "id": "lfp",
-        "name": "LFP"
+        "name": "LFP",
+        "full_name": "La Liga"
       },
       "team1": {
         "id": "lgn",
         "name": "LGN",
-        "current_form": "3-5-5"
+        "full_name": "CD Leganes",
+        "current_form": "3-5-5",
+        "bg_color": "#004C99",
+        "logo": "https://api.sofascore.app/api/v1/team/44/image"
       },
       "team2": {
         "id": "rma",
         "name": "RMA",
-        "current_form": "8-3-1"
+        "full_name": "Real Madrid",
+        "current_form": "8-3-1",
+        "bg_color": "#FFFFFF",
+        "logo": "https://api.sofascore.app/api/v1/team/2829/image"
       },
-      "startTime": "2024-11-24T12:30:00Z"
+      "startTime": "2024-11-24T12:30:00Z",
+      "status": "upcoming"
     },
     {
       "id": "3",
       "competition": {
         "id": "ucl",
-        "name": "UCL"
+        "name": "UCL",
+        "full_name": "UEFA Champions League"
       },
       "team1": {
         "id": "liv",
         "name": "LIV",
-        "current_form": ""
+        "full_name": "Liverpool FC",
+        "current_form": "",
+        "bg_color": "#C8102E",
+        "logo": "https://api.sofascore.app/api/v1/team/44/image"
       },
       "team2": {
         "id": "rma",
         "name": "RMA",
-        "current_form": ""
+        "full_name": "Real Madrid",
+        "current_form": "",
+        "bg_color": "#FFFFFF",
+        "logo": "https://api.sofascore.app/api/v1/team/2829/image"
       },
-      "startTime": "2024-11-27T15:00:00Z"
+      "startTime": "2024-11-27T15:00:00Z",
+      "status": "upcoming"
     }
   ]
 } 
