@@ -42,7 +42,8 @@
           }
         }
       ],
-      "react-native-reanimated"
+      "react-native-reanimated",
+      "@bacons/apple-targets"
     ],
     "experiments": {
       "typedRoutes": true

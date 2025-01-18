@@ -15,9 +15,10 @@
     "preset": "jest-expo"
   },
   "dependencies": {
-    "@expo/metro-runtime": "~4.0.0",
+    "@bacons/apple-targets": "^0.1.17",
     "@bottom-tabs/react-navigation": "^0.7.8",
     "@codeherence/react-native-header": "^0.14.0",
+    "@expo/metro-runtime": "~4.0.0",
     "@expo/vector-icons": "^14.0.2",
     "@react-native-community/slider": "^4.5.5",
     "@react-native-menu/menu": "^1.2.0",
