@@ -8,6 +8,7 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { styles } from '@/styles/components/newsItem';
 import { LinearGradient } from 'expo-linear-gradient';
 import { NewsLogo } from '@/components/NewsLogo';
+import * as DropdownMenu from 'zeego/dropdown-menu';
 
 interface Source {
   id: string;
@@ -88,7 +89,7 @@ export const NewsItem = ({ item }: NewsItemProps) => {
                 colors={['rgba(0,0,0,0.1)', 'transparent']}
                 start={{ x: 0.2, y: 0 }}
                 end={{ x: 0.5, y: 0 }}
-                style={[styles.newsPlusOverlay, { flexDirection: 'row' , position: 'absolute', top: 0, left: 0, width: '100%', zIndex: 1 , borderTopLeftRadius: 12, borderTopLeftRadius: 12}]}
+                style={[styles.newsPlusOverlay, { flexDirection: 'row' , position: 'absolute', top: 0, left: 0, width: '100%', zIndex: 1 , borderTopLeftRadius: 12, borderTopRightRadius: 12}]}
               >
                 <NewsLogo size={16} color="#F92B53" />
               </LinearGradient>
@@ -124,12 +125,58 @@ const NewsItemActions = ({ item }: { item: NewsItemType }) => {
           </ThemedText>
         </Pressable>
       )}
-      <MaterialIcons
-        name="more-horiz"
-        size={24}
-        color={colorScheme === 'light' ? '#000' : '#fff'}
-        style={styles.moreIcon}
-      />
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger>
+          <Pressable>
+            <MaterialIcons
+              name="more-horiz"
+              size={24}
+              color={colorScheme === 'light' ? '#000' : '#fff'}
+              style={styles.moreIcon}
+            />
+          </Pressable>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content>
+          <DropdownMenu.Item textValue="Share Story" onSelect={() => {}} key="share">
+            <DropdownMenu.ItemIcon ios={{ name: 'square.and.arrow.up' }}>
+              <MaterialIcons name="share" size={18} />
+            </DropdownMenu.ItemIcon>
+            <DropdownMenu.ItemTitle>Share Story</DropdownMenu.ItemTitle>
+          </DropdownMenu.Item>
+          <DropdownMenu.Item textValue="Save Story" onSelect={() => {}} key="save">
+            <DropdownMenu.ItemIcon ios={{ name: 'bookmark' }}>
+              <MaterialIcons name="bookmark" size={18} />
+            </DropdownMenu.ItemIcon>
+            <DropdownMenu.ItemTitle>Save Story</DropdownMenu.ItemTitle>
+          </DropdownMenu.Item>
+          <DropdownMenu.Item textValue="Copy Link" onSelect={() => {}} key="copy">
+            <DropdownMenu.ItemIcon ios={{ name: 'link' }}>
+              <MaterialIcons name="link" size={18} />
+            </DropdownMenu.ItemIcon>
+            <DropdownMenu.ItemTitle>Copy Link</DropdownMenu.ItemTitle>
+          </DropdownMenu.Item>
+          <DropdownMenu.Separator />
+          <DropdownMenu.Item textValue="Suggest More" onSelect={() => {}} key="more">
+            <DropdownMenu.ItemIcon ios={{ name: 'plus.circle' }}>
+              <MaterialIcons name="add-circle-outline" size={18} />
+            </DropdownMenu.ItemIcon>
+            <DropdownMenu.ItemTitle>Suggest More</DropdownMenu.ItemTitle>
+          </DropdownMenu.Item>
+          <DropdownMenu.Item textValue="Suggest Less" onSelect={() => {}} key="less">
+            <DropdownMenu.ItemIcon ios={{ name: 'minus.circle' }}>
+              <MaterialIcons name="remove-circle-outline" size={18} />
+            </DropdownMenu.ItemIcon>
+            <DropdownMenu.ItemTitle>Suggest Less</DropdownMenu.ItemTitle>
+          </DropdownMenu.Item>
+          <DropdownMenu.Separator />
+          <DropdownMenu.Item textValue={`Go to ${item.source.name}`} onSelect={() => {}} key="source">
+            <DropdownMenu.ItemIcon ios={{ name: 'arrow.up.right' }}>
+              <MaterialIcons name="open-in-new" size={18} />
+            </DropdownMenu.ItemIcon>
+            <DropdownMenu.ItemTitle>Go to {item.source.name}</DropdownMenu.ItemTitle>
+          </DropdownMenu.Item>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
     </View>
   );
 }; 
