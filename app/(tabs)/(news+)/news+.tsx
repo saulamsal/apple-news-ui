@@ -11,8 +11,6 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { NewsLogo } from '@/components/NewsLogo';
@@ -159,9 +157,9 @@ export default function NewsPlusScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }}>
-      <ThemedView style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
+      <View style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
         {renderContent()}
-      </ThemedView>
+      </View>
     </SafeAreaView>
   );
 }

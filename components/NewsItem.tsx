@@ -2,13 +2,12 @@ import React from 'react';
 import { Pressable, View, Image, Text, ColorSchemeName } from 'react-native';
 import { Link } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { LinearGradient } from 'expo-linear-gradient';
 import { NewsLogo } from '@/components/NewsLogo';
 import * as DropdownMenu from 'zeego/dropdown-menu';
 import * as ContextMenu from 'zeego/context-menu';
+import { verifyInstallation } from 'nativewind';
 
 interface Source {
   id: string;
@@ -108,9 +107,9 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
             source={{ uri: colorScheme === 'light' ? item.source.logo_transparent_light : item.source.logo_transparent_dark }}
             className="h-6 w-[120px] -ml-2.5 mb-2 resize-contain"
           />
-          <ThemedText type="title" className="text-2xl leading-8 font-bold -tracking-[1px]">
+          <Text className="text-2xl leading-8 font-bold -tracking-[1px]">
             {item.title}
-          </ThemedText>
+          </Text>
         </View>
       </>
     );
@@ -134,9 +133,9 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
           source={{ uri: colorScheme === 'light' ? item.source.logo_transparent_light : item.source.logo_transparent_dark }}
           className="h-3.5 w-[70px] -ml-2.5 mb-2 resize-contain"
         />
-        <ThemedText type="title" className="text-lg leading-[22px] font-bold -tracking-[0.8px]">
+        <Text className="text-lg leading-[22px] font-bold -tracking-[0.8px]">
           {item.title}
-        </ThemedText>
+        </Text>
         <Image 
           source={{ uri: item.featured_image }} 
           className="w-[100px] h-[100px] rounded-lg absolute right-4 top-4"
@@ -150,6 +149,8 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
 export const NewsItem = ({ item }: NewsItemProps) => {
   const colorScheme = useColorScheme();
   
+  verifyInstallation();
+  
   const href = {
     pathname: '/content/[id]' as const,
     params: { id: item.id }
@@ -158,14 +159,14 @@ export const NewsItem = ({ item }: NewsItemProps) => {
   return (
     <ContextMenu.Root>
       <ContextMenu.Trigger>
-        <ThemedView className="mb-2 rounded-xl overflow-hidden shadow-sm dark:bg-black bg-white mx-4 relative">
+        <View className="mb-2 rounded-xl overflow-hidden shadow-sm dark:bg-black bg-white mx-4 relative">
           <Link href={href} asChild>
             <Pressable className="flex-1">
               {renderNewsContent({ item, colorScheme })}
             </Pressable>
           </Link>
           <NewsItemActions item={item} />
-        </ThemedView>
+        </View>
       </ContextMenu.Trigger>
       <ContextMenu.Content>
         <ContextMenu.Preview>
@@ -195,9 +196,9 @@ const NewsItemActions = ({ item }: { item: NewsItemType }) => {
             e.stopPropagation();
           }}
         >
-          <ThemedText type="subtitle" className="text-sm text-black -tracking-[0.3px]">
+          <Text className="text-sm text-black -tracking-[0.3px]">
             More {item.topic.name} coverage
-          </ThemedText>
+          </Text>
         </Pressable>
       )}
       <View className="absolute right-2 top-2">

@@ -1,5 +1,4 @@
 import { StyleSheet, Pressable, Image, Platform, ImageBackground, View, Text, Animated } from 'react-native';
-import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
 import { useState, useEffect, useRef } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -40,13 +39,13 @@ export function MiniPlayer({ onPress }: { onPress: () => void }) {
                         />
                     </BlurView>
                 ) : (
-                    <ThemedView style={[styles.content, styles.androidContainer]}>
+                    <View style={[styles.content, styles.androidContainer]}>
                         <MiniPlayerContent 
                             episode={currentEpisode}
                             isPlaying={isPlaying}
                             onPlayPause={togglePlayPause}
                         />
-                    </ThemedView>
+                    </View>
                 )}
             </ImageBackground>
         </Pressable>
@@ -92,14 +91,14 @@ function MiniPlayerContent({
     };
 
     return (
-        <ThemedView style={styles.miniPlayerContent}>
-            <ThemedView style={styles.leftSection}>
+        <View style={styles.miniPlayerContent}>
+            <View style={styles.leftSection}>
                 <Text style={styles.source} numberOfLines={1}>{episode.showTitle}</Text>
                 <Animated.View style={{ transform: [{ translateX: scrollX }] }}>
                     <Text style={styles.title} numberOfLines={1}>{episode.title}</Text>
                 </Animated.View>
-            </ThemedView>
-            <ThemedView style={styles.controls}>
+            </View>
+            <View style={styles.controls}>
                 <Pressable 
                     style={styles.controlButton} 
                     onPress={rewind15Seconds}
@@ -142,8 +141,8 @@ function MiniPlayerContent({
                         />
                     </BlurView>
                 </Pressable>
-            </ThemedView>
-        </ThemedView>
+            </View>
+        </View>
     );
 }
 

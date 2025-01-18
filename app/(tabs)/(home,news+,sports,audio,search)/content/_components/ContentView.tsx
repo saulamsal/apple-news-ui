@@ -1,7 +1,5 @@
-import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Image, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { ScrollViewWithHeaders, Header, ScrollHeaderProps } from '@codeherence/react-native-header';
-import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
@@ -48,35 +46,35 @@ export function ContentView({ content }: ContentViewProps) {
       HeaderComponent={HeaderComponent}
       contentContainerStyle={styles.container}
     >
-      <ThemedView style={styles.container}>
+      <View style={styles.container}>
         <Image 
           source={{ uri: content.featured_image }} 
           style={styles.featuredImage} 
         />
         
         <View style={styles.content}>
-          <ThemedText type="title" style={styles.title}>
+          <Text style={[styles.title, { fontWeight: 'bold' }]}>
             {content.title}
-          </ThemedText>
+          </Text>
 
           {content.show_topic && (
             <View style={styles.topicContainer}>
-              <ThemedText style={styles.topic}>
+              <Text style={styles.topic}>
                 {content.topic.name}
-              </ThemedText>
+              </Text>
             </View>
           )}
 
           <View style={styles.authorContainer}>
-            <ThemedText style={styles.author}>
+            <Text style={styles.author}>
               By {content.author.name}
-            </ThemedText>
-            <ThemedText style={styles.date}>
+            </Text>
+            <Text style={styles.date}>
               {new Date(content.created_at).toLocaleDateString()}
-            </ThemedText>
+            </Text>
           </View>
         </View>
-      </ThemedView>
+      </View>
     </ScrollViewWithHeaders>
   );
 }
@@ -102,7 +100,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 28,
-    fontWeight: 'bold',
     marginBottom: 16,
     letterSpacing: -0.5,
   },

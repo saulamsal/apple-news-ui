@@ -1,8 +1,7 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { StyleSheet, Dimensions, Platform } from 'react-native';
+import { StyleSheet, Dimensions, Platform, View } from 'react-native';
 import { useEffect, useCallback, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { ThemedView } from '@/components/ThemedView';
 import { ExpandedPlayer } from '@/components/BottomSheet/ExpandedPlayer';
 import { useRootScale } from '@/contexts/RootScaleContext';
 import Animated, {
@@ -274,7 +273,7 @@ export default function AudioScreen() {
     });
 
     return (
-        <ThemedView style={styles.container}>
+        <View style={styles.container}>
             <StatusBar animated={true} style={statusBarStyle.value} />
             {Platform.OS === 'android' && (
                 <Animated.View style={androidBackgroundStyle} />
@@ -282,7 +281,7 @@ export default function AudioScreen() {
             <Animated.View style={[styles.modalContent, animatedStyle]}>
                 <ExpandedPlayer scrollComponent={ScrollComponent} />
             </Animated.View>
-        </ThemedView>
+        </View>
     );
 }
 

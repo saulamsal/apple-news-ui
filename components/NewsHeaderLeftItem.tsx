@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { NewsLogo } from '@/components/NewsLogo';
-import { ThemedText } from '@/components/ThemedText';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { formatSimpleDate } from '@/utils/dateFormatters';
 
@@ -19,7 +18,7 @@ export const NewsHeaderLeftItem = ({ size, secondaryTitle }: NewsHeaderLeftItemP
                 color={colorScheme === 'light' ? '#000' : '#fff'}
                 size={size === 'sm' ? 24 : 36}
             />
-            <ThemedText
+            <Text
                 style={[
                     styles.secondaryTitleContainer,
                     {
@@ -31,7 +30,7 @@ export const NewsHeaderLeftItem = ({ size, secondaryTitle }: NewsHeaderLeftItemP
                 {secondaryTitle ? (
                     secondaryTitle
                 ) : formatSimpleDate()}
-            </ThemedText>
+            </Text>
 
         </View>
     );

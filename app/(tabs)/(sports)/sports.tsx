@@ -12,8 +12,6 @@ import Animated, {
 } from 'react-native-reanimated';
 import { BlurView } from 'expo-blur';
 
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { NewsLogo } from '@/components/NewsLogo';
@@ -142,7 +140,7 @@ export default function SportsScreen() {
 
 
 
-            <ThemedView style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
+            <View style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
                 <AnimatedSwipeListView
                     onScroll={scrollHandler}
                     scrollEventThrottle={16}
@@ -204,7 +202,7 @@ export default function SportsScreen() {
                         </View>
                     }
                 />
-            </ThemedView>
+            </View>
 
 
 
