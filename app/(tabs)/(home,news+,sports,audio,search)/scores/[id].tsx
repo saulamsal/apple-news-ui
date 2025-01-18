@@ -8,6 +8,11 @@ import { scores } from '@/data/scores.json';
 import { format } from 'date-fns';
 import { ExtensionStorage } from '@bacons/apple-targets';
 
+// Helper to convert string to ImageSourcePropType
+const getImageSource = (path: string) => {
+  return { uri: path };
+};
+
 export default function ScoreDetailsScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
@@ -16,18 +21,22 @@ export default function ScoreDetailsScreen() {
   const score = scores.find(s => s.id === id);
   if (!score) return null;
 
-  const updateWidget = () => {
-    const storage = new ExtensionStorage('group.com.qlur.apple-news-ui.widget');
-    
-    // Update widget data
-    storage.set('team1Name', score.team1.name);
-    storage.set('team2Name', score.team2.name);
-    storage.set('team1Score', '2');  // Dummy score
-    storage.set('team2Score', '1');  // Dummy score
-    storage.set('matchStatus', '75\'');  // Dummy status
-    
-    // Reload widget
-    ExtensionStorage.reloadWidget();
+  const updateWidget = async () => {
+    try {
+      const storage = new ExtensionStorage('group.com.sportapp.apple-news-ui.ScoresWidget');
+      
+      await Promise.all([
+        storage.set('team1Name', score.team1.name),
+        storage.set('team2Name', score.team2.name),
+        storage.set('team1Score', '0'),
+        storage.set('team2Score', '0'),
+        storage.set('matchStatus', 'Live')
+      ]);
+      
+      await ExtensionStorage.reloadWidget();
+    } catch (error) {
+      console.error('Failed to update widget:', error);
+    }
   };
 
   return (
@@ -56,7 +65,7 @@ export default function ScoreDetailsScreen() {
       {/* Team Logos */}
       <View style={styles.teamsContainer}>
         <View style={styles.teamSection}>
-          <Image source={score.team1.logo} style={styles.teamLogo} />
+          <Image source={getImageSource(score.team1.logo)} style={styles.teamLogo} />
           <Text style={styles.formText}>{score.team1.current_form}, {score.team1.points} PTS</Text>
           <Text style={styles.positionText}>
             {score.team1.position}{score.team1.position_suffix} {score.competition.full_name}
@@ -64,7 +73,7 @@ export default function ScoreDetailsScreen() {
         </View>
 
         <View style={styles.teamSection}>
-          <Image source={score.team2.logo} style={styles.teamLogo} />
+          <Image source={getImageSource(score.team2.logo)} style={styles.teamLogo} />
           <Text style={styles.formText}>{score.team2.current_form}, {score.team2.points} PTS</Text>
           <Text style={styles.positionText}>
             {score.team2.position}{score.team2.position_suffix} {score.competition.full_name}

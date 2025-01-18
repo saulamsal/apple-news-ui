@@ -14,16 +14,18 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.apple.apple-news-ui",
+      "bundleIdentifier": "com.sportapp.apple-news-ui",
       "deploymentTarget": "15.1",
-      "appleTeamId": "YOUR_TEAM_ID"
+      "entitlements": {
+        "com.apple.security.application-groups": ["group.com.sportapp.apple-news-ui.ScoresWidget"]
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.apple.applenewsui"
+      "package": "com.sportapp.applenewsui"
     },
     "web": {
       "bundler": "metro",
