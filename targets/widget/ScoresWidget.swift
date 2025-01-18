@@ -1,6 +1,8 @@
 import WidgetKit
 import SwiftUI
+import ActivityKit
 
+// For Widget
 struct ScoreEntry: TimelineEntry {
     let date: Date
     let team1Name: String
@@ -10,6 +12,19 @@ struct ScoreEntry: TimelineEntry {
     let matchStatus: String
 }
 
+// For Live Activity
+struct ScoresAttributes: ActivityAttributes {
+    public struct ContentState: Codable, Hashable {
+        var team1Score: String
+        var team2Score: String
+        var matchStatus: String
+    }
+    
+    var team1Name: String
+    var team2Name: String
+}
+
+// Widget View
 struct ScoresWidgetEntryView : View {
     var entry: ScoreEntry
     
@@ -44,6 +59,34 @@ struct ScoresWidgetEntryView : View {
     }
 }
 
+// Live Activity View
+struct ScoresLiveActivityView: View {
+    let context: ActivityViewContext<ScoresAttributes>
+    
+    var body: some View {
+        HStack(spacing: 20) {
+            VStack {
+                Text(context.attributes.team1Name)
+                    .font(.caption)
+                Text(context.state.team1Score)
+                    .font(.title2.bold())
+            }
+            
+            Text("vs")
+                .foregroundStyle(.secondary)
+            
+            VStack {
+                Text(context.attributes.team2Name)
+                    .font(.caption)
+                Text(context.state.team2Score)
+                    .font(.title2.bold())
+            }
+        }
+        .padding()
+    }
+}
+
+// Widget Configuration
 struct ScoresWidget: Widget {
     private let kind = "ScoresWidget"
     
@@ -60,6 +103,56 @@ struct ScoresWidget: Widget {
     }
 }
 
+// Live Activity Configuration
+struct ScoresLiveActivity: Widget {
+    var body: some WidgetConfiguration {
+        ActivityConfiguration(for: ScoresAttributes.self) { context in
+            ScoresLiveActivityView(context: context)
+        } dynamicIsland: { context in
+            DynamicIsland {
+                DynamicIslandExpandedRegion(.leading) {
+                    VStack(alignment: .leading) {
+                        Text(context.attributes.team1Name)
+                            .font(.caption2)
+                        Text(context.state.team1Score)
+                            .font(.title3.bold())
+                    }
+                }
+                
+                DynamicIslandExpandedRegion(.trailing) {
+                    VStack(alignment: .trailing) {
+                        Text(context.attributes.team2Name)
+                            .font(.caption2)
+                        Text(context.state.team2Score)
+                            .font(.title3.bold())
+                    }
+                }
+                
+                DynamicIslandExpandedRegion(.center) {
+                    Text("vs")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
+                
+                DynamicIslandExpandedRegion(.bottom) {
+                    Text(context.state.matchStatus)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            } compactLeading: {
+                Text(context.state.team1Score)
+                    .font(.caption2.bold())
+            } compactTrailing: {
+                Text(context.state.team2Score)
+                    .font(.caption2.bold())
+            } minimal: {
+                Text("🏆")
+            }
+        }
+    }
+}
+
+// Timeline Provider
 struct ScoresTimelineProvider: TimelineProvider {
     func placeholder(in context: Context) -> ScoreEntry {
         ScoreEntry(
