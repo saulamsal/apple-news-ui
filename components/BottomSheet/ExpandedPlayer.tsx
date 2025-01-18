@@ -98,7 +98,9 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
             colors={colors}
             style={[styles.rootContainer, { 
                 paddingTop: insets.top+ (Platform.OS === 'android' ? 30 : 0),
-                marginTop: Platform.OS === 'android' ? -30 : 0
+                marginTop: Platform.OS === 'android' ? -30 : 0,
+                maxWidth: 767,
+                marginHorizontal: 'auto'
              }]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
