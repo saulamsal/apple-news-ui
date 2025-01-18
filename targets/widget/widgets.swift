@@ -39,7 +39,7 @@ struct widgetEntryView : View {
 
     var body: some View {
         VStack {
-            Text("Time:")
+            Text("Hey:")
             Text(entry.date, style: .time)
 
             Text("Favorite Emoji:")

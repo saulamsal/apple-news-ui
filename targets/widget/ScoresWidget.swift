@@ -86,7 +86,7 @@ struct ScoresTimelineProvider: TimelineProvider {
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<ScoreEntry>) -> Void) {
         // Get data from UserDefaults (shared with main app)
-        let sharedDefaults = UserDefaults(suiteName: "group.com.qlur.apple-news-ui.widget")
+        let sharedDefaults = UserDefaults(suiteName: "group.com.sportapp.apple-news-ui.ScoresWidget")
         
         let team1Name = sharedDefaults?.string(forKey: "team1Name") ?? "Team 1"
         let team2Name = sharedDefaults?.string(forKey: "team2Name") ?? "Team 2"
