@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { PodcastEpisode } from '@/types/podcast';
 import { useAudio } from '@/contexts/AudioContext';
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import { Colors } from '@/constants/Colors';
+
 interface PodcastItemProps {
   episode: any;
   index?: number;
@@ -61,157 +62,45 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
 
   return (
     <TouchableOpacity 
-      style={[styles.container, index === 0 && styles.firstItem]} 
+      className={`flex-row p-3 items-center bg-white border-b border-[#E5E5EA] ${index === 0 ? 'rounded-t-lg' : ''}`}
       onPress={handlePress}
     >
-      <Image source={{ uri: imageUrl }} style={styles.artwork} />
-      <View style={styles.content}>
-        <Text style={styles.title} numberOfLines={2}>{episode.title}</Text>
-        <View style={styles.subtitleContainer}>
-          <Text style={styles.showTitle} numberOfLines={1}>{episode.showTitle}</Text>
+      <Image source={{ uri: imageUrl }} className="w-25 h-25 rounded-lg bg-[#f0f0f0]" />
+      <View className="flex-1 ml-3 mr-2 justify-center">
+        <Text className="text-lg font-semibold tracking-tight text-black mb-1 leading-[22px]" numberOfLines={2}>
+          {episode.title}
+        </Text>
+        <View className="gap-0.5">
+          <Text className="text-[15px] text-[#666] leading-5" numberOfLines={1}>
+            {episode.showTitle}
+          </Text>
           
-          <View style={styles.metadataContainer}>
-            <View style={styles.metadataLeft}>
+          <View className="flex-row items-center justify-between mt-1">
+            <View className="flex-row items-center gap-4">
               <TouchableOpacity onPress={handleSeeDetails}>
-                <Text style={styles.seeDetails}>See Details</Text>
-            </TouchableOpacity>
+                <Text className="text-sm text-apple-news font-semibold">See Details</Text>
+              </TouchableOpacity>
             
-           
-           {isCurrentlyPlaying ? (
-          <View style={styles.progressContainer}>
-            <Animated.View style={[styles.progressBar, progressBarStyle]} />
-            <Text style={styles.progressText}>{remainingTime}</Text>
-          </View>
-        ) : (
-         <View style={styles.durationContainer}>
-              <Ionicons name="headset-outline" size={16} color="#8E8E93" />
-              <Text style={styles.duration}>
-                {isCurrentlyPlaying && remainingTime != null ? 
-                  `-${remainingTime}` : 
-                  durationInMinutes ? `${durationInMinutes}` : '--'} min
-              </Text>
+              {isCurrentlyPlaying ? (
+                <View className="h-0.5 bg-[#E5E5EA] mt-2 rounded-sm">
+                  <Animated.View className="h-full bg-apple-news rounded-sm" style={progressBarStyle} />
+                  <Text className="text-sm text-apple-news">{remainingTime}</Text>
+                </View>
+              ) : (
+                <View className="flex-row items-center gap-1">
+                  <Ionicons name="headset-outline" size={16} color="#8E8E93" />
+                  <Text className="text-sm text-[#8E8E93]">
+                    {isCurrentlyPlaying && remainingTime != null ? 
+                      `-${remainingTime}` : 
+                      durationInMinutes ? `${durationInMinutes}` : '--'} min
+                  </Text>
+                </View>
+              )}
             </View>
-        )}
-
-
-            </View>
-            <Ionicons name="ellipsis-horizontal" size={24} color="#8E8E93" style={styles.menuTrigger} />
-
+            <Ionicons name="ellipsis-horizontal" size={24} color="#8E8E93" className="p-2 -mr-2" />
           </View>
-          
         </View>
-        
-    
-
-        
       </View>
-
-
     </TouchableOpacity>
   );
-}
-
-const menuOptionsStyles = {
-  optionsContainer: {
-    borderRadius: 14,
-    padding: 0,
-    width: 250,
-  },
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    padding: 12,
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    borderBottomWidth: 1,
-    borderBottomColor: '#E5E5EA',
-  },
-  firstItem: {
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-  },
-  artwork: {
-    width: 100,
-    height: 100,
-    borderRadius: 8,
-    backgroundColor: '#f0f0f0',
-  },
-  content: {
-    flex: 1,
-    marginLeft: 12,
-    marginRight: 8,
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '600',
-    letterSpacing: -0.8,
-    color: '#000',
-    marginBottom: 4,
-    lineHeight: 22,
-  },
-  subtitleContainer: {
-    gap: 2,
-  },
-  showTitle: {
-    fontSize: 15,
-    color: '#666',
-    lineHeight: 20,
-  },
-  metadataContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginTop: 4,
-  },
-  durationContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  duration: {
-    fontSize: 13,
-    color: '#8E8E93',
-  },
-  seeDetails: {
-    fontSize: 13,
-    color: Colors.light.tint,
-    fontWeight: '600',
-  },
-  progressContainer: {
-    height: 2,
-    backgroundColor: '#E5E5EA',
-    marginTop: 8,
-    borderRadius: 1,
-  },
-  progressBar: {
-    height: '100%',
-    backgroundColor: Colors.light.tint,
-    borderRadius: 1,
-  },
-  menuTrigger: {
-    padding: 8,
-    marginRight: -8,
-  },
-  menuOption: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 12,
-    gap: 12,
-  },
-  menuOptionText: {
-    fontSize: 17,
-    color: Colors.light.tint,
-  },
-  metadataLeft:{
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 16,
-  },
-  progressText: {
-    fontSize: 13,
-    color: Colors.light.tint,
-  }
-}); 
+} 
