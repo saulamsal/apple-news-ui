@@ -56,7 +56,9 @@
     "react-native-web": "~0.19.6",
     "tailwindcss": "^3.4.17",
     "zeego": "^2.0.4",
-    "react-native-reanimated": "~3.16.1"
+    "react-native-reanimated": "~3.16.1",
+    "expo-file-system": "~18.0.7",
+    "expo-sharing": "~13.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",

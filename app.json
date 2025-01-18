@@ -16,8 +16,11 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.sportapp.apple-news-ui",
       "deploymentTarget": "15.1",
+      "teamId": "F7P5RH5CTP",
       "entitlements": {
-        "com.apple.security.application-groups": ["group.com.sportapp.apple-news-ui.ScoresWidget"]
+        "com.apple.security.application-groups": [
+          "group.com.sportapp.apple-news-ui.ScoresWidget"
+        ]
       }
     },
     "android": {
@@ -43,7 +46,8 @@
             "deploymentTarget": "15.1"
           }
         }
-      ]
+      ],
+      "@bacons/apple-targets"
     ],
     "experiments": {
       "typedRoutes": true
