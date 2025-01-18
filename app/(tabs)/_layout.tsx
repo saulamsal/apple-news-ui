@@ -1,7 +1,6 @@
 import { Tabs } from '@/components/navigation/NativeTabs';
 import React from 'react';
-import { Platform, StyleSheet, StatusBar } from 'react-native';
-import { AppleNewsLogo } from '@/components/icons/AppleNewsLogo';
+import { Platform } from 'react-native';
 import { MiniPlayer } from '@/components/BottomSheet/MiniPlayer';
 import { useAudio } from '@/contexts/AudioContext';
 import { useRouter } from 'expo-router';
@@ -11,9 +10,31 @@ export const unstable_settings = {
   initialRouteName: '(home)',
 };
 
+type TabBarIconProps = {
+  color: string;
+  focused: boolean;
+  size: number;
+};
+
+interface AudioContextType {
+  currentEpisode: any;
+  isPlaying: boolean;
+  togglePlayPause: () => Promise<void>;
+}
+
 export default function TabLayout() {
   const router = useRouter();
-  const { currentSong, isPlaying, togglePlayPause } = useAudio();
+  const { currentEpisode, isPlaying, togglePlayPause } = useAudio() as AudioContextType;
+
+  const renderIcon = (props: TabBarIconProps, iconName: keyof typeof Ionicons.glyphMap, outlineIconName: keyof typeof Ionicons.glyphMap) => {
+    return (
+      <Ionicons 
+        name={props.focused ? iconName : outlineIconName}
+        size={props.size} 
+        color={props.color}
+      />
+    );
+  };
 
   return (
     <>
@@ -26,60 +47,42 @@ export default function TabLayout() {
           name="(home)"
           options={{
             title: 'Home',
-            tabBarIcon: Platform.select({
-              ios: () => ({ sfSymbol: 'newspaper.fill' }),
-              android: ({ color }) => <Ionicons name="newspaper" size={24} color={color} />
-            }),
+            tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'newspaper', 'newspaper-outline'),
           }}
         />
         <Tabs.Screen
           name="(news+)"
           options={{
             title: 'News+',
-            tabBarIcon: Platform.select({
-              ios: () => ({ sfSymbol: 'square.grid.2x2.fill' }),
-              android: ({ color }) => <Ionicons name="grid" size={24} color={color} />
-            }),
+            tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'grid', 'grid-outline'),
           }}
         />
         <Tabs.Screen
           name="(sports)"
           options={{
             title: 'Sports',
-            tabBarIcon: Platform.select({
-              ios: () => ({ sfSymbol: 'football.fill' }),
-              android: ({ color }) => <Ionicons name="football" size={24} color={color} />
-            }),
+            tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'football', 'football-outline'),
           }}
         />
         <Tabs.Screen
           name="(audio)"
           options={{
             title: 'Audio',
-            tabBarIcon: Platform.select({
-              ios: () => ({ sfSymbol: 'headphones' }),
-              android: ({ color }) => <Ionicons name="headset" size={24} color={color} />
-            }),
+            tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'headset', 'headset-outline'),
           }}
         />
         <Tabs.Screen
           name="(search)"
           options={{
             title: 'Following',
-            tabBarIcon: Platform.select({
-              ios: () => ({ sfSymbol: 'heart.fill' }),
-              android: ({ color }) => <Ionicons name="heart" size={24} color={color} />
-            }),
+            tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'heart', 'heart-outline'),
           }}
         />
       </Tabs>
 
-      {currentSong && (
+      {currentEpisode && (
         <MiniPlayer
-          song={currentSong}
-          isPlaying={isPlaying}
-          onPlayPause={togglePlayPause}
-          onPress={() => router.push(`/audio/${currentSong.id}`)}
+          onPress={() => router.push(`/audio/${currentEpisode.id}`)}
         />
       )}
     </>

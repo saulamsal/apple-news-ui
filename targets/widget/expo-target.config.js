@@ -1,6 +1,13 @@
-/** @type {import('@bacons/apple-targets/app.plugin').ConfigFunction} */
-module.exports = config => ({
+/** @type {import('@bacons/apple-targets/app.plugin').Config} */
+module.exports = {
   type: "widget",
-  icon: 'https://github.com/expo.png',
-  entitlements: { /* Add entitlements */ },
-});
+  name: "ScoresWidget",
+  icon: "../../assets/images/icon.png",
+  colors: {
+    $widgetBackground: "#000000",
+    $accent: "#FFFFFF",
+  },
+  entitlements: {
+    "com.apple.security.application-groups": ["group.com.qlur.apple-news-ui.widget"]
+  }
+};

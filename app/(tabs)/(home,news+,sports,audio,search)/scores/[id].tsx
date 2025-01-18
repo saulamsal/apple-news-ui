@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scores } from '@/data/scores.json';
 import { format } from 'date-fns';
+import { ExtensionStorage } from '@bacons/apple-targets';
 
 export default function ScoreDetailsScreen() {
   const { id } = useLocalSearchParams();
@@ -14,6 +15,20 @@ export default function ScoreDetailsScreen() {
   
   const score = scores.find(s => s.id === id);
   if (!score) return null;
+
+  const updateWidget = () => {
+    const storage = new ExtensionStorage('group.com.qlur.apple-news-ui.widget');
+    
+    // Update widget data
+    storage.set('team1Name', score.team1.name);
+    storage.set('team2Name', score.team2.name);
+    storage.set('team1Score', '2');  // Dummy score
+    storage.set('team2Score', '1');  // Dummy score
+    storage.set('matchStatus', '75\'');  // Dummy status
+    
+    // Reload widget
+    ExtensionStorage.reloadWidget();
+  };
 
   return (
     <View style={styles.container}>
@@ -79,8 +94,8 @@ export default function ScoreDetailsScreen() {
       )}
 
       {/* TV Button */}
-      <TouchableOpacity style={styles.tvButton}>
-        <Text style={styles.tvButtonText}>Open in TV</Text>
+      <TouchableOpacity style={styles.tvButton} onPress={updateWidget}>
+        <Text style={styles.tvButtonText}>Update Widget</Text>
       </TouchableOpacity>
     </View>
   );

@@ -14,7 +14,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.qlur.apple-news-ui",
+      "bundleIdentifier": "com.apple.apple-news-ui",
       "deploymentTarget": "15.1",
       "appleTeamId": "YOUR_TEAM_ID"
     },
@@ -23,7 +23,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.qlur.applenewsui"
+      "package": "com.apple.applenewsui"
     },
     "web": {
       "bundler": "metro",
@@ -41,9 +41,7 @@
             "deploymentTarget": "15.1"
           }
         }
-      ],
-      "react-native-reanimated",
-      "@bacons/apple-targets"
+      ]
     ],
     "experiments": {
       "typedRoutes": true
