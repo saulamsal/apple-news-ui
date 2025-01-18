@@ -33,7 +33,6 @@
     "plugins": [
       "expo-router",
       "expo-font",
-      "@bacons/apple-targets",
       [
         "expo-build-properties",
         {
