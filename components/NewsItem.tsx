@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, View, Image, Text, ColorSchemeName } from 'react-native';
+import { Pressable, View, Image, Text, ColorSchemeName, Button } from 'react-native';
 import { Link } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -204,7 +204,7 @@ const NewsItemActions = ({ item }: { item: NewsItemType }) => {
       <View className="absolute right-2 top-2">
         <DropdownMenu.Root>
           <DropdownMenu.Trigger>
-            <Pressable 
+            <Pressable
               className="p-2 rounded-full active:bg-black/5"
               onPress={(e) => {
                 e.stopPropagation();
