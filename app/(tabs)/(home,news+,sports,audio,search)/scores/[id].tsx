@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity, Platform } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Platform, NativeModules } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
@@ -7,6 +7,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scores } from '@/data/scores.json';
 import { format } from 'date-fns';
 import { ExtensionStorage } from '@bacons/apple-targets';
+
+const { LiveActivityModule } = NativeModules;
 
 // Helper to convert string to ImageSourcePropType
 const getImageSource = (path: string) => {
@@ -28,14 +30,44 @@ export default function ScoreDetailsScreen() {
       await Promise.all([
         storage.set('team1Name', score.team1.name),
         storage.set('team2Name', score.team2.name),
-        storage.set('team1Score', '0'),
-        storage.set('team2Score', '0'),
-        storage.set('matchStatus', 'Live')
+        storage.set('team1Score', '2'),
+        storage.set('team2Score', '1'),
+        storage.set('matchStatus', '75\'')
       ]);
       
       await ExtensionStorage.reloadWidget();
     } catch (error) {
       console.error('Failed to update widget:', error);
+    }
+  };
+
+  const startLiveActivity = async () => {
+    try {
+      if (Platform.OS === 'ios' && LiveActivityModule) {
+        await LiveActivityModule.start({
+          team1Name: score.team1.name,
+          team2Name: score.team2.name,
+          team1Score: '0',
+          team2Score: '0',
+          matchStatus: 'Live'
+        });
+      }
+    } catch (error) {
+      console.error('Failed to start live activity:', error);
+    }
+  };
+
+  const updateLiveActivity = async () => {
+    try {
+      if (Platform.OS === 'ios' && LiveActivityModule) {
+        await LiveActivityModule.update({
+          team1Score: '2',
+          team2Score: '1',
+          matchStatus: '75\''
+        });
+      }
+    } catch (error) {
+      console.error('Failed to update live activity:', error);
     }
   };
 
@@ -102,10 +134,23 @@ export default function ScoreDetailsScreen() {
         </View>
       )}
 
-      {/* TV Button */}
+      {/* Widget Update Button */}
       <TouchableOpacity style={styles.tvButton} onPress={updateWidget}>
         <Text style={styles.tvButtonText}>Update Widget</Text>
       </TouchableOpacity>
+
+      {/* Live Activity Buttons */}
+      {Platform.OS === 'ios' && (
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.button} onPress={startLiveActivity}>
+            <Text style={styles.buttonText}>Start Live Activity</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity style={styles.button} onPress={updateLiveActivity}>
+            <Text style={styles.buttonText}>Update Scores</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }
@@ -208,6 +253,28 @@ const styles = StyleSheet.create({
   tvButtonText: {
     color: '#FFFFFF',
     fontSize: 18,
+    fontWeight: '600',
+  },
+  buttonContainer: {
+    position: 'absolute',
+    bottom: 40,
+    left: 20,
+    right: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  button: {
+    flex: 1,
+    backgroundColor: '#000000',
+    borderRadius: 16,
+    height: 56,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 8,
+  },
+  buttonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
     fontWeight: '600',
   },
 });
