@@ -1,9 +1,10 @@
-import { Text, Image, View, Pressable, TouchableOpacity, ListRenderItemInfo } from 'react-native';
+import { Text, Image, View, Pressable, TouchableOpacity, ListRenderItemInfo, RefreshControl } from 'react-native';
 import { useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import { SwipeListView, RowMap } from 'react-native-swipe-list-view';
 import { useState, useRef } from 'react';
+import { MotiView } from 'moti';
 import Animated, { 
   useAnimatedScrollHandler,
   useAnimatedStyle,
@@ -82,11 +83,18 @@ export default function HomeScreen() {
   const currentGroup = segments[1];
   const iconColor = '#fff';
   const insets = useSafeAreaInsets();
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const lastScrollY = useSharedValue(0);
   const translationY = useSharedValue(-100);
 
   const AnimatedSwipeListView = Animated.createAnimatedComponent(SwipeListView);
+
+  const onRefresh = async () => {
+    setIsRefreshing(true);
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    setIsRefreshing(false);
+  };
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
@@ -119,12 +127,12 @@ export default function HomeScreen() {
     };
   });
 
-  const renderNewsItem = ({ item }: { item: NewsItemType }) => (
-    <NewsItem item={item} />
+  const renderNewsItem = (rowData: ListRenderItemInfo<NewsItemType>) => (
+    <NewsItem item={rowData.item} />
   );
 
-  const renderHiddenItem = ({ item }: { item: NewsItemType }, rowMap: RowMap<NewsItemType>) => (
-    <SwipeableNewsItem item={item} />
+  const renderHiddenItem = (rowData: ListRenderItemInfo<NewsItemType>, rowMap: RowMap<NewsItemType>) => (
+    <SwipeableNewsItem item={rowData.item} />
   );
 
   return (
@@ -149,13 +157,13 @@ export default function HomeScreen() {
           previewOpenValue={-40}
           previewOpenDelay={3000}
           keyExtractor={(item: any) => item.id}
-          contentContainerStyle={{ 
-            // padding: 16, 
-            // backgroundColor: 'red',
-
-            // marginTop: insets.top
-
-           }}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={onRefresh}
+              tintColor="#000"
+            />
+          }
           ListHeaderComponent={
             <>
               <View className="flex-row items-center justify-between mb-6 px-5">
@@ -171,6 +179,16 @@ export default function HomeScreen() {
                   />
                 </View>
               </View>
+              {isRefreshing && (
+                <MotiView
+                  from={{ translateY: -20, opacity: 0 }}
+                  animate={{ translateY: 0, opacity: 1 }}
+                  transition={{ type: 'timing', duration: 300 }}
+                  className="px-5 mb-2"
+                >
+                  <Text className="text-sm text-gray-600">Checking new stories...</Text>
+                </MotiView>
+              )}
               <View className="mb-4 px-5">
                 <Text className="text-2xl font-bold text-black">Top Stories</Text>
               </View>
