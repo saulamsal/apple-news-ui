@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, Text, TouchableOpacity } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { ScrollViewWithHeaders, Header, ScrollHeaderProps } from '@codeherence/react-native-header';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -8,42 +8,63 @@ import searchEntities from '@/app/data/search_entities.json';
 import { CategoryCard } from '@/components/CategoryCard';
 import { SearchData } from '@/app/types/search';
 import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
+import { BlurView } from 'expo-blur';
+import Animated, { SharedValue } from 'react-native-reanimated';
 
 const typedSearchEntities = searchEntities as SearchData;
+
+const FadingView = ({ opacity, children, style }: { 
+    opacity: SharedValue<number>, 
+    children?: React.ReactNode,
+    style?: any 
+}) => (
+    <Animated.View style={[{ opacity }, style]}>
+        {children}
+    </Animated.View>
+);
 
 export default function SearchScreen() {
     const { top, bottom } = useSafeAreaInsets();
     const scrollRef = React.useRef(null);
 
     const SearchComponent = () => (
-        <View className="flex-row items-center bg-[#E3E2EA] px-3 h-12 rounded-[10px] flex-1">
+        <View className="flex-row items-center bg-[#E3E2EA] px-3 h-[38px] rounded-[10px] flex-1">
             <Ionicons name="search" size={20} color="#666" />
             <TextInput
                 placeholder="Channels, Topics, & Stories"
-                className="flex-1 pl-2 text-xl -mt-1"
+                className="flex-1 pl-2 text-[17px]"
                 placeholderTextColor="#666"
-
             />
         </View>
     );
 
-    const HeaderComponent = ({ showNavBar }: ScrollHeaderProps) => (
+    const HeaderSurface = ({ showNavBar }: { showNavBar: SharedValue<number> }) => (
+        <FadingView opacity={showNavBar} style={StyleSheet.absoluteFill}>
+            <BlurView 
+                style={StyleSheet.absoluteFill} 
+                intensity={80} 
+                tint="light"
+            />
+        </FadingView>
+    );
+
+    const HeaderComponent = ({ showNavBar }: { showNavBar: SharedValue<number> }) => (
         <Header
             borderWidth={0}
             showNavBar={showNavBar}
+            SurfaceComponent={HeaderSurface}
             headerCenter={
-                <View>
-                    <Text className="text-[22px] font-bold tracking-[-0.5px] text-black">Following</Text>
-                    <SearchComponent />
-                </View>
+                    <Text className="text-2xl font-bold">Following</Text>
+        
             }
             headerRight={
-                <View className="flex-row items-center gap-2 absolute right-4">
+                <View className="flex-row items-start px-4 pt-4">
                     <TouchableOpacity>
-                        <Text className="text-[17px] text-[#fe425f] font-normal h-10">Edit</Text>
+                        <Text className="text-[17px] text-[#fe425f]">Edit</Text>
                     </TouchableOpacity>
                 </View>
             }
+        
         />
     );
 
@@ -73,7 +94,12 @@ export default function SearchScreen() {
                 removeClippedSubviews={false}
                 LargeHeaderComponent={LargeHeaderComponent}
                 absoluteHeader={true}
-                HeaderComponent={HeaderComponent}>
+                HeaderComponent={HeaderComponent}
+                headerFadeInThreshold={0.5}
+                disableLargeHeaderFadeAnim={false}
+                initialAbsoluteHeaderHeight={110}
+                headerContainerStyle={{ paddingTop: top + 4 }}
+            >
                 <View className="p-4 flex-col gap-4">
                     {typedSearchEntities.categories.map((category) => (
                         <CategoryCard
