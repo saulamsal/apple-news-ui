@@ -4,6 +4,12 @@ import { AppleNewsLogo } from '@/components/icons/AppleNewsLogo';
 import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import type { ViewStyle, TextStyle } from 'react-native';
+
+// Add WebKit types for web
+type WebkitStyles = {
+  WebkitBackdropFilter?: string;
+};
+
 type Styles = {
   container: ViewStyle;
   leftNav: ViewStyle;
@@ -20,6 +26,9 @@ type Styles = {
   contentInner: ViewStyle;
   sidebar: ViewStyle;
   sidebarContent: ViewStyle;
+  mobileTabBar: ViewStyle & WebkitStyles;
+  mobileTabItem: ViewStyle;
+  mobileTabLabel: TextStyle;
 };
 
 type AppRoutes = 
@@ -86,15 +95,98 @@ export default function WebLayout() {
   const isMobile = width < 768;
   const showSidebar = width >= 1024;
   
+  const router = useRouter();
   const segments = useSegments();
 
   if (isMobile) {
     return (
-      <Stack
-        screenOptions={{
-          headerShown: false,
-        }}
-      />
+      <View style={{ flex: 1 }}>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}
+        />
+        <View style={[
+          styles.mobileTabBar, 
+          { 
+            borderTopColor: borderColor,
+            backgroundColor: colorScheme === 'dark' ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.7)',
+            backdropFilter: 'blur(12px)',
+            WebkitBackdropFilter: 'blur(12px)'
+          }
+        ]}>
+          <Pressable
+            onPress={() => router.push("/(tabs)/(home)/home")}
+            style={styles.mobileTabItem}
+          >
+            <Ionicons
+              name="home"
+              size={24}
+              color={segments[2] === 'home' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666'}
+            />
+            <Text style={[
+              styles.mobileTabLabel, 
+              { color: segments[2] === 'home' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666' }
+            ]}>Home</Text>
+          </Pressable>
+          <Pressable
+            onPress={() => router.push("/(tabs)/(news+)/news+")}
+            style={styles.mobileTabItem}
+          >
+            <Ionicons
+              name="newspaper"
+              size={24}
+              color={segments[2] === 'news+' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666'}
+            />
+            <Text style={[
+              styles.mobileTabLabel, 
+              { color: segments[2] === 'news+' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666' }
+            ]}>News+</Text>
+          </Pressable>
+          <Pressable
+            onPress={() => router.push("/(tabs)/(sports)/sports")}
+            style={styles.mobileTabItem}
+          >
+            <Ionicons
+              name="football"
+              size={24}
+              color={segments[2] === 'sports' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666'}
+            />
+            <Text style={[
+              styles.mobileTabLabel, 
+              { color: segments[2] === 'sports' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666' }
+            ]}>Sports</Text>
+          </Pressable>
+          <Pressable
+            onPress={() => router.push("/(tabs)/(audio)/audio")}
+            style={styles.mobileTabItem}
+          >
+            <Ionicons
+              name="headset"
+              size={24}
+              color={segments[2] === 'audio' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666'}
+            />
+            <Text style={[
+              styles.mobileTabLabel, 
+              { color: segments[2] === 'audio' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666' }
+            ]}>Audio</Text>
+          </Pressable>
+          <Pressable
+            onPress={() => router.push("/(tabs)/(search)/search")}
+            style={styles.mobileTabItem}
+          >
+            <Ionicons
+              name="heart"
+              size={24}
+              color={segments[2] === 'search' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666'}
+            />
+            <Text style={[
+              styles.mobileTabLabel, 
+              { color: segments[2] === 'search' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666' }
+            ]}>Following</Text>
+          </Pressable>
+        </View>
+      </View>
     );
   }
 
@@ -231,6 +323,30 @@ const styles = StyleSheet.create<Styles>({
     width: 320,
     height: '100%',
     padding: 16,
+  },
+  mobileTabBar: {
+    position: 'fixed',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 64,
+    flexDirection: 'row',
+    borderTopWidth: 1,
+    paddingBottom: Platform.OS === 'ios' ? 20 : 0,
+    ...(Platform.OS === 'web' ? {
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
+    } : {}),
+  },
+  mobileTabItem: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+  },
+  mobileTabLabel: {
+    fontSize: 12,
+    fontWeight: '500',
   },
 });
 

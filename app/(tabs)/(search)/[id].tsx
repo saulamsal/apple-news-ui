@@ -177,7 +177,11 @@ export default function TopicScreen() {
 
     return (
         <View className="flex-1 ">
+
             <ScrollViewWithHeaders
+             alwaysBounceHorizontal={false}
+             alwaysBounceVertical={false}
+             bounces={false}
                 ref={scrollRef}
                 contentContainerStyle={[{ paddingBottom: bottom }]}
                 className="flex-1"
