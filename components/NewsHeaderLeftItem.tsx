@@ -40,11 +40,13 @@ const styles = StyleSheet.create({
     headerLeft: {
         flexDirection: 'column',
         // alignItems: 'center',
-        gap: 0,
+       
     },
     secondaryTitleContainer: {
         fontWeight: '800',
-        opacity: 0.5,
+        // opacity: 0.5,
         letterSpacing: -1,
+        marginTop: -6,
+        color: '#85848C'
     },
 }); 

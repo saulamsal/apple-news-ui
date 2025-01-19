@@ -57,9 +57,9 @@ export function AnimatedAccordion({ title, children }: Props) {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
-        borderTopWidth: StyleSheet.hairlineWidth,
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        borderColor: '#E5E5EA',
+        // borderTopWidth: StyleSheet.hairlineWidth,
+        // borderBottomWidth: StyleSheet.hairlineWidth,
+        // borderColor: '#E5E5EA',
     },
     header: {
         flexDirection: 'row',
@@ -68,8 +68,9 @@ const styles = StyleSheet.create({
         padding: 16,
     },
     title: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: '600',
+        color: '#8D8C91',
     },
     contentContainer: {
         overflow: 'hidden',
