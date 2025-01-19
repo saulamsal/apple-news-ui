@@ -175,7 +175,7 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
       >
         <BlurView intensity={20} className="absolute inset-0">
           <Pressable className="flex-1" onPress={handleCloseModal}>
-            <View className="flex-1 bg-white dark:bg-black mt-[10%] rounded-t-xl overflow-hidden">
+            <View className="flex-1 bg-white mt-[10%] rounded-t-xl overflow-hidden">
               <View className="w-12 h-1 bg-gray-300 rounded-full mx-auto mt-3" />
               
               <View className="p-4">
@@ -184,15 +184,15 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
                   className="w-full h-48 rounded-lg bg-[#f0f0f0]" 
                 />
                 
-                <Text className="text-2xl font-bold mt-4 mb-2 text-black dark:text-white">
+                <Text className="text-2xl font-bold mt-4 mb-2 text-black">
                   {episode.attributes.name}
                 </Text>
                 
-                <Text className="text-lg text-[#666] dark:text-[#999] mb-4">
+                <Text className="text-lg text-[#666] mb-4">
                   {episode.attributes.artistName}
                 </Text>
 
-                <Text className="text-base text-[#333] dark:text-[#ccc] leading-6 mb-6">
+                <Text className="text-base text-[#333] leading-6 mb-6">
                   {episode.attributes.description.standard || 'No description available'}
                 </Text>
 

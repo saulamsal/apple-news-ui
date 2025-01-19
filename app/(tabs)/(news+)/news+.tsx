@@ -121,8 +121,8 @@ export default function NewsPlusScreen() {
                 />
 
                 <View className="py-6 px-5">
-                  <Text className="text-sm font-semibold text-gray-500 dark:text-gray-400">FOR YOU</Text>
-                  <Text className="mt-2 text-xs text-gray-400 dark:text-gray-500">
+                  <Text className="text-sm font-semibold text-gray-500">FOR YOU</Text>
+                  <Text className="mt-2 text-xs text-gray-400">
                     NEWS+ RECOMMENDATIONS{'\n'}
                     BASED ON WHAT YOU READ.
                   </Text>
@@ -134,13 +134,13 @@ export default function NewsPlusScreen() {
       case 'magazines':
         return (
           <View className="flex-1 items-center justify-center">
-            <Text className="text-lg text-gray-600 dark:text-gray-300">My Magazines Content</Text>
+            <Text className="text-lg text-gray-600">My Magazines Content</Text>
           </View>
         );
       case 'downloaded':
         return (
           <View className="flex-1 items-center justify-center">
-            <Text className="text-lg text-gray-600 dark:text-gray-300">Downloaded Content</Text>
+            <Text className="text-lg text-gray-600">Downloaded Content</Text>
           </View>
         );
       default:
@@ -149,8 +149,8 @@ export default function NewsPlusScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-100 dark:bg-[#0D0D09]">
-      <View className="flex-1 bg-gray-100 dark:bg-[#0D0D09]">
+    <SafeAreaView className="flex-1 bg-gray-100">
+      <View className="flex-1 bg-gray-100">
         {renderContent()}
       </View>
     </SafeAreaView>
