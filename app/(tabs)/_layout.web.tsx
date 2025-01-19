@@ -6,18 +6,20 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import type { ViewStyle, TextStyle } from 'react-native';
 type Styles = {
   container: ViewStyle;
-  sidebar: ViewStyle;
-  sidebarCompact: ViewStyle;
-  sidebarContent: ViewStyle;
-  sidebarContentCompact: ViewStyle;
+  leftNav: ViewStyle;
+  leftNavCompact: ViewStyle;
+  leftNavContent: ViewStyle;
+  leftNavContentCompact: ViewStyle;
   logoContainer: ViewStyle;
   nav: ViewStyle;
-  sidebarItem: ViewStyle;
-  sidebarItemCompact: ViewStyle;
-  sidebarLabel: TextStyle;
-  sidebarLabelActive: TextStyle;
+  navItem: ViewStyle;
+  navItemCompact: ViewStyle;
+  navLabel: TextStyle;
+  navLabelActive: TextStyle;
   content: ViewStyle;
   contentInner: ViewStyle;
+  sidebar: ViewStyle;
+  sidebarContent: ViewStyle;
 };
 
 type AppRoutes = 
@@ -50,8 +52,8 @@ function SidebarItem({
     <Pressable 
       onPress={() => router.push(href)}
       style={({ pressed, hovered }) => [
-        styles.sidebarItem,
-        compact && styles.sidebarItemCompact,
+        styles.navItem,
+        compact && styles.navItemCompact,
         isActive && { backgroundColor: activeBg },
         (pressed || hovered) && { backgroundColor: hoverBg }
       ]}
@@ -63,8 +65,8 @@ function SidebarItem({
       />
       {!compact && (
         <Text style={[
-          styles.sidebarLabel,
-          isActive && styles.sidebarLabelActive,
+          styles.navLabel,
+          isActive && styles.navLabelActive,
           { color: colorScheme === 'dark' ? '#e7e9ea' : '#0f1419' }
         ]}>
           {label}
@@ -82,9 +84,9 @@ export default function WebLayout() {
   
   const isCompact = width < 1024;
   const isMobile = width < 768;
+  const showSidebar = width >= 1024;
   
   const segments = useSegments();
-
 
   if (isMobile) {
     return (
@@ -99,13 +101,13 @@ export default function WebLayout() {
   return (
     <View style={[styles.container, { backgroundColor }]}>
       <View style={[
-        styles.sidebar, 
+        styles.leftNav, 
         { borderRightColor: borderColor },
-        isCompact && styles.sidebarCompact
+        isCompact && styles.leftNavCompact
       ]}>
         <View style={[
-          styles.sidebarContent,
-          isCompact && styles.sidebarContentCompact
+          styles.leftNavContent,
+          isCompact && styles.leftNavContentCompact
         ]}>
           <View style={styles.logoContainer}>
             <AppleNewsLogo
@@ -134,6 +136,16 @@ export default function WebLayout() {
           />
         </View>
       </View>
+
+      {showSidebar && (
+        <View style={[styles.sidebar, { borderLeftColor: borderColor }]}>
+          <View style={styles.sidebarContent}>
+            <Text style={{ color: colorScheme === 'dark' ? '#fff' : '#000' }}>
+              Download the App Now
+            </Text>
+          </View>
+        </View>
+      )}
     </View>
   );
 }
@@ -144,21 +156,21 @@ const styles = StyleSheet.create<Styles>({
     flexDirection: 'row',
     height: '100%',
   },
-  sidebar: {
+  leftNav: {
     width: 275,
     borderRightWidth: 1,
     height: '100%',
   },
-  sidebarCompact: {
+  leftNavCompact: {
     width: 72,
   },
-  sidebarContent: {
+  leftNavContent: {
     position: 'fixed',
     width: 275,
     height: '100%',
     padding: 8,
   },
-  sidebarContentCompact: {
+  leftNavContentCompact: {
     width: 72,
     padding: 8,
   },
@@ -170,7 +182,7 @@ const styles = StyleSheet.create<Styles>({
   nav: {
     gap: 4,
   },
-  sidebarItem: {
+  navItem: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 12,
@@ -182,12 +194,12 @@ const styles = StyleSheet.create<Styles>({
       cursor: 'pointer' as any,
     } : {}),
   },
-  sidebarItemCompact: {
+  navItemCompact: {
     justifyContent: 'center',
     padding: 12,
     gap: 0,
   },
-  sidebarLabel: {
+  navLabel: {
     fontSize: 20,
     fontWeight: '500',
     fontFamily: Platform.select({
@@ -195,7 +207,7 @@ const styles = StyleSheet.create<Styles>({
       default: undefined,
     }),
   },
-  sidebarLabelActive: {
+  navLabelActive: {
     color: '#FA2D48',
     fontWeight: '700',
   },
@@ -208,6 +220,17 @@ const styles = StyleSheet.create<Styles>({
     width: '100%',
     maxWidth: 611,
     backgroundColor: 'transparent',
+  },
+  sidebar: {
+    width: 320,
+    borderLeftWidth: 1,
+    height: '100%',
+  },
+  sidebarContent: {
+    position: 'fixed',
+    width: 320,
+    height: '100%',
+    padding: 16,
   },
 });
 
