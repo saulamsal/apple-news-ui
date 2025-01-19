@@ -73,8 +73,8 @@
         "description": "Men's Football",
         "type": "team",
         "theme": {
-            "backgroundColor": "#FFE8E8",
-            "textColor": "#C62828"
+            "backgroundColor": "#C62828",
+            "textColor": "#ffffff"
         }
     },
     "premier_league": {
@@ -82,7 +82,11 @@
         "title": "Premier League",
         "logo": "https://api.sofascore.app/api/v1/unique-tournament/17/image",
         "entity_type": "sport_league",
-        "type": "league"
+        "type": "league",
+        "theme": {
+            "backgroundColor": "#E20451",
+            "textColor": "#ffffff"
+        }
     },
     "nba": {
         "id": "nba",

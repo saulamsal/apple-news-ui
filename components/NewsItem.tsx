@@ -103,10 +103,13 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
         )}
         
         <View className="px-4 py-3">
-          <Image
-            source={{ uri: colorScheme === 'light' ? item.source.logo_transparent_light : item.source.logo_transparent_dark }}
-            className="h-10 w-[120px] -ml-2.5 mb-2 resize-contain"
-          />
+          <View className="h-[20px] w-[150px] -ml-2.5 mb-2">
+            <Image
+              source={{ uri: colorScheme === 'light' ? item.source.logo_transparent_light : item.source.logo_transparent_dark }}
+              className="w-full h-full"
+              resizeMode="contain"
+            />
+          </View>
           <Text className="text-2xl leading-8 font-bold -tracking-[1px]">
             {item.title}
           </Text>
@@ -129,10 +132,13 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
       )}
 
       <View className="flex-1 p-4 pr-[120px] mt-2.5">
-        <Image
-          source={{ uri: colorScheme === 'light' ? item.source.logo_transparent_light : item.source.logo_transparent_dark }}
-          className="h-3.5 w-[70px] -ml-2.5 mb-2 resize-contain"
-        />
+        <View className="h-[30px] w-[120px] -ml-2.5 mb-2">
+          <Image
+            source={{ uri: colorScheme === 'light' ? item.source.logo_transparent_light : item.source.logo_transparent_dark }}
+            className="w-full h-full"
+            resizeMode="contain"
+          />
+        </View>
         <Text className="text-lg leading-[22px] font-bold -tracking-[0.8px]">
           {item.title}
         </Text>

@@ -48,6 +48,10 @@ export default function TopicScreen() {
 
     const entity = entities[id as keyof typeof entities] as Entity;
 
+    // Get theme colors with fallback
+    const backgroundColor = entity?.theme?.backgroundColor || '#000000';
+    const textColor = entity?.theme?.textColor || '#FFFFFF';
+
     // Handle case when entity is not found
     if (!entity) {
         return (
@@ -98,7 +102,7 @@ export default function TopicScreen() {
     const HeaderSurface = ({ showNavBar }: { showNavBar: SharedValue<number> }) => (
         <FadingView opacity={showNavBar} style={StyleSheet.absoluteFill}>
             <BlurView 
-                style={[StyleSheet.absoluteFill, { backgroundColor: 'red' }]}
+                style={[StyleSheet.absoluteFill, { backgroundColor }]}
                 intensity={80} 
                 tint="light"
             />
@@ -115,28 +119,28 @@ export default function TopicScreen() {
                     onPress={() => router.back()}
                     className="w-9 h-9 bg-[#0000002d] rounded-full items-center justify-center ml-4"
                 >
-                    <Ionicons name="chevron-back" size={24} color="#fff" />
+                    <Ionicons name="chevron-back" size={24} color={textColor} />
                 </TouchableOpacity>
             }
             headerCenter={
-                <Text style={{ color: 'white' }} className="text-xl font-bold">
+                <Text style={{ color: textColor }} className="text-xl font-bold">
                     {entity.title}
                 </Text>
             }
             headerRight={
                 <View className="flex-row gap-4 mr-4">
-                    <TouchableOpacity  className="w-9 h-9 bg-[#0000002d] rounded-full items-center justify-center">
-                        <Ionicons name="add" size={24} color="#fff" />
+                    <TouchableOpacity className="w-9 h-9 bg-[#0000002d] rounded-full items-center justify-center">
+                        <Ionicons name="add" size={24} color={textColor} />
                     </TouchableOpacity>
                     <TouchableOpacity className="w-9 h-9 bg-[#0000002d] rounded-full items-center justify-center">
-                        <Ionicons name="ellipsis-horizontal" size={20} color="#fff" />
+                        <Ionicons name="ellipsis-horizontal" size={20} color={textColor} />
                     </TouchableOpacity>
                 </View>
             }
             headerStyle={{ 
-                backgroundColor: 'red',
+                backgroundColor,
                 paddingBottom: 10
-             }}
+            }}
         />
     );
 
@@ -145,8 +149,8 @@ export default function TopicScreen() {
             style={[
                 styles.largeHeader,
                 {
-                    backgroundColor: 'red',
-                    borderBottomWidth:0,
+                    backgroundColor,
+                    borderBottomWidth: 0,
                     borderTopWidth: 0
                 }
             ]}
@@ -162,12 +166,12 @@ export default function TopicScreen() {
                     <Text 
                         style={[
                             styles.title,
-                            { color: '#fff' }
+                            { color: textColor }
                         ]}
                     >
                         {entity.title}
                     </Text>
-                    <Text style={styles.subtitle}>
+                    <Text style={[styles.subtitle, { color: textColor + '99' }]}>
                         {entity.description || entity.entity_type || entity.type}
                     </Text>
                 </View>
