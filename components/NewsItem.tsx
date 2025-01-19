@@ -96,9 +96,11 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
             colors={['rgba(0,0,0,0.1)', 'transparent']}
             start={{ x: 0.2, y: 0 }}
             end={{ x: 0.5, y: 0 }}
-            className="flex-row py-1 pl-3 absolute top-0 left-0 w-full"
+            className="flex-row py-1  absolute top-0 left-0 w-full "
           >
-            <NewsLogo size={16} color="#F92B53" />
+            <View className="pl-3 py-1 flex-row items-center gap-1">
+              <NewsLogo size={16} color="#F92B53" /><Text className="text-sm font-bold text-apple-news">+</Text>
+            </View>
           </LinearGradient>
         )}
         
@@ -120,16 +122,18 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
 
   return (
     <>
-      {item.is_news_plus && (
-        <LinearGradient
-          colors={['rgba(0,0,0,0.1)', 'transparent']}
-          start={{ x: 0.2, y: 0 }}
-          end={{ x: 0.5, y: 0 }}
-          className="flex-row py-1 pl-3 absolute top-0 left-0 w-full z-10 rounded-t-xl"
-        >
-          <NewsLogo size={16} color="#F92B53" />
-        </LinearGradient>
-      )}
+     {item.is_news_plus && (
+          <LinearGradient
+            colors={['rgba(0,0,0,0.1)', 'transparent']}
+            start={{ x: 0.2, y: 0 }}
+            end={{ x: 0.5, y: 0 }}
+            className="flex-row py-1  absolute top-0 left-0 w-full "
+          >
+            <View className="pl-3 py-1 flex-row items-center gap-1">
+              <NewsLogo size={16} color="#F92B53" /><Text className="text-sm font-bold text-apple-news">+</Text>
+            </View>
+          </LinearGradient>
+        )}
 
       <View className="flex-1 p-4 pr-[120px] mt-2.5">
         <View className="h-[30px] w-[120px] -ml-2.5 mb-2">

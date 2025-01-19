@@ -73,6 +73,7 @@ const NFLPortalButton = () => {
     );
 }
 
+const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
 export default function SportsScreen() {
     const router = useRouter();
@@ -171,11 +172,13 @@ export default function SportsScreen() {
 
 
 
-            <Animated.View
+            <AnimatedBlurView
+                intensity={70}
+                tint={colorScheme === 'dark' ? 'systemChromeMaterialDark' : 'systemChromeMaterialLight'}
                 style={[
                     styles.todayContainer,
                     {
-                        backgroundColor: colorScheme === 'dark' ? '#0D0D09' : '#F2F2F6',
+                        // backgroundColor: '#F2F2F6',
                         paddingTop: insets.top
                     },
                     headerAnimatedStyle
@@ -185,15 +188,19 @@ export default function SportsScreen() {
                     <Text style={SportsStyles.headerLeftText}>Sports</Text>
 
                     <TouchableOpacity style={SportsStyles.headerIconRight}>
-                        <Ionicons name="menu" size={18} color={'#1E1E1F'} />
+                        <Ionicons name="menu" size={22} color={'#1E1E1F'} />
                     </TouchableOpacity>
                 </View>
-            </Animated.View>
+            </AnimatedBlurView>
 
 
 
             <View style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
                 <AnimatedSwipeListView
+                      alwaysBounceHorizontal={false}
+                      alwaysBounceVertical={false}
+                      bounces={false}
+
                     onScroll={scrollHandler}
                     scrollEventThrottle={16}
                     data={news as NewsItem[]}

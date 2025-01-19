@@ -212,6 +212,7 @@ export default function AudioScreen() {
                     from={{ translateY: -20, opacity: 0 }}
                     animate={{ translateY: 0, opacity: 1 }}
                     transition={{ type: 'timing', duration: 300 }}
+                    exitTransition={{ type: 'timing', duration: 300 }}
                     style={{ marginBottom: 0 , marginTop: 10}}
                   >
                     <Text style={{ fontSize: 24, color: colorScheme === 'light' ? '#000' : '#fff' }}>

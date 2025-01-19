@@ -72,6 +72,7 @@ export const styles = StyleSheet.create({
       justifyContent: 'flex-start',
       alignItems: 'center',
       gap: 10,
+      marginLeft: 10,
     },
     rightActions: {
       flex: 1,
@@ -79,7 +80,7 @@ export const styles = StyleSheet.create({
       justifyContent: 'flex-end',
       alignItems: 'center',
       gap: 10,
- 
+      marginRight: 10,
     },
     actionButton: {
       alignItems: 'center',
@@ -112,7 +113,7 @@ export const styles = StyleSheet.create({
       right: 0,
       paddingHorizontal: 16,
       paddingVertical: 8,
-      backgroundColor: 'rgba(255,255,255,0.9)',
+      // backgroundColor: 'rgba(255,255,255,0.9)',
       zIndex: 1,
       top: 0,
     //   height: 40,
