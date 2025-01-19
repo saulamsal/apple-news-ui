@@ -59,7 +59,8 @@
     "react-native-web": "~0.19.6",
     "tailwindcss": "^3.4.17",
     "zeego": "^2.0.4",
-    "expo-symbols": "~0.2.1"
+    "expo-symbols": "~0.2.1",
+    "@react-native-async-storage/async-storage": "1.23.1"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",

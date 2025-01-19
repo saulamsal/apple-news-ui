@@ -4,6 +4,9 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import Animated, { useSharedValue } from 'react-native-reanimated';
+import { useEffect } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useRouter } from 'expo-router'
 
 type ContentViewProps = {
   content: any; // Replace with proper type from your news data
@@ -11,6 +14,22 @@ type ContentViewProps = {
 
 export function ContentView({ content }: ContentViewProps) {
   const colorScheme = useColorScheme();
+  const router = useRouter()
+
+  useEffect(() => {
+    const checkFirstTime = async () => {
+      try {
+        const hasSeenWelcome = await AsyncStorage.getItem('hasSeenWelcome')
+        if (!hasSeenWelcome) {
+          router.push('/welcome')
+        }
+      } catch (error) {
+        console.error('Error checking welcome state:', error)
+      }
+    }
+    
+    checkFirstTime()
+  }, [])
 
   const HeaderComponent = ({ showNavBar }: ScrollHeaderProps) => {
     const animatedValue = useSharedValue(1);

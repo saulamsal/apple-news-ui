@@ -10,6 +10,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import { ListRenderItemInfo } from '@shopify/flash-list';
 
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -109,11 +110,11 @@ export default function HomeScreen() {
     };
   });
 
-  const renderNewsItem = ({ item }: { item: NewsItemType }) => (
+  const renderNewsItem = ({ item }: ListRenderItemInfo<NewsItem>) => (
     <NewsItem item={item} />
   );
 
-  const renderHiddenItem = ({ item }: { item: NewsItemType }) => (
+  const renderHiddenItem = ({ item }: ListRenderItemInfo<NewsItem>) => (
     <SwipeableNewsItem item={item} />
   );
 

@@ -10,6 +10,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import { ListRenderItemInfo } from 'react-native';
 
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -81,11 +82,11 @@ export default function NewsPlusScreen() {
     setActiveTab(tabId);
   };
 
-  const renderNewsItem = ({ item }: { item: NewsItemType }) => (
+  const renderNewsItem = ({ item }: ListRenderItemInfo<NewsItem>) => (
     <NewsItem item={item} />
   );
 
-  const renderHiddenItem = ({ item }: { item: NewsItemType }) => (
+  const renderHiddenItem = ({ item }: ListRenderItemInfo<NewsItem>) => (
     <SwipeableNewsItem item={item} />
   );
 

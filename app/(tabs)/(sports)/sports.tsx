@@ -11,6 +11,7 @@ import Animated, {
     withTiming,
 } from 'react-native-reanimated';
 import { BlurView } from 'expo-blur';
+import { ListRenderItemInfo } from 'react-native';
 
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -105,11 +106,11 @@ export default function SportsScreen() {
         };
     });
 
-    const renderNewsItem = ({ item }: { item: NewsItemType }) => (
+    const renderNewsItem = ({ item }: ListRenderItemInfo<NewsItem>) => (
         <NewsItem item={item} />
     );
 
-    const renderHiddenItem = ({ item }: { item: NewsItemType }) => (
+    const renderHiddenItem = ({ item }: ListRenderItemInfo<NewsItem>) => (
         <SwipeableNewsItem item={item} />
     );
 

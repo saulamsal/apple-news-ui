@@ -9,16 +9,24 @@ import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { OverlayProvider } from '@/components/Overlay/OverlayProvider';
 import { AudioProvider } from '@/contexts/AudioContext';
-import { useRouter } from 'expo-router';
+import { useRouter, useSegments } from 'expo-router';
 import { useAudio } from '@/contexts/AudioContext';
 import { StatusBar } from 'expo-status-bar';
 import { MiniPlayer } from '@/components/BottomSheet/MiniPlayer';
 import '../global.css';
 
 function AnimatedStack() {
-  const { scale } = useRootScale();
+  const segments = useSegments();
   const router = useRouter();
+  const { scale } = useRootScale();
   const { currentEpisode, isPlaying, togglePlayPause } = useAudio();
+
+  useEffect(() => {
+    // If we're not on welcome screen and not in tabs, redirect to welcome
+    if (segments[0] !== 'welcome' && segments[0] !== '(tabs)') {
+      router.replace('/welcome');
+    }
+  }, [segments]);
 
   const animatedStyle = useAnimatedStyle(() => {
     console.log(scale.value)

@@ -58,6 +58,8 @@ PODS:
     - ExpoModulesCore
   - ExpoSplashScreen (0.29.20):
     - ExpoModulesCore
+  - ExpoSymbols (0.2.1):
+    - ExpoModulesCore
   - ExpoSystemUI (4.0.7):
     - ExpoModulesCore
   - ExpoWebBrowser (14.0.2):
@@ -1803,6 +1805,27 @@ PODS:
     - ComputableLayout (~> 0.7)
     - DGSwiftUtilities (~> 0.46.3)
     - ExpoModulesCore
+  - RNCAsyncStorage (1.23.1):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - RNFlashList (1.7.1):
     - DoubleConversion
     - glog
@@ -2047,6 +2070,7 @@ DEPENDENCIES:
   - ExpoModulesCore (from `../node_modules/expo-modules-core`)
   - ExpoSharing (from `../node_modules/expo-sharing/ios`)
   - ExpoSplashScreen (from `../node_modules/expo-splash-screen/ios`)
+  - ExpoSymbols (from `../node_modules/expo-symbols/ios`)
   - ExpoSystemUI (from `../node_modules/expo-system-ui/ios`)
   - ExpoWebBrowser (from `../node_modules/expo-web-browser/ios`)
   - "ExtensionStorage (from `../node_modules/@bacons/apple-targets/ios`)"
@@ -2119,6 +2143,7 @@ DEPENDENCIES:
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeIosContextMenu (from `../node_modules/react-native-ios-context-menu`)
   - ReactNativeIosUtilities (from `../node_modules/react-native-ios-utilities`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNFlashList (from `../node_modules/@shopify/flash-list`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -2171,6 +2196,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-sharing/ios"
   ExpoSplashScreen:
     :path: "../node_modules/expo-splash-screen/ios"
+  ExpoSymbols:
+    :path: "../node_modules/expo-symbols/ios"
   ExpoSystemUI:
     :path: "../node_modules/expo-system-ui/ios"
   ExpoWebBrowser:
@@ -2312,6 +2339,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-ios-context-menu"
   ReactNativeIosUtilities:
     :path: "../node_modules/react-native-ios-utilities"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-async-storage/async-storage"
   RNFlashList:
     :path: "../node_modules/@shopify/flash-list"
   RNGestureHandler:
@@ -2346,6 +2375,7 @@ SPEC CHECKSUMS:
   ExpoModulesCore: b8cf31b6555210d2455ba77d8812bfa6508a6119
   ExpoSharing: c4540ef2e6615a92e05d2bddf019e1f58f27119e
   ExpoSplashScreen: d86865bb6e660da9e5de992ca178be2cbae338ee
+  ExpoSymbols: 54fa089478e1bc00f4d1d66ffb5c8bc64dc71ada
   ExpoSystemUI: 7296f92af7c30ec0fc4305bbeb5c396d7fc9e86c
   ExpoWebBrowser: 6890a769e6c9d83da938dceb9a03e764afc3ec9c
   ExtensionStorage: 158434def6cd14146ecacf5ac2db6345f8644c2d
@@ -2416,6 +2446,7 @@ SPEC CHECKSUMS:
   ReactCommon: cef332bed205215d2a0270e12e1feb337974ccfe
   ReactNativeIosContextMenu: 4601cc5113ca45bc7295707bf5c76987caac8bd7
   ReactNativeIosUtilities: 44fa1cb515396b7a73c22f56695aae19bdb76f09
+  RNCAsyncStorage: 722620dc87fb48ad321505fcfccd1782455c7448
   RNFlashList: b85e7b9e77c3b6d9169f88d60ed6dca0a479a822
   RNGestureHandler: 598e45cedb905b157e9764acbef0b5e365693451
   RNReanimated: ddc60075b382b872662cadaf9972b07d52a8fce7
