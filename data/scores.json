@@ -5,13 +5,13 @@
       "competition": {
         "id": "epl",
         "name": "EPL",
-        "full_name": "Premier League",
+        "full_name": "EPL",
         "matchweek": 21
       },
       "team1": {
         "id": "mun",
         "name": "MUN",
-        "full_name": "Manchester United",
+        "full_name": "United",
         "current_form": "4-3-4",
         "points": 31,
         "position": 8,
@@ -34,20 +34,21 @@
       },
       "startTime": "2024-01-16T20:00:00Z",
       "status": "completed",
-      "is_finished": true
+      "is_finished": true,
+      "is_live": false
     },
     {
       "id": "2",
       "competition": {
         "id": "ucl",
         "name": "UCL",
-        "full_name": "Champions League",
+        "full_name": "UCL",
         "matchweek": "League Phase"
       },
       "team1": {
         "id": "brest",
         "name": "BRE",
-        "full_name": "Stade Brestois 29",
+        "full_name": "Brest",
         "current_form": "3-5-5",
         "bg_color": "#E30613",
         "logo": "https://api.sofascore.app/api/v1/team/1158/image"
@@ -55,27 +56,28 @@
       "team2": {
         "id": "rma",
         "name": "RMA",
-        "full_name": "Real Madrid",
+        "full_name": "Madrid",
         "current_form": "8-3-1",
         "bg_color": "#00529F",
         "logo": "https://api.sofascore.app/api/v1/team/2829/image"
       },
       "startTime": "2024-01-29T15:00:00Z",
       "status": "upcoming",
-      "is_finished": false
+      "is_finished": false,
+      "is_live": false
     },
     {
       "id": "3",
       "competition": {
         "id": "nfl",
         "name": "NFL",
-        "full_name": "National Football League",
+        "full_name": "NFL",
         "matchweek": "Playoffs"
       },
       "team1": {
         "id": "kc",
         "name": "KC",
-        "full_name": "Kansas City Chiefs",
+        "full_name": "Chiefs",
         "current_form": "7-3",
         "bg_color": "#E31837",
         "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/kc.png",
@@ -84,7 +86,7 @@
       "team2": {
         "id": "buf",
         "name": "BUF",
-        "full_name": "Buffalo Bills",
+        "full_name": "Bills",
         "current_form": "8-2",
         "bg_color": "#00338D",
         "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/buf.png",
@@ -92,20 +94,21 @@
       },
       "startTime": "2024-01-21T20:00:00Z",
       "status": "completed",
-      "is_finished": true
+      "is_finished": true,
+      "is_live": false
     },
     {
       "id": "4",
       "competition": {
         "id": "nfl",
         "name": "NFL",
-        "full_name": "National Football League",
+        "full_name": "NFL",
         "matchweek": "Playoffs"
       },
       "team1": {
         "id": "sf",
         "name": "SF",
-        "full_name": "San Francisco 49ers",
+        "full_name": "49ers",
         "current_form": "9-1",
         "bg_color": "#AA0000",
         "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/sf.png"
@@ -113,27 +116,28 @@
       "team2": {
         "id": "det",
         "name": "DET",
-        "full_name": "Detroit Lions",
+        "full_name": "Lions",
         "current_form": "7-3",
         "bg_color": "#0076B6",
         "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/det.png"
       },
       "startTime": "2024-01-28T23:30:00Z",
       "status": "upcoming",
-      "is_finished": false
+      "is_finished": false,
+      "is_live": true
     },
     {
       "id": "5",
       "competition": {
         "id": "nba",
         "name": "NBA",
-        "full_name": "National Basketball Association",
+        "full_name": "NBA",
         "matchweek": "Regular Season"
       },
       "team1": {
         "id": "bos",
         "name": "BOS",
-        "full_name": "Boston Celtics",
+        "full_name": "Celtics",
         "current_form": "8-2",
         "bg_color": "#007A33",
         "logo": "https://a.espncdn.com/i/teamlogos/nba/500/bos.png",
@@ -142,7 +146,7 @@
       "team2": {
         "id": "mil",
         "name": "MIL",
-        "full_name": "Milwaukee Bucks",
+        "full_name": "Bucks",
         "current_form": "7-3",
         "bg_color": "#00471B",
         "logo": "https://a.espncdn.com/i/teamlogos/nba/500/mil.png",
@@ -150,20 +154,21 @@
       },
       "startTime": "2024-01-21T00:30:00Z",
       "status": "completed",
-      "is_finished": true
+      "is_finished": true,
+      "is_live": false
     },
     {
       "id": "6",
       "competition": {
         "id": "nba",
         "name": "NBA",
-        "full_name": "National Basketball Association",
+        "full_name": "NBA",
         "matchweek": "Regular Season"
       },
       "team1": {
         "id": "lal",
         "name": "LAL",
-        "full_name": "Los Angeles Lakers",
+        "full_name": "Lakers",
         "current_form": "6-4",
         "bg_color": "#552583",
         "logo": "https://a.espncdn.com/i/teamlogos/nba/500/lal.png"
@@ -171,14 +176,15 @@
       "team2": {
         "id": "gsw",
         "name": "GSW",
-        "full_name": "Golden State Warriors",
+        "full_name": "Warriors",
         "current_form": "5-5",
         "bg_color": "#1D428A",
         "logo": "https://a.espncdn.com/i/teamlogos/nba/500/gsw.png"
       },
       "startTime": "2024-01-27T03:30:00Z",
       "status": "upcoming",
-      "is_finished": false
+      "is_finished": false,
+      "is_live": true
     }
   ]
 } 
