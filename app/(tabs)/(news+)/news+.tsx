@@ -97,10 +97,10 @@ export default function NewsPlusScreen() {
             previewOpenValue={-40}
             previewOpenDelay={3000}
             keyExtractor={(item: any) => item.id}
-            contentContainerStyle={{ padding: 16 }}
+            // contentContainerStyle={{ padding: 16 }}
             ListHeaderComponent={
               <View className="space-y-4">
-                <View className="flex-row items-center justify-between">
+                <View className="flex-row items-center justify-between  px-5">
                   <NewsHeaderLeftItem size="md" secondaryTitle="Discover" />
                   <View>
                     <Image 
@@ -120,7 +120,7 @@ export default function NewsPlusScreen() {
                   onTabPress={handleTabPress}
                 />
 
-                <View className="py-6">
+                <View className="py-6 px-5">
                   <Text className="text-sm font-semibold text-gray-500 dark:text-gray-400">FOR YOU</Text>
                   <Text className="mt-2 text-xs text-gray-400 dark:text-gray-500">
                     NEWS+ RECOMMENDATIONS{'\n'}
