@@ -128,16 +128,15 @@ export default function HomeScreen() {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-100 dark:bg-[#0D0D09] " >
+    <SafeAreaView className="flex-1 bg-gray-100" >
       <Animated.View 
-        className="absolute -top-4 left-0 right-0 z-50 bg-gray-100 dark:bg-[#0D0D09] px-5"
+        className="absolute -top-4 left-0 right-0 z-50 bg-gray-100 px-5"
         style={[headerAnimatedStyle, { paddingTop: insets.top, paddingBottom: 10 }]}
-        
       >
         <NewsHeaderLeftItem size="sm" />
       </Animated.View>
       
-      <View className="flex-1 bg-gray-100 dark:bg-[#0D0D09]" >
+      <View className="flex-1 bg-gray-100" >
         <AnimatedSwipeListView
           onScroll={scrollHandler}
           scrollEventThrottle={16}
@@ -173,7 +172,7 @@ export default function HomeScreen() {
                 </View>
               </View>
               <View className="mb-4 px-5">
-                <Text className="text-2xl font-bold text-black dark:text-white">Top Stories</Text>
+                <Text className="text-2xl font-bold text-black">Top Stories</Text>
               </View>
               <DonateButton />
             </>

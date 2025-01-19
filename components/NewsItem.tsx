@@ -165,7 +165,7 @@ export const NewsItem = ({ item }: NewsItemProps) => {
   return (
     <ContextMenu.Root>
       <ContextMenu.Trigger>
-        <View className="mb-2 rounded-xl overflow-hidden shadow-sm dark:bg-black bg-white mx-5 relative">
+        <View className="mb-2 rounded-xl overflow-hidden shadow-sm bg-white mx-5 relative">
           <Link href={href} asChild>
             <Pressable className="flex-1">
               {renderNewsContent({ item, colorScheme })}

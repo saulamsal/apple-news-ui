@@ -40,6 +40,49 @@ const FadingView = ({ opacity, children, style }: {
     </Animated.View>
 );
 
+const TopicMenu = ({ textColor }: { textColor: string }) => {
+    return (
+        <DropdownMenu.Root>
+            <DropdownMenu.Trigger>
+                <TouchableOpacity className="w-9 h-9 bg-[#0000002d] rounded-full items-center justify-center">
+                    <Ionicons name="ellipsis-horizontal" size={20} color={textColor} />
+                </TouchableOpacity>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content>
+                <DropdownMenu.Item key="share">
+                    <DropdownMenu.ItemIcon ios={{ name: 'square.and.arrow.up' }}>
+                        <Ionicons name="share-outline" size={18} color="black" />
+                    </DropdownMenu.ItemIcon>
+                    <DropdownMenu.ItemTitle>Share Topic</DropdownMenu.ItemTitle>
+                </DropdownMenu.Item>
+
+                <DropdownMenu.Item key="copy">
+                    <DropdownMenu.ItemIcon ios={{ name: 'link' }}>
+                        <Ionicons name="link-outline" size={18} color="black" />
+                    </DropdownMenu.ItemIcon>
+                    <DropdownMenu.ItemTitle>Copy Link</DropdownMenu.ItemTitle>
+                </DropdownMenu.Item>
+
+                <DropdownMenu.Separator />
+
+                <DropdownMenu.Item key="follow" destructive>
+                    <DropdownMenu.ItemIcon ios={{ name: 'minus.circle.fill' }}>
+                        <Ionicons name="remove-circle-outline" size={18} color="red" />
+                    </DropdownMenu.ItemIcon>
+                    <DropdownMenu.ItemTitle>Unfollow Topic</DropdownMenu.ItemTitle>
+                </DropdownMenu.Item>
+
+                <DropdownMenu.Item key="block" destructive>
+                    <DropdownMenu.ItemIcon ios={{ name: 'hand.raised.fill' }}>
+                        <Ionicons name="hand-left-outline" size={18} color="red" />
+                    </DropdownMenu.ItemIcon>
+                    <DropdownMenu.ItemTitle>Block Topic</DropdownMenu.ItemTitle>
+                </DropdownMenu.Item>
+            </DropdownMenu.Content>
+        </DropdownMenu.Root>
+    );
+};
+
 export default function TopicScreen() {
     const { id } = useLocalSearchParams();
     const { top, bottom } = useSafeAreaInsets();
@@ -132,9 +175,7 @@ export default function TopicScreen() {
                     <TouchableOpacity className="w-9 h-9 bg-[#0000002d] rounded-full items-center justify-center">
                         <Ionicons name="add" size={24} color={textColor} />
                     </TouchableOpacity>
-                    <TouchableOpacity className="w-9 h-9 bg-[#0000002d] rounded-full items-center justify-center">
-                        <Ionicons name="ellipsis-horizontal" size={20} color={textColor} />
-                    </TouchableOpacity>
+                    <TopicMenu textColor={textColor} />
                 </View>
             }
             headerStyle={{ 
