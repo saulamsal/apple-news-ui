@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         bottom: Platform.OS === 'ios' ? 80 : 60,
-        height: 86,
+        height: 60,
         zIndex: 1000,
         shadowColor: '#000',
         shadowOffset: {
@@ -179,15 +179,20 @@ const styles = StyleSheet.create({
         shadowRadius: 8,
         elevation: 5,
         marginHorizontal: 10,
+        // borderRadius: 20,
+        overflow: 'hidden',
+        marginBottom: 20
     },
     pressable: {
         flex: 1,
+        borderRadius: 10,
+        overflow: 'hidden'
     },
     content: {
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 10,
-        borderRadius: 12,
+        borderRadius: 10,
         overflow: 'hidden',
         zIndex: 1000,
         flex: 1,
@@ -201,6 +206,7 @@ const styles = StyleSheet.create({
         height: '100%',
         paddingHorizontal: 16,
         backgroundColor: 'transparent',
+        
     },
     leftSection: {
         flex: 1,
