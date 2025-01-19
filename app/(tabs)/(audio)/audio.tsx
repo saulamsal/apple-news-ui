@@ -1,4 +1,4 @@
-import { Text, Image, View, StyleSheet, Pressable, TouchableOpacity, Alert } from 'react-native';
+import { Text, Image, View, StyleSheet, Pressable, TouchableOpacity, Alert, RefreshControl } from 'react-native';
 import { useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
@@ -11,6 +11,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { SlidingBanner } from '@/components/SlidingBanner';
+import { MotiView } from 'moti';
 
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -123,6 +124,7 @@ export default function AudioScreen() {
   const AnimatedSwipeListView = Animated.createAnimatedComponent(SwipeListView);
 
   const [activeTab, setActiveTab] = useState('best');
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   const handleTabPress = (tabId: string) => {
     setActiveTab(tabId);
@@ -159,6 +161,12 @@ export default function AudioScreen() {
     />
   );
 
+  const onRefresh = async () => {
+    setIsRefreshing(true);
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    setIsRefreshing(false);
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case 'best':
@@ -171,6 +179,13 @@ export default function AudioScreen() {
             estimatedItemSize={84}
             keyExtractor={(item) => item.id}
             contentContainerStyle={styles.listContent}
+            refreshControl={
+              <RefreshControl
+                refreshing={isRefreshing}
+                onRefresh={onRefresh}
+                tintColor={colorScheme === 'light' ? '#000' : '#fff'}
+              />
+            }
             ListHeaderComponent={
               <View style={styles.headerContainer}>
                 <View style={styles.header}>
@@ -191,6 +206,19 @@ export default function AudioScreen() {
                     </TouchableOpacity>
                   </View>
                 </View>
+
+                {isRefreshing && (
+                  <MotiView
+                    from={{ translateY: -20, opacity: 0 }}
+                    animate={{ translateY: 0, opacity: 1 }}
+                    transition={{ type: 'timing', duration: 300 }}
+                    style={{ marginBottom: 0 , marginTop: 10}}
+                  >
+                    <Text style={{ fontSize: 24, color: colorScheme === 'light' ? '#000' : '#fff' }}>
+                      Checking new podcasts...
+                    </Text>
+                  </MotiView>
+                )}
 
                 <PodcastEditorsPickItem episodes={episodes} />
                 <DiscoverNewsButton />
