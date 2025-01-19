@@ -22,7 +22,7 @@ export const SportsStyles = StyleSheet.create({
         paddingVertical: 4,
         paddingHorizontal: 12,
         overflow: 'hidden',
-        position: 'absolute',
+        // position: 'absolute',
         right: 0,
     },
     headerIconRightWrapper: {
@@ -37,7 +37,7 @@ export const SportsStyles = StyleSheet.create({
     },
     listHeader: {
        gap: 4,
-       marginTop: 20,
+    //    marginTop: 20,
        alignItems: 'center',
        flexDirection: 'row',
        justifyContent: 'space-between',

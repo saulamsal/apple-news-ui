@@ -1,11 +1,9 @@
 import { useLocalSearchParams, router } from 'expo-router';
-import { View, useWindowDimensions } from 'react-native';
+import { View, Text, useWindowDimensions } from 'react-native';
 import { TabView } from 'react-native-tab-view';
 import { news } from '@/data/news.json';
 import { ContentView } from './_components/ContentView';
 import { useState, useCallback } from 'react';
-import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
 
 export default function ContentScreen() {
   const { id } = useLocalSearchParams();
@@ -64,9 +62,9 @@ export default function ContentScreen() {
 
   if (!currentContent) {
     return (
-      <ThemedView style={{ flex: 1 }}>
-        <ThemedText>Content not found</ThemedText>
-      </ThemedView>
+      <View style={{ flex: 1 }}>
+        <Text>Content not found</Text>
+      </View>
     );
   }
 

@@ -1,4 +1,4 @@
-import { Text, Image, View, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
+import { Text, Image, View, StyleSheet, Pressable, TouchableOpacity, Alert } from 'react-native';
 import { useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
@@ -11,8 +11,6 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { NewsLogo } from '@/components/NewsLogo';
@@ -31,6 +29,7 @@ import podcasts from '@/data/podcasts.json';
 import type { ListRenderItemInfo } from '@shopify/flash-list';
 import { useAudio } from '@/contexts/AudioContext';
 import { AudioVisualizer } from '@/components/AudioVisualizer';
+import { PodcastEditorsPickItem } from '@/components/PodcastEditorsPickItem';
 
 interface Source {
   id: string;
@@ -60,6 +59,29 @@ interface NewsItem {
   card_type: 'full' | 'medium';
 }
 
+interface PodcastEpisodeData {
+  id: string;
+  type: string;
+  attributes: {
+    name: string;
+    itunesTitle: string;
+    kind: string;
+    description: {
+      standard: string;
+      short: string;
+    };
+    artwork: {
+      url: string;
+      width: number;
+      height: number;
+    };
+    durationInMilliseconds: number;
+    releaseDateTime: string;
+    assetUrl: string;
+    artistName: string;
+  };
+}
+
 const TABS = [
   { id: 'best', label: 'Best of News+', icon: 'heart' },
   { id: 'magazines', label: 'My Magazines', icon: 'book' },
@@ -67,6 +89,51 @@ const TABS = [
   { id: 'newspapers', label: 'Newspapers', icon: 'newspaper' },
   { id: 'catalog', label: 'Catalog', icon: 'list' },
 ];
+
+const DiscoverNewsButton = () => {
+  return (
+    <View className=" mb-4">
+      <TouchableOpacity 
+        onPress={() => Alert.alert('Take to Apple Podcasts')}
+        style={{
+          height: 56,
+          backgroundColor: '#2196A5',
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 16,
+          justifyContent: 'space-between',
+          borderRadius: 12,
+          overflow: 'hidden'
+        }}
+      >
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+          <Ionicons name="headset" size={24} color="#fff" />
+          <View>
+            <Text style={{ color: '#fff', fontSize: 20 }} className="font-bold">
+              Discover News+ Narrated
+            </Text>
+            <View className="flex-row items-center gap-1">
+              <Text style={{ color: '#fff', fontSize: 13, opacity: 0.8 }}>
+                More audio stories in Apple Podcasts
+              </Text>
+              <Ionicons name="chevron-forward" size={14} color="#fff" />
+            </View>
+          </View>
+        </View>
+        <Ionicons 
+          name="headset" 
+          size={80} 
+          color="#fff" 
+          style={{ 
+            position: 'absolute',
+            right: -10,
+            opacity: 0.1
+          }}
+        />
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 export default function AudioScreen() {
   const router = useRouter();
@@ -93,31 +160,20 @@ export default function AudioScreen() {
   const { currentEpisode, playEpisode, isPlaying, togglePlayPause } = useAudio();
   
   const handlePlayAll = () => {
-    const firstEpisode = podcasts[0]?.data?.shelves[0]?.items[0];
+    const firstEpisode = podcasts.results['podcast-episodes'][0].data[0] as PodcastEpisodeData;
     
     if (firstEpisode) {
-      const imageUrl = firstEpisode.episodeArtwork?.template 
-        ? firstEpisode.episodeArtwork.template
-            .replace('{w}', '300')
-            .replace('{h}', '300')
-            .replace('{f}', 'jpg')
-        : firstEpisode.icon?.template
-            ? firstEpisode.icon.template
-                .replace('{w}', '300')
-                .replace('{h}', '300')
-                .replace('{f}', 'jpg')
-            : 'https://via.placeholder.com/300';
+      const imageUrl = firstEpisode.attributes.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || 'https://via.placeholder.com/300';
 
-      // Convert to PodcastEpisode type
       const podcast: PodcastEpisode = {
         id: firstEpisode.id,
-        title: firstEpisode.title,
-        streamUrl: firstEpisode.playAction?.episodeOffer?.streamUrl,
+        title: firstEpisode.attributes.name,
+        streamUrl: firstEpisode.attributes.assetUrl,
         artwork: { url: imageUrl },
-        showTitle: firstEpisode.showTitle,
-        duration: firstEpisode.duration,
-        releaseDate: firstEpisode.releaseDate,
-        summary: firstEpisode.summary
+        showTitle: firstEpisode.attributes.artistName,
+        duration: firstEpisode.attributes.durationInMilliseconds,
+        releaseDate: firstEpisode.attributes.releaseDateTime,
+        summary: firstEpisode.attributes.description.standard
       };
 
       playEpisode(podcast);
@@ -125,25 +181,21 @@ export default function AudioScreen() {
     }
   };
 
-
-
-
-  const renderPodcastItem = ({ item, index }: ListRenderItemInfo<PodcastEpisode>) => (
+  const renderPodcastItem = ({ item, index }: ListRenderItemInfo<PodcastEpisodeData>) => (
     <PodcastItem 
       episode={item} 
       index={index}
-    //   totalItems={episodes.length}
     />
   );
 
   const renderContent = () => {
     switch (activeTab) {
       case 'best':
-        const episodes = podcasts[0]?.data?.shelves[0]?.items || [];
-        
+        const episodes = (podcasts.results['podcast-episodes'][0].data || []) as PodcastEpisodeData[];
+        const remainingEpisodes = episodes.slice(5);
         return (
           <FlashList
-            data={episodes}
+            data={remainingEpisodes}
             renderItem={renderPodcastItem}
             estimatedItemSize={84}
             keyExtractor={(item) => item.id}
@@ -155,21 +207,22 @@ export default function AudioScreen() {
                   <View style={styles.headerRight}>
                     <TouchableOpacity 
                       style={[styles.headerRightButton, { backgroundColor: currentEpisode ? '#86858D' : Colors.light.tint }]}
-                      onPress={currentEpisode  ? togglePlayPause : handlePlayAll}
+                      onPress={currentEpisode ? togglePlayPause : handlePlayAll}
                     >
                       {isPlaying ? (
                         <AudioVisualizer isPlaying={true} />
                       ) : (
-                     
-                          <Ionicons name="headset" size={14} color={'#fff'} />
-                       
+                        <Ionicons name="headset" size={14} color={'#fff'} />
                       )}
-                         <Text style={styles.headerRightText}>{currentEpisode ? (isPlaying ? 'Playing' : 'Paused') : 'Play'}</Text>
+                      <Text style={styles.headerRightText}>
+                        {currentEpisode ? (isPlaying ? 'Playing' : 'Paused') : 'Play'}
+                      </Text>
                     </TouchableOpacity>
                   </View>
-
-         
                 </View>
+
+                <PodcastEditorsPickItem episodes={episodes} />
+                <DiscoverNewsButton />
                 <Text style={styles.sectionTitle}>For You</Text>
               </View>
             }
@@ -194,9 +247,9 @@ export default function AudioScreen() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }}>
-      <ThemedView style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
+      <View style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
         {renderContent()}
-      </ThemedView>
+      </View>
     </SafeAreaView>
   );
 }

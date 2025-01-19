@@ -1,9 +1,8 @@
 import { Stack, useSegments, useRouter } from "expo-router";
-import { Platform, StyleSheet, View, Pressable, useWindowDimensions } from 'react-native';
+import { Platform, StyleSheet, View, Pressable, useWindowDimensions, Text } from 'react-native';
 import { AppleNewsLogo } from '@/components/icons/AppleNewsLogo';
 import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { ThemedText } from '@/components/ThemedText';
 import type { ViewStyle, TextStyle } from 'react-native';
 type Styles = {
   container: ViewStyle;
@@ -63,12 +62,13 @@ function SidebarItem({
         color={isActive ? '#FA2D48' : colorScheme === 'dark' ? '#e7e9ea' : '#0f1419'} 
       />
       {!compact && (
-        <ThemedText style={[
+        <Text style={[
           styles.sidebarLabel,
-          isActive && styles.sidebarLabelActive
+          isActive && styles.sidebarLabelActive,
+          { color: colorScheme === 'dark' ? '#e7e9ea' : '#0f1419' }
         ]}>
           {label}
-        </ThemedText>
+        </Text>
       )}
     </Pressable>
   );
