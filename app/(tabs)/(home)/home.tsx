@@ -1,8 +1,8 @@
-import { Text, Image, View, StyleSheet, Pressable } from 'react-native';
+import { Text, Image, View, Pressable } from 'react-native';
 import { useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
-import { SwipeListView } from 'react-native-swipe-list-view';
+import { SwipeListView, RowMap } from 'react-native-swipe-list-view';
 import { useState, useRef } from 'react';
 import Animated, { 
   useAnimatedScrollHandler,
@@ -16,7 +16,6 @@ import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { NewsLogo } from '@/components/NewsLogo';
 import { formatSimpleDate } from '@/utils/dateFormatters';
-import { styles } from '@/styles/screens/home';
 import { FlashList } from '@shopify/flash-list';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -56,14 +55,8 @@ export default function HomeScreen() {
   const router = useRouter();
   const colorScheme = useColorScheme();
   const segments = useSegments();
-
-  // Get the current group (tab) from segments
-  const currentGroup = segments[1]; // Should return 'index', 'news+', 'sports', etc.
-
-  // const iconColor = colorScheme === 'light' ? '#000' : '#fff';
+  const currentGroup = segments[1];
   const iconColor = '#fff';
-
-  const backgroundColor = colorScheme === 'light' ? '#F2F2F6' : '#1C1C1E';
   const insets = useSafeAreaInsets();
 
   const lastScrollY = useSharedValue(0);
@@ -75,21 +68,17 @@ export default function HomeScreen() {
     onScroll: (event) => {
       const currentScrollY = event.contentOffset.y;
       
-      // Only show header when scrolled past 90px
       if (currentScrollY > 90) {
         if (currentScrollY > lastScrollY.value) {
-          // Scrolling down - hide header
           translationY.value = withTiming(0, {
             duration: 300
           });
         } else {
-          // Scrolling up - show header
           translationY.value = withTiming(insets.top, {
             duration: 300
           });
         }
       } else {
-        // Always hide header when scroll position is less than 90px
         translationY.value = withTiming(0, {
           duration: 300
         });
@@ -100,43 +89,33 @@ export default function HomeScreen() {
   });
 
   const headerAnimatedStyle = useAnimatedStyle(() => {
-    // const opacity = translationY.value === -40 ? 0 : 1;
-    
     return {
       transform: [{ translateY: translationY.value }],
-      // opacity: withTiming(opacity, {
-      //   duration: 200
-      // }),
     };
   });
 
-  const renderNewsItem = ({ item }: ListRenderItemInfo<NewsItem>) => (
-    <NewsItem item={item} />
+  const renderNewsItem = (data: { item: NewsItemType }) => (
+    <NewsItem item={data.item} />
   );
 
-  const renderHiddenItem = ({ item }: ListRenderItemInfo<NewsItem>) => (
-    <SwipeableNewsItem item={item} />
+  const renderHiddenItem = (data: { item: NewsItemType }, rowMap: RowMap<NewsItemType>) => (
+    <SwipeableNewsItem item={data.item} />
   );
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }}>
+    <SafeAreaView className="flex-1 bg-gray-100 dark:bg-[#0D0D09]">
       <Animated.View 
-        style={[
-          styles.todayContainer, 
-          {
-            backgroundColor: colorScheme === 'dark' ? '#0D0D09' : '#F2F2F6'
-          },
-          headerAnimatedStyle
-        ]}
+        className="absolute top-0 left-0 right-0 z-50 bg-gray-100 dark:bg-[#0D0D09]"
+        style={headerAnimatedStyle}
       >
         <NewsHeaderLeftItem size="sm" />
       </Animated.View>
       
-      <View style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
+      <View className="flex-1 bg-gray-100 dark:bg-[#0D0D09]">
         <AnimatedSwipeListView
           onScroll={scrollHandler}
           scrollEventThrottle={16}
-          data={news as NewsItem[]}
+          data={news as NewsItemType[]}
           renderItem={renderNewsItem}
           renderHiddenItem={renderHiddenItem}
           leftOpenValue={120}
@@ -144,25 +123,25 @@ export default function HomeScreen() {
           previewRowKey={'0'}
           previewOpenValue={-40}
           previewOpenDelay={3000}
-          keyExtractor={item => item.id}
-          contentContainerStyle={styles.listContent}
+          keyExtractor={(item: any) => item.id}
+          contentContainerStyle={{ padding: 16 }}
           ListHeaderComponent={
             <>
-              <View style={styles.header}>
+              <View className="flex-row items-center justify-between mb-6">
                 <NewsHeaderLeftItem size="md" />
-                <View style={styles.headerRight}>
+                <View>
                   <Image 
                     source={{ 
                       uri: colorScheme === 'light' 
                         ? 'https://i.imgur.com/EfImlCx.png' 
                         : 'https://i.imgur.com/bMJtV6x.png' 
                     }} 
-                    style={styles.headerIcon} 
+                    className="w-8 h-8"
                   />
                 </View>
               </View>
-              <View style={styles.listHeader}>
-                <Text style={styles.listHeaderText}>Top Stories</Text>
+              <View className="mb-4">
+                <Text className="text-2xl font-bold text-black dark:text-white">Top Stories</Text>
               </View>
             </>
           }
