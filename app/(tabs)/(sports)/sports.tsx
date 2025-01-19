@@ -29,6 +29,7 @@ import { SportsStyles } from '@/styles/screens/sports'
 import { Platform } from 'react-native';
 import { SportScoreCarousel } from '@/components/SportScoreCarousel';
 import { scores } from '@/data/scores.json';
+import { SlidingBanner } from '@/components/SlidingBanner';
 
 interface Source {
     id: string;
@@ -59,55 +60,19 @@ interface NewsItem {
 }
 
 const NFLPortalButton = () => {
-
     return (
-        <View className="px-1">
-        <TouchableOpacity 
-        onPress={() => router.push(`/topic/nfl_playoffs`)}
-        style={{
-            // marginTop: 20,
-            marginHorizontal: 0,
-            height: 56,
-            backgroundColor: '#144174',
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingHorizontal: 16,
-            justifyContent: 'space-between',
-            borderRadius: 12,
-            overflow: 'hidden'
-        }}
-    >
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-            <Image 
-                source={{ uri: 'https://img.sofascore.com/api/v1/unique-tournament/9464/image/light' }}
-                style={{ width: 28, height: 28 }}
-            />
-            <View>
-                <Text style={{ color: '#fff', fontSize: 20, marginBottom: 2 }} className="font-bold">
-                    NFL Playoffs
-                </Text>
-              <View className="flex-row items-center gap-1">
-              <Text style={{ color: '#fff', fontSize: 13, opacity: 0.8, marginTop: -2 }}>
-                    Full coverage
-                </Text>
-                <Ionicons name="chevron-forward" size={14} color="#fff" />
-              </View>
-            </View>
-        </View>
-        <Image 
-            source={{ uri: 'https://img.sofascore.com/api/v1/unique-tournament/9464/image/light' }}
-            style={{ 
-                width: 80, 
-                height: 80,
-                position: 'absolute',
-                right: -10,
-                opacity: 0.1
+        <SlidingBanner
+            onPress={() => router.push(`/topic/nfl_playoffs`)}
+            image={{
+                uri: 'https://img.sofascore.com/api/v1/unique-tournament/9464/image/light'
             }}
+            title="NFL Playoffs"
+            subtitle="Full coverage"
+            backgroundColor="#144174"
         />
-    </TouchableOpacity>
-    </View>
     );
-};
+}
+
 
 export default function SportsScreen() {
     const router = useRouter();
@@ -167,7 +132,7 @@ export default function SportsScreen() {
     );
 
     const sportsList = [
-        'NFL', 'MLB', 'NBA', 'WNBA', 'College Football', 
+        'NFL', 'MLB', 'NBA', 'WNBA', 'College Football',
         'Men\'s College Basketball', 'Women\'s College Basketball',
         'NHL', 'PWHL', 'MLS', 'Soccer', 'Golf', 'Tennis',
         'Mixed Martial Arts', 'Motorsports', 'Boxing',
@@ -189,7 +154,7 @@ export default function SportsScreen() {
 
             <DropdownMenu.Content>
                 {sportsList.map((sport) => (
-                    <DropdownMenu.Item 
+                    <DropdownMenu.Item
                         key={sport}
                         onSelect={() => Alert.alert(`${sport} clicked`)}
                     >
@@ -245,7 +210,7 @@ export default function SportsScreen() {
                         <View style={SportsStyles.listHeaderContainer}>
                             <Image
                                 source={colorScheme === 'light' ? require('@/assets/images/temp/sports-light-bg.png') : require('@/assets/images/temp/sports-dark-bg.png')}
-                                style={{ width: '100%', height: Platform.OS === "ios" ? 140 : 120, position: 'absolute', left: 0, right: 0, top: -insets.top+50 }}
+                                style={{ width: '100%', height: Platform.OS === "ios" ? 140 : 120, position: 'absolute', left: 0, right: 0, top: -insets.top + 50 }}
                             />
 
                             <View style={{ paddingHorizontal: 16, paddingTop: Platform.OS === 'ios' ? 50 : 35 }}>
@@ -257,14 +222,14 @@ export default function SportsScreen() {
                                 </View>
                                 <SportScoreCarousel scores={scores} />
 
-                        <NFLPortalButton />
+                                <NFLPortalButton />
 
                                 <View style={SportsStyles.listHeader}>
-                                   
-                                   <View>
-                                   <Text style={[styles.listHeaderText, { color: colorScheme === 'light' ? '#000000' : '#ffffff', marginTop: 30 }]}>Top Stories</Text>
-                                   <Text style={SportsStyles.listHeaderSubText}>Selected by the Apple News editors.</Text>
-                                   </View>
+
+                                    <View>
+                                        <Text style={[styles.listHeaderText, { color: colorScheme === 'light' ? '#000000' : '#ffffff', marginTop: 30 }]}>Top Stories</Text>
+                                        <Text style={SportsStyles.listHeaderSubText}>Selected by the Apple News editors.</Text>
+                                    </View>
 
                                     <Pressable style={SportsStyles.seeAll}>
                                         <DropdownMenu.Root>
@@ -276,7 +241,7 @@ export default function SportsScreen() {
                                                 />
                                             </DropdownMenu.Trigger>
                                             <DropdownMenu.Content>
-                                                <DropdownMenu.Item 
+                                                <DropdownMenu.Item
                                                     key="block"
                                                     onSelect={() => Alert.alert('Block Sports Top Stories clicked')}
                                                 >

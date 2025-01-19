@@ -29,7 +29,7 @@ export default function SearchScreen() {
     const scrollRef = React.useRef(null);
 
     const SearchComponent = () => (
-        <View className="flex-row items-center bg-[#E3E2EA] px-3 h-[38px] rounded-[10px] flex-1">
+        <View className="flex-row items-center bg-[#E3E2EA] px-3 h-[38px] rounded-[10px]">
             <Ionicons name="search" size={20} color="#666" />
             <TextInput
                 placeholder="Channels, Topics, & Stories"
