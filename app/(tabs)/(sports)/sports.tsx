@@ -1,4 +1,4 @@
-import { Text, Image, View, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
+import { Text, Image, View, StyleSheet, Pressable, TouchableOpacity, Alert } from 'react-native';
 import { useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
@@ -12,6 +12,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { BlurView } from 'expo-blur';
 import { ListRenderItemInfo } from 'react-native';
+import * as DropdownMenu from 'zeego/dropdown-menu';
 
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -114,6 +115,40 @@ export default function SportsScreen() {
         <SwipeableNewsItem item={item} />
     );
 
+    const sportsList = [
+        'NFL', 'MLB', 'NBA', 'WNBA', 'College Football', 
+        'Men\'s College Basketball', 'Women\'s College Basketball',
+        'NHL', 'PWHL', 'MLS', 'Soccer', 'Golf', 'Tennis',
+        'Mixed Martial Arts', 'Motorsports', 'Boxing',
+        'Pro Wrestling', 'Cycling', 'Fantasy Sports'
+    ];
+
+    const renderSportsMenu = () => (
+        <DropdownMenu.Root>
+            <DropdownMenu.Trigger>
+                <BlurView
+                    intensity={70}
+                    tint={colorScheme === 'dark' ? 'systemChromeMaterialDark' : 'systemChromeMaterialLight'}
+                    style={SportsStyles.headerIconRight}
+                >
+                    <Ionicons name="menu" size={24} color={'#1E1E1F'} />
+                    <Text style={SportsStyles.headerIconRightText}>All Sports</Text>
+                </BlurView>
+            </DropdownMenu.Trigger>
+
+            <DropdownMenu.Content>
+                {sportsList.map((sport) => (
+                    <DropdownMenu.Item 
+                        key={sport}
+                        onSelect={() => Alert.alert(`${sport} clicked`)}
+                    >
+                        <DropdownMenu.ItemTitle>{sport}</DropdownMenu.ItemTitle>
+                    </DropdownMenu.Item>
+                ))}
+            </DropdownMenu.Content>
+        </DropdownMenu.Root>
+    );
+
     return (
         <View style={{ flex: 1, backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }}>
 
@@ -159,24 +194,14 @@ export default function SportsScreen() {
                         <View style={SportsStyles.listHeaderContainer}>
                             <Image
                                 source={colorScheme === 'light' ? require('@/assets/images/temp/sports-light-bg.png') : require('@/assets/images/temp/sports-dark-bg.png')}
-                                style={{ width: '100%', height: Platform.OS === "ios" ? 140 : 120, position: 'absolute', left: 0, right: 0, top: 0 }}
+                                style={{ width: '100%', height: Platform.OS === "ios" ? 140 : 120, position: 'absolute', left: 0, right: 0, top: -insets.top+50 }}
                             />
 
-                            <View style={{ paddingTop: insets.top, paddingHorizontal: 16 }}>
+                            <View style={{ paddingHorizontal: 16, paddingTop: Platform.OS === 'ios' ? 50 : 35 }}>
                                 <View style={styles.header}>
                                     <NewsHeaderLeftItem size="md" secondaryTitle='Sports' />
                                     <View style={styles.headerRight}>
-                                        <TouchableOpacity style={SportsStyles.headerIconRightWrapper}>
-                                            <BlurView
-                                                intensity={70}
-                                                tint={colorScheme === 'dark' ? 'systemChromeMaterialDark' : 'systemChromeMaterialLight'}
-                                                style={SportsStyles.headerIconRight}
-
-                                            >
-                                                <Ionicons name="menu" size={24} color={'#1E1E1F'} />
-                                                <Text style={SportsStyles.headerIconRightText}>All Sports</Text>
-                                            </BlurView>
-                                        </TouchableOpacity>
+                                        {renderSportsMenu()}
                                     </View>
                                 </View>
                                 <SportScoreCarousel scores={scores} />
@@ -189,12 +214,24 @@ export default function SportsScreen() {
                                    </View>
 
                                     <Pressable style={SportsStyles.seeAll}>
-                                        <MaterialIcons
-                                            name="more-horiz"
-                                            size={24}
-                                            color={colorScheme === 'light' ? '#000' : '#fff'}
-                                            style={styles.moreIcon}
-                                        />
+                                        <DropdownMenu.Root>
+                                            <DropdownMenu.Trigger>
+                                                <MaterialIcons
+                                                    name="more-horiz"
+                                                    size={24}
+                                                    color={colorScheme === 'light' ? '#000' : '#fff'}
+                                                />
+                                            </DropdownMenu.Trigger>
+                                            <DropdownMenu.Content>
+                                                <DropdownMenu.Item 
+                                                    key="block"
+                                                    onSelect={() => Alert.alert('Block Sports Top Stories clicked')}
+                                                >
+                                                    <DropdownMenu.ItemIcon ios={{ name: 'xmark.circle.fill' }} />
+                                                    <DropdownMenu.ItemTitle>Block Sports Top Stories</DropdownMenu.ItemTitle>
+                                                </DropdownMenu.Item>
+                                            </DropdownMenu.Content>
+                                        </DropdownMenu.Root>
                                     </Pressable>
                                 </View>
                             </View>
