@@ -1,8 +1,14 @@
+interface Theme {
+    backgroundColor: string;
+    textColor: string;
+}
+
 export interface BaseEntity {
     id: string;
     title: string;
     type: string;
     description?: string;
+    theme?: Theme;
 }
 
 export interface CategoryEntity extends BaseEntity {
@@ -16,16 +22,4 @@ export interface TopicEntity extends BaseEntity {
     entity_type: string;
 }
 
-export interface TeamEntity extends BaseEntity {
-    type: 'team';
-    logo: string;
-    entity_type: string;
-}
-
-export interface LeagueEntity extends BaseEntity {
-    type: 'league';
-    logo: string;
-    entity_type: string;
-}
-
-export type Entity = CategoryEntity | TopicEntity | TeamEntity | LeagueEntity; 
+export type Entity = CategoryEntity | TopicEntity; 

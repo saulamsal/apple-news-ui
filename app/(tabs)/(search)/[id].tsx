@@ -7,10 +7,14 @@ import { BlurView } from 'expo-blur';
 import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet } from 'react-native';
 import Animated, { SharedValue } from 'react-native-reanimated';
+import { SwipeListView } from 'react-native-swipe-list-view';
+import { ListRenderItemInfo } from '@shopify/flash-list';
 import searchEntities from '@/app/data/search_entities.json';
 import entities from '@/app/data/entities.json';
 import { NewsItem, NewsItemType } from '@/components/NewsItem';
+import { SwipeableNewsItem } from '@/components/SwipeableNewsItem';
 import * as DropdownMenu from 'zeego/dropdown-menu';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const FadingView = ({ opacity, children, style }: { 
     opacity: SharedValue<number>, 
@@ -69,6 +73,14 @@ export default function TopicScreen() {
         is_news_plus: false
     }));
 
+    const renderNewsItem = ({ item }: ListRenderItemInfo<NewsItemType>) => (
+        <NewsItem item={item} />
+    );
+
+    const renderHiddenItem = ({ item }: ListRenderItemInfo<NewsItemType>) => (
+        <SwipeableNewsItem item={item} />
+    );
+
     const HeaderSurface = ({ showNavBar }: { showNavBar: SharedValue<number> }) => (
         <FadingView opacity={showNavBar} style={StyleSheet.absoluteFill}>
             <BlurView 
@@ -104,16 +116,28 @@ export default function TopicScreen() {
                         </DropdownMenu.Trigger>
                         <DropdownMenu.Content>
                             <DropdownMenu.Item key="share">
-                                <DropdownMenu.ItemTitle>Share {entity.type}</DropdownMenu.ItemTitle>
+                                <DropdownMenu.ItemIcon ios={{ name: 'square.and.arrow.up' }}>
+                                    <MaterialIcons name="share" size={18} />
+                                </DropdownMenu.ItemIcon>
+                                <DropdownMenu.ItemTitle>Share Topic</DropdownMenu.ItemTitle>
                             </DropdownMenu.Item>
                             <DropdownMenu.Item key="copy">
+                                <DropdownMenu.ItemIcon ios={{ name: 'link' }}>
+                                    <MaterialIcons name="link" size={18} />
+                                </DropdownMenu.ItemIcon>
                                 <DropdownMenu.ItemTitle>Copy Link</DropdownMenu.ItemTitle>
                             </DropdownMenu.Item>
                             <DropdownMenu.Item key="follow">
-                                <DropdownMenu.ItemTitle>Follow {entity.type}</DropdownMenu.ItemTitle>
+                                <DropdownMenu.ItemIcon ios={{ name: 'plus.circle' }}>
+                                    <MaterialIcons name="add-circle-outline" size={18} />
+                                </DropdownMenu.ItemIcon>
+                                <DropdownMenu.ItemTitle>Follow Topic</DropdownMenu.ItemTitle>
                             </DropdownMenu.Item>
                             <DropdownMenu.Item key="block">
-                                <DropdownMenu.ItemTitle>Block {entity.type}</DropdownMenu.ItemTitle>
+                                <DropdownMenu.ItemIcon ios={{ name: 'hand.raised.fill' }}>
+                                    <MaterialIcons name="block" size={18} />
+                                </DropdownMenu.ItemIcon>
+                                <DropdownMenu.ItemTitle>Block Topic</DropdownMenu.ItemTitle>
                             </DropdownMenu.Item>
                         </DropdownMenu.Content>
                     </DropdownMenu.Root>
@@ -123,7 +147,12 @@ export default function TopicScreen() {
     );
 
     const LargeHeaderComponent = () => (
-        <View className="px-4 pt-16 pb-4 bg-white">
+        <View 
+            className="px-4 pt-16 pb-4"
+            style={{ 
+                backgroundColor: entity.theme?.backgroundColor || '#FFFFFF',
+            }}
+        >
             <View className="flex-row items-center gap-4">
                 {entity.logo && (
                     <Image 
@@ -132,9 +161,14 @@ export default function TopicScreen() {
                     />
                 )}
                 <View>
-                    <Text className="text-2xl font-bold">{entity.title}</Text>
+                    <Text 
+                        className="text-2xl font-bold"
+                        style={{ color: entity.theme?.textColor }}
+                    >
+                        {entity.title}
+                    </Text>
                     <Text className="text-gray-500 text-base">
-                        {entity.type === 'team' ? "Men's Cricket" : entity.description || entity.entity_type}
+                        {entity.description || entity.entity_type}
                     </Text>
                 </View>
             </View>
@@ -154,11 +188,20 @@ export default function TopicScreen() {
                 headerFadeInThreshold={0.5}
                 initialAbsoluteHeaderHeight={110}
             >
-                <View>
-                    {dummyNews.map((item) => (
-                        <NewsItem key={item.id} item={item} />
-                    ))}
-                </View>
+                <SwipeListView
+                    data={dummyNews}
+                    renderItem={renderNewsItem}
+                    renderHiddenItem={renderHiddenItem}
+                    leftOpenValue={120}
+                    rightOpenValue={-120}
+                    previewRowKey={'0'}
+                    previewOpenValue={-40}
+                    previewOpenDelay={3000}
+                    keyExtractor={item => item.id}
+                    useNativeDriver={false}
+                    disableRightSwipe={false}
+                    disableLeftSwipe={false}
+                />
             </ScrollViewWithHeaders>
         </View>
     );

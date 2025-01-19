@@ -4,13 +4,21 @@
         "title": "Puzzles",
         "icon": "extension-puzzle",
         "description": "Daily puzzles and brain teasers",
-        "type": "category"
+        "type": "category",
+        "theme": {
+            "backgroundColor": "#F2F2F7",
+            "textColor": "#000000"
+        }
     },
     "shared": {
         "id": "shared",
         "title": "Shared with You",
         "icon": "people",
-        "type": "category"
+        "type": "category",
+        "theme": {
+            "backgroundColor": "#F2F2F7",
+            "textColor": "#000000"
+        }
     },
     "saved": {
         "id": "saved",
@@ -30,7 +38,11 @@
         "logo": "https://bloximages.newyork1.vip.townnews.com/hermistonherald.com/content/tncms/assets/v3/editorial/b/e8/be8fb83d-6ede-5302-9d18-162ee39bc357/663a950fb6ed9.image.png",
         "entity_type": "politics_topic",
         "description": "Complete coverage of the 2024 Presidential Election",
-        "type": "topic"
+        "type": "topic",
+        "theme": {
+            "backgroundColor": "#E8F5E9",
+            "textColor": "#2E7D32"
+        }
     },
     "climate_change": {
         "id": "climate_change",
@@ -59,7 +71,11 @@
         "logo": "https://api.sofascore.app/api/v1/team/35/image",
         "entity_type": "sport_team",
         "description": "Men's Football",
-        "type": "team"
+        "type": "team",
+        "theme": {
+            "backgroundColor": "#FFE8E8",
+            "textColor": "#C62828"
+        }
     },
     "premier_league": {
         "id": "premier_league",
