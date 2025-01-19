@@ -131,7 +131,7 @@ export default function HomeScreen() {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-100" >
+    <View className="flex-1 bg-gray-100" style={{ paddingTop: insets.top }}>
       <Animated.View 
         className="absolute -top-4 left-0 right-0 z-50 bg-gray-100 px-5"
         style={[headerAnimatedStyle, { paddingTop: insets.top, paddingBottom: 10 }]}
@@ -175,7 +175,7 @@ export default function HomeScreen() {
           }
         />
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
