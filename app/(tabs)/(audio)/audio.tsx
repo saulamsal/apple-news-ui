@@ -10,6 +10,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import { SlidingBanner } from '@/components/SlidingBanner';
 
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -92,46 +93,16 @@ const TABS = [
 
 const DiscoverNewsButton = () => {
   return (
-    <View className=" mb-4">
-      <TouchableOpacity 
-        onPress={() => Alert.alert('Take to Apple Podcasts')}
-        style={{
-          height: 56,
-          backgroundColor: '#2196A5',
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingHorizontal: 16,
-          justifyContent: 'space-between',
-          borderRadius: 12,
-          overflow: 'hidden'
-        }}
-      >
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-          <Ionicons name="headset" size={24} color="#fff" />
-          <View>
-            <Text style={{ color: '#fff', fontSize: 20 }} className="font-bold">
-              Discover News+ Narrated
-            </Text>
-            <View className="flex-row items-center gap-1">
-              <Text style={{ color: '#fff', fontSize: 13, opacity: 0.8 }}>
-                More audio stories in Apple Podcasts
-              </Text>
-              <Ionicons name="chevron-forward" size={14} color="#fff" />
-            </View>
-          </View>
-        </View>
-        <Ionicons 
-          name="headset" 
-          size={80} 
-          color="#fff" 
-          style={{ 
-            position: 'absolute',
-            right: -10,
-            opacity: 0.1
-          }}
-        />
-      </TouchableOpacity>
-    </View>
+    <SlidingBanner
+      onPress={() => Alert.alert('Take to Apple Podcasts')}
+      icon={{
+        name: 'headset',
+        size: 24,
+      }}
+      title="Discover News+ Narrated"
+      subtitle="More audio stories in Apple Podcasts"
+      backgroundColor="#2196A5"
+    />
   );
 };
 

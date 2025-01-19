@@ -1,4 +1,4 @@
-import { Text, Image, View, Pressable, TouchableOpacity } from 'react-native';
+import { Text, Image, View, Pressable, TouchableOpacity, ListRenderItemInfo } from 'react-native';
 import { useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
@@ -10,8 +10,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { ListRenderItemInfo } from '@shopify/flash-list';
 import * as WebBrowser from 'expo-web-browser';
+import { SlidingBanner } from '@/components/SlidingBanner';
 
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -62,50 +62,16 @@ const DonateButton = () => {
   };
 
   return (
-    <View className="px-5">
-      <TouchableOpacity 
-        onPress={handlePress}
-        style={{
-          height: 56,
-          backgroundColor: '#E31837',
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingHorizontal: 16,
-          justifyContent: 'space-between',
-          borderRadius: 12,
-          overflow: 'hidden',
-          marginBottom: 20
-        }}
-      >
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-          <Image 
-            source={{ uri: 'https://pbs.twimg.com/profile_images/1542533870008016899/HtPYMRjs_400x400.jpg' }}
-            style={{ width: 28, height: 28, borderRadius: 14 }}
-          />
-          <View>
-            <Text style={{ color: '#fff', fontSize: 16, marginBottom: 2 }} className="font-bold">
-              Southern California wildfires
-            </Text>
-            <View className="flex-row items-center gap-1">
-              <Text style={{ color: '#fff', fontSize: 13, opacity: 0.8, marginTop: -2 }}>
-                Donate to the American Red Cross
-              </Text>
-              <Ionicons name="chevron-forward" size={14} color="#fff" />
-            </View>
-          </View>
-        </View>
-        <Image 
-          source={{ uri: 'https://pbs.twimg.com/profile_images/1542533870008016899/HtPYMRjs_400x400.jpg' }}
-          style={{ 
-            width: 80, 
-            height: 80,
-            position: 'absolute',
-            right: -10,
-            opacity: 0.1
-          }}
-        />
-      </TouchableOpacity>
-    </View>
+    <SlidingBanner
+      onPress={handlePress}
+      image={{
+        uri: 'https://pbs.twimg.com/profile_images/1542533870008016899/HtPYMRjs_400x400.jpg',
+        style: { borderRadius: 14 }
+      }}
+      title="Southern California wildfires"
+      subtitle="Donate to the American Red Cross"
+      backgroundColor="#E31837"
+    />
   );
 };
 
@@ -153,12 +119,12 @@ export default function HomeScreen() {
     };
   });
 
-  const renderNewsItem = (data: { item: NewsItemType }) => (
-    <NewsItem item={data.item} />
+  const renderNewsItem = ({ item }: { item: NewsItemType }) => (
+    <NewsItem item={item} />
   );
 
-  const renderHiddenItem = (data: { item: NewsItemType }, rowMap: RowMap<NewsItemType>) => (
-    <SwipeableNewsItem item={data.item} />
+  const renderHiddenItem = ({ item }: { item: NewsItemType }, rowMap: RowMap<NewsItemType>) => (
+    <SwipeableNewsItem item={item} />
   );
 
   return (
