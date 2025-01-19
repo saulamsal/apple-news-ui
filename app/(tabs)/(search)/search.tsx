@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, TextInput, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { ScrollViewWithHeaders, Header, ScrollHeaderProps } from '@codeherence/react-native-header';
+import { ScrollViewWithHeaders, Header } from '@codeherence/react-native-header';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { AnimatedAccordion } from '@/components/AnimatedAccordion';
@@ -12,7 +12,13 @@ import { BlurView } from 'expo-blur';
 import Animated, { SharedValue } from 'react-native-reanimated';
 import { getAllCategories, getAllEntitiesForSection, lookupEntity } from '@/app/utils/entityUtils';
 
-const typedSearchEntities = searchEntities as SearchData;
+interface Entity {
+    id: string;
+    title: string;
+    logo?: string;
+    icon?: string;
+    type: string;
+}
 
 const FadingView = ({ opacity, children, style }: { 
     opacity: SharedValue<number>, 
@@ -26,7 +32,6 @@ const FadingView = ({ opacity, children, style }: {
 
 export default function SearchScreen() {
     const { top, bottom } = useSafeAreaInsets();
-    const scrollRef = React.useRef(null);
 
     const SearchComponent = () => (
         <View className="flex-row items-center bg-[#E3E2EA] px-3 h-[38px] rounded-[10px]">
@@ -55,8 +60,7 @@ export default function SearchScreen() {
             showNavBar={showNavBar}
             SurfaceComponent={HeaderSurface}
             headerCenter={
-                    <Text className="text-2xl font-bold">Following</Text>
-        
+                <Text className="text-2xl font-bold">Following</Text>
             }
             headerRight={
                 <View className="flex-row items-start px-4 pt-4">
@@ -65,7 +69,6 @@ export default function SearchScreen() {
                     </TouchableOpacity>
                 </View>
             }
-        
         />
     );
 
@@ -84,7 +87,6 @@ export default function SearchScreen() {
     return (
         <View className="flex-1 bg-white">
             <ScrollViewWithHeaders
-                ref={scrollRef}
                 contentContainerStyle={[{ paddingBottom: bottom }]}
                 className="flex-1 bg-white"
                 stickyHeaderIndices={[0]}
@@ -98,11 +100,10 @@ export default function SearchScreen() {
                 HeaderComponent={HeaderComponent}
                 headerFadeInThreshold={0.5}
                 disableLargeHeaderFadeAnim={false}
-                initialAbsoluteHeaderHeight={110}
-                headerContainerStyle={{ paddingTop: top + 4 }}
+                largeHeaderContainerStyle={{ paddingTop: top + 4 }}
             >
                 <View className="p-4 flex-col gap-4">
-                    {getAllCategories().map((entity) => (
+                    {getAllCategories().map((entity: Entity) => (
                         <CategoryCard
                             key={entity.id}
                             id={entity.id}
@@ -115,7 +116,7 @@ export default function SearchScreen() {
                 {searchEntities.sections.map((section) => (
                     <AnimatedAccordion key={section.id} title={section.title}>
                         <View className="p-4 gap-3">
-                            {getAllEntitiesForSection(section.id).map((entity) => (
+                            {getAllEntitiesForSection(section.id).map((entity: Entity) => (
                                 <CategoryCard
                                     key={entity.id}
                                     id={entity.id}
