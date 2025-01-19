@@ -125,6 +125,7 @@ export default function AudioScreen() {
 
   const [activeTab, setActiveTab] = useState('best');
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [episodes, setEpisodes] = useState((podcasts.results['podcast-episodes'][0].data || []) as PodcastEpisodeData[]);
 
   const handleTabPress = (tabId: string) => {
     setActiveTab(tabId);
@@ -154,6 +155,24 @@ export default function AudioScreen() {
     }
   };
 
+  const shuffleArray = (array: PodcastEpisodeData[]) => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  };
+
+  const onRefresh = async () => {
+    setIsRefreshing(true);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    const shuffledEpisodes = shuffleArray(episodes);
+    setEpisodes(shuffledEpisodes);
+    await new Promise(resolve => setTimeout(resolve, 500));
+    setIsRefreshing(false);
+  };
+
   const renderPodcastItem = ({ item, index }: ListRenderItemInfo<PodcastEpisodeData>) => (
     <PodcastItem 
       episode={item} 
@@ -161,16 +180,9 @@ export default function AudioScreen() {
     />
   );
 
-  const onRefresh = async () => {
-    setIsRefreshing(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    setIsRefreshing(false);
-  };
-
   const renderContent = () => {
     switch (activeTab) {
       case 'best':
-        const episodes = (podcasts.results['podcast-episodes'][0].data || []) as PodcastEpisodeData[];
         const remainingEpisodes = episodes.slice(5);
         return (
           <FlashList
