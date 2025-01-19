@@ -1,5 +1,5 @@
-import { Text, Image, View, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
-import { useRouter, useSegments } from 'expo-router';
+import { Text, Image, View, StyleSheet, Pressable, TouchableOpacity, Alert } from 'react-native';
+import { router, useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -11,9 +11,9 @@ import Animated, {
     withTiming,
 } from 'react-native-reanimated';
 import { BlurView } from 'expo-blur';
+import { ListRenderItemInfo } from 'react-native';
+import * as DropdownMenu from 'zeego/dropdown-menu';
 
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { NewsLogo } from '@/components/NewsLogo';
@@ -57,6 +57,57 @@ interface NewsItem {
     featured_image: string;
     card_type: 'full' | 'medium';
 }
+
+const NFLPortalButton = () => {
+
+    return (
+        <View className="px-1">
+        <TouchableOpacity 
+        onPress={() => router.push(`/topic/nfl_playoffs`)}
+        style={{
+            // marginTop: 20,
+            marginHorizontal: 0,
+            height: 56,
+            backgroundColor: '#144174',
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingHorizontal: 16,
+            justifyContent: 'space-between',
+            borderRadius: 12,
+            overflow: 'hidden'
+        }}
+    >
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+            <Image 
+                source={{ uri: 'https://img.sofascore.com/api/v1/unique-tournament/9464/image/light' }}
+                style={{ width: 28, height: 28 }}
+            />
+            <View>
+                <Text style={{ color: '#fff', fontSize: 20, marginBottom: 2 }} className="font-bold">
+                    NFL Playoffs
+                </Text>
+              <View className="flex-row items-center gap-1">
+              <Text style={{ color: '#fff', fontSize: 13, opacity: 0.8, marginTop: -2 }}>
+                    Full coverage
+                </Text>
+                <Ionicons name="chevron-forward" size={14} color="#fff" />
+              </View>
+            </View>
+        </View>
+        <Image 
+            source={{ uri: 'https://img.sofascore.com/api/v1/unique-tournament/9464/image/light' }}
+            style={{ 
+                width: 80, 
+                height: 80,
+                position: 'absolute',
+                right: -10,
+                opacity: 0.1
+            }}
+        />
+    </TouchableOpacity>
+    </View>
+    );
+};
 
 export default function SportsScreen() {
     const router = useRouter();
@@ -107,12 +158,46 @@ export default function SportsScreen() {
         };
     });
 
-    const renderNewsItem = ({ item }: { item: NewsItemType }) => (
+    const renderNewsItem = ({ item }: ListRenderItemInfo<NewsItem>) => (
         <NewsItem item={item} />
     );
 
-    const renderHiddenItem = ({ item }: { item: NewsItemType }) => (
+    const renderHiddenItem = ({ item }: ListRenderItemInfo<NewsItem>) => (
         <SwipeableNewsItem item={item} />
+    );
+
+    const sportsList = [
+        'NFL', 'MLB', 'NBA', 'WNBA', 'College Football', 
+        'Men\'s College Basketball', 'Women\'s College Basketball',
+        'NHL', 'PWHL', 'MLS', 'Soccer', 'Golf', 'Tennis',
+        'Mixed Martial Arts', 'Motorsports', 'Boxing',
+        'Pro Wrestling', 'Cycling', 'Fantasy Sports'
+    ];
+
+    const renderSportsMenu = () => (
+        <DropdownMenu.Root>
+            <DropdownMenu.Trigger>
+                <BlurView
+                    intensity={70}
+                    tint={colorScheme === 'dark' ? 'systemChromeMaterialDark' : 'systemChromeMaterialLight'}
+                    style={SportsStyles.headerIconRight}
+                >
+                    <Ionicons name="menu" size={24} color={'#1E1E1F'} />
+                    <Text style={SportsStyles.headerIconRightText}>All Sports</Text>
+                </BlurView>
+            </DropdownMenu.Trigger>
+
+            <DropdownMenu.Content>
+                {sportsList.map((sport) => (
+                    <DropdownMenu.Item 
+                        key={sport}
+                        onSelect={() => Alert.alert(`${sport} clicked`)}
+                    >
+                        <DropdownMenu.ItemTitle>{sport}</DropdownMenu.ItemTitle>
+                    </DropdownMenu.Item>
+                ))}
+            </DropdownMenu.Content>
+        </DropdownMenu.Root>
     );
 
     return (
@@ -142,7 +227,7 @@ export default function SportsScreen() {
 
 
 
-            <ThemedView style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
+            <View style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
                 <AnimatedSwipeListView
                     onScroll={scrollHandler}
                     scrollEventThrottle={16}
@@ -160,27 +245,19 @@ export default function SportsScreen() {
                         <View style={SportsStyles.listHeaderContainer}>
                             <Image
                                 source={colorScheme === 'light' ? require('@/assets/images/temp/sports-light-bg.png') : require('@/assets/images/temp/sports-dark-bg.png')}
-                                style={{ width: '100%', height: Platform.OS === "ios" ? 140 : 120, position: 'absolute', left: 0, right: 0, top: 0 }}
+                                style={{ width: '100%', height: Platform.OS === "ios" ? 140 : 120, position: 'absolute', left: 0, right: 0, top: -insets.top+50 }}
                             />
 
-                            <View style={{ paddingTop: insets.top, paddingHorizontal: 16 }}>
+                            <View style={{ paddingHorizontal: 16, paddingTop: Platform.OS === 'ios' ? 50 : 35 }}>
                                 <View style={styles.header}>
                                     <NewsHeaderLeftItem size="md" secondaryTitle='Sports' />
                                     <View style={styles.headerRight}>
-                                        <TouchableOpacity style={SportsStyles.headerIconRightWrapper}>
-                                            <BlurView
-                                                intensity={70}
-                                                tint={colorScheme === 'dark' ? 'systemChromeMaterialDark' : 'systemChromeMaterialLight'}
-                                                style={SportsStyles.headerIconRight}
-
-                                            >
-                                                <Ionicons name="menu" size={24} color={'#1E1E1F'} />
-                                                <Text style={SportsStyles.headerIconRightText}>All Sports</Text>
-                                            </BlurView>
-                                        </TouchableOpacity>
+                                        {renderSportsMenu()}
                                     </View>
                                 </View>
                                 <SportScoreCarousel scores={scores} />
+
+                        <NFLPortalButton />
 
                                 <View style={SportsStyles.listHeader}>
                                    
@@ -190,12 +267,24 @@ export default function SportsScreen() {
                                    </View>
 
                                     <Pressable style={SportsStyles.seeAll}>
-                                        <MaterialIcons
-                                            name="more-horiz"
-                                            size={24}
-                                            color={colorScheme === 'light' ? '#000' : '#fff'}
-                                            style={styles.moreIcon}
-                                        />
+                                        <DropdownMenu.Root>
+                                            <DropdownMenu.Trigger>
+                                                <MaterialIcons
+                                                    name="more-horiz"
+                                                    size={24}
+                                                    color={colorScheme === 'light' ? '#000' : '#fff'}
+                                                />
+                                            </DropdownMenu.Trigger>
+                                            <DropdownMenu.Content>
+                                                <DropdownMenu.Item 
+                                                    key="block"
+                                                    onSelect={() => Alert.alert('Block Sports Top Stories clicked')}
+                                                >
+                                                    <DropdownMenu.ItemIcon ios={{ name: 'xmark.circle.fill' }} />
+                                                    <DropdownMenu.ItemTitle>Block Sports Top Stories</DropdownMenu.ItemTitle>
+                                                </DropdownMenu.Item>
+                                            </DropdownMenu.Content>
+                                        </DropdownMenu.Root>
                                     </Pressable>
                                 </View>
                             </View>
@@ -204,7 +293,7 @@ export default function SportsScreen() {
                         </View>
                     }
                 />
-            </ThemedView>
+            </View>
 
 
 

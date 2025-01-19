@@ -6,6 +6,7 @@ import Animated, {
     useSharedValue,
 } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
+import { Colors } from '@/constants/Colors';
 
 interface Props {
     title: string;
@@ -13,7 +14,7 @@ interface Props {
 }
 
 export function AnimatedAccordion({ title, children }: Props) {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
     const height = useSharedValue(0);
 
     const contentStyle = useAnimatedStyle(() => ({
@@ -40,7 +41,7 @@ export function AnimatedAccordion({ title, children }: Props) {
             <Pressable onPress={() => setIsOpen(!isOpen)} style={styles.header}>
                 <Text style={styles.title}>{title}</Text>
                 <Animated.View style={iconStyle}>
-                    <Ionicons name="chevron-down" size={24} color="#666" />
+                    <Ionicons name="chevron-down" size={24} color={Colors.light.tint} />
                 </Animated.View>
             </Pressable>
 
@@ -56,9 +57,9 @@ export function AnimatedAccordion({ title, children }: Props) {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
-        borderTopWidth: StyleSheet.hairlineWidth,
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        borderColor: '#E5E5EA',
+        // borderTopWidth: StyleSheet.hairlineWidth,
+        // borderBottomWidth: StyleSheet.hairlineWidth,
+        // borderColor: '#E5E5EA',
     },
     header: {
         flexDirection: 'row',
@@ -67,8 +68,9 @@ const styles = StyleSheet.create({
         padding: 16,
     },
     title: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: '600',
+        color: '#8D8C91',
     },
     contentContainer: {
         overflow: 'hidden',

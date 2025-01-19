@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "apple-news-ui",
+    "name": "Apple News UI",
     "slug": "apple-news-ui",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -13,20 +13,43 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sportapp.apple-news-ui",
+      "deploymentTarget": "15.1",
+      "teamId": "F7P5RH5CTP",
+      "appleTeamId": "F7P5RH5CTP",
+      "entitlements": {
+        "com.apple.security.application-groups": [
+          "group.com.sportapp.apple-news-ui.ScoresWidget"
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.sportapp.applenewsui"
     },
     "web": {
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": ["expo-router", "expo-font"],
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      [
+        "expo-build-properties",
+        {
+          "ios": {
+            "useFrameworks": "static",
+            "deploymentTarget": "15.1"
+          }
+        }
+      ],
+      "@bacons/apple-targets"
+    ],
     "experiments": {
       "typedRoutes": true
     },

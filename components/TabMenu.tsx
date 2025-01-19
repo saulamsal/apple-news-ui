@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     // paddingHorizontal: 16,
     paddingVertical: 8,
     gap: 8,
+    paddingLeft: 16
   },
   tab: {
     paddingHorizontal: 16,

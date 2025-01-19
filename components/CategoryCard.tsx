@@ -1,17 +1,28 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Text, Image, View, Button } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
+import { useRouter } from 'expo-router';
 
 interface CategoryCardProps {
+    id: string;
     title: string;
     icon?: string;
     logo?: string;
 }
 
-export function CategoryCard({ title, icon, logo }: CategoryCardProps) {
+export const CategoryCard = ({ id, title, icon, logo }: CategoryCardProps) => {
+    const router = useRouter();
+
+    const handlePress = () => {
+        router.push(`/(tabs)/(search)/${id}`);
+    };
+
     return (
-        <TouchableOpacity style={styles.container}>
+        <TouchableOpacity 
+            onPress={handlePress}
+            className="flex-row items-center px-2 rounded-xl gap-2"
+        >
             {icon ? (
                 <Ionicons name={icon as any} size={28} color={Colors.light.tint} />
             ) : logo ? (
@@ -20,40 +31,16 @@ export function CategoryCard({ title, icon, logo }: CategoryCardProps) {
             <Text style={styles.title}>{title}</Text>
         </TouchableOpacity>
     );
-}
+};
 
 const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingHorizontal: 10,
-        paddingVertical: 2,
-        // backgroundColor: '#F2F2F7',
-        borderRadius: 10,
-        minWidth: '45%',
-        gap: 6,
-    },
     logo: {
         width: 24,
         height: 24,
         marginRight: 8,
     },
-    emoji: {
-        fontSize: 20,
-        marginRight: 8,
-    },
-    iconContainer: {
-        width: 24,
-        height: 24,
-        marginRight: 8,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
     title: {
         fontSize: 18,
         fontWeight: '500',
-    },
-    icon: {
-        color: '#fe425f',
-    },
+    }
 }); 

@@ -1,11 +1,14 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { LinearGradient } from 'expo-linear-gradient';
 import { BlurView } from 'expo-blur';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scores } from '@/data/scores.json';
 import { format } from 'date-fns';
+
+const getImageSource = (path: string) => {
+  return { uri: path };
+};
 
 export default function ScoreDetailsScreen() {
   const { id } = useLocalSearchParams();
@@ -15,14 +18,16 @@ export default function ScoreDetailsScreen() {
   const score = scores.find(s => s.id === id);
   if (!score) return null;
 
+  const isCompleted = score.status === 'completed';
+
   return (
     <View style={styles.container}>
-      <LinearGradient
-        colors={[score.team1.bg_color, score.team2.bg_color]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={StyleSheet.absoluteFill}
-      />
+      {/* Diagonal split background */}
+      <View style={styles.backgroundContainer}>
+        <View style={[styles.backgroundHalf, { backgroundColor: score.team1.bg_color }]} />
+        <View style={[styles.backgroundHalf, { backgroundColor: score.team2.bg_color }]} />
+        <View style={styles.diagonalLine} />
+      </View>
 
       {/* Header */}
       <View style={[styles.header, { paddingTop: insets.top }]}>
@@ -41,47 +46,36 @@ export default function ScoreDetailsScreen() {
       {/* Team Logos */}
       <View style={styles.teamsContainer}>
         <View style={styles.teamSection}>
-          <Image source={score.team1.logo} style={styles.teamLogo} />
-          <Text style={styles.formText}>{score.team1.current_form}, {score.team1.points} PTS</Text>
-          <Text style={styles.positionText}>
-            {score.team1.position}{score.team1.position_suffix} {score.competition.full_name}
-          </Text>
+          <Image source={getImageSource(score.team1.logo)} style={styles.teamLogo} />
+          {isCompleted && (
+            <Text style={styles.scoreText}>{score.team1.score}</Text>
+          )}
         </View>
 
         <View style={styles.teamSection}>
-          <Image source={score.team2.logo} style={styles.teamLogo} />
-          <Text style={styles.formText}>{score.team2.current_form}, {score.team2.points} PTS</Text>
-          <Text style={styles.positionText}>
-            {score.team2.position}{score.team2.position_suffix} {score.competition.full_name}
-          </Text>
+          <Image source={getImageSource(score.team2.logo)} style={styles.teamLogo} />
+          {isCompleted && (
+            <Text style={styles.scoreText}>{score.team2.score}</Text>
+          )}
         </View>
       </View>
 
       {/* Match Info */}
       <View style={styles.matchInfo}>
-        <Text style={styles.timeText}>
-          {format(new Date(score.startTime), 'h:mm a')}
-        </Text>
+        {isCompleted ? (
+          <Text style={styles.finalText}>FINAL</Text>
+        ) : (
+          <Text style={styles.timeText}>
+            {format(new Date(score.startTime), 'h:mm a')}
+          </Text>
+        )}
         <Text style={styles.dateText}>
           {format(new Date(score.startTime), 'EEEE M/d')}
         </Text>
         <Text style={styles.competitionText}>
-          {score.competition.full_name} • Matchweek {score.competition.matchweek}
+          {score.competition.full_name} • {score.competition.matchweek}
         </Text>
       </View>
-
-      {/* Stadium Info */}
-      {score.team1.stadium && (
-        <View style={styles.stadiumInfo}>
-          <Text style={styles.stadiumName}>{score.team1.stadium.name}</Text>
-          <Text style={styles.stadiumLocation}>{score.team1.stadium.location}</Text>
-        </View>
-      )}
-
-      {/* TV Button */}
-      <TouchableOpacity style={styles.tvButton}>
-        <Text style={styles.tvButtonText}>Open in TV</Text>
-      </TouchableOpacity>
     </View>
   );
 }
@@ -89,6 +83,22 @@ export default function ScoreDetailsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  backgroundContainer: {
+    ...StyleSheet.absoluteFillObject,
+    flexDirection: 'row',
+  },
+  backgroundHalf: {
+    flex: 1,
+  },
+  diagonalLine: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: '50%',
+    width: 2,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    transform: [{ rotate: '15deg' }, { translateX: -1 }],
   },
   header: {
     flexDirection: 'row',
@@ -126,15 +136,11 @@ const styles = StyleSheet.create({
     height: 120,
     marginBottom: 16,
   },
-  formText: {
+  scoreText: {
     color: '#FFFFFF',
-    fontSize: 16,
-    marginBottom: 4,
-  },
-  positionText: {
-    color: '#FFFFFF',
-    opacity: 0.8,
-    fontSize: 14,
+    fontSize: 48,
+    fontWeight: '700',
+    marginTop: 8,
   },
   matchInfo: {
     alignItems: 'center',
@@ -146,6 +152,13 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginBottom: 4,
   },
+  finalText: {
+    color: '#FFFFFF',
+    fontSize: 24,
+    fontWeight: '600',
+    marginBottom: 4,
+    letterSpacing: 2,
+  },
   dateText: {
     color: '#FFFFFF',
     fontSize: 18,
@@ -155,35 +168,5 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     opacity: 0.8,
     fontSize: 16,
-  },
-  stadiumInfo: {
-    alignItems: 'center',
-    marginTop: 30,
-  },
-  stadiumName: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: '600',
-  },
-  stadiumLocation: {
-    color: '#FFFFFF',
-    opacity: 0.8,
-    fontSize: 16,
-  },
-  tvButton: {
-    position: 'absolute',
-    bottom: 40,
-    left: 20,
-    right: 20,
-    backgroundColor: '#000000',
-    borderRadius: 16,
-    height: 56,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  tvButtonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: '600',
-  },
+  }
 });
