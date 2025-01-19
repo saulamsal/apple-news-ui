@@ -111,7 +111,8 @@
         "full_name": "49ers",
         "current_form": "9-1",
         "bg_color": "#AA0000",
-        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/sf.png"
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/sf.png",
+        "score": 27
       },
       "team2": {
         "id": "det",
@@ -119,7 +120,8 @@
         "full_name": "Lions",
         "current_form": "7-3",
         "bg_color": "#0076B6",
-        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/det.png"
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/det.png",
+        "score": 24
       },
       "startTime": "2024-01-28T23:30:00Z",
       "status": "upcoming",

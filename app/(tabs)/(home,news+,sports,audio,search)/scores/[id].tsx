@@ -72,17 +72,17 @@ export default function ScoreDetailsScreen() {
         {/* Team Logos */}
         <View style={styles.teamsContainer}>
           <View style={styles.teamSection}>
-            {isCompleted && (
+        
               <Text style={styles.scoreText}>{score.team1.score}</Text>
-            )}
+        
             <Image source={getImageSource(score.team1.logo)} style={styles.teamLogo} />
 
           </View>
 
           <View style={styles.teamSection}>
-            {isCompleted && (
+            
               <Text style={styles.scoreText}>{score.team2.score}</Text>
-            )}
+       
             <Image source={getImageSource(score.team2.logo)} style={styles.teamLogo} />
 
           </View>
@@ -239,29 +239,29 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginTop: 0,
-    marginBottom: 10,
+    // marginBottom: 10,
   },
   scoreText: {
     color: '#FFFFFF',
     fontSize: 80,
     fontWeight: 'bold',
-    marginTop: 8,
+    // marginTop: 8,
   },
   matchInfo: {
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: 20,
   },
   timeText: {
     // color: '#FFFFFF',
     fontSize: 24,
     fontWeight: '600',
-    marginBottom: 4,
+    // marginBottom: 4,
   },
   finalText: {
     // color: '#FFFFFF',
     fontSize: 24,
     fontWeight: '600',
-    marginBottom: 4,
+    // marginBottom: 4,
     letterSpacing: 2,
   },
   liveContainer: {
@@ -284,33 +284,14 @@ const styles = StyleSheet.create({
   dateText: {
     // color: '#FFFFFF',
     fontSize: 18,
-    marginBottom: 8,
+    // marginBottom: 8,
   },
   competitionText: {
     // color: '#FFFFFF',
     opacity: 0.8,
     fontSize: 16,
   },
-  watchButton: {
-    backgroundColor: '#000',
-    paddingVertical: 12,
-    borderRadius: 14,
-    marginTop: 20,
-    paddingHorizontal: 80,
-    // minWidth: 200,
-  },
-  watchButtonContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 6,
 
-  },
-  watchButtonText: {
-    color: '#fff',
-    fontSize: 22,
-    fontWeight: '500',
-  },
   appleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
