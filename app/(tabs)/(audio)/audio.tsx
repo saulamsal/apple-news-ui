@@ -58,6 +58,29 @@ interface NewsItem {
   card_type: 'full' | 'medium';
 }
 
+interface PodcastEpisodeData {
+  id: string;
+  type: string;
+  attributes: {
+    name: string;
+    itunesTitle: string;
+    kind: string;
+    description: {
+      standard: string;
+      short: string;
+    };
+    artwork: {
+      url: string;
+      width: number;
+      height: number;
+    };
+    durationInMilliseconds: number;
+    releaseDateTime: string;
+    assetUrl: string;
+    artistName: string;
+  };
+}
+
 const TABS = [
   { id: 'best', label: 'Best of News+', icon: 'heart' },
   { id: 'magazines', label: 'My Magazines', icon: 'book' },
@@ -91,31 +114,20 @@ export default function AudioScreen() {
   const { currentEpisode, playEpisode, isPlaying, togglePlayPause } = useAudio();
   
   const handlePlayAll = () => {
-    const firstEpisode = podcasts[0]?.data?.shelves[0]?.items[0];
+    const firstEpisode = podcasts.results['podcast-episodes'][0].data[0] as PodcastEpisodeData;
     
     if (firstEpisode) {
-      const imageUrl = firstEpisode.episodeArtwork?.template 
-        ? firstEpisode.episodeArtwork.template
-            .replace('{w}', '300')
-            .replace('{h}', '300')
-            .replace('{f}', 'jpg')
-        : firstEpisode.icon?.template
-            ? firstEpisode.icon.template
-                .replace('{w}', '300')
-                .replace('{h}', '300')
-                .replace('{f}', 'jpg')
-            : 'https://via.placeholder.com/300';
+      const imageUrl = firstEpisode.attributes.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || 'https://via.placeholder.com/300';
 
-      // Convert to PodcastEpisode type
       const podcast: PodcastEpisode = {
         id: firstEpisode.id,
-        title: firstEpisode.title,
-        streamUrl: firstEpisode.playAction?.episodeOffer?.streamUrl,
+        title: firstEpisode.attributes.name,
+        streamUrl: firstEpisode.attributes.assetUrl,
         artwork: { url: imageUrl },
-        showTitle: firstEpisode.showTitle,
-        duration: firstEpisode.duration,
-        releaseDate: firstEpisode.releaseDate,
-        summary: firstEpisode.summary
+        showTitle: firstEpisode.attributes.artistName,
+        duration: firstEpisode.attributes.durationInMilliseconds,
+        releaseDate: firstEpisode.attributes.releaseDateTime,
+        summary: firstEpisode.attributes.description.standard
       };
 
       playEpisode(podcast);
@@ -123,21 +135,17 @@ export default function AudioScreen() {
     }
   };
 
-
-
-
-  const renderPodcastItem = ({ item, index }: ListRenderItemInfo<PodcastEpisode>) => (
+  const renderPodcastItem = ({ item, index }: ListRenderItemInfo<PodcastEpisodeData>) => (
     <PodcastItem 
       episode={item} 
       index={index}
-    //   totalItems={episodes.length}
     />
   );
 
   const renderContent = () => {
     switch (activeTab) {
       case 'best':
-        const episodes = podcasts[0]?.data?.shelves[0]?.items || [];
+        const episodes = (podcasts.results['podcast-episodes'][0].data || []) as PodcastEpisodeData[];
         return (
           <FlashList
             data={episodes}

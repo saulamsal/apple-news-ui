@@ -9,7 +9,28 @@ import { BlurView } from 'expo-blur';
 import { useRouter } from 'expo-router';
 
 interface PodcastItemProps {
-  episode: any;
+  episode: {
+    id: string;
+    type: string;
+    attributes: {
+      itunesTitle: string;
+      name: string;
+      kind: string;
+      description: {
+        standard: string;
+        short: string;
+      };
+      artwork: {
+        url: string;
+        width: number;
+        height: number;
+      };
+      durationInMilliseconds: number;
+      releaseDateTime: string;
+      assetUrl: string;
+      artistName: string;
+    };
+  };
   index?: number;
   totalItems?: number;
 }
@@ -19,15 +40,13 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
   const [modalVisible, setModalVisible] = useState(false);
   const router = useRouter();
   
-  const durationInMinutes = episode.duration ? Math.floor(episode.duration / 60) : null;
+  const durationInMinutes = episode.attributes.durationInMilliseconds ? Math.floor(episode.attributes.durationInMilliseconds / 60000) : null;
   
-  const imageUrl = episode.episodeArtwork?.template?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') ||
-                  episode.icon?.template?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') ||
-                  'https://via.placeholder.com/300';
+  const imageUrl = episode.attributes.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || 'https://via.placeholder.com/300';
 
   const handlePress = () => {
     if (playEpisode) {
-      const streamUrl = episode.playAction?.episodeOffer?.streamUrl;
+      const streamUrl = episode.attributes.assetUrl;
       
       if (!streamUrl) {
         console.error('No stream URL found for episode:', episode.id);
@@ -36,13 +55,13 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
 
       const podcastEpisode: PodcastEpisode = {
         id: episode.id,
-        title: episode.title,
+        title: episode.attributes.name,
         streamUrl: streamUrl,
         artwork: { url: imageUrl },
-        showTitle: episode.showTitle,
-        duration: episode.duration,
-        releaseDate: episode.releaseDate,
-        summary: episode.summary
+        showTitle: episode.attributes.artistName,
+        duration: episode.attributes.durationInMilliseconds,
+        releaseDate: episode.attributes.releaseDateTime,
+        summary: episode.attributes.description.standard
       };
 
       playEpisode(podcastEpisode);
@@ -59,8 +78,8 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
 
   const isCurrentlyPlaying = currentEpisode?.id === episode.id;
 
-  const remainingTime = isCurrentlyPlaying && episode.duration && progress.value ? 
-    Math.floor((episode.duration - progress.value * episode.duration) / 60) : null;
+  const remainingTime = isCurrentlyPlaying && episode.attributes.durationInMilliseconds && progress.value ? 
+    Math.floor((episode.attributes.durationInMilliseconds - progress.value * episode.attributes.durationInMilliseconds) / 60000) : null;
 
   const progressBarStyle = useAnimatedStyle(() => {
     return {
@@ -74,14 +93,20 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
         className={`flex-row p-3 items-center bg-white border-b border-[#E5E5EA] ${index === 0 ? 'rounded-t-lg' : ''}`}
         onPress={handlePress}
       >
-        <Image source={{ uri: imageUrl }} className="w-25 h-25 rounded-lg bg-[#f0f0f0]" />
+
+        <Image 
+                  source={{ uri: imageUrl }} 
+                  className="w-24 h-24 rounded-lg bg-[#f0f0f0]" 
+                />
+                
+
         <View className="flex-1 ml-3 mr-2 justify-center">
           <Text className="text-lg font-semibold tracking-tight text-black mb-1 leading-[22px]" numberOfLines={2}>
-            {episode.title}
+            {episode.attributes.name}
           </Text>
           <View className="gap-0.5">
             <Text className="text-[15px] text-[#666] leading-5" numberOfLines={1}>
-              {episode.showTitle}
+              {episode.attributes.artistName}
             </Text>
             
             <View className="flex-row items-center justify-between mt-1">
@@ -93,15 +118,13 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
                 {isCurrentlyPlaying ? (
                   <View className="h-0.5 bg-[#E5E5EA] mt-2 rounded-sm">
                     <Animated.View className="h-full bg-apple-news rounded-sm" style={progressBarStyle} />
-                    <Text className="text-sm text-apple-news">{remainingTime}</Text>
+                    <Text className="text-sm text-apple-news">{remainingTime} min</Text>
                   </View>
                 ) : (
                   <View className="flex-row items-center gap-1">
                     <Ionicons name="headset-outline" size={16} color="#8E8E93" />
                     <Text className="text-sm text-[#8E8E93]">
-                      {isCurrentlyPlaying && remainingTime != null ? 
-                        `-${remainingTime}` : 
-                        durationInMinutes ? `${durationInMinutes}` : '--'} min
+                      {durationInMinutes ? `${durationInMinutes}` : '--'} min
                     </Text>
                   </View>
                 )}
@@ -113,11 +136,18 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
       </TouchableOpacity>
 
       <Modal
-        // animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={handleCloseModal}
-        presentationStyle="formSheet"
+        presentationStyle="fullScreen"
+        onDismiss={handleCloseModal}
+
+        // gestureDirection: "vertical",
+        // animation: "slide_from_bottom",
+        // // headerShown: false,
+        // sheetGrabberVisible: true,
+        // sheetInitialDetentIndex: 0,
+        // sheetAllowedDetents: [0.5, 1.0],
       >
         <BlurView intensity={20} className="absolute inset-0">
           <Pressable className="flex-1" onPress={handleCloseModal}>
@@ -131,15 +161,15 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
                 />
                 
                 <Text className="text-2xl font-bold mt-4 mb-2 text-black dark:text-white">
-                  {episode.title}
+                  {episode.attributes.name}
                 </Text>
                 
                 <Text className="text-lg text-[#666] dark:text-[#999] mb-4">
-                  {episode.showTitle}
+                  {episode.attributes.artistName}
                 </Text>
 
                 <Text className="text-base text-[#333] dark:text-[#ccc] leading-6 mb-6">
-                  {episode.summary || 'No description available'}
+                  {episode.attributes.description.standard || 'No description available'}
                 </Text>
 
                 <TouchableOpacity 
