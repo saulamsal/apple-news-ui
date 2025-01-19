@@ -1,16 +1,16 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+// import AsyncStorage from '@react-native-async-storage/async-storage'
 import { router } from 'expo-router'
 
 export default function Welcome() {
-  const handleContinue = async () => {
-    try {
-      await AsyncStorage.setItem('hasSeenWelcome', 'true')
-    //   router.push('/(tabs)')
-    } catch (error) {
-      console.error('Error saving welcome state:', error)
-    }
-  }
+//   const handleContinue = async () => {
+//     try {
+//       await AsyncStorage.setItem('hasSeenWelcome', 'true')
+//     //   router.push('/(tabs)')
+//     } catch (error) {
+//       console.error('Error saving welcome state:', error)
+//     }
+//   }
 
   return (
     <View style={styles.container}>
