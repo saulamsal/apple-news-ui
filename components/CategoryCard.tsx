@@ -21,7 +21,7 @@ export const CategoryCard = ({ id, title, icon, logo }: CategoryCardProps) => {
     return (
         <TouchableOpacity 
             onPress={handlePress}
-            className="flex-row items-center p-3 bg-gray-50 rounded-xl"
+            className="flex-row items-center px-2 rounded-xl gap-2"
         >
             {icon ? (
                 <Ionicons name={icon as any} size={28} color={Colors.light.tint} />

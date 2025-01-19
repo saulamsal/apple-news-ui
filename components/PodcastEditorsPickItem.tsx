@@ -26,12 +26,12 @@ const EditorPickItem = ({ episode }: EditorPickItemProps) => {
 
   return (
     <TouchableOpacity 
-      className="w-[250px] mr-4"
+      className="w-[300px] ml-4"
       onPress={() => router.push(`/audio/${episode.id}`)}
     >
       <Image 
         source={{ uri: imageUrl }}
-        className="w-[250px] h-[200px] rounded-lg bg-[#f0f0f0]"
+        className="w-[300px] h-[250px] rounded-lg bg-[#f0f0f0]"
       />
       <View className="mt-2">
         <Text 
@@ -51,8 +51,8 @@ const EditorPickItem = ({ episode }: EditorPickItemProps) => {
 
 export function PodcastEditorsPickItem({ episodes }: { episodes: any[] }) {
   return (
-    <View className="mt-6 mb-8">
-      <View className="mb-4">
+    <View className="mt-6 mb-8 -mr-5 -ml-5">
+      <View className="mb-4 px-4">
         <Text className="text-3xl font-bold">Editors' Picks</Text>
       </View>
       <ScrollView 

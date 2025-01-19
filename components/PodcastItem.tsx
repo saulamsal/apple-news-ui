@@ -7,6 +7,7 @@ import Animated, { useAnimatedStyle, withTiming, FadeIn, FadeOut } from 'react-n
 import { Colors } from '@/constants/Colors';
 import { BlurView } from 'expo-blur';
 import { useRouter } from 'expo-router';
+import * as ContextMenu from 'zeego/context-menu';
 
 interface PodcastItemProps {
   episode: {
@@ -88,26 +89,25 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
   });
 
   return (
-    <>
-      <TouchableOpacity 
-        className={`flex-row p-3 items-center bg-white border-b border-[#E5E5EA] ${index === 0 ? 'rounded-t-lg' : ''}`}
-        onPress={handlePress}
-      >
-
-        <Image 
-                  source={{ uri: imageUrl }} 
-                  className="w-24 h-24 rounded-lg bg-[#f0f0f0]" 
-                />
-                
-
-        <View className="flex-1 ml-3 mr-2 justify-center">
-          <Text className="text-lg font-semibold tracking-tight text-black mb-1 leading-[22px]" numberOfLines={2}>
-            {episode.attributes.name}
-          </Text>
-          <View className="gap-0.5">
-            <Text className="text-[15px] text-[#666] leading-5" numberOfLines={1}>
-              {episode.attributes.artistName}
-            </Text>
+    <ContextMenu.Root>
+      <ContextMenu.Trigger>
+        <View className={`flex-row p-3 items-center bg-white border-b border-[#E5E5EA] ${index === 0 ? 'rounded-t-lg' : ''}`}>
+          <TouchableOpacity onPress={handlePress}>
+            <Image 
+              source={{ uri: imageUrl }} 
+              className="w-24 h-24 rounded-lg bg-[#f0f0f0]" 
+            />
+          </TouchableOpacity>
+          
+          <View className="flex-1 ml-3 mr-2 justify-center">
+            <TouchableOpacity onPress={handlePress}>
+              <Text className="text-lg font-semibold tracking-tight text-black mb-1 leading-[22px]" numberOfLines={2}>
+                {episode.attributes.name}
+              </Text>
+              <Text className="text-[15px] text-[#666] leading-5" numberOfLines={1}>
+                {episode.attributes.artistName}
+              </Text>
+            </TouchableOpacity>
             
             <View className="flex-row items-center justify-between mt-1">
               <View className="flex-row items-center gap-4">
@@ -129,11 +129,42 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
                   </View>
                 )}
               </View>
-              <Ionicons name="ellipsis-horizontal" size={24} color="#8E8E93" className="p-2 -mr-2" />
+              <TouchableOpacity>
+                <Ionicons name="ellipsis-horizontal" size={24} color="#8E8E93" className="p-2 -mr-2" />
+              </TouchableOpacity>
             </View>
           </View>
         </View>
-      </TouchableOpacity>
+      </ContextMenu.Trigger>
+
+      <ContextMenu.Content>
+        <ContextMenu.Group>
+          <ContextMenu.Item key="read" onSelect={() => handlePress()}>
+            <ContextMenu.ItemTitle>Read Story</ContextMenu.ItemTitle>
+          </ContextMenu.Item>
+        </ContextMenu.Group>
+
+        <ContextMenu.Group>
+          <ContextMenu.Item key="suggest-more" onSelect={() => console.log('Suggest More')}>
+            <ContextMenu.ItemTitle>Suggest More</ContextMenu.ItemTitle>
+          </ContextMenu.Item>
+          <ContextMenu.Item key="suggest-less" onSelect={() => console.log('Suggest Less')}>
+            <ContextMenu.ItemTitle>Suggest Less</ContextMenu.ItemTitle>
+          </ContextMenu.Item>
+        </ContextMenu.Group>
+
+        <ContextMenu.Group>
+          <ContextMenu.Item key="channel" onSelect={() => router.push(`/channel/${episode.id}`)}>
+            <ContextMenu.ItemTitle>Go to Channel</ContextMenu.ItemTitle>
+          </ContextMenu.Item>
+          <ContextMenu.Item key="follow" onSelect={() => console.log('Follow Channel')}>
+            <ContextMenu.ItemTitle>Follow Channel</ContextMenu.ItemTitle>
+          </ContextMenu.Item>
+          <ContextMenu.Item key="block" onSelect={() => console.log('Block Channel')}>
+            <ContextMenu.ItemTitle>Block Channel</ContextMenu.ItemTitle>
+          </ContextMenu.Item>
+        </ContextMenu.Group>
+      </ContextMenu.Content>
 
       <Modal
         transparent={true}
@@ -141,13 +172,6 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
         onRequestClose={handleCloseModal}
         presentationStyle="fullScreen"
         onDismiss={handleCloseModal}
-
-        // gestureDirection: "vertical",
-        // animation: "slide_from_bottom",
-        // // headerShown: false,
-        // sheetGrabberVisible: true,
-        // sheetInitialDetentIndex: 0,
-        // sheetAllowedDetents: [0.5, 1.0],
       >
         <BlurView intensity={20} className="absolute inset-0">
           <Pressable className="flex-1" onPress={handleCloseModal}>
@@ -186,6 +210,6 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
           </Pressable>
         </BlurView>
       </Modal>
-    </>
+    </ContextMenu.Root>
   );
 } 
