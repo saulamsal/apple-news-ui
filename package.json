@@ -20,6 +20,9 @@
     "@codeherence/react-native-header": "^0.14.0",
     "@expo/metro-runtime": "~4.0.0",
     "@expo/vector-icons": "^14.0.2",
+    "@radix-ui/react-context-menu": "^2.2.4",
+    "@radix-ui/react-dropdown-menu": "^2.1.4",
+    "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/slider": "^4.5.5",
     "@react-native-menu/menu": "^1.2.0",
     "@react-navigation/native": "^7.0.0",
@@ -39,6 +42,7 @@
     "expo-sharing": "~13.0.1",
     "expo-splash-screen": "~0.29.10",
     "expo-status-bar": "~2.0.0",
+    "expo-symbols": "~0.2.1",
     "expo-system-ui": "~4.0.3",
     "expo-web-browser": "~14.0.1",
     "nativewind": "^4.1.23",
@@ -58,9 +62,7 @@
     "react-native-tab-view": "^3.5.2",
     "react-native-web": "~0.19.6",
     "tailwindcss": "^3.4.17",
-    "zeego": "^2.0.4",
-    "expo-symbols": "~0.2.1",
-    "@react-native-async-storage/async-storage": "1.23.1"
+    "zeego": "^2.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
