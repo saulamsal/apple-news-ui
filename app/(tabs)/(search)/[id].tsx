@@ -7,7 +7,7 @@ import { BlurView } from 'expo-blur';
 import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet } from 'react-native';
 import Animated, { SharedValue } from 'react-native-reanimated';
-import { SwipeListView } from 'react-native-swipe-list-view';
+import { SwipeListView, RowMap } from 'react-native-swipe-list-view';
 import { ListRenderItemInfo } from '@shopify/flash-list';
 import searchEntities from '@/app/data/search_entities.json';
 import entities from '@/app/data/entities.json';
@@ -15,6 +15,20 @@ import { NewsItem, NewsItemType } from '@/components/NewsItem';
 import { SwipeableNewsItem } from '@/components/SwipeableNewsItem';
 import * as DropdownMenu from 'zeego/dropdown-menu';
 import { MaterialIcons } from '@expo/vector-icons';
+
+interface Entity {
+    id: string;
+    title: string;
+    icon?: string;
+    logo?: string;
+    description?: string;
+    entity_type?: string;
+    type: string;
+    theme?: {
+        backgroundColor: string;
+        textColor: string;
+    };
+}
 
 const FadingView = ({ opacity, children, style }: { 
     opacity: SharedValue<number>, 
@@ -32,7 +46,7 @@ export default function TopicScreen() {
     const router = useRouter();
     const scrollRef = React.useRef(null);
 
-    const entity = entities[id as keyof typeof entities];
+    const entity = entities[id as keyof typeof entities] as Entity;
 
     // Handle case when entity is not found
     if (!entity) {
@@ -73,18 +87,18 @@ export default function TopicScreen() {
         is_news_plus: false
     }));
 
-    const renderNewsItem = ({ item }: ListRenderItemInfo<NewsItemType>) => (
+    const renderNewsItem = ({ item }: { item: NewsItemType }) => (
         <NewsItem item={item} />
     );
 
-    const renderHiddenItem = ({ item }: ListRenderItemInfo<NewsItemType>) => (
+    const renderHiddenItem = ({ item }: { item: NewsItemType }) => (
         <SwipeableNewsItem item={item} />
     );
 
     const HeaderSurface = ({ showNavBar }: { showNavBar: SharedValue<number> }) => (
         <FadingView opacity={showNavBar} style={StyleSheet.absoluteFill}>
             <BlurView 
-                style={StyleSheet.absoluteFill} 
+                style={[StyleSheet.absoluteFill, { backgroundColor: 'red' }]}
                 intensity={80} 
                 tint="light"
             />
@@ -95,89 +109,74 @@ export default function TopicScreen() {
         <Header
             showNavBar={showNavBar}
             SurfaceComponent={HeaderSurface}
+            noBottomBorder
             headerLeft={
                 <TouchableOpacity 
                     onPress={() => router.back()}
-                    className="p-2"
+                    className="w-9 h-9 bg-[#0000002d] rounded-full items-center justify-center ml-4"
                 >
-                    <Ionicons name="chevron-back" size={24} color="#000" />
+                    <Ionicons name="chevron-back" size={24} color="#fff" />
                 </TouchableOpacity>
             }
+            headerCenter={
+                <Text style={{ color: 'white' }} className="text-xl font-bold">
+                    {entity.title}
+                </Text>
+            }
             headerRight={
-                <View className="flex-row">
-                    <TouchableOpacity className="p-2">
-                        <Ionicons name="add" size={24} color="#000" />
+                <View className="flex-row gap-4 mr-4">
+                    <TouchableOpacity  className="w-9 h-9 bg-[#0000002d] rounded-full items-center justify-center">
+                        <Ionicons name="add" size={24} color="#fff" />
                     </TouchableOpacity>
-                    <DropdownMenu.Root>
-                        <DropdownMenu.Trigger>
-                            <TouchableOpacity className="p-2">
-                                <Ionicons name="ellipsis-horizontal" size={24} color="#000" />
-                            </TouchableOpacity>
-                        </DropdownMenu.Trigger>
-                        <DropdownMenu.Content>
-                            <DropdownMenu.Item key="share">
-                                <DropdownMenu.ItemIcon ios={{ name: 'square.and.arrow.up' }}>
-                                    <MaterialIcons name="share" size={18} />
-                                </DropdownMenu.ItemIcon>
-                                <DropdownMenu.ItemTitle>Share Topic</DropdownMenu.ItemTitle>
-                            </DropdownMenu.Item>
-                            <DropdownMenu.Item key="copy">
-                                <DropdownMenu.ItemIcon ios={{ name: 'link' }}>
-                                    <MaterialIcons name="link" size={18} />
-                                </DropdownMenu.ItemIcon>
-                                <DropdownMenu.ItemTitle>Copy Link</DropdownMenu.ItemTitle>
-                            </DropdownMenu.Item>
-                            <DropdownMenu.Item key="follow">
-                                <DropdownMenu.ItemIcon ios={{ name: 'plus.circle' }}>
-                                    <MaterialIcons name="add-circle-outline" size={18} />
-                                </DropdownMenu.ItemIcon>
-                                <DropdownMenu.ItemTitle>Follow Topic</DropdownMenu.ItemTitle>
-                            </DropdownMenu.Item>
-                            <DropdownMenu.Item key="block">
-                                <DropdownMenu.ItemIcon ios={{ name: 'hand.raised.fill' }}>
-                                    <MaterialIcons name="block" size={18} />
-                                </DropdownMenu.ItemIcon>
-                                <DropdownMenu.ItemTitle>Block Topic</DropdownMenu.ItemTitle>
-                            </DropdownMenu.Item>
-                        </DropdownMenu.Content>
-                    </DropdownMenu.Root>
+                    <TouchableOpacity className="w-9 h-9 bg-[#0000002d] rounded-full items-center justify-center">
+                        <Ionicons name="ellipsis-horizontal" size={20} color="#fff" />
+                    </TouchableOpacity>
                 </View>
             }
+            headerStyle={{ 
+                backgroundColor: 'red',
+                paddingBottom: 10
+             }}
         />
     );
 
     const LargeHeaderComponent = () => (
         <View 
-            className="px-4 pt-16 pb-4"
-            style={{ 
-                backgroundColor: entity.theme?.backgroundColor || '#FFFFFF',
-            }}
+            style={[
+                styles.largeHeader,
+                {
+                    backgroundColor: 'red',
+                    borderBottomWidth:0,
+                    borderTopWidth: 0
+                }
+            ]}
         >
             <View className="flex-row items-center gap-4">
                 {entity.logo && (
                     <Image 
                         source={{ uri: entity.logo }} 
-                        className="w-16 h-16 rounded-full"
+                        className="w-16 h-16 rounded-lg"
                     />
                 )}
                 <View>
                     <Text 
-                        className="text-2xl font-bold"
-                        style={{ color: entity.theme?.textColor }}
+                        style={[
+                            styles.title,
+                            { color: '#fff' }
+                        ]}
                     >
                         {entity.title}
                     </Text>
-                    <Text className="text-gray-500 text-base">
-                        {entity.description || entity.entity_type}
+                    <Text style={styles.subtitle}>
+                        {entity.description || entity.entity_type || entity.type}
                     </Text>
                 </View>
             </View>
-            <Text className="text-xl font-bold mt-6 mb-2">Recent Stories</Text>
         </View>
     );
 
     return (
-        <View className="flex-1 bg-white">
+        <View className="flex-1 ">
             <ScrollViewWithHeaders
                 ref={scrollRef}
                 contentContainerStyle={[{ paddingBottom: bottom }]}
@@ -201,8 +200,28 @@ export default function TopicScreen() {
                     useNativeDriver={false}
                     disableRightSwipe={false}
                     disableLeftSwipe={false}
+                    style={{marginTop: 20}}
                 />
             </ScrollViewWithHeaders>
         </View>
     );
-} 
+}
+
+const styles = StyleSheet.create({
+    largeHeader: {
+        paddingHorizontal: 16,
+        paddingTop: 16,
+        paddingBottom: 16,
+    },
+    title: {
+        fontSize: 28,
+        fontWeight: '700',
+        marginBottom: 4,
+        letterSpacing: -0.5,
+    },
+    subtitle: {
+        fontSize: 15,
+        color: '#666',
+        letterSpacing: -0.3,
+    }
+}); 
