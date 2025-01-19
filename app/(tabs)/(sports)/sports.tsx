@@ -1,5 +1,5 @@
 import { Text, Image, View, StyleSheet, Pressable, TouchableOpacity, Alert } from 'react-native';
-import { useRouter, useSegments } from 'expo-router';
+import { router, useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import { SwipeListView } from 'react-native-swipe-list-view';
@@ -57,6 +57,57 @@ interface NewsItem {
     featured_image: string;
     card_type: 'full' | 'medium';
 }
+
+const NFLPortalButton = () => {
+
+    return (
+        <View className="px-1">
+        <TouchableOpacity 
+        onPress={() => router.push(`/topic/nfl_playoffs`)}
+        style={{
+            // marginTop: 20,
+            marginHorizontal: 0,
+            height: 56,
+            backgroundColor: '#144174',
+            flexDirection: 'row',
+            alignItems: 'center',
+            paddingHorizontal: 16,
+            justifyContent: 'space-between',
+            borderRadius: 12,
+            overflow: 'hidden'
+        }}
+    >
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+            <Image 
+                source={{ uri: 'https://img.sofascore.com/api/v1/unique-tournament/9464/image/light' }}
+                style={{ width: 28, height: 28 }}
+            />
+            <View>
+                <Text style={{ color: '#fff', fontSize: 20, marginBottom: 2 }} className="font-bold">
+                    NFL Playoffs
+                </Text>
+              <View className="flex-row items-center gap-1">
+              <Text style={{ color: '#fff', fontSize: 13, opacity: 0.8, marginTop: -2 }}>
+                    Full coverage
+                </Text>
+                <Ionicons name="chevron-forward" size={14} color="#fff" />
+              </View>
+            </View>
+        </View>
+        <Image 
+            source={{ uri: 'https://img.sofascore.com/api/v1/unique-tournament/9464/image/light' }}
+            style={{ 
+                width: 80, 
+                height: 80,
+                position: 'absolute',
+                right: -10,
+                opacity: 0.1
+            }}
+        />
+    </TouchableOpacity>
+    </View>
+    );
+};
 
 export default function SportsScreen() {
     const router = useRouter();
@@ -205,6 +256,8 @@ export default function SportsScreen() {
                                     </View>
                                 </View>
                                 <SportScoreCarousel scores={scores} />
+
+                        <NFLPortalButton />
 
                                 <View style={SportsStyles.listHeader}>
                                    

@@ -118,5 +118,16 @@
         "logo": "/assets/leagues/ufc.png",
         "entity_type": "sport_league",
         "type": "league"
+    },
+    "nfl_playoffs": {
+        "id": "nfl_playoffs",
+        "title": "NFL Playoffs",
+        "entity_type": "sport_topic",
+        "description": "Full coverage of the NFL Playoffs",
+        "type": "topic",
+        "theme": {
+            "backgroundColor": "#E3F2FD",
+            "textColor": "#1565C0"
+        }
     }
 } 

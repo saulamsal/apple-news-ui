@@ -37,7 +37,7 @@ export const SportsStyles = StyleSheet.create({
     },
     listHeader: {
        gap: 4,
-       marginTop: 20,
+    //    marginTop: 20,
        alignItems: 'center',
        flexDirection: 'row',
        justifyContent: 'space-between',
