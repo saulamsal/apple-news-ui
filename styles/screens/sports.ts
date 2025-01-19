@@ -9,9 +9,10 @@ export const SportsStyles = StyleSheet.create({
     },
     headerLeft: {
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        gap: 8
+        gap: 8,
+        width: '100%',
     },
     headerIconRight: {
         borderRadius: 50,
