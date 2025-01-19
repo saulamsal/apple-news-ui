@@ -1,4 +1,4 @@
-import { Text, Image, View, Pressable } from 'react-native';
+import { Text, Image, View, Pressable, TouchableOpacity } from 'react-native';
 import { useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
@@ -11,6 +11,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { ListRenderItemInfo } from '@shopify/flash-list';
+import * as WebBrowser from 'expo-web-browser';
 
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -50,6 +51,63 @@ interface NewsItem {
   featured_image: string;
   card_type: 'full' | 'medium';
 }
+
+const DonateButton = () => {
+  const handlePress = async () => {
+    await WebBrowser.openBrowserAsync('https://www.redcross.org/donate/donation.html/?srsltid=AfmBOopZTMT9_IdjjuwecAUYsN-M3-gtet6sYrp1cwGN3jg4DTghMeXn', {
+      presentationStyle: WebBrowser.WebBrowserPresentationStyle.PAGE_SHEET,
+      controlsColor: '#E31837',
+      toolbarColor: '#ffffff'
+    });
+  };
+
+  return (
+    <View className="px-5">
+      <TouchableOpacity 
+        onPress={handlePress}
+        style={{
+          height: 56,
+          backgroundColor: '#E31837',
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 16,
+          justifyContent: 'space-between',
+          borderRadius: 12,
+          overflow: 'hidden',
+          marginBottom: 20
+        }}
+      >
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+          <Image 
+            source={{ uri: 'https://pbs.twimg.com/profile_images/1542533870008016899/HtPYMRjs_400x400.jpg' }}
+            style={{ width: 28, height: 28, borderRadius: 14 }}
+          />
+          <View>
+            <Text style={{ color: '#fff', fontSize: 16, marginBottom: 2 }} className="font-bold">
+              Southern California wildfires
+            </Text>
+            <View className="flex-row items-center gap-1">
+              <Text style={{ color: '#fff', fontSize: 13, opacity: 0.8, marginTop: -2 }}>
+                Donate to the American Red Cross
+              </Text>
+              <Ionicons name="chevron-forward" size={14} color="#fff" />
+            </View>
+          </View>
+        </View>
+        <Image 
+          source={{ uri: 'https://pbs.twimg.com/profile_images/1542533870008016899/HtPYMRjs_400x400.jpg' }}
+          style={{ 
+            width: 80, 
+            height: 80,
+            position: 'absolute',
+            right: -10,
+            opacity: 0.1
+          }}
+        />
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -151,6 +209,7 @@ export default function HomeScreen() {
               <View className="mb-4 px-5">
                 <Text className="text-2xl font-bold text-black dark:text-white">Top Stories</Text>
               </View>
+              <DonateButton />
             </>
           }
         />

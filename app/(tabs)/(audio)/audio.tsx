@@ -138,7 +138,6 @@ export default function AudioScreen() {
     switch (activeTab) {
       case 'best':
         const episodes = podcasts[0]?.data?.shelves[0]?.items || [];
-        
         return (
           <FlashList
             data={episodes}
