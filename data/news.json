@@ -2,6 +2,33 @@
     "news": [
         {
             "id": "1",
+            "title": "Trump and Powell could be on a collision course in 2025",
+            "source": {
+                "id": "yahoo-finance",
+                "name": "Yahoo Finance",
+                "logo_transparent_light": "https://s.yimg.com/rz/p/yahoo_finance_en-US_h_p_financev2.png",
+                "logo_transparent_dark": "https://s.yimg.com/rz/p/yahoo_finance_en-US_h_p_financev2.png",
+                "dark_bg": "#2d1152",
+                "light_bg": "#ffffff",
+                "dark_text": "#ffffff",
+                "light_text": "#2d1152"
+            },
+            "created_at": "2024-03-19T15:00:00Z",
+            "topic": {
+                "id": "politics",
+                "name": "Politics"
+            },
+            "show_topic": true,
+            "author": {
+                "name": "Yahoo Finance Staff"
+            },
+            "featured_image": "https://images.axios.com/7p8rnmQOIkgEFK-kQul_-_2AfG0=/0x45:2657x1540/1920x1080/2024/07/18/1721312447294.jpg?w=3840",
+            "card_type": "full",
+            "has_next": true,
+            "is_news_plus": true
+        },
+        {
+            "id": "2",
             "title": "Mike Tyson is bigger than boxing. His fight with Jake Paul is proof.",
             "source": {
                 "id": "sports-illustrated",
@@ -13,10 +40,10 @@
                 "dark_text": "#fff",
                 "light_text": "#000"
             },
-            "created_at": "2024-03-19T14:30:00Z",
+            "created_at": "2024-03-19T14:45:00Z",
             "topic": {
                 "id": "boxing",
-                "name": "boxing"
+                "name": "Boxing"
             },
             "show_topic": true,
             "author": {
@@ -24,11 +51,38 @@
             },
             "featured_image": "https://www.aljazeera.com/wp-content/uploads/2024/11/AFP__20241115__36MH9YH__v2__HighRes__BoxHeavyUsaTysonPaulWeighIn-1731720368.jpg?resize=570%2C380&quality=80",
             "card_type": "full",
-            "has_next": false,
+            "has_next": true,
             "is_news_plus": true
         },
         {
-            "id": "2",
+            "id": "3",
+            "title": "Trump's family circle has a different look as he returns to the White House",
+            "source": {
+                "id": "ap",
+                "name": "AP",
+                "logo_transparent_light": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Associated_Press_logo_2012.svg/2560px-Associated_Press_logo_2012.svg.png",
+                "logo_transparent_dark": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Associated_Press_logo_2012.svg/2560px-Associated_Press_logo_2012.svg.png",
+                "dark_bg": "#000000",
+                "light_bg": "#ffffff",
+                "dark_text": "#ffffff",
+                "light_text": "#000000"
+            },
+            "created_at": "2024-03-19T14:30:00Z",
+            "topic": {
+                "id": "politics",
+                "name": "Politics"
+            },
+            "show_topic": true,
+            "author": {
+                "name": "AP Staff"
+            },
+            "featured_image": "https://s.yimg.com/ny/api/res/1.2/TMni9_X6IlPj3l5Hv8zcjQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTY0MA--/https://media.zenfs.com/en/ap.org/24c93ab1b4b4259db0817866f8c821a3",
+            "card_type": "medium",
+            "has_next": true,
+            "is_news_plus": false
+        },
+        {
+            "id": "4",
             "title": "The NBA is reportedly considering dropping the All-Star Game for a four-team tournament",
             "source": {
                 "id": "espn",
@@ -40,7 +94,7 @@
                 "dark_text": "#fff",
                 "light_text": "#000"
             },
-            "created_at": "2024-03-19T13:15:00Z",
+            "created_at": "2024-03-19T14:00:00Z",
             "topic": {
                 "id": "nba",
                 "name": "NBA"
@@ -51,34 +105,62 @@
             },
             "featured_image": "https://cdn.prod.website-files.com/66fd72ac6f0cd08e0277f262/67187f9e548681aef3643dbb_AS25%20Banners%20-%20728x485.png",
             "card_type": "medium",
-            "has_previous": "false",
+            "has_next": true,
             "is_news_plus": true
         },
         {
-            "id": "3",
-            "title": "The NBA is reportedly considering dropping the All-Star Game for a four-team tournament",
+            "id": "5",
+            "title": "Amazon's Zoox Plans To Launch Robotaxi Service This Year",
             "source": {
-                "id": "espn",
-                "name": "ESPN",
-                "logo_transparent_light": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ESPN_wordmark.svg/2560px-ESPN_wordmark.svg.png",
-                "logo_transparent_dark": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/ESPN_wordmark.svg/2560px-ESPN_wordmark.svg.png",
-                "dark_bg": "#000",
-                "light_bg": "#fff",
-                "dark_text": "#fff",
-                "light_text": "#000"
+                "id": "benzinga",
+                "name": "Benzinga",
+                "logo_transparent_light": "https://www.benzinga.com/next-assets/images/benzinga-logo.png",
+                "logo_transparent_dark": "https://www.benzinga.com/next-assets/images/benzinga-logo-dark.png",
+                "dark_bg": "#1e293b",
+                "light_bg": "#ffffff",
+                "dark_text": "#ffffff",
+                "light_text": "#1e293b"
             },
-            "created_at": "2024-03-19T13:15:00Z",
+            "created_at": "2024-03-19T13:45:00Z",
             "topic": {
-                "id": "nba",
-                "name": "NBA"
+                "id": "technology",
+                "name": "Technology"
             },
             "show_topic": true,
             "author": {
-                "name": "Adrian Wojnarowski"
+                "name": "Benzinga Staff"
             },
-            "featured_image": "https://cdn.prod.website-files.com/66fd72ac6f0cd08e0277f262/67187f9e548681aef3643dbb_AS25%20Banners%20-%20728x485.png",
+            "featured_image": "https://fortune.com/img-assets/wp-content/uploads/2024/09/GettyImages-2154179524-e1726086410920.jpg",
             "card_type": "full",
-            "has_previous": "false"
+            "has_next": true,
+            "is_news_plus": true
+        },
+        {
+            "id": "6",
+            "title": "Travis Kelce Doubles Down on His Swiftie Status",
+            "source": {
+                "id": "people",
+                "name": "People",
+                "logo_transparent_light": "https://people.com/img/logo-people.svg",
+                "logo_transparent_dark": "https://people.com/img/logo-people-light.svg",
+                "dark_bg": "#e4002b",
+                "light_bg": "#ffffff",
+                "dark_text": "#ffffff",
+                "light_text": "#e4002b"
+            },
+            "created_at": "2024-03-19T12:30:00Z",
+            "topic": {
+                "id": "entertainment",
+                "name": "Entertainment"
+            },
+            "show_topic": true,
+            "author": {
+                "name": "People Staff"
+            },
+            "featured_image": "https://s.yimg.com/ny/api/res/1.2/QgJzMWFSS9q9wIQ61vQnyg--/YXBwaWQ9aGlnaGxhbmRlcjt3PTI0MDA7aD0xNjAw/https://media.zenfs.com/en/people_218/aaed1f424e58b73c1a2dc6d6a400e8f2",
+            "card_type": "medium",
+            "has_next": false,
+            "is_news_plus": false
         }
     ]
 }
