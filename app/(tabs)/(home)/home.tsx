@@ -63,16 +63,18 @@ const DonateButton = () => {
   };
 
   return (
-    <SlidingBanner
-      onPress={handlePress}
-      image={{
+    <View className="px-4">
+      <SlidingBanner
+        onPress={handlePress}
+        image={{
         uri: 'https://pbs.twimg.com/profile_images/1542533870008016899/HtPYMRjs_400x400.jpg',
         style: { borderRadius: 14 }
-      }}
-      title="Southern California wildfires"
-      subtitle="Donate to the American Red Cross"
-      backgroundColor="#E31837"
-    />
+        }}
+        title="Southern California wildfires"
+        subtitle="Donate to the American Red Cross"
+        backgroundColor="#E31837"
+      />
+    </View>
   );
 };
 
@@ -165,7 +167,7 @@ export default function HomeScreen() {
             />
           }
           ListHeaderComponent={
-            <>
+            <View className="flex-1">
               <View className="flex-row items-center justify-between mb-6 px-5">
                 <NewsHeaderLeftItem size="md" />
                 <View>
@@ -186,14 +188,16 @@ export default function HomeScreen() {
                   transition={{ type: 'timing', duration: 300 }}
                   className="px-5 mb-2"
                 >
-                  <Text className="text-sm text-gray-600">Checking new stories...</Text>
+                  <Text className="text-2xl text-black">Checking new stories...</Text>
                 </MotiView>
               )}
-              <View className="mb-4 px-5">
-                <Text className="text-2xl font-bold text-black">Top Stories</Text>
-              </View>
+            
               <DonateButton />
-            </>
+
+              <View className="mb-4 px-5">
+                <Text className="text-4xl font-extrabold text-apple-news tracking-tighter ">Top Stories</Text>
+              </View>
+            </View>
           }
         />
       </View>

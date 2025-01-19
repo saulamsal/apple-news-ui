@@ -30,23 +30,21 @@ export const SlidingBanner = ({
         <MotiView
             from={{
                 opacity: 0,
-                height: 0,
-                marginTop: 0,
-                marginBottom: 0,
+                scale: 0.95,
+                translateY: -20,
             }}
             animate={{
                 opacity: 1,
-                height: 56,
-                marginTop: 16,
-                marginBottom: 16,
+                scale: 1,
+                translateY: 0,
             }}
             transition={{
-                type: 'spring',
-                delay: 500,
-                damping: 20,
-                mass: 0.8,
+                type: 'timing',
+                duration: 400,
             }}
             style={{
+                height: 56,
+                marginVertical: 16,
                 overflow: 'hidden',
                 paddingHorizontal: 4,
             }}
