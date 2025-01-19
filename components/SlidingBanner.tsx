@@ -41,6 +41,7 @@ export const SlidingBanner = ({
             transition={{
                 type: 'timing',
                 duration: 400,
+                delay: 300,
             }}
             style={{
                 height: 56,

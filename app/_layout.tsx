@@ -21,12 +21,12 @@ function AnimatedStack() {
   const { scale } = useRootScale();
   const { currentEpisode, isPlaying, togglePlayPause } = useAudio();
 
-  useEffect(() => {
-    // If we're not on welcome screen and not in tabs, redirect to welcome
-    if (segments[0] !== 'welcome' && segments[0] !== '(tabs)') {
-      router.replace('/welcome');
-    }
-  }, [segments]);
+  // useEffect(() => {
+  //   // If we're not on welcome screen and not in tabs, redirect to welcome
+  //   if (segments[0] !== 'welcome' && segments[0] !== '(tabs)') {
+  //     router.replace('/welcome');
+  //   }
+  // }, [segments]);
 
   const animatedStyle = useAnimatedStyle(() => {
     console.log(scale.value)
