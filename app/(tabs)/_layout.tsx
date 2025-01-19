@@ -1,9 +1,10 @@
 import { Tabs } from '@/components/navigation/NativeTabs';
 import React from 'react';
 import { Platform } from 'react-native';
+import { MiniPlayer } from '@/components/BottomSheet/MiniPlayer';
+import { useAudio } from '@/contexts/AudioContext';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { SymbolView } from 'expo-symbols';
 
 export const unstable_settings = {
   initialRouteName: '(home)',
@@ -15,29 +16,20 @@ type TabBarIconProps = {
   size: number;
 };
 
+interface AudioContextType {
+  currentEpisode: any;
+  isPlaying: boolean;
+  togglePlayPause: () => Promise<void>;
+}
+
 export default function TabLayout() {
   const router = useRouter();
+  const { currentEpisode, isPlaying, togglePlayPause } = useAudio() as AudioContextType;
 
-  const renderIcon = (props: TabBarIconProps, iconName: keyof typeof Ionicons.glyphMap, sfSymbolName: string) => {
-    if (Platform.OS === 'ios') {
-      return (
-        <SymbolView
-          name={sfSymbolName}
-          style={{
-            width: props.size,
-            height: props.size
-          }}
-          weight={props.focused ? "bold" : "regular"}
-          scale="large"
-          tintColor={props.color}
-          type={props.focused ? 'hierarchical' : 'monochrome'}
-        />
-      );
-    }
-    
+  const renderIcon = (props: TabBarIconProps, iconName: keyof typeof Ionicons.glyphMap, outlineIconName: keyof typeof Ionicons.glyphMap) => {
     return (
       <Ionicons 
-        name={props.focused ? iconName : `${iconName}-outline`}
+        name={props.focused ? iconName : outlineIconName}
         size={props.size} 
         color={props.color}
       />
@@ -45,46 +37,54 @@ export default function TabLayout() {
   };
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: '#FA2D48',
-        headerShown: false,
-      }}>
-      <Tabs.Screen
-        name="(home)"
-        options={{
-          title: 'Today',
-          tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'newspaper', 'text.book.closed'),
-        }}
-      />
-      <Tabs.Screen
-        name="(news+)"
-        options={{
-          title: 'News+',
-          tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'grid', 'rectangle.stack.badge.plus'),
-        }}
-      />
-      <Tabs.Screen
-        name="(sports)"
-        options={{
-          title: 'Sports',
-          tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'football', 'figure.american.football'),
-        }}
-      />
-      <Tabs.Screen
-        name="(audio)"
-        options={{
-          title: 'Audio',
-          tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'headset', 'headphones'),
-        }}
-      />
-      <Tabs.Screen
-        name="(search)"
-        options={{
-          title: 'Following',
-          tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'heart', 'heart.circle'),
-        }}
-      />
-    </Tabs>
+    <>
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: '#FA2D48',
+          headerShown: false,
+        }}>
+        <Tabs.Screen
+          name="(home)"
+          options={{
+            title: 'Home',
+            tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'newspaper', 'newspaper-outline'),
+          }}
+        />
+        <Tabs.Screen
+          name="(news+)"
+          options={{
+            title: 'News+',
+            tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'beaker', 'beaker'),
+          }}
+        />
+        <Tabs.Screen
+          name="(sports)"
+          options={{
+            title: 'Sports',
+            tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'basketball', 'basketball-outline'),
+          }}
+        />
+        <Tabs.Screen
+          name="(audio)"
+          options={{
+            title: 'Audio',
+            tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'headset', 'headset'),
+          }}
+        />
+        <Tabs.Screen
+          name="(search)"
+          options={{
+            title: 'Following',
+            tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'heart', 'heart-outline'),
+          }}
+        />
+      </Tabs>
+
+      {currentEpisode && (
+        <MiniPlayer
+          onPress={() => router.push(`/audio/${currentEpisode.id}`)}
+        />
+      )}
+    </>
   );
 }
