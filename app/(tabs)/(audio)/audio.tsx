@@ -245,11 +245,10 @@ export default function AudioScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }}>
-      <View style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
+      <View style={[styles.container, { backgroundColor: '#F2F2F6', paddingTop: insets.top }]}>
         {renderContent()}
       </View>
-    </SafeAreaView>
+
   );
 }
 
