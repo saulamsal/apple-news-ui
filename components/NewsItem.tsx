@@ -105,7 +105,7 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
         <View className="px-4 py-3">
           <Image
             source={{ uri: colorScheme === 'light' ? item.source.logo_transparent_light : item.source.logo_transparent_dark }}
-            className="h-6 w-[120px] -ml-2.5 mb-2 resize-contain"
+            className="h-10 w-[120px] -ml-2.5 mb-2 resize-contain"
           />
           <Text className="text-2xl leading-8 font-bold -tracking-[1px]">
             {item.title}
@@ -171,11 +171,22 @@ export const NewsItem = ({ item }: NewsItemProps) => {
       <ContextMenu.Content>
         <ContextMenu.Preview>
           {() => (
-            <Image 
-              source={{ uri: item.featured_image }} 
-              className="w-full h-[200px]"
-              resizeMode="cover"
-            />
+            <View>
+              <Image 
+                source={{ uri: item.featured_image }} 
+                className="w-full h-[200px]"
+                resizeMode="cover"
+              />
+              <View className="absolute bottom-0 left-0 right-0 p-4 bg-black/50 backdrop-blur-md">
+                <Image
+                  source={{ uri: item.source.logo_transparent_dark }}
+                  className="h-4 w-[100px] -ml-2 mb-2 resize-contain"
+                />
+                <Text className="text-lg font-semibold text-white -tracking-[0.5px]">
+                  {item.title}
+                </Text>
+              </View>
+            </View>
           )}
         </ContextMenu.Preview>
         <MenuItems item={item} />
@@ -203,7 +214,7 @@ const NewsItemActions = ({ item }: { item: NewsItemType }) => {
       )}
       <View className="absolute right-2 top-2">
         <DropdownMenu.Root>
-          <DropdownMenu.Trigger>
+          <DropdownMenu.Trigger asChild>
             <Pressable
               className="p-2 rounded-full active:bg-black/5"
               onPress={(e) => {

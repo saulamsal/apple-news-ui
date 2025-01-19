@@ -58,7 +58,8 @@
     "react-native-tab-view": "^3.5.2",
     "react-native-web": "~0.19.6",
     "tailwindcss": "^3.4.17",
-    "zeego": "^2.0.4"
+    "zeego": "^2.0.4",
+    "expo-symbols": "~0.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
