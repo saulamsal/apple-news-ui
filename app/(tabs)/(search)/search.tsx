@@ -10,6 +10,7 @@ import { SearchData } from '@/app/types/search';
 import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
 import { BlurView } from 'expo-blur';
 import Animated, { SharedValue } from 'react-native-reanimated';
+import { getAllCategories, getAllEntitiesForSection, lookupEntity } from '@/app/utils/entityUtils';
 
 const typedSearchEntities = searchEntities as SearchData;
 
@@ -101,23 +102,25 @@ export default function SearchScreen() {
                 headerContainerStyle={{ paddingTop: top + 4 }}
             >
                 <View className="p-4 flex-col gap-4">
-                    {typedSearchEntities.categories.map((category) => (
+                    {getAllCategories().map((entity) => (
                         <CategoryCard
-                            key={category.id}
-                            title={category.title}
-                            icon={category.icon}
+                            key={entity.id}
+                            id={entity.id}
+                            title={entity.title}
+                            icon={entity.icon}
                         />
                     ))}
                 </View>
 
-                {typedSearchEntities.sections.map((section) => (
+                {searchEntities.sections.map((section) => (
                     <AnimatedAccordion key={section.id} title={section.title}>
                         <View className="p-4 gap-3">
-                            {section.items.map((item) => (
+                            {getAllEntitiesForSection(section.id).map((entity) => (
                                 <CategoryCard
-                                    key={item.id}
-                                    title={item.title}
-                                    logo={item.logo}
+                                    key={entity.id}
+                                    id={entity.id}
+                                    title={entity.title}
+                                    logo={entity.logo}
                                 />
                             ))}
                         </View>

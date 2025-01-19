@@ -2,27 +2,18 @@
     "categories": [
         {
             "id": "puzzles",
-            "title": "Puzzles",
-            "icon": "extension-puzzle",
-            "description": "Daily puzzles and brain teasers",
             "items": []
         },
         {
             "id": "shared",
-            "title": "Shared with You",
-            "icon": "people",
             "items": []
         },
         {
             "id": "saved",
-            "title": "Saved Stories",
-            "icon": "bookmark",
             "items": []
         },
         {
             "id": "history",
-            "title": "History",
-            "icon": "time",
             "items": []
         }
     ],
@@ -30,87 +21,17 @@
         {
             "id": "special_coverage",
             "title": "Special Coverage",
-            "items": [
-                {
-                    "id": "election_2024",
-                    "title": "Election 2024",
-                    "logo": "https://bloximages.newyork1.vip.townnews.com/hermistonherald.com/content/tncms/assets/v3/editorial/b/e8/be8fb83d-6ede-5302-9d18-162ee39bc357/663a950fb6ed9.image.png",
-                    "entity_type": "politics_topic",
-                    "description": "Complete coverage of the 2024 Presidential Election"
-                },
-                {
-                    "id": "climate_change",
-                    "title": "Climate Crisis",
-                    "logo": "https://img.freepik.com/premium-vector/climate-crisis-emblem-with-earth-rising-heat-black-icon-globe-with-rays-vector-illustration_118339-6705.jpg",
-                    "entity_type": "science_topic"
-                }
-            ]
+            "items": ["election_2024", "climate_change"]
         },
         {
             "id": "favorites",
             "title": "Favorites",
-            "items": [
-                {
-                    "id": "tech_news",
-                    "title": "Technology",
-                    "logo": "https://static.vecteezy.com/system/resources/thumbnails/013/760/485/small_2x/abstract-connection-logo-illustration-in-trendy-and-minimal-style-png.png",
-                    "entity_type": "news_category"
-                },
-                {
-                    "id": "business",
-                    "title": "Business",
-                    "logo": "https://www.shutterstock.com/image-vector/letter-o-leaf-logo-vector-600nw-2485074717.jpg",
-                    "entity_type": "news_category"
-                }
-            ]
+            "items": ["tech_news", "business"]
         },
         {
             "id": "my_sports",
             "title": "My Sports",
-            "items": [
-                {
-                    "id": "man_utd",
-                    "title": "Manchester United",
-                    "logo": "https://api.sofascore.app/api/v1/team/35/image",
-                    "entity_type": "sport_team"
-                },
-                {
-                    "id": "premier_league",
-                    "title": "Premier League",
-                    "logo": "https://api.sofascore.app/api/v1/unique-tournament/17/image",
-                    "entity_type": "sport_league"
-                },
-                {
-                    "id": "nba",
-                    "title": "NBA",
-                    "logo": "/assets/leagues/nba.png",
-                    "entity_type": "sport_league"
-                },
-                {
-                    "id": "nfl",
-                    "title": "NFL",
-                    "logo": "/assets/leagues/nfl.png",
-                    "entity_type": "sport_league"
-                },
-                {
-                    "id": "mlb",
-                    "title": "MLB",
-                    "logo": "/assets/leagues/mlb.png",
-                    "entity_type": "sport_league"
-                },
-                {
-                    "id": "f1",
-                    "title": "F1",
-                    "logo": "/assets/leagues/f1.png",
-                    "entity_type": "sport_league"
-                },
-                {
-                    "id": "ufc",
-                    "title": "UFC",
-                    "logo": "/assets/leagues/ufc.png",
-                    "entity_type": "sport_league"
-                }
-            ]
+            "items": ["man_utd", "premier_league", "nba", "nfl", "mlb", "f1", "ufc"]
         }
     ]
 }

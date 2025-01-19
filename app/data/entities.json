@@ -1,0 +1,106 @@
+{
+    "puzzles": {
+        "id": "puzzles",
+        "title": "Puzzles",
+        "icon": "extension-puzzle",
+        "description": "Daily puzzles and brain teasers",
+        "type": "category"
+    },
+    "shared": {
+        "id": "shared",
+        "title": "Shared with You",
+        "icon": "people",
+        "type": "category"
+    },
+    "saved": {
+        "id": "saved",
+        "title": "Saved Stories",
+        "icon": "bookmark",
+        "type": "category"
+    },
+    "history": {
+        "id": "history",
+        "title": "History",
+        "icon": "time",
+        "type": "category"
+    },
+    "election_2024": {
+        "id": "election_2024",
+        "title": "Election 2024",
+        "logo": "https://bloximages.newyork1.vip.townnews.com/hermistonherald.com/content/tncms/assets/v3/editorial/b/e8/be8fb83d-6ede-5302-9d18-162ee39bc357/663a950fb6ed9.image.png",
+        "entity_type": "politics_topic",
+        "description": "Complete coverage of the 2024 Presidential Election",
+        "type": "topic"
+    },
+    "climate_change": {
+        "id": "climate_change",
+        "title": "Climate Crisis",
+        "logo": "https://img.freepik.com/premium-vector/climate-crisis-emblem-with-earth-rising-heat-black-icon-globe-with-rays-vector-illustration_118339-6705.jpg",
+        "entity_type": "science_topic",
+        "type": "topic"
+    },
+    "tech_news": {
+        "id": "tech_news",
+        "title": "Technology",
+        "logo": "https://static.vecteezy.com/system/resources/thumbnails/013/760/485/small_2x/abstract-connection-logo-illustration-in-trendy-and-minimal-style-png.png",
+        "entity_type": "news_category",
+        "type": "topic"
+    },
+    "business": {
+        "id": "business",
+        "title": "Business",
+        "logo": "https://www.shutterstock.com/image-vector/letter-o-leaf-logo-vector-600nw-2485074717.jpg",
+        "entity_type": "news_category",
+        "type": "topic"
+    },
+    "man_utd": {
+        "id": "man_utd",
+        "title": "Manchester United",
+        "logo": "https://api.sofascore.app/api/v1/team/35/image",
+        "entity_type": "sport_team",
+        "description": "Men's Football",
+        "type": "team"
+    },
+    "premier_league": {
+        "id": "premier_league",
+        "title": "Premier League",
+        "logo": "https://api.sofascore.app/api/v1/unique-tournament/17/image",
+        "entity_type": "sport_league",
+        "type": "league"
+    },
+    "nba": {
+        "id": "nba",
+        "title": "NBA",
+        "logo": "/assets/leagues/nba.png",
+        "entity_type": "sport_league",
+        "type": "league"
+    },
+    "nfl": {
+        "id": "nfl",
+        "title": "NFL",
+        "logo": "/assets/leagues/nfl.png",
+        "entity_type": "sport_league",
+        "type": "league"
+    },
+    "mlb": {
+        "id": "mlb",
+        "title": "MLB",
+        "logo": "/assets/leagues/mlb.png",
+        "entity_type": "sport_league",
+        "type": "league"
+    },
+    "f1": {
+        "id": "f1",
+        "title": "F1",
+        "logo": "/assets/leagues/f1.png",
+        "entity_type": "sport_league",
+        "type": "league"
+    },
+    "ufc": {
+        "id": "ufc",
+        "title": "UFC",
+        "logo": "/assets/leagues/ufc.png",
+        "entity_type": "sport_league",
+        "type": "league"
+    }
+} 

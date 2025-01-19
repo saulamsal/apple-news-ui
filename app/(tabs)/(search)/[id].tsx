@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { StyleSheet } from 'react-native';
 import Animated, { SharedValue } from 'react-native-reanimated';
 import searchEntities from '@/app/data/search_entities.json';
+import entities from '@/app/data/entities.json';
 import { NewsItem, NewsItemType } from '@/components/NewsItem';
 import * as DropdownMenu from 'zeego/dropdown-menu';
 
@@ -27,25 +28,40 @@ export default function TopicScreen() {
     const router = useRouter();
     const scrollRef = React.useRef(null);
 
-    const topic = [...searchEntities.categories, 
-        ...searchEntities.sections.flatMap(section => section.items)]
-        .find(item => item.id === id);
+    const entity = entities[id as keyof typeof entities];
+
+    // Handle case when entity is not found
+    if (!entity) {
+        return (
+            <View className="flex-1 bg-white items-center justify-center p-4">
+                <Text className="text-xl font-semibold text-center">
+                    Topic not found
+                </Text>
+                <TouchableOpacity 
+                    onPress={() => router.back()}
+                    className="mt-4 bg-gray-100 px-6 py-3 rounded-full"
+                >
+                    <Text>Go Back</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    }
 
     // Dummy news items data
     const dummyNews: NewsItemType[] = Array(5).fill(null).map((_, i) => ({
         id: `dummy-${i}`,
         title: i === 0 
-            ? "WATCH: Nepal spinner sustains injury while mimicking Tabraiz Shamsi's celebration in U19 Asia Cup 2024"
-            : `${topic?.title} News Item ${i + 1}`,
+            ? `WATCH: ${entity.title} latest news headline`
+            : `${entity.title} News Item ${i + 1}`,
         source: {
-            id: 'cricket-times',
-            name: 'CricketTimes.com',
+            id: 'news-source',
+            name: 'NewsSource.com',
             logo_transparent_light: 'https://example.com/logo.png',
             logo_transparent_dark: 'https://example.com/logo-dark.png'
         },
         topic: {
-            id: topic?.id || '',
-            name: topic?.title || ''
+            id: entity.id,
+            name: entity.title
         },
         show_topic: false,
         featured_image: 'https://picsum.photos/400/300',
@@ -88,16 +104,16 @@ export default function TopicScreen() {
                         </DropdownMenu.Trigger>
                         <DropdownMenu.Content>
                             <DropdownMenu.Item key="share">
-                                <DropdownMenu.ItemTitle>Share Team</DropdownMenu.ItemTitle>
+                                <DropdownMenu.ItemTitle>Share {entity.type}</DropdownMenu.ItemTitle>
                             </DropdownMenu.Item>
                             <DropdownMenu.Item key="copy">
                                 <DropdownMenu.ItemTitle>Copy Link</DropdownMenu.ItemTitle>
                             </DropdownMenu.Item>
                             <DropdownMenu.Item key="follow">
-                                <DropdownMenu.ItemTitle>Follow Team</DropdownMenu.ItemTitle>
+                                <DropdownMenu.ItemTitle>Follow {entity.type}</DropdownMenu.ItemTitle>
                             </DropdownMenu.Item>
                             <DropdownMenu.Item key="block">
-                                <DropdownMenu.ItemTitle>Block Team</DropdownMenu.ItemTitle>
+                                <DropdownMenu.ItemTitle>Block {entity.type}</DropdownMenu.ItemTitle>
                             </DropdownMenu.Item>
                         </DropdownMenu.Content>
                     </DropdownMenu.Root>
@@ -109,16 +125,16 @@ export default function TopicScreen() {
     const LargeHeaderComponent = () => (
         <View className="px-4 pt-16 pb-4 bg-white">
             <View className="flex-row items-center gap-4">
-                {topic?.logo && (
+                {entity.logo && (
                     <Image 
-                        source={{ uri: topic.logo }} 
+                        source={{ uri: entity.logo }} 
                         className="w-16 h-16 rounded-full"
                     />
                 )}
                 <View>
-                    <Text className="text-2xl font-bold">{topic?.title}</Text>
+                    <Text className="text-2xl font-bold">{entity.title}</Text>
                     <Text className="text-gray-500 text-base">
-                        {topic?.entity_type === 'sport_team' ? "Men's Cricket" : topic?.description}
+                        {entity.type === 'team' ? "Men's Cricket" : entity.description || entity.entity_type}
                     </Text>
                 </View>
             </View>
