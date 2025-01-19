@@ -81,7 +81,7 @@
         "id": "premier_league",
         "title": "Premier League",
         "logo": "https://api.sofascore.app/api/v1/unique-tournament/17/image",
-        "entity_type": "sport_league",
+        "entity_type": "England",
         "type": "league",
         "theme": {
             "backgroundColor": "#E20451",
@@ -92,14 +92,14 @@
         "id": "nba",
         "title": "NBA",
         "logo": "",
-        "entity_type": "sport_league",
+        "entity_type": "Sports League",
         "type": "league"
     },
     "nfl": {
         "id": "nfl",
         "title": "NFL",
         "logo": "https://img.sofascore.com/api/v1/unique-tournament/9464/image/dark",
-        "entity_type": "sport_league",
+        "entity_type": "United States",
         "type": "league",
         "tabs": ["news","scores","videos", "stats"],
         "theme": {
