@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import { format } from 'date-fns';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useRouter } from 'expo-router';
+import { MotiView } from 'moti';
 
 
 interface Team {
@@ -23,18 +24,45 @@ interface Score {
   team1: Team;
   team2: Team;
   startTime: string;
+  is_live: boolean;
+  status: string;
 }
 
 interface SportScoreCarouselProps {
   scores: Score[];
 }
 
+const LiveDot = () => (
+  <MotiView
+    from={{
+      opacity: 0.4,
+      scale: 0.8,
+    }}
+    animate={{
+      opacity: 1,
+      scale: 1,
+    }}
+    transition={{
+      type: 'timing',
+      duration: 1000,
+      loop: true,
+    }}
+    style={styles.liveDot}
+  />
+);
+
 export const SportScoreCarousel: React.FC<SportScoreCarouselProps> = ({ scores }) => {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
   const router = useRouter();
 
-  const formatTime = (timestamp: string) => {
+  const formatTime = (timestamp: string, is_live: boolean, status: string) => {
+    if (is_live) {
+      return 'LIVE';
+    }
+    if (status === 'completed') {
+      return 'Final';
+    }
     return format(new Date(timestamp), 'M/dd . h:mm a');
   };
 
@@ -83,12 +111,28 @@ export const SportScoreCarousel: React.FC<SportScoreCarouselProps> = ({ scores }
                 </View>
               </View>
 
-              <Text style={styles.timeText}>
-                {formatTime(score.startTime)}
-              </Text>
+              <View style={styles.timeContainer}>
+                <Text style={[
+                  styles.timeText,
+                  score.is_live && styles.liveText
+                ]}>
+                  {formatTime(score.startTime, score.is_live, score.status)}
+                </Text>
+                {score.is_live && <LiveDot />}
+              </View>
             </View>
           </TouchableOpacity>
         ))}
+
+        <TouchableOpacity 
+          style={styles.seeMoreCard}
+          onPress={() => Alert.alert('See More clicked')}
+          activeOpacity={0.7}
+        >
+          <Text style={[styles.seeMoreText, { color: isDark ? '#FFFFFF' : '#000000' }]}>
+            See More
+          </Text>
+        </TouchableOpacity>
       </ScrollView>
       <View style={styles.bottomBorder} />
     </View>
@@ -106,6 +150,18 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 16,
     width: 140,
+  },
+  seeMoreCard: {
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    width: 140,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  seeMoreText: {
+    fontSize: 17,
+    fontWeight: '600',
+    color: '#FF2D55',
   },
   scoreCardBorder: {
     borderRightWidth: 0.5,
@@ -126,7 +182,6 @@ const styles = StyleSheet.create({
   },
   teamRow: {
     flexDirection: 'row',
-    // justifyContent: 'space-between',
     alignItems: 'center',
     gap: 2,
   },
@@ -139,10 +194,25 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#8E8E93',
   },
+  timeContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    marginTop: 8,
+  },
   timeText: {
     fontSize: 13,
     color: '#8E8E93',
-    marginTop: 8,
+  },
+  liveText: {
+    color: '#FF3B30',
+    fontWeight: '600',
+  },
+  liveDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#FF3B30',
   },
   teamLogo:{
     width: 16,
