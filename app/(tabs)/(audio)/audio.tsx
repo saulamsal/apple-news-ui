@@ -1,4 +1,4 @@
-import { Text, Image, View, StyleSheet, Pressable, TouchableOpacity } from 'react-native';
+import { Text, Image, View, StyleSheet, Pressable, TouchableOpacity, Alert } from 'react-native';
 import { useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
@@ -29,6 +29,7 @@ import podcasts from '@/data/podcasts.json';
 import type { ListRenderItemInfo } from '@shopify/flash-list';
 import { useAudio } from '@/contexts/AudioContext';
 import { AudioVisualizer } from '@/components/AudioVisualizer';
+import { PodcastEditorsPickItem } from '@/components/PodcastEditorsPickItem';
 
 interface Source {
   id: string;
@@ -89,6 +90,51 @@ const TABS = [
   { id: 'catalog', label: 'Catalog', icon: 'list' },
 ];
 
+const DiscoverNewsButton = () => {
+  return (
+    <View className=" mb-4">
+      <TouchableOpacity 
+        onPress={() => Alert.alert('Take to Apple Podcasts')}
+        style={{
+          height: 56,
+          backgroundColor: '#2196A5',
+          flexDirection: 'row',
+          alignItems: 'center',
+          paddingHorizontal: 16,
+          justifyContent: 'space-between',
+          borderRadius: 12,
+          overflow: 'hidden'
+        }}
+      >
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+          <Ionicons name="headset" size={24} color="#fff" />
+          <View>
+            <Text style={{ color: '#fff', fontSize: 20 }} className="font-bold">
+              Discover News+ Narrated
+            </Text>
+            <View className="flex-row items-center gap-1">
+              <Text style={{ color: '#fff', fontSize: 13, opacity: 0.8 }}>
+                More audio stories in Apple Podcasts
+              </Text>
+              <Ionicons name="chevron-forward" size={14} color="#fff" />
+            </View>
+          </View>
+        </View>
+        <Ionicons 
+          name="headset" 
+          size={80} 
+          color="#fff" 
+          style={{ 
+            position: 'absolute',
+            right: -10,
+            opacity: 0.1
+          }}
+        />
+      </TouchableOpacity>
+    </View>
+  );
+};
+
 export default function AudioScreen() {
   const router = useRouter();
   const colorScheme = useColorScheme();
@@ -146,9 +192,10 @@ export default function AudioScreen() {
     switch (activeTab) {
       case 'best':
         const episodes = (podcasts.results['podcast-episodes'][0].data || []) as PodcastEpisodeData[];
+        const remainingEpisodes = episodes.slice(5);
         return (
           <FlashList
-            data={episodes}
+            data={remainingEpisodes}
             renderItem={renderPodcastItem}
             estimatedItemSize={84}
             keyExtractor={(item) => item.id}
@@ -160,21 +207,22 @@ export default function AudioScreen() {
                   <View style={styles.headerRight}>
                     <TouchableOpacity 
                       style={[styles.headerRightButton, { backgroundColor: currentEpisode ? '#86858D' : Colors.light.tint }]}
-                      onPress={currentEpisode  ? togglePlayPause : handlePlayAll}
+                      onPress={currentEpisode ? togglePlayPause : handlePlayAll}
                     >
                       {isPlaying ? (
                         <AudioVisualizer isPlaying={true} />
                       ) : (
-                     
-                          <Ionicons name="headset" size={14} color={'#fff'} />
-                       
+                        <Ionicons name="headset" size={14} color={'#fff'} />
                       )}
-                         <Text style={styles.headerRightText}>{currentEpisode ? (isPlaying ? 'Playing' : 'Paused') : 'Play'}</Text>
+                      <Text style={styles.headerRightText}>
+                        {currentEpisode ? (isPlaying ? 'Playing' : 'Paused') : 'Play'}
+                      </Text>
                     </TouchableOpacity>
                   </View>
-
-         
                 </View>
+
+                <PodcastEditorsPickItem episodes={episodes} />
+                <DiscoverNewsButton />
                 <Text style={styles.sectionTitle}>For You</Text>
               </View>
             }

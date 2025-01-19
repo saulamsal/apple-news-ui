@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
   },
   headerContainer: {
     marginBottom: 16,
-    paddingHorizontal: 16,
+    // paddingHorizontal: 16,
     backgroundColor: 'transparent',
   },
   header: {
