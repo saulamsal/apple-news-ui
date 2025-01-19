@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity, Platform, Alert } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Platform, Alert, ScrollView, Switch } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -7,6 +7,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scores } from '@/data/scores.json';
 import { format } from 'date-fns';
 import { MotiView } from 'moti';
+import { news } from '@/data/news.json';
+import { NewsItem, NewsItemType } from '@/components/NewsItem';
+import { SlidingBanner } from '@/components/SlidingBanner';
 
 const getImageSource = (path: string) => {
   return { uri: path };
@@ -35,58 +38,58 @@ export default function ScoreDetailsScreen() {
   const { id } = useLocalSearchParams();
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  
+
   const score = scores.find(s => s.id === id);
   if (!score) return null;
 
   const isCompleted = score.status === 'completed';
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} bounces={false} showsVerticalScrollIndicator={false}>
       <View>
-      <LinearGradient
-        colors={[score.team1.bg_color, score.team2.bg_color]}
-        start={{ x: -0.5, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        locations={[0.65, 0.65]}
-        style={StyleSheet.absoluteFill}
-      />
+        <LinearGradient
+          colors={[score.team1.bg_color, score.team2.bg_color]}
+          start={{ x: -0.5, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          locations={[0.65, 0.65]}
+          style={StyleSheet.absoluteFill}
+        />
 
-      {/* Header */}
-      <View style={[styles.header, { paddingTop: insets.top }]}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-          <BlurView intensity={70} style={styles.blurButton}>
-            <Ionicons name="chevron-back" size={24} color="#fff" />
-          </BlurView>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuButton}>
-          <BlurView intensity={70} style={styles.blurButton}>
-            <Ionicons name="ellipsis-horizontal" size={24} color="#fff" />
-          </BlurView>
-        </TouchableOpacity>
-      </View>
-
-      {/* Team Logos */}
-      <View style={styles.teamsContainer}>
-        <View style={styles.teamSection}>
-        {isCompleted && (
-            <Text style={styles.scoreText}>{score.team1.score}</Text>
-          )}
-          <Image source={getImageSource(score.team1.logo)} style={styles.teamLogo} />
-       
+        {/* Header */}
+        <View style={[styles.header, { paddingTop: insets.top }]}>
+          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+            <BlurView intensity={70} style={styles.blurButton}>
+              <Ionicons name="chevron-back" size={24} color="#fff" />
+            </BlurView>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.menuButton}>
+            <BlurView intensity={70} style={styles.blurButton}>
+              <Ionicons name="ellipsis-horizontal" size={24} color="#fff" />
+            </BlurView>
+          </TouchableOpacity>
         </View>
 
-        <View style={styles.teamSection}>
-        {isCompleted && (
-            <Text style={styles.scoreText}>{score.team2.score}</Text>
-          )}
-          <Image source={getImageSource(score.team2.logo)} style={styles.teamLogo} />
-      
+        {/* Team Logos */}
+        <View style={styles.teamsContainer}>
+          <View style={styles.teamSection}>
+            {isCompleted && (
+              <Text style={styles.scoreText}>{score.team1.score}</Text>
+            )}
+            <Image source={getImageSource(score.team1.logo)} style={styles.teamLogo} />
+
+          </View>
+
+          <View style={styles.teamSection}>
+            {isCompleted && (
+              <Text style={styles.scoreText}>{score.team2.score}</Text>
+            )}
+            <Image source={getImageSource(score.team2.logo)} style={styles.teamLogo} />
+
+          </View>
         </View>
-      </View>
 
       </View>
-    
+
 
 
 
@@ -117,28 +120,81 @@ export default function ScoreDetailsScreen() {
         </Text>
 
         {score.is_live && (
-          <TouchableOpacity 
-            style={styles.watchButton}
-            onPress={() => Alert.alert('Opening Apple TV...')}
-            activeOpacity={0.8}
-          >
-            <View style={styles.watchButtonContent}>
-              <Text style={styles.watchButtonText}>Watch on</Text>
-              <View style={styles.appleContainer}>
-                <Ionicons name="logo-apple" size={20} color="#fff" />
-                <Text style={styles.watchButtonText}>tv</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
+
+          <View className="px-4 w-full">
+            <SlidingBanner
+              // onPress={handlePress}
+              image={{
+                uri: 'https://img.icons8.com/m_sharp/512/FFFFFF/mac-os.png',
+                style: { borderRadius: 14 }
+              }}
+              title="Watch on Apple TV"
+              subtitle="Get 3 months free"
+              backgroundColor="#000"
+            />
+          </View>
         )}
+
+        <View style={styles.adContainer}>
+          <Image
+            source={{ uri: 'https://photos5.appleinsider.com/gallery/36562-68112-Screen-Shot-2020-07-06-at-82042-PM-xl.jpg' }}
+            style={styles.appleTVad}
+            resizeMode="cover"
+          />
+        </View>
+
+        {score.is_live && (
+          <View style={styles.liveActivityContainer}>
+            <Text style={styles.liveActivityText}>Enable Live Activity</Text>
+            <Switch 
+              value={false}
+              onValueChange={(value) => Alert.alert('Live Activity', value ? 'Enabled' : 'Disabled')}
+              trackColor={{ false: '#767577', true: '#34C759' }}
+              thumbColor="#fff"
+            />
+          </View>
+        )}
+
+        <View style={styles.viewMoreContainer}>
+          <Text style={styles.viewMoreTitle}>View more from</Text>
+          <TouchableOpacity style={styles.topicItem}>
+            <Image 
+              source={getImageSource(score.team1.logo)} 
+              style={styles.topicLogo} 
+            />
+            <Text style={styles.topicName}>{score.team1.full_name}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.topicItem}>
+            <Image 
+              source={getImageSource(score.team2.logo)} 
+              style={styles.topicLogo} 
+            />
+            <Text style={styles.topicName}>{score.team2.full_name}</Text>
+          </TouchableOpacity>
+        </View>
+
       </View>
 
 
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
+  adContainer: {
+    marginTop: 20,
+    // borderRadius: 14,
+    overflow: 'hidden',
+    // paddingHorizontal: 20,
+    width: '100%',
+    height: 250,
+
+  },
+  appleTVad: {
+    width: '100%',
+    height: '100%',
+    // borderRadius: 20,
+  },
   container: {
     flex: 1,
   },
@@ -248,7 +304,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 6,
-    
+
   },
   watchButtonText: {
     color: '#fff',
@@ -259,5 +315,56 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 1,
+  },
+  relatedStoriesContainer: {
+    marginTop: 30,
+    paddingHorizontal: 0,
+  },
+  relatedStoriesTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    paddingHorizontal: 20,
+    letterSpacing: -1,
+  },
+  liveActivityContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingHorizontal: 20,
+    marginTop: 20,
+    marginBottom: 10,
+  },
+  liveActivityText: {
+    fontSize: 17,
+    fontWeight: '600',
+  },
+  viewMoreContainer: {
+    width: '100%',
+    paddingHorizontal: 20,
+    marginTop: 20,
+  },
+  viewMoreTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+    letterSpacing: -1,
+  },
+  topicItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+    gap: 12,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: '#E5E5EA',
+  },
+  topicLogo: {
+    width: 32,
+    height: 32,
+  },
+  topicName: {
+    fontSize: 17,
+    fontWeight: '500',
   },
 });
