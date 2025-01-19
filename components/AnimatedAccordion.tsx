@@ -6,6 +6,7 @@ import Animated, {
     useSharedValue,
 } from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
+import { Colors } from '@/constants/Colors';
 
 interface Props {
     title: string;
@@ -13,7 +14,7 @@ interface Props {
 }
 
 export function AnimatedAccordion({ title, children }: Props) {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(true);
     const height = useSharedValue(0);
 
     const contentStyle = useAnimatedStyle(() => ({
@@ -40,7 +41,7 @@ export function AnimatedAccordion({ title, children }: Props) {
             <Pressable onPress={() => setIsOpen(!isOpen)} style={styles.header}>
                 <Text style={styles.title}>{title}</Text>
                 <Animated.View style={iconStyle}>
-                    <Ionicons name="chevron-down" size={24} color="#666" />
+                    <Ionicons name="chevron-down" size={24} color={Colors.light.tint} />
                 </Animated.View>
             </Pressable>
 
