@@ -104,7 +104,7 @@ export default function HomeScreen() {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-100 dark:bg-[#0D0D09]" >
+    <SafeAreaView className="flex-1 bg-gray-100 dark:bg-[#0D0D09] " >
       <Animated.View 
         className="absolute -top-4 left-0 right-0 z-50 bg-gray-100 dark:bg-[#0D0D09] px-5"
         style={[headerAnimatedStyle, { paddingTop: insets.top, paddingBottom: 10 }]}
