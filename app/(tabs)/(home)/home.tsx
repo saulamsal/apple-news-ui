@@ -60,26 +60,27 @@ export default function HomeScreen() {
   const insets = useSafeAreaInsets();
 
   const lastScrollY = useSharedValue(0);
-  const translationY = useSharedValue(-40);
+  const translationY = useSharedValue(-100);
 
   const AnimatedSwipeListView = Animated.createAnimatedComponent(SwipeListView);
 
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
       const currentScrollY = event.contentOffset.y;
+      const scrollDiff = currentScrollY - lastScrollY.value;
       
-      if (currentScrollY > 90) {
-        if (currentScrollY > lastScrollY.value) {
+      if (currentScrollY > 100) {
+        if (scrollDiff < -20) {
           translationY.value = withTiming(0, {
             duration: 300
           });
-        } else {
-          translationY.value = withTiming(insets.top, {
+        } else if (scrollDiff > 10) {
+          translationY.value = withTiming(-100, {
             duration: 300
           });
         }
       } else {
-        translationY.value = withTiming(0, {
+        translationY.value = withTiming(-100, {
           duration: 300
         });
       }
@@ -103,15 +104,16 @@ export default function HomeScreen() {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-100 dark:bg-[#0D0D09]">
+    <SafeAreaView className="flex-1 bg-gray-100 dark:bg-[#0D0D09]" >
       <Animated.View 
-        className="absolute top-0 left-0 right-0 z-50 bg-gray-100 dark:bg-[#0D0D09]"
-        style={headerAnimatedStyle}
+        className="absolute -top-4 left-0 right-0 z-50 bg-gray-100 dark:bg-[#0D0D09] px-5"
+        style={[headerAnimatedStyle, { paddingTop: insets.top, paddingBottom: 10 }]}
+        
       >
         <NewsHeaderLeftItem size="sm" />
       </Animated.View>
       
-      <View className="flex-1 bg-gray-100 dark:bg-[#0D0D09]">
+      <View className="flex-1 bg-gray-100 dark:bg-[#0D0D09]" >
         <AnimatedSwipeListView
           onScroll={scrollHandler}
           scrollEventThrottle={16}
@@ -124,10 +126,16 @@ export default function HomeScreen() {
           previewOpenValue={-40}
           previewOpenDelay={3000}
           keyExtractor={(item: any) => item.id}
-          contentContainerStyle={{ padding: 16 }}
+          contentContainerStyle={{ 
+            // padding: 16, 
+            // backgroundColor: 'red',
+
+            // marginTop: insets.top
+
+           }}
           ListHeaderComponent={
             <>
-              <View className="flex-row items-center justify-between mb-6">
+              <View className="flex-row items-center justify-between mb-6 px-5">
                 <NewsHeaderLeftItem size="md" />
                 <View>
                   <Image 
@@ -140,7 +148,7 @@ export default function HomeScreen() {
                   />
                 </View>
               </View>
-              <View className="mb-4">
+              <View className="mb-4 px-5">
                 <Text className="text-2xl font-bold text-black dark:text-white">Top Stories</Text>
               </View>
             </>
