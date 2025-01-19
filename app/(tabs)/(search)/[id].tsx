@@ -266,7 +266,7 @@ export default function TopicScreen() {
     };
 
     return (
-        <View className="flex-1">
+        <View className="flex-1 bg-gray-100">
             <ScrollViewWithHeaders
                 alwaysBounceHorizontal={false}
                 alwaysBounceVertical={false}
