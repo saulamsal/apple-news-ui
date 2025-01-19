@@ -91,16 +91,21 @@
     "nba": {
         "id": "nba",
         "title": "NBA",
-        "logo": "/assets/leagues/nba.png",
+        "logo": "",
         "entity_type": "sport_league",
         "type": "league"
     },
     "nfl": {
         "id": "nfl",
         "title": "NFL",
-        "logo": "/assets/leagues/nfl.png",
+        "logo": "https://img.sofascore.com/api/v1/unique-tournament/9464/image/dark",
         "entity_type": "sport_league",
-        "type": "league"
+        "type": "league",
+        "tabs": ["news","scores","videos", "stats"],
+        "theme": {
+            "backgroundColor": "#DB2526",
+            "textColor": "#ffffff"
+        }
     },
     "mlb": {
         "id": "mlb",

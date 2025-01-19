@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { ScrollViewWithHeaders, Header } from '@codeherence/react-native-header';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -15,6 +15,7 @@ import { NewsItem, NewsItemType } from '@/components/NewsItem';
 import { SwipeableNewsItem } from '@/components/SwipeableNewsItem';
 import * as DropdownMenu from 'zeego/dropdown-menu';
 import { MaterialIcons } from '@expo/vector-icons';
+import { SegmentedControl } from '@/components/SegmentedControl';
 
 interface Entity {
     id: string;
@@ -28,6 +29,7 @@ interface Entity {
         backgroundColor: string;
         textColor: string;
     };
+    tabs?: string[];
 }
 
 const FadingView = ({ opacity, children, style }: { 
@@ -88,6 +90,7 @@ export default function TopicScreen() {
     const { top, bottom } = useSafeAreaInsets();
     const router = useRouter();
     const scrollRef = React.useRef(null);
+    const [selectedTab, setSelectedTab] = useState('news');
 
     const entity = entities[id as keyof typeof entities] as Entity;
 
@@ -220,13 +223,54 @@ export default function TopicScreen() {
         </View>
     );
 
-    return (
-        <View className="flex-1 ">
+    const renderContent = () => {
+        switch (selectedTab) {
+            case 'scores':
+                return (
+                    <View className="p-4">
+                        <Text>Scores Content</Text>
+                    </View>
+                );
+            case 'videos':
+                return (
+                    <View className="p-4">
+                        <Text>Videos Content</Text>
+                    </View>
+                );
+            case 'stats':
+                return (
+                    <View className="p-4">
+                        <Text>Stats Content</Text>
+                    </View>
+                );
+            case 'news':
+            default:
+                return (
+                    <SwipeListView
+                        data={dummyNews}
+                        renderItem={renderNewsItem}
+                        renderHiddenItem={renderHiddenItem}
+                        leftOpenValue={120}
+                        rightOpenValue={-120}
+                        previewRowKey={'0'}
+                        previewOpenValue={-40}
+                        previewOpenDelay={3000}
+                        keyExtractor={item => item.id}
+                        useNativeDriver={false}
+                        disableRightSwipe={false}
+                        disableLeftSwipe={false}
+                        style={{marginTop: 20}}
+                    />
+                );
+        }
+    };
 
+    return (
+        <View className="flex-1">
             <ScrollViewWithHeaders
-             alwaysBounceHorizontal={false}
-             alwaysBounceVertical={false}
-             bounces={false}
+                alwaysBounceHorizontal={false}
+                alwaysBounceVertical={false}
+                bounces={false}
                 ref={scrollRef}
                 contentContainerStyle={[{ paddingBottom: bottom }]}
                 className="flex-1"
@@ -236,21 +280,16 @@ export default function TopicScreen() {
                 headerFadeInThreshold={0.5}
                 initialAbsoluteHeaderHeight={110}
             >
-                <SwipeListView
-                    data={dummyNews}
-                    renderItem={renderNewsItem}
-                    renderHiddenItem={renderHiddenItem}
-                    leftOpenValue={120}
-                    rightOpenValue={-120}
-                    previewRowKey={'0'}
-                    previewOpenValue={-40}
-                    previewOpenDelay={3000}
-                    keyExtractor={item => item.id}
-                    useNativeDriver={false}
-                    disableRightSwipe={false}
-                    disableLeftSwipe={false}
-                    style={{marginTop: 20}}
-                />
+                {entity.tabs && (
+                    <View className="px-4 pt-4">
+                        <SegmentedControl
+                            values={entity.tabs}
+                            selectedIndex={entity.tabs.indexOf(selectedTab)}
+                            onChange={(index) => setSelectedTab(entity.tabs![index])}
+                        />
+                    </View>
+                )}
+                {renderContent()}
             </ScrollViewWithHeaders>
         </View>
     );
