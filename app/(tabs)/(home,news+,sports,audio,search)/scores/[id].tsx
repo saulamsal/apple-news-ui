@@ -1,6 +1,7 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity, Platform } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { BlurView } from 'expo-blur';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scores } from '@/data/scores.json';
@@ -22,12 +23,14 @@ export default function ScoreDetailsScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Diagonal split background */}
-      <View style={styles.backgroundContainer}>
-        <View style={[styles.backgroundHalf, { backgroundColor: score.team1.bg_color }]} />
-        <View style={[styles.backgroundHalf, { backgroundColor: score.team2.bg_color }]} />
-        <View style={styles.diagonalLine} />
-      </View>
+      <View>
+      <LinearGradient
+        colors={[score.team1.bg_color, score.team2.bg_color]}
+        start={{ x: -0.5, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        locations={[0.5, 0.5]}
+        style={StyleSheet.absoluteFill}
+      />
 
       {/* Header */}
       <View style={[styles.header, { paddingTop: insets.top }]}>
@@ -46,19 +49,26 @@ export default function ScoreDetailsScreen() {
       {/* Team Logos */}
       <View style={styles.teamsContainer}>
         <View style={styles.teamSection}>
-          <Image source={getImageSource(score.team1.logo)} style={styles.teamLogo} />
-          {isCompleted && (
+        {isCompleted && (
             <Text style={styles.scoreText}>{score.team1.score}</Text>
           )}
+          <Image source={getImageSource(score.team1.logo)} style={styles.teamLogo} />
+       
         </View>
 
         <View style={styles.teamSection}>
-          <Image source={getImageSource(score.team2.logo)} style={styles.teamLogo} />
-          {isCompleted && (
+        {isCompleted && (
             <Text style={styles.scoreText}>{score.team2.score}</Text>
           )}
+          <Image source={getImageSource(score.team2.logo)} style={styles.teamLogo} />
+      
         </View>
       </View>
+
+      </View>
+    
+
+
 
       {/* Match Info */}
       <View style={styles.matchInfo}>
@@ -76,6 +86,8 @@ export default function ScoreDetailsScreen() {
           {score.competition.full_name} • {score.competition.matchweek}
         </Text>
       </View>
+
+
     </View>
   );
 }
@@ -83,22 +95,6 @@ export default function ScoreDetailsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  backgroundContainer: {
-    ...StyleSheet.absoluteFillObject,
-    flexDirection: 'row',
-  },
-  backgroundHalf: {
-    flex: 1,
-  },
-  diagonalLine: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: '50%',
-    width: 2,
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    transform: [{ rotate: '15deg' }, { translateX: -1 }],
   },
   header: {
     flexDirection: 'row',
@@ -138,8 +134,8 @@ const styles = StyleSheet.create({
   },
   scoreText: {
     color: '#FFFFFF',
-    fontSize: 48,
-    fontWeight: '700',
+    fontSize: 80,
+    fontWeight: 'bold',
     marginTop: 8,
   },
   matchInfo: {
@@ -147,25 +143,25 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   timeText: {
-    color: '#FFFFFF',
+    // color: '#FFFFFF',
     fontSize: 24,
     fontWeight: '600',
     marginBottom: 4,
   },
   finalText: {
-    color: '#FFFFFF',
+    // color: '#FFFFFF',
     fontSize: 24,
     fontWeight: '600',
     marginBottom: 4,
     letterSpacing: 2,
   },
   dateText: {
-    color: '#FFFFFF',
+    // color: '#FFFFFF',
     fontSize: 18,
     marginBottom: 8,
   },
   competitionText: {
-    color: '#FFFFFF',
+    // color: '#FFFFFF',
     opacity: 0.8,
     fontSize: 16,
   }

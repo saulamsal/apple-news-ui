@@ -33,7 +33,8 @@
         "score": 1
       },
       "startTime": "2024-01-16T20:00:00Z",
-      "status": "completed"
+      "status": "completed",
+      "is_finished": true
     },
     {
       "id": "2",
@@ -45,7 +46,7 @@
       },
       "team1": {
         "id": "brest",
-        "name": "SB29",
+        "name": "BRE",
         "full_name": "Stade Brestois 29",
         "current_form": "3-5-5",
         "bg_color": "#E30613",
@@ -60,7 +61,124 @@
         "logo": "https://api.sofascore.app/api/v1/team/2829/image"
       },
       "startTime": "2024-01-29T15:00:00Z",
-      "status": "upcoming"
+      "status": "upcoming",
+      "is_finished": false
+    },
+    {
+      "id": "3",
+      "competition": {
+        "id": "nfl",
+        "name": "NFL",
+        "full_name": "National Football League",
+        "matchweek": "Playoffs"
+      },
+      "team1": {
+        "id": "kc",
+        "name": "KC",
+        "full_name": "Kansas City Chiefs",
+        "current_form": "7-3",
+        "bg_color": "#E31837",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/kc.png",
+        "score": 27
+      },
+      "team2": {
+        "id": "buf",
+        "name": "BUF",
+        "full_name": "Buffalo Bills",
+        "current_form": "8-2",
+        "bg_color": "#00338D",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/buf.png",
+        "score": 24
+      },
+      "startTime": "2024-01-21T20:00:00Z",
+      "status": "completed",
+      "is_finished": true
+    },
+    {
+      "id": "4",
+      "competition": {
+        "id": "nfl",
+        "name": "NFL",
+        "full_name": "National Football League",
+        "matchweek": "Playoffs"
+      },
+      "team1": {
+        "id": "sf",
+        "name": "SF",
+        "full_name": "San Francisco 49ers",
+        "current_form": "9-1",
+        "bg_color": "#AA0000",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/sf.png"
+      },
+      "team2": {
+        "id": "det",
+        "name": "DET",
+        "full_name": "Detroit Lions",
+        "current_form": "7-3",
+        "bg_color": "#0076B6",
+        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/det.png"
+      },
+      "startTime": "2024-01-28T23:30:00Z",
+      "status": "upcoming",
+      "is_finished": false
+    },
+    {
+      "id": "5",
+      "competition": {
+        "id": "nba",
+        "name": "NBA",
+        "full_name": "National Basketball Association",
+        "matchweek": "Regular Season"
+      },
+      "team1": {
+        "id": "bos",
+        "name": "BOS",
+        "full_name": "Boston Celtics",
+        "current_form": "8-2",
+        "bg_color": "#007A33",
+        "logo": "https://a.espncdn.com/i/teamlogos/nba/500/bos.png",
+        "score": 115
+      },
+      "team2": {
+        "id": "mil",
+        "name": "MIL",
+        "full_name": "Milwaukee Bucks",
+        "current_form": "7-3",
+        "bg_color": "#00471B",
+        "logo": "https://a.espncdn.com/i/teamlogos/nba/500/mil.png",
+        "score": 108
+      },
+      "startTime": "2024-01-21T00:30:00Z",
+      "status": "completed",
+      "is_finished": true
+    },
+    {
+      "id": "6",
+      "competition": {
+        "id": "nba",
+        "name": "NBA",
+        "full_name": "National Basketball Association",
+        "matchweek": "Regular Season"
+      },
+      "team1": {
+        "id": "lal",
+        "name": "LAL",
+        "full_name": "Los Angeles Lakers",
+        "current_form": "6-4",
+        "bg_color": "#552583",
+        "logo": "https://a.espncdn.com/i/teamlogos/nba/500/lal.png"
+      },
+      "team2": {
+        "id": "gsw",
+        "name": "GSW",
+        "full_name": "Golden State Warriors",
+        "current_form": "5-5",
+        "bg_color": "#1D428A",
+        "logo": "https://a.espncdn.com/i/teamlogos/nba/500/gsw.png"
+      },
+      "startTime": "2024-01-27T03:30:00Z",
+      "status": "upcoming",
+      "is_finished": false
     }
   ]
 } 
