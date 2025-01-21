@@ -1,15 +1,14 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, useColorScheme } from 'react-native';
-import { Header, ScrollViewWithHeaders } from '@codeherence/react-native-header';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, useColorScheme, TextInput, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { BlurView } from 'expo-blur';
-import Animated, { SharedValue } from 'react-native-reanimated';
 import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { CartesianChart, Line } from 'victory-native';
 import { NewsItem } from '@/components/NewsItem';
 import stocksData from '@/app/data/stocks.json';
 import { news } from '@/data/news.json';
+import { Ionicons } from '@expo/vector-icons';
+import * as DropdownMenu from 'zeego/dropdown-menu';
 
 interface StockData {
     symbol: string;
@@ -37,16 +36,6 @@ interface IndexData {
 }
 
 const { width } = Dimensions.get('window');
-
-const FadingView = ({ opacity, children, style }: { 
-    opacity: SharedValue<number>, 
-    children?: React.ReactNode,
-    style?: any 
-}) => (
-    <Animated.View style={[{ opacity }, style]}>
-        {children}
-    </Animated.View>
-);
 
 const StockItem = ({ stock, onPress }: { stock: StockData; onPress: (stock: StockData) => void }) => {
     const colorScheme = useColorScheme();
@@ -110,51 +99,107 @@ const IndexItem = ({ index }: { index: IndexData }) => {
     );
 };
 
+const SearchComponent = () => (
+    <View className="flex-row items-center bg-[#1C1C1E] px-3 h-[38px] rounded-[10px]">
+        <Ionicons name="search" size={20} color="#666" />
+        <TextInput
+            placeholder="Search"
+            className="flex-1 pl-2 text-[17px] text-white"
+            placeholderTextColor="#666"
+        />
+    </View>
+);
+
+const StockMenu = () => (
+    <DropdownMenu.Root>
+        <DropdownMenu.Trigger>
+            <View className="p-2">
+                <Ionicons name="ellipsis-horizontal" size={24} color="white" />
+            </View>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content>
+            <DropdownMenu.Item key="edit" onSelect={() => {}} textValue="Edit Watchlist">
+                <DropdownMenu.ItemTitle>Edit Watchlist</DropdownMenu.ItemTitle>
+            </DropdownMenu.Item>
+            <DropdownMenu.Item key="show" onSelect={() => {}} textValue="Show Currency">
+                <DropdownMenu.ItemTitle>Show Currency</DropdownMenu.ItemTitle>
+            </DropdownMenu.Item>
+            <DropdownMenu.Sub>
+                <DropdownMenu.SubTrigger>
+                    <DropdownMenu.ItemTitle>Sort Watchlist By</DropdownMenu.ItemTitle>
+                </DropdownMenu.SubTrigger>
+                <DropdownMenu.SubContent>
+                    <DropdownMenu.Item key="manual" onSelect={() => {}} textValue="Manual">
+                        <DropdownMenu.ItemTitle>Manual</DropdownMenu.ItemTitle>
+                    </DropdownMenu.Item>
+                    <DropdownMenu.Item key="name" onSelect={() => {}} textValue="Name">
+                        <DropdownMenu.ItemTitle>Name</DropdownMenu.ItemTitle>
+                    </DropdownMenu.Item>
+                    <DropdownMenu.Item key="price" onSelect={() => {}} textValue="Price">
+                        <DropdownMenu.ItemTitle>Price</DropdownMenu.ItemTitle>
+                    </DropdownMenu.Item>
+                </DropdownMenu.SubContent>
+            </DropdownMenu.Sub>
+            <DropdownMenu.Sub>
+                <DropdownMenu.SubTrigger>
+                    <DropdownMenu.ItemTitle>Watchlist Shows</DropdownMenu.ItemTitle>
+                </DropdownMenu.SubTrigger>
+                <DropdownMenu.SubContent>
+                    <DropdownMenu.Item key="price-change" onSelect={() => {}} textValue="Price Change">
+                        <DropdownMenu.ItemTitle>Price Change</DropdownMenu.ItemTitle>
+                    </DropdownMenu.Item>
+                    <DropdownMenu.Item key="percent-change" onSelect={() => {}} textValue="Percent Change">
+                        <DropdownMenu.ItemTitle>Percent Change</DropdownMenu.ItemTitle>
+                    </DropdownMenu.Item>
+                    <DropdownMenu.Item key="market-cap" onSelect={() => {}} textValue="Market Cap">
+                        <DropdownMenu.ItemTitle>Market Cap</DropdownMenu.ItemTitle>
+                    </DropdownMenu.Item>
+                </DropdownMenu.SubContent>
+            </DropdownMenu.Sub>
+            <DropdownMenu.Item key="feedback" onSelect={() => {}} textValue="Provide Feedback">
+                <DropdownMenu.ItemTitle>Provide Feedback</DropdownMenu.ItemTitle>
+            </DropdownMenu.Item>
+        </DropdownMenu.Content>
+    </DropdownMenu.Root>
+);
+
 export default function StocksScreen() {
     const { top, bottom } = useSafeAreaInsets();
     const [selectedStock, setSelectedStock] = useState<StockData | null>(null);
+    const [showIndexInSheet, setShowIndexInSheet] = useState(false);
     const bottomSheetRef = useRef<BottomSheet>(null);
+    const newsBottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ['50%', '90%'], []);
+    const newsSnapPoints = useMemo(() => [`25%`, `${Math.min(top + 100, 50)}%`], [top]);
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
+
+    const handleSheetChange = useCallback((index: number) => {
+        setShowIndexInSheet(index === 1);
+    }, []);
 
     const handleStockPress = useCallback((stock: StockData) => {
         setSelectedStock(stock);
         bottomSheetRef.current?.snapToIndex(0);
     }, []);
 
-    const HeaderSurface = ({ showNavBar }: { showNavBar: SharedValue<number> }) => (
-        <FadingView opacity={showNavBar} style={StyleSheet.absoluteFill}>
-            <BlurView style={StyleSheet.absoluteFill} intensity={80} tint="dark" />
-        </FadingView>
-    );
-
-    const HeaderComponent = ({ showNavBar }: { showNavBar: SharedValue<number> }) => (
-        <Header
-            borderWidth={0}
-            showNavBar={showNavBar}
-            SurfaceComponent={HeaderSurface}
-            headerCenter={
-                <Text className="text-2xl font-bold text-white">Stocks</Text>
-            }
-        />
-    );
-
-    const LargeHeaderComponent = () => {
-        const insets = useSafeAreaInsets();
-        return (
-            <View className="px-4 pt-2 pb-3 bg-black" style={{ marginTop: -insets.top }}>
-                <View className="flex-row justify-between items-start">
-                    <NewsHeaderLeftItem size="md" secondaryTitle="Stocks" theme="dark" />
-                </View>
-                <View className="flex-row gap-2 mt-4">
-                    {stocksData.indices.map((index) => (
-                        <IndexItem key={index.symbol} index={index} />
-                    ))}
-                </View>
+    const Header = () => (
+        <View 
+            className="bg-black px-4 pt-2 pb-3" 
+            style={{ paddingTop: top }}
+        >
+            <View className="flex-row justify-between items-start">
+                <NewsHeaderLeftItem size="md" secondaryTitle="Stocks" theme="dark" />
+                <StockMenu />
             </View>
-        );
-    };
+            <SearchComponent />
+            {/* <View className="flex-row gap-2 mt-4">
+                {stocksData.indices.map((index) => (
+                    <IndexItem key={index.symbol} index={index} />
+                ))}
+            </View> */}
+        </View>
+    );
 
     const renderStockDetails = () => {
         if (!selectedStock) return null;
@@ -227,24 +272,70 @@ export default function StocksScreen() {
         );
     };
 
+    const WatchlistButton = () => (
+        <DropdownMenu.Root>
+            <DropdownMenu.Trigger>
+                <View className="flex-row items-center px-4 py-3">
+                    <Text className="text-lg font-semibold text-white">My Symbols</Text>
+                    <Ionicons name="chevron-down" size={20} color="white" className="ml-2" />
+                </View>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content>
+                {stocksData.stocks.slice(0, 3).map((stock) => (
+                    <DropdownMenu.Item 
+                        key={stock.symbol} 
+                        onSelect={() => handleStockPress(stock)}
+                        textValue={stock.symbol}
+                    >
+                        <View className="flex-row items-center">
+                            <Ionicons name="checkmark-circle" size={24} color="#32D74B" />
+                            <View className="ml-3">
+                                <DropdownMenu.ItemTitle>{stock.symbol}</DropdownMenu.ItemTitle>
+                                <Text className="text-sm text-gray-400">{stock.name}</Text>
+                            </View>
+                        </View>
+                    </DropdownMenu.Item>
+                ))}
+                <DropdownMenu.Separator />
+                <DropdownMenu.Item key="new" onSelect={() => {}} textValue="New Watchlist">
+                    <View className="flex-row items-center">
+                        <View className="w-6 h-6 rounded-full bg-[#32D74B] items-center justify-center">
+                            <Ionicons name="add" size={20} color="white" />
+                        </View>
+                        <DropdownMenu.ItemTitle className="ml-3">New Watchlist</DropdownMenu.ItemTitle>
+                    </View>
+                </DropdownMenu.Item>
+            </DropdownMenu.Content>
+        </DropdownMenu.Root>
+    );
+
+    const renderBusinessNews = () => (
+        <BottomSheetScrollView className="flex-1 px-4 bg-[#1C1C1C]">
+            {showIndexInSheet && (
+                <View className="flex-row gap-2 py-4">
+                    {stocksData.indices.map((index) => (
+                        <IndexItem key={index.symbol} index={index} />
+                    ))}
+                </View>
+            )}
+            <View className="py-4">
+                <Text className="text-xl font-bold mb-4 text-white">Business News</Text>
+                {news.map((item: any) => (
+                    <NewsItem key={item.id} item={item} />
+                ))}
+            </View>
+        </BottomSheetScrollView>
+    );
+
     return (
         <View className="flex-1 bg-black">
-            <ScrollViewWithHeaders
-                contentContainerStyle={[{ paddingBottom: bottom }]}
-                className="flex-1 bg-black"
-                stickyHeaderIndices={[0]}
-                maintainVisibleContentPosition={{
-                    minIndexForVisible: 0,
-                    autoscrollToTopThreshold: 0
-                }}
-                removeClippedSubviews={false}
-                LargeHeaderComponent={LargeHeaderComponent}
-                absoluteHeader={true}
-                HeaderComponent={HeaderComponent}
-                headerFadeInThreshold={0.5}
-                disableLargeHeaderFadeAnim={false}
-                largeHeaderContainerStyle={{ paddingTop: top + 4 }}
+            <Header />
+            <ScrollView 
+                className="flex-1"
+                contentContainerStyle={{ paddingBottom: bottom }}
+                // stickyHeaderIndices={[0]}
             >
+                <WatchlistButton />
                 <View>
                     {stocksData.stocks.map((stock) => (
                         <StockItem 
@@ -254,7 +345,7 @@ export default function StocksScreen() {
                         />
                     ))}
                 </View>
-            </ScrollViewWithHeaders>
+            </ScrollView>
 
             <BottomSheet
                 ref={bottomSheetRef}
@@ -265,6 +356,18 @@ export default function StocksScreen() {
                 handleIndicatorStyle={{ backgroundColor: '#666' }}
             >
                 {renderStockDetails()}
+            </BottomSheet>
+
+            <BottomSheet
+                ref={newsBottomSheetRef}
+                index={0}
+                snapPoints={newsSnapPoints}
+                enablePanDownToClose={false}
+                backgroundStyle={{ backgroundColor: '#1C1C1C' }}
+                handleIndicatorStyle={{ backgroundColor: '#666' }}
+                onChange={handleSheetChange}
+            >
+                {renderBusinessNews()}
             </BottomSheet>
         </View>
     );
