@@ -27,6 +27,7 @@
     "@react-native-menu/menu": "^1.2.0",
     "@react-navigation/native": "^7.0.0",
     "@shopify/flash-list": "1.7.1",
+    "burnt": "^0.12.2",
     "date-fns": "^4.1.0",
     "expo": "^52.0.16",
     "expo-av": "~15.0.1",

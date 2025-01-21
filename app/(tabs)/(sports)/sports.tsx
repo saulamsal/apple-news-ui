@@ -249,10 +249,23 @@ export default function SportsScreen() {
                                             </DropdownMenu.Trigger>
                                             <DropdownMenu.Content>
                                                 <DropdownMenu.Item
+                                                    key="not-interested"
+                                                    onSelect={() => Alert.alert('Not interested clicked')}
+                                                >
+                                                    <DropdownMenu.ItemIcon ios={{ name: 'hand.thumbsdown' }} />
+                                                    <DropdownMenu.ItemTitle>Not interested</DropdownMenu.ItemTitle>
+                                                </DropdownMenu.Item>
+                                                <DropdownMenu.Item
                                                     key="block"
                                                     onSelect={() => Alert.alert('Block Sports Top Stories clicked')}
                                                 >
-                                                    <DropdownMenu.ItemIcon ios={{ name: 'xmark.circle.fill' }} />
+                                                    <DropdownMenu.ItemIcon ios={{ 
+                                                        name: 'hand.raised.slash.fill',
+                                                        hierarchicalColor: {
+                                                            dark: '#FF3B30',
+                                                            light: '#FF3B30'
+                                                        }
+                                                    }} />
                                                     <DropdownMenu.ItemTitle>Block Sports Top Stories</DropdownMenu.ItemTitle>
                                                 </DropdownMenu.Item>
                                             </DropdownMenu.Content>
