@@ -113,8 +113,8 @@ const SearchComponent = () => (
 const StockMenu = () => (
     <DropdownMenu.Root>
         <DropdownMenu.Trigger>
-            <View className="p-2">
-                <Ionicons name="ellipsis-horizontal" size={24} color="white" />
+            <View className="p-1 bg-[#57aefb0c] rounded-full">
+                <Ionicons name="ellipsis-horizontal" size={24} color="#57AEFB" />
             </View>
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
@@ -276,8 +276,12 @@ export default function StocksScreen() {
         <DropdownMenu.Root>
             <DropdownMenu.Trigger>
                 <View className="flex-row items-center px-4 py-3">
-                    <Text className="text-lg font-semibold text-white">My Symbols</Text>
-                    <Ionicons name="chevron-down" size={20} color="white" className="ml-2" />
+                    <Text className="text-xl font-bold text-[#57AEFB]">My Symbols</Text>
+                    <View className=" items-center">
+                        <Ionicons name="chevron-up" size={12} color="#57AEFB" className="ml-2" />
+                        <Ionicons name="chevron-down" size={12} color="#57AEFB" className="ml-2 " />
+                    </View>
+                   
                 </View>
             </DropdownMenu.Trigger>
             <DropdownMenu.Content>
