@@ -30,6 +30,14 @@ export interface NewsItemType {
   featured_image: string;
   card_type: 'full' | 'medium';
   is_news_plus: boolean;
+  related_news?: {
+    id: string;
+    title: string;
+    description: string;
+    source: Source;
+    time_ago: string;
+    is_live: boolean;
+  }[];
 }
 
 interface NewsItemProps {
@@ -115,6 +123,33 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
           <Text className="text-2xl leading-8 font-bold -tracking-[1px]">
             {item.title}
           </Text>
+
+          {item.description && <Text className="text-xl text-gray-500 mt-2 tracking-tighter ">{item.description}</Text>}
+
+          {item.related_news && item.related_news.length > 0 && (
+            <View className="mt-4">
+              <Text className="text-sm font-extrabold mb-3">MORE COVERAGE</Text>
+              {item.related_news.map((news) => (
+                <Pressable key={news.id} className="mb-4">
+                  <View className="flex-row items-center mb-1">
+                    <View className="h-[20px] w-[100px]">
+                      <Image
+                        source={{ uri: news.source.logo_transparent_light  }}
+                        className="w-full h-full"
+                        resizeMode="contain"
+                      />
+                    </View>
+                    {/* {news.is_live && (
+                      <View className="ml-2 px-2 py-0.5 bg-red-500 rounded">
+                        <Text className="text-xs text-white font-medium">LIVE</Text>
+                      </View>
+                    )} */}
+                  </View>
+                  <Text className="text-xl font-semibold mb-1 -tracking-[0.5px]">{news.title}</Text>
+                </Pressable>
+              ))}
+            </View>
+          )}
         </View>
       </>
     );
