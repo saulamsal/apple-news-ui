@@ -2,6 +2,8 @@ import { View, Image, StyleSheet, TouchableOpacity, Text } from 'react-native';
 import { ScrollViewWithHeaders, Header, ScrollHeaderProps } from '@codeherence/react-native-header';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Ionicons } from '@expo/vector-icons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+
 import { router } from 'expo-router';
 import Animated, { useSharedValue } from 'react-native-reanimated';
 import { useEffect } from 'react'
@@ -27,7 +29,7 @@ export function ContentView({ content }: ContentViewProps) {
   //       console.error('Error checking welcome state:', error)
   //     }
   //   }
-    
+
   //   checkFirstTime()
   // }, [])
 
@@ -38,22 +40,45 @@ export function ContentView({ content }: ContentViewProps) {
       <Header
         showNavBar={animatedValue}
         headerLeft={
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-            <Ionicons 
-              name="chevron-back" 
-              size={24} 
-              color={content.source.light_text} 
-            />
-          </TouchableOpacity>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }} className="gap-4">
+            <TouchableOpacity onPress={() => router.back()} className="p-1 rounded-full bg-[#eaeaea2d]">
+              <Ionicons
+                name="chevron-back"
+                size={22}
+                color={content.source.light_text}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity className="bg-[#eaeaea2d] rounded-full p-1.5">
+              <MaterialCommunityIcons name="thumbs-up-down-outline" size={20} color={content.source.light_text} />
+            </TouchableOpacity>
+          </View>
+
         }
         headerCenter={
-          <Image 
+          <Image
             source={{ uri: content.source.logo_transparent_dark }}
             style={styles.headerLogo}
           />
         }
+
+        headerRight={
+          <View style={{ flexDirection: 'row', alignItems: 'center' }} className="gap-4">
+
+          <TouchableOpacity className="bg-[#eaeaea2d] rounded-full p-1.5">
+            <Ionicons name="share-outline" size={20} color={content.source.light_text} />
+            </TouchableOpacity>
+
+            <TouchableOpacity className="bg-[#eaeaea2d] rounded-full p-1.5">
+              <Ionicons name="ellipsis-horizontal" size={20} color={content.source.light_text} />
+            </TouchableOpacity>
+          </View>
+        }
+
+
         headerStyle={{
           backgroundColor: content.source.dark_bg,
+          paddingBottom: 10,
         }}
         borderWidth={0}
       />
@@ -66,35 +91,47 @@ export function ContentView({ content }: ContentViewProps) {
       contentContainerStyle={styles.container}
     >
       <View style={styles.container}>
-        <Image 
-          source={{ uri: content.featured_image }} 
-          style={styles.featuredImage} 
-        />
-        
+    
         <View style={styles.content}>
-          <Text style={[styles.title, { fontWeight: 'bold' }]}>
+       
+
+
+       <View className="gap-2 px-7 py-8">
+       <Text style={[styles.title, { fontWeight: 'bold' }]}>
             {content.title}
           </Text>
-
+{/* 
           {content.show_topic && (
             <View style={styles.topicContainer}>
               <Text style={styles.topic}>
                 {content.topic.name}
               </Text>
             </View>
-          )}
+          )} */}
+
+          <View className="flex-row justify-between items-center">
+            <Text className="text-lg text-gray-500 -tracking-[0.3px]">{content.description}</Text>
+          </View>
 
           <View style={styles.authorContainer}>
             <Text style={styles.author}>
               By {content.author.name}
             </Text>
-            <Text style={styles.date}>
+            {/* <Text style={styles.date}>
               {new Date(content.created_at).toLocaleDateString()}
-            </Text>
+            </Text> */}
           </View>
 
+       </View>
 
-          <Text style={{ fontSize: 16, lineHeight: 24, marginTop: 16 }}>
+          <Image
+          source={{ uri: content.featured_image }}
+          style={styles.featuredImage}
+        />
+
+
+
+          <Text className="px-10 text-xl tracking-tight mt-8">
             {content.content}
           </Text>
         </View>
@@ -112,7 +149,7 @@ const styles = StyleSheet.create({
     height: 300,
   },
   content: {
-    padding: 16,
+    // padding: 16,
   },
   headerLogo: {
     height: 24,
@@ -120,7 +157,7 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   backButton: {
-    padding: 8,
+    // padding: 8,
   },
   title: {
     fontSize: 28,
@@ -148,6 +185,7 @@ const styles = StyleSheet.create({
   author: {
     fontSize: 14,
     color: '#666',
+    opacity: 0.5,
   },
   date: {
     fontSize: 14,
