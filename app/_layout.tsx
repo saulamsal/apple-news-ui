@@ -69,6 +69,17 @@ function AnimatedStack() {
             }}
           />
           <Stack.Screen  name="stocks" />
+          <Stack.Screen name="edit" 
+           options={{
+            // presentation: 'formSheet',
+            // gestureDirection: "vertical",
+            // animation: "slide_from_bottom",
+            // headerShown: false,
+            // sheetGrabberVisible: true,
+            // sheetInitialDetentIndex: 0,
+            // sheetAllowedDetents: [0.5],
+  
+          }}  />
           <Stack.Screen name="+not-found" />
         </Stack>
       </Animated.View>
