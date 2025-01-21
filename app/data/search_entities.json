@@ -21,7 +21,7 @@
         {
             "id": "special_coverage",
             "title": "Special Coverage",
-            "items": ["stock_market", "bitcoin", "climate_change"]
+            "items": ["stocks", "bitcoin", "climate_change"]
         },
         {
             "id": "trending",

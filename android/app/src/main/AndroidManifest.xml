@@ -27,7 +27,6 @@
         <category android:name="android.intent.category.DEFAULT"/>
         <category android:name="android.intent.category.BROWSABLE"/>
         <data android:scheme="myapp"/>
-        <data android:scheme="com.apple.applenewsui"/>
         <data android:scheme="com.sportapp.applenewsui"/>
       </intent-filter>
     </activity>

@@ -1,0 +1,77 @@
+{
+  "indices": [
+    {
+      "symbol": "^DJI",
+      "name": "Dow Jones Industrial Average",
+      "price": 43487.83,
+      "change": 334.73,
+      "percentChange": 0.77
+    },
+    {
+      "symbol": "^GSPC",
+      "name": "S&P 500",
+      "price": 5996.66,
+      "change": 59.32,
+      "percentChange": 1.00
+    }
+  ],
+  "stocks": [
+    {
+      "symbol": "AAPL",
+      "name": "Apple Inc.",
+      "price": 229.98,
+      "change": 1.72,
+      "percentChange": 0.75,
+      "marketCap": "2.8T",
+      "pe": 32.5,
+      "volume": "52.3M",
+      "high52": 229.98,
+      "low52": 167.03,
+      "historicalData": [
+        {"date": "2024-01-13", "price": 227.96},
+        {"date": "2024-01-14", "price": 228.50},
+        {"date": "2024-01-15", "price": 228.98},
+        {"date": "2024-01-16", "price": 229.15},
+        {"date": "2024-01-17", "price": 229.98}
+      ]
+    },
+    {
+      "symbol": "BA",
+      "name": "The Boeing Company",
+      "price": 171.09,
+      "change": 2.16,
+      "percentChange": 1.28,
+      "marketCap": "128.0B",
+      "pe": null,
+      "volume": "9.532M",
+      "high52": 217.59,
+      "low52": 137.03,
+      "historicalData": [
+        {"date": "2024-01-13", "price": 169.80},
+        {"date": "2024-01-14", "price": 168.50},
+        {"date": "2024-01-15", "price": 170.98},
+        {"date": "2024-01-16", "price": 170.15},
+        {"date": "2024-01-17", "price": 171.09}
+      ]
+    },
+    {
+      "symbol": "DIS",
+      "name": "The Walt Disney Company",
+      "price": 107.02,
+      "change": 0.56,
+      "percentChange": 0.53,
+      "marketCap": "195.8B",
+      "pe": 68.2,
+      "volume": "8.1M",
+      "high52": 110.50,
+      "low52": 78.73,
+      "historicalData": [
+        {"date": "2024-01-13", "price": 106.80},
+        {"date": "2024-01-14", "price": 106.50},
+        {"date": "2024-01-15", "price": 106.98},
+        {"date": "2024-01-16", "price": 107.15},
+        {"date": "2024-01-17", "price": 107.02}
+      ]
+    }
+  ]
+} 

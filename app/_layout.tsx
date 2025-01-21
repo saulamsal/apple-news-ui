@@ -68,6 +68,7 @@ function AnimatedStack() {
               },
             }}
           />
+          <Stack.Screen  name="stocks" />
           <Stack.Screen name="+not-found" />
         </Stack>
       </Animated.View>
