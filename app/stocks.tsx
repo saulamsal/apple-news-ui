@@ -1,13 +1,15 @@
 import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
-import { ScrollViewWithHeaders, Header } from '@codeherence/react-native-header';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, useColorScheme } from 'react-native';
+import { Header, ScrollViewWithHeaders } from '@codeherence/react-native-header';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
 import Animated, { SharedValue } from 'react-native-reanimated';
 import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { CartesianChart, Line } from 'victory-native';
+import { NewsItem } from '@/components/NewsItem';
 import stocksData from '@/app/data/stocks.json';
+import { news } from '@/data/news.json';
 
 interface StockData {
     symbol: string;
@@ -46,39 +48,70 @@ const FadingView = ({ opacity, children, style }: {
     </Animated.View>
 );
 
-const StockItem = ({ stock, onPress }: { stock: StockData; onPress: (stock: StockData) => void }) => (
-    <TouchableOpacity 
-        onPress={() => onPress(stock)}
-        className="flex-row items-center justify-between p-4 border-b border-gray-100"
-    >
-        <View className="flex-1">
-            <Text className="text-lg font-semibold">{stock.symbol}</Text>
-            <Text className="text-sm text-gray-600">{stock.name}</Text>
-        </View>
-        <View className="items-end">
-            <Text className="text-lg">${stock.price}</Text>
-            <Text className={`text-sm ${stock.change >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                {stock.change >= 0 ? '+' : ''}{stock.change} ({stock.percentChange}%)
+const StockItem = ({ stock, onPress }: { stock: StockData; onPress: (stock: StockData) => void }) => {
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
+    
+    return (
+        <TouchableOpacity 
+            onPress={() => onPress(stock)}
+            className={`flex-row items-center justify-between p-4 border-b ${isDark ? 'border-gray-800' : 'border-gray-100'}`}
+        >
+            <View className="flex-1">
+                <Text className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-black'}`}>{stock.symbol}</Text>
+                <Text className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{stock.name}</Text>
+            </View>
+            <View className="items-end">
+                <View className="w-16 h-8 mb-1">
+                    <CartesianChart
+                        data={stock.historicalData.map(d => ({ x: new Date(d.date).getTime(), y: d.price }))}
+                        xKey="x"
+                        yKeys={["y"]}
+                        domainPadding={{ left: 0, right: 0 }}
+                        axisOptions={{
+                            formatXLabel: () => "",
+                            formatYLabel: () => "",
+                        }}
+                    >
+                        {({ points }) => (
+                            <Line
+                                points={points.y}
+                                color={stock.change >= 0 ? "#32D74B" : "#FF453A"}
+                            />
+                        )}
+                    </CartesianChart>
+                </View>
+                <Text className={`text-lg ${isDark ? 'text-white' : 'text-black'}`}>${stock.price}</Text>
+                <Text className={`text-sm ${stock.change >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                    {stock.change >= 0 ? '+' : ''}{stock.change} ({stock.percentChange}%)
+                </Text>
+            </View>
+        </TouchableOpacity>
+    );
+};
+
+const IndexItem = ({ index }: { index: IndexData }) => {
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
+    
+    return (
+        <View className={`flex-1 rounded-lg p-4 ${isDark ? 'bg-gray-800' : 'bg-white'}`}>
+            <Text className={`text-sm ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{index.name}</Text>
+            <Text className={`text-lg font-semibold ${isDark ? 'text-white' : 'text-black'}`}>{index.price.toLocaleString()}</Text>
+            <Text className={`text-sm ${index.change >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                {index.change >= 0 ? '+' : ''}{index.change} ({index.percentChange}%)
             </Text>
         </View>
-    </TouchableOpacity>
-);
-
-const IndexItem = ({ index }: { index: IndexData }) => (
-    <View className="flex-1 bg-white rounded-lg p-4 shadow-sm">
-        <Text className="text-sm text-gray-600">{index.name}</Text>
-        <Text className="text-lg font-semibold">{index.price.toLocaleString()}</Text>
-        <Text className={`text-sm ${index.change >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-            {index.change >= 0 ? '+' : ''}{index.change} ({index.percentChange}%)
-        </Text>
-    </View>
-);
+    );
+};
 
 export default function StocksScreen() {
     const { top, bottom } = useSafeAreaInsets();
     const [selectedStock, setSelectedStock] = useState<StockData | null>(null);
     const bottomSheetRef = useRef<BottomSheet>(null);
     const snapPoints = useMemo(() => ['50%', '90%'], []);
+    const colorScheme = useColorScheme();
+    const isDark = colorScheme === 'dark';
 
     const handleStockPress = useCallback((stock: StockData) => {
         setSelectedStock(stock);
@@ -127,10 +160,10 @@ export default function StocksScreen() {
         }));
 
         return (
-            <BottomSheetScrollView className="flex-1 px-4">
+            <BottomSheetScrollView className={`flex-1 px-4 ${isDark ? 'bg-black' : 'bg-white'}`}>
                 <View className="py-4">
-                    <Text className="text-2xl font-bold">{selectedStock.name}</Text>
-                    <Text className="text-3xl font-semibold mt-2">${selectedStock.price}</Text>
+                    <Text className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-black'}`}>{selectedStock.name}</Text>
+                    <Text className={`text-3xl font-semibold mt-2 ${isDark ? 'text-white' : 'text-black'}`}>${selectedStock.price}</Text>
                     <Text className={`text-lg ${selectedStock.change >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                         {selectedStock.change >= 0 ? '+' : ''}{selectedStock.change} ({selectedStock.percentChange}%)
                     </Text>
@@ -146,13 +179,16 @@ export default function StocksScreen() {
                                     const date = new Date(value);
                                     return `${date.getMonth() + 1}/${date.getDate()}`;
                                 },
-                                formatYLabel: (value) => `$${value}`
+                                formatYLabel: (value) => `$${value}`,
+                                showGrid: false,
+                                showAxes: true,
+                                axisColor: isDark ? '#333' : '#e5e5e5'
                             }}
                         >
                             {({ points }) => (
                                 <Line
                                     points={points.y}
-                                    color="#22c55e"
+                                    color={selectedStock.change >= 0 ? "#32D74B" : "#FF453A"}
                                     animate={{ type: "timing", duration: 300 }}
                                 />
                             )}
@@ -161,21 +197,28 @@ export default function StocksScreen() {
 
                     <View className="mt-4 flex-row flex-wrap">
                         <View className="w-1/2 mb-4">
-                            <Text className="text-gray-600">Market Cap</Text>
-                            <Text className="text-lg">{selectedStock.marketCap}</Text>
+                            <Text className={`${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Market Cap</Text>
+                            <Text className={`text-lg ${isDark ? 'text-white' : 'text-black'}`}>{selectedStock.marketCap}</Text>
                         </View>
                         <View className="w-1/2 mb-4">
-                            <Text className="text-gray-600">P/E Ratio</Text>
-                            <Text className="text-lg">{selectedStock.pe || '-'}</Text>
+                            <Text className={`${isDark ? 'text-gray-400' : 'text-gray-600'}`}>P/E Ratio</Text>
+                            <Text className={`text-lg ${isDark ? 'text-white' : 'text-black'}`}>{selectedStock.pe || '-'}</Text>
                         </View>
                         <View className="w-1/2 mb-4">
-                            <Text className="text-gray-600">Volume</Text>
-                            <Text className="text-lg">{selectedStock.volume}</Text>
+                            <Text className={`${isDark ? 'text-gray-400' : 'text-gray-600'}`}>Volume</Text>
+                            <Text className={`text-lg ${isDark ? 'text-white' : 'text-black'}`}>{selectedStock.volume}</Text>
                         </View>
                         <View className="w-1/2 mb-4">
-                            <Text className="text-gray-600">52W Range</Text>
-                            <Text className="text-lg">{selectedStock.low52} - {selectedStock.high52}</Text>
+                            <Text className={`${isDark ? 'text-gray-400' : 'text-gray-600'}`}>52W Range</Text>
+                            <Text className={`text-lg ${isDark ? 'text-white' : 'text-black'}`}>{selectedStock.low52} - {selectedStock.high52}</Text>
                         </View>
+                    </View>
+
+                    <View className="mt-4">
+                        <Text className={`text-xl font-bold mb-4 ${isDark ? 'text-white' : 'text-black'}`}>Business News</Text>
+                        {news.slice(0, 5).map((item: any) => (
+                            <NewsItem key={item.id} item={item} />
+                        ))}
                     </View>
                 </View>
             </BottomSheetScrollView>
@@ -183,10 +226,10 @@ export default function StocksScreen() {
     };
 
     return (
-        <View className="flex-1 bg-white">
+        <View className={`flex-1 ${isDark ? 'bg-black' : 'bg-white'}`}>
             <ScrollViewWithHeaders
                 contentContainerStyle={[{ paddingBottom: bottom }]}
-                className="flex-1 bg-white"
+                className={`flex-1 ${isDark ? 'bg-black' : 'bg-white'}`}
                 stickyHeaderIndices={[0]}
                 maintainVisibleContentPosition={{
                     minIndexForVisible: 0,
@@ -201,6 +244,8 @@ export default function StocksScreen() {
                 largeHeaderContainerStyle={{ paddingTop: top + 4 }}
             >
                 <View>
+                 
+            
                     {stocksData.stocks.map((stock) => (
                         <StockItem 
                             key={stock.symbol} 
@@ -216,7 +261,8 @@ export default function StocksScreen() {
                 index={-1}
                 snapPoints={snapPoints}
                 enablePanDownToClose
-                backgroundStyle={{ backgroundColor: 'white' }}
+                backgroundStyle={{ backgroundColor: isDark ? '#000' : '#fff' }}
+                handleIndicatorStyle={{ backgroundColor: isDark ? '#666' : '#999' }}
             >
                 {renderStockDetails()}
             </BottomSheet>
