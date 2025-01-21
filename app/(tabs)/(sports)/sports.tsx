@@ -86,7 +86,7 @@ export default function SportsScreen() {
     // const iconColor = colorScheme === 'light' ? '#000' : '#fff';
     const iconColor = '#fff';
 
-    const backgroundColor = colorScheme === 'light' ? '#F2F2F6' : '#1C1C1E';
+    const backgroundColor = '#F2F2F6';
     const insets = useSafeAreaInsets();
 
     const lastScrollY = useSharedValue(0);
@@ -167,7 +167,7 @@ export default function SportsScreen() {
     );
 
     return (
-        <View style={{ flex: 1, backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }}>
+        <View style={{ flex: 1, backgroundColor: '#F2F2F6' }}>
 
 
 
@@ -195,7 +195,7 @@ export default function SportsScreen() {
 
 
 
-            <View style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
+            <View style={[styles.container, { backgroundColor: '#F2F2F6' }]}>
                 <AnimatedSwipeListView
                       alwaysBounceHorizontal={false}
                       alwaysBounceVertical={false}
@@ -216,7 +216,7 @@ export default function SportsScreen() {
                     ListHeaderComponent={
                         <View style={SportsStyles.listHeaderContainer}>
                             <Image
-                                source={colorScheme === 'light' ? require('@/assets/images/temp/sports-light-bg.png') : require('@/assets/images/temp/sports-dark-bg.png')}
+                                source={require('@/assets/images/temp/sports-light-bg.png')}
                                 style={{ width: '100%', height: Platform.OS === "ios" ? 140 : 120, position: 'absolute', left: 0, right: 0, top: -insets.top + 50 }}
                             />
 
@@ -234,7 +234,7 @@ export default function SportsScreen() {
                                 <View style={SportsStyles.listHeader}>
 
                                     <View>
-                                        <Text style={[styles.listHeaderText, { color: colorScheme === 'light' ? '#000000' : '#ffffff', marginTop: 30 }]}>Top Stories</Text>
+                                        <Text style={[styles.listHeaderText, { color: '#000000', marginTop: 30 }]}>Top Stories</Text>
                                         <Text style={SportsStyles.listHeaderSubText}>Selected by the Apple News editors.</Text>
                                     </View>
 
@@ -244,7 +244,7 @@ export default function SportsScreen() {
                                                 <MaterialIcons
                                                     name="more-horiz"
                                                     size={24}
-                                                    color={colorScheme === 'light' ? '#000' : '#fff'}
+                                                    color='#000'
                                                 />
                                             </DropdownMenu.Trigger>
                                             <DropdownMenu.Content>

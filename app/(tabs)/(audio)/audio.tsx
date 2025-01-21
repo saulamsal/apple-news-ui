@@ -118,7 +118,7 @@ export default function AudioScreen() {
   // const iconColor = colorScheme === 'light' ? '#000' : '#fff';
   const iconColor = '#fff';
 
-  const backgroundColor = colorScheme === 'light' ? '#F2F2F6' : '#1C1C1E';
+  const backgroundColor = '#F2F2F6';
   const insets = useSafeAreaInsets();
 
   const AnimatedSwipeListView = Animated.createAnimatedComponent(SwipeListView);
@@ -195,7 +195,7 @@ export default function AudioScreen() {
               <RefreshControl
                 refreshing={isRefreshing}
                 onRefresh={onRefresh}
-                tintColor={colorScheme === 'light' ? '#000' : '#fff'}
+                tintColor='#000'
               />
             }
             ListHeaderComponent={
@@ -227,7 +227,7 @@ export default function AudioScreen() {
                     exitTransition={{ type: 'timing', duration: 300 }}
                     style={{ marginBottom: 0 , marginTop: 10}}
                   >
-                    <Text style={{ fontSize: 24, color: colorScheme === 'light' ? '#000' : '#fff' }}>
+                    <Text style={{ fontSize: 24, color: '#000' }}>
                       Checking new podcasts...
                     </Text>
                   </MotiView>

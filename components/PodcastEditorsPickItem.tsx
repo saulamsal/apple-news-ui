@@ -36,7 +36,7 @@ const EditorPickItem = ({ episode }: EditorPickItemProps) => {
       <View className="mt-2">
         <Text 
           className="text-xl font-bold" 
-          style={{ color: colorScheme === 'light' ? '#000' : '#fff' }}
+          style={{ color: '#000' }}
           numberOfLines={2}
         >
           {episode.attributes.name}

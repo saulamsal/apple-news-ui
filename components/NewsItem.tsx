@@ -115,7 +115,7 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
         <View className="px-4 py-3">
           <View className="h-[20px] w-[150px] -ml-2.5 mb-2">
             <Image
-              source={{ uri: colorScheme === 'light' ? item.source.logo_transparent_light : item.source.logo_transparent_dark }}
+              source={{ uri: item.source.logo_transparent_light }}
               className="w-full h-full"
               resizeMode="contain"
             />
@@ -173,7 +173,7 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
       <View className="flex-1 p-4 pr-[120px] mt-2.5">
         <View className="h-[30px] w-[120px] -ml-2.5 mb-2">
           <Image
-            source={{ uri: colorScheme === 'light' ? item.source.logo_transparent_light : item.source.logo_transparent_dark }}
+            source={{ uri: item.source.logo_transparent_light }}
             className="w-full h-full"
             resizeMode="contain"
           />

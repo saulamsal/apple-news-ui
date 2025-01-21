@@ -42,7 +42,7 @@ export function ContentView({ content }: ContentViewProps) {
             <Ionicons 
               name="chevron-back" 
               size={24} 
-              color={colorScheme === 'light' ? content.source.light_text : content.source.dark_text} 
+              color={content.source.light_text} 
             />
           </TouchableOpacity>
         }
@@ -53,7 +53,7 @@ export function ContentView({ content }: ContentViewProps) {
           />
         }
         headerStyle={{
-          backgroundColor: colorScheme === 'light' ? content.source.dark_bg : "#000",
+          backgroundColor: content.source.dark_bg,
         }}
         borderWidth={0}
       />
