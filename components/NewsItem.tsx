@@ -210,17 +210,23 @@ const NewsItemActions = ({ item }: { item: NewsItemType }) => {
   
   return (
     <View className="px-2">
-      {item.show_topic && (
-        <Pressable 
-          className="bg-[#f2f2f2] px-4 py-2 rounded-2xl self-start mt-2 mb-4 ml-2" 
-          onPress={(e) => {
-            e.stopPropagation();
-          }}
-        >
-          <Text className="text-sm text-black -tracking-[0.3px]">
-            More {item.topic.name} coverage
-          </Text>
-        </Pressable>
+      {item.card_type === 'full' ? (
+        item.show_topic && (
+          <Pressable 
+            className="bg-[#F2F2F6] px-4 py-1 rounded-2xl self-start mt-2 mb-4 ml-2" 
+            onPress={(e) => {
+              e.stopPropagation();
+            }}
+          >
+            <Text className="text-xs text-black -tracking-[0.3px] font-bold">
+              More {item.topic.name} coverage
+            </Text>
+          </Pressable>
+        )
+      ) : (
+        <View className="flex-row items-center mt-2 mb-4 ml-2">
+          <Text className="text-xs text-gray-500">23m ago · Author Name</Text>
+        </View>
       )}
       <View className="absolute right-2 top-2">
         <DropdownMenu.Root>
