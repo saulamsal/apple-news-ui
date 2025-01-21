@@ -11,6 +11,7 @@ import { Link, router } from 'expo-router';
 import { NestableScrollContainer, NestableDraggableFlatList, ScaleDecorator, RenderItemParams } from "react-native-draggable-flatlist";
 import * as Haptics from 'expo-haptics';
 import { Ionicons } from '@expo/vector-icons';
+import { toast } from 'burnt';
 
 type Entity = {
     id: string;
@@ -137,6 +138,12 @@ export default function EditFollowingScreen() {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         setFollowingItems(data);
         setIsOrderChanged(true);
+        toast({
+            title: 'Order Updated',
+            haptic: 'success',
+            duration: 1,
+            from: 'top'
+        });
     };
 
     return (
