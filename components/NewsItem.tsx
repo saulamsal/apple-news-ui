@@ -232,6 +232,7 @@ export const NewsItem = ({ item }: NewsItemProps) => {
               {renderNewsContent({ item, colorScheme })}
             </Pressable>
           </Link>
+          <NewsItemActions item={item} />
         </ContextMenu.Trigger>
         <ContextMenu.Content>
           <ContextMenu.Preview
@@ -306,9 +307,11 @@ export const NewsItem = ({ item }: NewsItemProps) => {
               </ContextMenu.Item>
             </ContextMenu.SubContent>
           </ContextMenu.Sub>
+          
         </ContextMenu.Content>
+        
       </ContextMenu.Root>
-      <NewsItemActions item={item} />
+
     </View>
   );
 };
@@ -319,10 +322,10 @@ const NewsItemActions = ({ item }: { item: NewsItemType }) => {
   const DropdownMenuComponent = () => (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger>
-        <View className="p-1 bg-[#0000000D] rounded-full">
+        <View className="p-1  rounded-full">
           <MaterialIcons
             name="more-horiz"
-            size={24}
+            size={20}
             color={colorScheme === 'dark' ? '#fff' : '#000'}
             style={{ opacity: 0.4 }}
           />
