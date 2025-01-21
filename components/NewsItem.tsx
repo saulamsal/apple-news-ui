@@ -191,6 +191,8 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
   );
 };
 
+
+
 export const NewsItem = ({ item }: NewsItemProps) => {
   const colorScheme = useColorScheme();
   
@@ -201,47 +203,142 @@ export const NewsItem = ({ item }: NewsItemProps) => {
     params: { id: item.id }
   };
 
+  const StoryPreview = () => (
+    <View className="p-4 bg-[#1C1C1C] rounded-lg">
+      <Text className="text-2xl font-bold text-white">{item.title}</Text>
+      <Image 
+        source={{ uri: item.featured_image }} 
+        className="w-full h-[200] mt-4 rounded-lg"
+        resizeMode="cover"
+      />
+      <View className="mt-4">
+        <View className="h-[20px] w-[150px] -ml-2.5 mb-2">
+          <Image
+            source={{ uri: item.source.logo_transparent_dark }}
+            className="w-full h-full"
+            resizeMode="contain"
+          />
+        </View>
+      </View>
+    </View>
+  );
+
   return (
-    <ContextMenu.Root>
-      <ContextMenu.Trigger>
-        <View className="mb-2 rounded-xl overflow-hidden shadow-sm bg-white mx-5 relative">
+    <View className="mb-2 rounded-xl overflow-hidden shadow-sm bg-white mx-5 relative">
+      <ContextMenu.Root>
+        <ContextMenu.Trigger>
           <Link href={href} asChild>
             <Pressable className="flex-1">
               {renderNewsContent({ item, colorScheme })}
             </Pressable>
           </Link>
-          <NewsItemActions item={item} />
-        </View>
-      </ContextMenu.Trigger>
-      <ContextMenu.Content>
-        <ContextMenu.Preview>
-          {() => (
-            <View>
-              <Image 
-                source={{ uri: item.featured_image }} 
-                className="w-full h-[200px]"
-                resizeMode="cover"
-              />
-              <View className="absolute bottom-0 left-0 right-0 p-4 bg-black/50 backdrop-blur-md">
-                <Image
-                  source={{ uri: item.source.logo_transparent_dark }}
-                  className="h-4 w-[100px] -ml-2 mb-2 resize-contain"
-                />
-                <Text className="text-lg font-semibold text-white -tracking-[0.5px]">
-                  {item.title}
-                </Text>
-              </View>
-            </View>
-          )}
-        </ContextMenu.Preview>
-        <MenuItems item={item} />
-      </ContextMenu.Content>
-    </ContextMenu.Root>
+        </ContextMenu.Trigger>
+        <ContextMenu.Content>
+          <ContextMenu.Preview>
+            {() => <StoryPreview />}
+          </ContextMenu.Preview>
+          <ContextMenu.Item key="share" onSelect={() => {}} textValue="Share Story">
+            <ContextMenu.ItemIcon ios={{ name: "square.and.arrow.up" }}>
+              <MaterialIcons name="share" size={18} />
+            </ContextMenu.ItemIcon>
+            <ContextMenu.ItemTitle>Share Story</ContextMenu.ItemTitle>
+          </ContextMenu.Item>
+          <ContextMenu.Item key="save" onSelect={() => {}} textValue="Save Story">
+            <ContextMenu.ItemIcon ios={{ name: "bookmark" }}>
+              <MaterialIcons name="bookmark" size={18} />
+            </ContextMenu.ItemIcon>
+            <ContextMenu.ItemTitle>Save Story</ContextMenu.ItemTitle>
+          </ContextMenu.Item>
+          <ContextMenu.Item key="copy" onSelect={() => {}} textValue="Copy Link">
+            <ContextMenu.ItemIcon ios={{ name: "link" }}>
+              <MaterialIcons name="link" size={18} />
+            </ContextMenu.ItemIcon>
+            <ContextMenu.ItemTitle>Copy Link</ContextMenu.ItemTitle>
+          </ContextMenu.Item>
+          <ContextMenu.Separator />
+          <ContextMenu.Item key="more" onSelect={() => {}} textValue="Suggest More">
+            <ContextMenu.ItemIcon ios={{ name: "plus.circle" }}>
+              <MaterialIcons name="add-circle-outline" size={18} />
+            </ContextMenu.ItemIcon>
+            <ContextMenu.ItemTitle>Suggest More</ContextMenu.ItemTitle>
+          </ContextMenu.Item>
+          <ContextMenu.Item key="less" onSelect={() => {}} textValue="Suggest Less">
+            <ContextMenu.ItemIcon ios={{ name: "minus.circle" }}>
+              <MaterialIcons name="remove-circle-outline" size={18} />
+            </ContextMenu.ItemIcon>
+            <ContextMenu.ItemTitle>Suggest Less</ContextMenu.ItemTitle>
+          </ContextMenu.Item>
+          <ContextMenu.Separator />
+          <ContextMenu.Item key="source" onSelect={() => {}} textValue={`Go to ${item.source.name}`}>
+            <ContextMenu.ItemIcon ios={{ name: "arrow.up.right" }}>
+              <MaterialIcons name="open-in-new" size={18} />
+            </ContextMenu.ItemIcon>
+            <ContextMenu.ItemTitle>Go to {item.source.name}</ContextMenu.ItemTitle>
+          </ContextMenu.Item>
+        </ContextMenu.Content>
+      </ContextMenu.Root>
+      <NewsItemActions item={item} />
+    </View>
   );
 };
 
 const NewsItemActions = ({ item }: { item: NewsItemType }) => {
   const colorScheme = useColorScheme();
+  
+  const DropdownMenuComponent = () => (
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger>
+        <View className="p-1 bg-[#0000000D] rounded-full">
+          <MaterialIcons
+            name="more-horiz"
+            size={24}
+            color={colorScheme === 'dark' ? '#fff' : '#000'}
+            style={{ opacity: 0.4 }}
+          />
+        </View>
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Content>
+        <DropdownMenu.Item key="share" onSelect={() => {}} textValue="Share Story">
+          <DropdownMenu.ItemIcon ios={{ name: "square.and.arrow.up" }}>
+            <MaterialIcons name="share" size={18} />
+          </DropdownMenu.ItemIcon>
+          <DropdownMenu.ItemTitle>Share Story</DropdownMenu.ItemTitle>
+        </DropdownMenu.Item>
+        <DropdownMenu.Item key="save" onSelect={() => {}} textValue="Save Story">
+          <DropdownMenu.ItemIcon ios={{ name: "bookmark" }}>
+            <MaterialIcons name="bookmark" size={18} />
+          </DropdownMenu.ItemIcon>
+          <DropdownMenu.ItemTitle>Save Story</DropdownMenu.ItemTitle>
+        </DropdownMenu.Item>
+        <DropdownMenu.Item key="copy" onSelect={() => {}} textValue="Copy Link">
+          <DropdownMenu.ItemIcon ios={{ name: "link" }}>
+            <MaterialIcons name="link" size={18} />
+          </DropdownMenu.ItemIcon>
+          <DropdownMenu.ItemTitle>Copy Link</DropdownMenu.ItemTitle>
+        </DropdownMenu.Item>
+        <DropdownMenu.Separator />
+        <DropdownMenu.Item key="more" onSelect={() => {}} textValue="Suggest More">
+          <DropdownMenu.ItemIcon ios={{ name: "plus.circle" }}>
+            <MaterialIcons name="add-circle-outline" size={18} />
+          </DropdownMenu.ItemIcon>
+          <DropdownMenu.ItemTitle>Suggest More</DropdownMenu.ItemTitle>
+        </DropdownMenu.Item>
+        <DropdownMenu.Item key="less" onSelect={() => {}} textValue="Suggest Less">
+          <DropdownMenu.ItemIcon ios={{ name: "minus.circle" }}>
+            <MaterialIcons name="remove-circle-outline" size={18} />
+          </DropdownMenu.ItemIcon>
+          <DropdownMenu.ItemTitle>Suggest Less</DropdownMenu.ItemTitle>
+        </DropdownMenu.Item>
+        <DropdownMenu.Separator />
+        <DropdownMenu.Item key="source" onSelect={() => {}} textValue={`Go to ${item.source.name}`}>
+          <DropdownMenu.ItemIcon ios={{ name: "arrow.up.right" }}>
+            <MaterialIcons name="open-in-new" size={18} />
+          </DropdownMenu.ItemIcon>
+          <DropdownMenu.ItemTitle>Go to {item.source.name}</DropdownMenu.ItemTitle>
+        </DropdownMenu.Item>
+      </DropdownMenu.Content>
+    </DropdownMenu.Root>
+  );
   
   return (
     <View className="px-2">
@@ -264,26 +361,7 @@ const NewsItemActions = ({ item }: { item: NewsItemType }) => {
         </View>
       )}
       <View className="absolute right-2 top-2">
-        <DropdownMenu.Root>
-          <DropdownMenu.Trigger asChild>
-            <Pressable
-              className="p-2 rounded-full active:bg-black/5"
-              onPress={(e) => {
-                e.stopPropagation();
-              }}
-            >
-              <MaterialIcons
-                name="more-horiz"
-                size={24}
-                color={'#000'}
-                style={{ opacity: 0.4 }}
-              />
-            </Pressable>
-          </DropdownMenu.Trigger>
-          <DropdownMenu.Content>
-            <MenuItems item={item} />
-          </DropdownMenu.Content>
-        </DropdownMenu.Root>
+        <DropdownMenuComponent />
       </View>
     </View>
   );
