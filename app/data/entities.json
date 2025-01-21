@@ -1,7 +1,7 @@
 {
-    "stock_market": {
-        "id": "stock_market",
-        "title": "Stock Market",
+    "stocks": {
+        "id": "stocks",
+        "title": "Stocks App",
         "logo": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/78/f9/87/78f987f6-ae23-1ff5-5417-a5081f7ecd68/AppIcon-0-0-1x_U007emarketing-0-8-0-P3-85-220.png/246x0w.webp",
         "description": "Daily stock market updates",
         "type": "category",

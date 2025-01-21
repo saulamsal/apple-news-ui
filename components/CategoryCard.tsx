@@ -15,8 +15,12 @@ export const CategoryCard = ({ id, title, icon, logo }: CategoryCardProps) => {
     const router = useRouter();
 
     const handlePress = () => {
-        router.push(`/(tabs)/(search)/${id}`);
-    };
+        if (id === 'stocks') {
+            router.push('/stocks');
+        } else {
+            router.push(`/(tabs)/(search)/${id}`);
+        } 
+    }
 
     return (
         <TouchableOpacity 
