@@ -83,7 +83,7 @@ const MenuItems = ({ item }: { item: NewsItemType }) => {
         <ContextMenu.ItemIcon ios={{ name: 'arrow.up.right' }}>
           <MaterialIcons name="open-in-new" size={18} />
         </ContextMenu.ItemIcon>
-        <ContextMenu.ItemTitle>Go to {item.source.name}</ContextMenu.ItemTitle>
+        <ContextMenu.ItemTitle>{item.source.name}</ContextMenu.ItemTitle>
       </ContextMenu.Item>
     </>
   );
@@ -204,21 +204,21 @@ export const NewsItem = ({ item }: NewsItemProps) => {
   };
 
   const StoryPreview = () => (
-    <View className="p-4 bg-[#1C1C1C] rounded-lg">
-      <Text className="text-2xl font-bold text-white">{item.title}</Text>
+    <View className="bg-white">
       <Image 
         source={{ uri: item.featured_image }} 
-        className="w-full h-[200] mt-4 rounded-lg"
+        className="w-full h-[200]"
         resizeMode="cover"
       />
-      <View className="mt-4">
+      <View className="p-4">
         <View className="h-[20px] w-[150px] -ml-2.5 mb-2">
           <Image
-            source={{ uri: item.source.logo_transparent_dark }}
+            source={{ uri: item.source.logo_transparent_light }}
             className="w-full h-full"
             resizeMode="contain"
           />
         </View>
+        <Text className="text-xl font-bold text-black">{item.title}</Text>
       </View>
     </View>
   );
@@ -234,7 +234,10 @@ export const NewsItem = ({ item }: NewsItemProps) => {
           </Link>
         </ContextMenu.Trigger>
         <ContextMenu.Content>
-          <ContextMenu.Preview>
+          <ContextMenu.Preview
+            backgroundColor="white"
+            borderRadius={12}
+          >
             {() => <StoryPreview />}
           </ContextMenu.Preview>
           <ContextMenu.Item key="share" onSelect={() => {}} textValue="Share Story">
@@ -257,24 +260,52 @@ export const NewsItem = ({ item }: NewsItemProps) => {
           </ContextMenu.Item>
           <ContextMenu.Separator />
           <ContextMenu.Item key="more" onSelect={() => {}} textValue="Suggest More">
-            <ContextMenu.ItemIcon ios={{ name: "plus.circle" }}>
+            <ContextMenu.ItemIcon ios={{ name: "hand.thumbsup" }}>
               <MaterialIcons name="add-circle-outline" size={18} />
             </ContextMenu.ItemIcon>
             <ContextMenu.ItemTitle>Suggest More</ContextMenu.ItemTitle>
           </ContextMenu.Item>
           <ContextMenu.Item key="less" onSelect={() => {}} textValue="Suggest Less">
-            <ContextMenu.ItemIcon ios={{ name: "minus.circle" }}>
+            <ContextMenu.ItemIcon ios={{ name: "hand.thumbsdown" }}>
               <MaterialIcons name="remove-circle-outline" size={18} />
             </ContextMenu.ItemIcon>
             <ContextMenu.ItemTitle>Suggest Less</ContextMenu.ItemTitle>
           </ContextMenu.Item>
           <ContextMenu.Separator />
-          <ContextMenu.Item key="source" onSelect={() => {}} textValue={`Go to ${item.source.name}`}>
-            <ContextMenu.ItemIcon ios={{ name: "arrow.up.right" }}>
-              <MaterialIcons name="open-in-new" size={18} />
-            </ContextMenu.ItemIcon>
-            <ContextMenu.ItemTitle>Go to {item.source.name}</ContextMenu.ItemTitle>
-          </ContextMenu.Item>
+          <ContextMenu.Sub>
+            <ContextMenu.SubTrigger key="source" textValue={` ${item.source.name}`}>
+              <ContextMenu.ItemIcon >
+                <MaterialIcons name="open-in-new" size={18} />
+              </ContextMenu.ItemIcon>
+              <ContextMenu.ItemTitle>Go to {item.source.name}</ContextMenu.ItemTitle>
+            </ContextMenu.SubTrigger>
+            <ContextMenu.SubContent>
+              <ContextMenu.Item key="channel" onSelect={() => {}} textValue="Go to Channel">
+                <ContextMenu.ItemIcon ios={{ name: "arrow.up.right" }}>
+                  <MaterialIcons name="open-in-new" size={18} />
+                </ContextMenu.ItemIcon>
+                <ContextMenu.ItemTitle>Go to Channel</ContextMenu.ItemTitle>
+              </ContextMenu.Item>
+              <ContextMenu.Item key="follow" onSelect={() => {}} textValue="Follow Channel">
+                <ContextMenu.ItemIcon ios={{ name: "plus" }}>
+                  <MaterialIcons name="add" size={18} />
+                </ContextMenu.ItemIcon>
+                <ContextMenu.ItemTitle>Follow Channel</ContextMenu.ItemTitle>
+              </ContextMenu.Item>
+              <ContextMenu.Item key="block" onSelect={() => {}} textValue="Block Channel">
+                <ContextMenu.ItemIcon ios={{ name: "xmark.circle" }}>
+                  <MaterialIcons name="block" size={18} />
+                </ContextMenu.ItemIcon>
+                <ContextMenu.ItemTitle>Block Channel</ContextMenu.ItemTitle>
+              </ContextMenu.Item>
+              <ContextMenu.Item key="notifications" onSelect={() => {}} textValue="Turn on Notifications">
+                <ContextMenu.ItemIcon ios={{ name: "bell" }}>
+                  <MaterialIcons name="notifications" size={18} />
+                </ContextMenu.ItemIcon>
+                <ContextMenu.ItemTitle>Turn on Notifications</ContextMenu.ItemTitle>
+              </ContextMenu.Item>
+            </ContextMenu.SubContent>
+          </ContextMenu.Sub>
         </ContextMenu.Content>
       </ContextMenu.Root>
       <NewsItemActions item={item} />
@@ -330,12 +361,40 @@ const NewsItemActions = ({ item }: { item: NewsItemType }) => {
           <DropdownMenu.ItemTitle>Suggest Less</DropdownMenu.ItemTitle>
         </DropdownMenu.Item>
         <DropdownMenu.Separator />
-        <DropdownMenu.Item key="source" onSelect={() => {}} textValue={`Go to ${item.source.name}`}>
-          <DropdownMenu.ItemIcon ios={{ name: "arrow.up.right" }}>
-            <MaterialIcons name="open-in-new" size={18} />
-          </DropdownMenu.ItemIcon>
-          <DropdownMenu.ItemTitle>Go to {item.source.name}</DropdownMenu.ItemTitle>
-        </DropdownMenu.Item>
+        <DropdownMenu.Sub>
+          <DropdownMenu.SubTrigger key="source" textValue={`Go to ${item.source.name}`}>
+            <DropdownMenu.ItemIcon>
+              <MaterialIcons name="open-in-new" size={18} />
+            </DropdownMenu.ItemIcon>
+            <DropdownMenu.ItemTitle>{item.source.name}</DropdownMenu.ItemTitle>
+          </DropdownMenu.SubTrigger>
+          <DropdownMenu.SubContent>
+            <DropdownMenu.Item key="channel" onSelect={() => {}} textValue="Go to Channel">
+              <DropdownMenu.ItemIcon ios={{ name: "arrow.up.right" }}>
+                <MaterialIcons name="open-in-new" size={18} />
+              </DropdownMenu.ItemIcon>
+              <DropdownMenu.ItemTitle>Go to Channel</DropdownMenu.ItemTitle>
+            </DropdownMenu.Item>
+            <DropdownMenu.Item key="follow" onSelect={() => {}} textValue="Follow Channel">
+              <DropdownMenu.ItemIcon ios={{ name: "plus" }}>
+                <MaterialIcons name="add" size={18} />
+              </DropdownMenu.ItemIcon>
+              <DropdownMenu.ItemTitle>Follow Channel</DropdownMenu.ItemTitle>
+            </DropdownMenu.Item>
+            <DropdownMenu.Item key="block" onSelect={() => {}} textValue="Block Channel">
+              <DropdownMenu.ItemIcon ios={{ name: "xmark.circle" }}>
+                <MaterialIcons name="block" size={18} />
+              </DropdownMenu.ItemIcon>
+              <DropdownMenu.ItemTitle>Block Channel</DropdownMenu.ItemTitle>
+            </DropdownMenu.Item>
+            <DropdownMenu.Item key="notifications" onSelect={() => {}} textValue="Turn on Notifications">
+              <DropdownMenu.ItemIcon ios={{ name: "bell" }}>
+                <MaterialIcons name="notifications" size={18} />
+              </DropdownMenu.ItemIcon>
+              <DropdownMenu.ItemTitle>Turn on Notifications</DropdownMenu.ItemTitle>
+            </DropdownMenu.Item>
+          </DropdownMenu.SubContent>
+        </DropdownMenu.Sub>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   );
