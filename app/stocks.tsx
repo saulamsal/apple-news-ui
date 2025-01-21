@@ -790,16 +790,6 @@ export default function StocksScreen() {
                 )}
             </ScrollView>
 
-            <BottomSheet
-                ref={bottomSheetRef}
-                index={-1}
-                snapPoints={snapPoints}
-                enablePanDownToClose
-                backgroundStyle={{ backgroundColor: '#1C1C1C' }}
-                handleIndicatorStyle={{ backgroundColor: '#666' }}
-            >
-                {renderStockDetails()}
-            </BottomSheet>
 
             <BottomSheet
                 ref={newsBottomSheetRef}
@@ -812,6 +802,19 @@ export default function StocksScreen() {
             >
                 {renderBusinessNews()}
             </BottomSheet>
+            
+
+            <BottomSheet
+                ref={bottomSheetRef}
+                index={-1}
+                snapPoints={snapPoints}
+                enablePanDownToClose
+                backgroundStyle={{ backgroundColor: '#1C1C1C' }}
+                handleIndicatorStyle={{ backgroundColor: '#666' }}
+            >
+                {renderStockDetails()}
+            </BottomSheet>
+
         </View>
     );
 } 
