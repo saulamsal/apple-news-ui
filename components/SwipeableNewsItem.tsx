@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
+import Entypo from '@expo/vector-icons/Entypo';
 import { styles } from '@/styles/screens/home';
 import type { NewsItemType } from './NewsItem';
 
@@ -19,13 +21,13 @@ export const SwipeableNewsItem = ({ item }: SwipeableNewsItemProps) => {
           onPress={() => console.log('Thumbs down:', item.id)}
           style={[styles.actionButton, styles.leftActionButton, { backgroundColor: '#FF3A31' }]}
         >
-          <Ionicons name="thumbs-down" size={24} color={iconColor} />
+          <Entypo name="thumbs-down" size={24} color={iconColor} />
         </Pressable>
         <Pressable
           onPress={() => console.log('Thumbs up:', item.id)}
           style={[styles.actionButton, styles.leftActionButton, { backgroundColor: '#54B583' }]}
         >
-          <Ionicons name="thumbs-up" size={24} color={iconColor} />
+          <Entypo name="thumbs-up" size={24} color={iconColor} />
         </Pressable>
       </View>
 

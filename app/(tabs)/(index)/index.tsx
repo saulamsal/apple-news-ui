@@ -163,7 +163,7 @@ export default function HomeScreen() {
                         ? 'https://i.imgur.com/EfImlCx.png' 
                         : 'https://i.imgur.com/bMJtV6x.png' 
                     }} 
-                    className="w-8 h-8"
+                    className="w-16 h-16"
                   />
                 </View>
               </View>
