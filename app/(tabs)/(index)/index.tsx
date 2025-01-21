@@ -158,11 +158,7 @@ export default function HomeScreen() {
                 <NewsHeaderLeftItem size="md" />
                 <View>
                   <Image 
-                    source={{ 
-                      uri: colorScheme === 'light' 
-                        ? 'https://i.imgur.com/EfImlCx.png' 
-                        : 'https://i.imgur.com/bMJtV6x.png' 
-                    }} 
+                    source={{ uri: 'https://i.imgur.com/EfImlCx.png' }} 
                     className="w-16 h-16"
                   />
                 </View>
