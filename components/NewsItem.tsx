@@ -275,7 +275,7 @@ const NewsItemActions = ({ item }: { item: NewsItemType }) => {
               <MaterialIcons
                 name="more-horiz"
                 size={24}
-                color={colorScheme === 'light' ? '#000' : '#fff'}
+                color={'#000'}
                 style={{ opacity: 0.4 }}
               />
             </Pressable>

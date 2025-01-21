@@ -311,7 +311,7 @@ export default function StocksScreen() {
         displayMode: 'price-change'
     });
 
-    Appearance.setColorScheme('dark');
+    // Appearance.setColorScheme('dark');
 
     // Load settings from storage
     useEffect(() => {
