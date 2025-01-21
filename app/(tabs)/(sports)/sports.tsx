@@ -90,7 +90,7 @@ export default function SportsScreen() {
     const insets = useSafeAreaInsets();
 
     const lastScrollY = useSharedValue(0);
-    const translationY = useSharedValue(-40);
+    const translationY = useSharedValue(-100);
 
     const AnimatedSwipeListView = Animated.createAnimatedComponent(SwipeListView);
 
