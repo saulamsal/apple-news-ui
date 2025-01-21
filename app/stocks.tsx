@@ -1,5 +1,5 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions, useColorScheme, TextInput, ScrollView } from 'react-native';
+import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, useColorScheme, TextInput, ScrollView, Linking, Alert } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
@@ -9,6 +9,9 @@ import stocksData from '@/app/data/stocks.json';
 import { news } from '@/data/news.json';
 import { Ionicons } from '@expo/vector-icons';
 import * as DropdownMenu from 'zeego/dropdown-menu';
+import * as ContextMenu from 'zeego/context-menu';
+import {Appearance} from 'react-native';
+import { MMKV } from 'react-native-mmkv';
 
 interface StockData {
     symbol: string;
@@ -35,52 +38,200 @@ interface IndexData {
     percentChange: number;
 }
 
+interface WatchlistData {
+    id: string;
+    name: string;
+    symbols: string[];
+}
+
+interface DisplaySettings {
+    showCurrency: boolean;
+    sortBy: 'manual' | 'name' | 'price';
+    displayMode: 'price-change' | 'percent-change' | 'market-cap';
+}
+
 const { width } = Dimensions.get('window');
 
-const StockItem = ({ stock, onPress }: { stock: StockData; onPress: (stock: StockData) => void }) => {
+const storage = new MMKV();
+
+const StockItem = ({ 
+    stock, 
+    onPress,
+    isInWatchlist,
+    onToggleWatchlist,
+    showWatchlistButton = false,
+    displayMode,
+    showCurrency
+}: { 
+    stock: StockData; 
+    onPress: (stock: StockData) => void;
+    isInWatchlist?: boolean;
+    onToggleWatchlist?: (symbol: string) => void;
+    showWatchlistButton?: boolean;
+    displayMode: 'price-change' | 'percent-change' | 'market-cap';
+    showCurrency: boolean;
+}) => {
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
     
-    return (
-        <TouchableOpacity 
-            onPress={() => onPress(stock)}
-            className="flex-row items-center justify-between p-4 border-b border-gray-800"
-        >
-            <View className="flex-1">
-                <Text className="text-2xl font-bold text-white">{stock.symbol}</Text>
-                <Text className="text-base text-gray-400">{stock.name}</Text>
-            </View>
-            <View className="w-16 h-8 mb-1 mr-4">
+    const StockPreview = () => (
+        <View className="p-4 bg-[#1C1C1C] rounded-lg">
+            <Text className="text-2xl font-bold text-white">{stock.name}</Text>
+            <Text className="text-3xl font-semibold mt-2 text-white">${stock.price}</Text>
+            <Text className={`text-lg ${stock.change >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                {stock.change >= 0 ? '+' : ''}{stock.change} ({stock.percentChange}%)
+            </Text>
+
+            <View className="h-[200] mt-4">
                 <CartesianChart
                     data={stock.historicalData.map(d => ({ x: new Date(d.date).getTime(), y: d.price }))}
                     xKey="x"
                     yKeys={["y"]}
-                    domainPadding={{ left: 0, right: 0 }}
+                    domainPadding={{ left: 20, right: 20 }}
                     axisOptions={{
-                        formatXLabel: () => "",
-                        formatYLabel: () => "",
+                        formatXLabel: (value) => {
+                            const date = new Date(value);
+                            return `${date.getMonth() + 1}/${date.getDate()}`;
+                        },
+                        formatYLabel: (value) => `$${value}`
                     }}
                 >
                     {({ points }) => (
-                        <>
-                            <Line 
-                                points={points.y}
-                                color={stock.change >= 0 ? "#32D74B" : "#FF453A"}
-                                strokeWidth={2.5}
-                            />
-                        </>
+                        <Line
+                            points={points.y}
+                            color={stock.change >= 0 ? "#32D74B" : "#FF453A"}
+                            animate={{ type: "timing", duration: 300 }}
+                        />
                     )}
                 </CartesianChart>
             </View>
-            <View className="items-end">
-                <Text className="text-lg text-white">${stock.price}</Text>
-                <View className={`px-2 py-0.5 rounded ${stock.change >= 0 ? 'bg-[#32D74B]' : 'bg-[#FF453A]'}`}>
-                    <Text className="text-sm text-white">
-                        {stock.change >= 0 ? '+' : ''}{stock.change} ({stock.percentChange}%)
-                    </Text>
+
+            <View className="mt-4 flex-row flex-wrap">
+                <View className="w-1/2 mb-4">
+                    <Text className="text-gray-400">Market Cap</Text>
+                    <Text className="text-lg text-white">{stock.marketCap}</Text>
+                </View>
+                <View className="w-1/2 mb-4">
+                    <Text className="text-gray-400">P/E Ratio</Text>
+                    <Text className="text-lg text-white">{stock.pe || '-'}</Text>
+                </View>
+                <View className="w-1/2 mb-4">
+                    <Text className="text-gray-400">Volume</Text>
+                    <Text className="text-lg text-white">{stock.volume}</Text>
+                </View>
+                <View className="w-1/2 mb-4">
+                    <Text className="text-gray-400">52W Range</Text>
+                    <Text className="text-lg text-white">{stock.low52} - {stock.high52}</Text>
                 </View>
             </View>
-        </TouchableOpacity>
+        </View>
+    );
+    
+    const renderValue = () => {
+        switch (displayMode) {
+            case 'price-change':
+                return (
+                    <View className={`px-2 py-0.5 rounded ${stock.change >= 0 ? 'bg-[#32D74B]' : 'bg-[#FF453A]'}`}>
+                        <Text className="text-sm text-white">
+                            {stock.change >= 0 ? '+' : ''}{showCurrency ? '$' : ''}{stock.change}
+                        </Text>
+                    </View>
+                );
+            case 'percent-change':
+                return (
+                    <View className={`px-2 py-0.5 rounded ${stock.change >= 0 ? 'bg-[#32D74B]' : 'bg-[#FF453A]'}`}>
+                        <Text className="text-sm text-white">
+                            {stock.change >= 0 ? '+' : ''}{stock.percentChange}%
+                        </Text>
+                    </View>
+                );
+            case 'market-cap':
+                return (
+                    <Text className="text-sm text-gray-400">
+                        {stock.marketCap}
+                    </Text>
+                );
+            default:
+                return null;
+        }
+    };
+    
+    return (
+        <ContextMenu.Root>
+            <ContextMenu.Trigger>
+                <TouchableOpacity 
+                    onPress={() => onPress(stock)}
+                    className="flex-row items-center justify-between p-4 border-b border-gray-800"
+                >
+                    {showWatchlistButton && onToggleWatchlist && (
+                        <TouchableOpacity 
+                            onPress={() => onToggleWatchlist(stock.symbol)}
+                            className="mr-3"
+                        >
+                            <Ionicons 
+                                name={isInWatchlist ? "checkmark-circle" : "add-circle-outline"} 
+                                size={24} 
+                                color={isInWatchlist ? "#32D74B" : "#666"} 
+                            />
+                        </TouchableOpacity>
+                    )}
+                    <View className={`flex-1 ${!showWatchlistButton ? 'ml-0' : ''}`}>
+                        <Text className="text-2xl font-bold text-white">{stock.symbol}</Text>
+                        <Text className="text-base text-gray-400">{stock.name}</Text>
+                    </View>
+                    <View className="w-16 h-8 mb-1 mr-4">
+                        <CartesianChart
+                            data={stock.historicalData.map(d => ({ x: new Date(d.date).getTime(), y: d.price }))}
+                            xKey="x"
+                            yKeys={["y"]}
+                            domainPadding={{ left: 0, right: 0 }}
+                            axisOptions={{
+                                formatXLabel: () => "",
+                                formatYLabel: () => "",
+                            }}
+                        >
+                            {({ points }) => (
+                                <>
+                                    <Line 
+                                        points={points.y}
+                                        color={stock.change >= 0 ? "#32D74B" : "#FF453A"}
+                                        strokeWidth={2.5}
+                                    />
+                                </>
+                            )}
+                        </CartesianChart>
+                    </View>
+                    <View className="items-end">
+                        <Text className="text-lg text-white">{showCurrency ? '$' : ''}{stock.price}</Text>
+                        {renderValue()}
+                    </View>
+                </TouchableOpacity>
+            </ContextMenu.Trigger>
+            <ContextMenu.Content>
+                <ContextMenu.Preview>
+                    {() => <StockPreview />}
+                </ContextMenu.Preview>
+                <ContextMenu.Item key="share" onSelect={() => {}} textValue="Share Symbol">
+                    <ContextMenu.ItemIcon ios={{ name: "square.and.arrow.up" }} />
+                    <ContextMenu.ItemTitle>Share Symbol</ContextMenu.ItemTitle>
+                </ContextMenu.Item>
+                <ContextMenu.Item key="copy" onSelect={() => {}} textValue="Copy Link">
+                    <ContextMenu.ItemIcon ios={{ name: "link" }} />
+                    <ContextMenu.ItemTitle>Copy Link</ContextMenu.ItemTitle>
+                </ContextMenu.Item>
+                {isInWatchlist && (
+                    <ContextMenu.Item 
+                        key="remove" 
+                        onSelect={() => onToggleWatchlist?.(stock.symbol)} 
+                        textValue="Remove from Watchlist" 
+                        destructive
+                    >
+                        <ContextMenu.ItemIcon ios={{ name: "minus.circle.fill" }} />
+                        <ContextMenu.ItemTitle>Remove from Watchlist</ContextMenu.ItemTitle>
+                    </ContextMenu.Item>
+                )}
+            </ContextMenu.Content>
+        </ContextMenu.Root>
     );
 };
 
@@ -99,68 +250,40 @@ const IndexItem = ({ index }: { index: IndexData }) => {
     );
 };
 
-const SearchComponent = () => (
-    <View className="flex-row items-center bg-[#1C1C1E] px-3 h-[38px] rounded-[10px]">
+const SearchComponent = ({ 
+    value, 
+    onChangeText, 
+    onFocus, 
+    onBlur,
+    inputRef 
+}: { 
+    value: string;
+    onChangeText: (text: string) => void;
+    onFocus: () => void;
+    onBlur: () => void;
+    inputRef: React.RefObject<TextInput>;
+}) => (
+    <View className="flex-row items-center bg-[#1C1C1E] px-3 h-[38px] rounded-[10px] mx-6">
         <Ionicons name="search" size={20} color="#666" />
         <TextInput
-            placeholder="Search"
+            ref={inputRef}
+            placeholder="Search Stocks"
             className="flex-1 pl-2 text-[17px] text-white"
             placeholderTextColor="#666"
+            value={value}
+            onChangeText={onChangeText}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            returnKeyType="search"
+            autoCapitalize="none"
+            autoCorrect={false}
         />
+        {value ? (
+            <TouchableOpacity onPress={() => onChangeText('')}>
+                <Ionicons name="close-circle" size={20} color="#666" />
+            </TouchableOpacity>
+        ) : null}
     </View>
-);
-
-const StockMenu = () => (
-    <DropdownMenu.Root>
-        <DropdownMenu.Trigger>
-            <View className="p-1 bg-[#57aefb0c] rounded-full">
-                <Ionicons name="ellipsis-horizontal" size={24} color="#57AEFB" />
-            </View>
-        </DropdownMenu.Trigger>
-        <DropdownMenu.Content>
-            <DropdownMenu.Item key="edit" onSelect={() => {}} textValue="Edit Watchlist">
-                <DropdownMenu.ItemTitle>Edit Watchlist</DropdownMenu.ItemTitle>
-            </DropdownMenu.Item>
-            <DropdownMenu.Item key="show" onSelect={() => {}} textValue="Show Currency">
-                <DropdownMenu.ItemTitle>Show Currency</DropdownMenu.ItemTitle>
-            </DropdownMenu.Item>
-            <DropdownMenu.Sub>
-                <DropdownMenu.SubTrigger>
-                    <DropdownMenu.ItemTitle>Sort Watchlist By</DropdownMenu.ItemTitle>
-                </DropdownMenu.SubTrigger>
-                <DropdownMenu.SubContent>
-                    <DropdownMenu.Item key="manual" onSelect={() => {}} textValue="Manual">
-                        <DropdownMenu.ItemTitle>Manual</DropdownMenu.ItemTitle>
-                    </DropdownMenu.Item>
-                    <DropdownMenu.Item key="name" onSelect={() => {}} textValue="Name">
-                        <DropdownMenu.ItemTitle>Name</DropdownMenu.ItemTitle>
-                    </DropdownMenu.Item>
-                    <DropdownMenu.Item key="price" onSelect={() => {}} textValue="Price">
-                        <DropdownMenu.ItemTitle>Price</DropdownMenu.ItemTitle>
-                    </DropdownMenu.Item>
-                </DropdownMenu.SubContent>
-            </DropdownMenu.Sub>
-            <DropdownMenu.Sub>
-                <DropdownMenu.SubTrigger>
-                    <DropdownMenu.ItemTitle>Watchlist Shows</DropdownMenu.ItemTitle>
-                </DropdownMenu.SubTrigger>
-                <DropdownMenu.SubContent>
-                    <DropdownMenu.Item key="price-change" onSelect={() => {}} textValue="Price Change">
-                        <DropdownMenu.ItemTitle>Price Change</DropdownMenu.ItemTitle>
-                    </DropdownMenu.Item>
-                    <DropdownMenu.Item key="percent-change" onSelect={() => {}} textValue="Percent Change">
-                        <DropdownMenu.ItemTitle>Percent Change</DropdownMenu.ItemTitle>
-                    </DropdownMenu.Item>
-                    <DropdownMenu.Item key="market-cap" onSelect={() => {}} textValue="Market Cap">
-                        <DropdownMenu.ItemTitle>Market Cap</DropdownMenu.ItemTitle>
-                    </DropdownMenu.Item>
-                </DropdownMenu.SubContent>
-            </DropdownMenu.Sub>
-            <DropdownMenu.Item key="feedback" onSelect={() => {}} textValue="Provide Feedback">
-                <DropdownMenu.ItemTitle>Provide Feedback</DropdownMenu.ItemTitle>
-            </DropdownMenu.Item>
-        </DropdownMenu.Content>
-    </DropdownMenu.Root>
 );
 
 export default function StocksScreen() {
@@ -173,6 +296,114 @@ export default function StocksScreen() {
     const newsSnapPoints = useMemo(() => [`25%`, `${Math.min(top + 100, 50)}%`], [top]);
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
+    const [searchQuery, setSearchQuery] = useState('');
+    const [activeWatchlist, setActiveWatchlist] = useState<WatchlistData>({
+        id: 'default',
+        name: 'My Symbols',
+        symbols: []
+    });
+    const [watchlists, setWatchlists] = useState<WatchlistData[]>([]);
+    const [isSearchFocused, setIsSearchFocused] = useState(false);
+    const searchRef = useRef<TextInput>(null);
+    const [displaySettings, setDisplaySettings] = useState<DisplaySettings>({
+        showCurrency: true,
+        sortBy: 'manual',
+        displayMode: 'price-change'
+    });
+
+    Appearance.setColorScheme('dark');
+
+    // Load settings from storage
+    useEffect(() => {
+        const storedSettings = storage.getString('displaySettings');
+        if (storedSettings) {
+            setDisplaySettings(JSON.parse(storedSettings));
+        }
+    }, []);
+
+    // Save settings to storage
+    useEffect(() => {
+        storage.set('displaySettings', JSON.stringify(displaySettings));
+    }, [displaySettings]);
+
+    // Initialize with My Symbols as default
+    useEffect(() => {
+        const storedWatchlists = storage.getString('watchlists');
+        const storedActive = storage.getString('activeWatchlist');
+        const defaultWatchlist = {
+            id: 'default',
+            name: 'My Symbols',
+            symbols: []
+        };
+
+        if (storedWatchlists) {
+            const parsed = JSON.parse(storedWatchlists);
+            // Ensure My Symbols is always first
+            const mySymbolsIndex = parsed.findIndex((w: WatchlistData) => w.id === 'default');
+            if (mySymbolsIndex === -1) {
+                setWatchlists([defaultWatchlist, ...parsed]);
+            } else {
+                setWatchlists(parsed);
+            }
+        } else {
+            setWatchlists([defaultWatchlist]);
+        }
+
+        if (storedActive) {
+            setActiveWatchlist(JSON.parse(storedActive));
+        } else {
+            setActiveWatchlist(defaultWatchlist);
+        }
+    }, []);
+
+    const filteredStocks = useMemo(() => {
+        if (!searchQuery) {
+            if (isSearchFocused) {
+                return stocksData.stocks;
+            }
+            return stocksData.stocks.filter(stock => 
+                activeWatchlist.symbols.includes(stock.symbol)
+            );
+        }
+        
+        const query = searchQuery.toLowerCase().trim();
+        const results = stocksData.stocks.filter(stock => 
+            stock.symbol.toLowerCase().includes(query) || 
+            stock.name.toLowerCase().includes(query)
+        );
+
+        // If searching, show all results regardless of watchlist
+        if (isSearchFocused) {
+            return results;
+        }
+        
+        // If not searching, only show results from active watchlist
+        return results.filter(stock => activeWatchlist.symbols.includes(stock.symbol));
+    }, [searchQuery, activeWatchlist.symbols, isSearchFocused]);
+
+    const handleAddToWatchlist = useCallback((symbol: string) => {
+        setActiveWatchlist(prev => ({
+            ...prev,
+            symbols: [...prev.symbols, symbol]
+        }));
+    }, []);
+
+    const handleRemoveFromWatchlist = useCallback((symbol: string) => {
+        setActiveWatchlist(prev => ({
+            ...prev,
+            symbols: prev.symbols.filter(s => s !== symbol)
+        }));
+    }, []);
+
+    const handleCreateWatchlist = useCallback((name: string) => {
+        const newWatchlist: WatchlistData = {
+            id: Date.now().toString(),
+            name,
+            symbols: []
+        };
+        setWatchlists(prev => [...prev, newWatchlist]);
+        setActiveWatchlist(newWatchlist);
+    }, []);
 
     const handleSheetChange = useCallback((index: number) => {
         setShowIndexInSheet(index === 1);
@@ -183,6 +414,25 @@ export default function StocksScreen() {
         bottomSheetRef.current?.snapToIndex(0);
     }, []);
 
+    const handleSearchBlur = useCallback(() => {
+        if (!searchQuery) {
+            setIsSearchFocused(false);
+        }
+    }, [searchQuery]);
+
+    const sortedStocks = useMemo(() => {
+        return [...filteredStocks].sort((a, b) => {
+            switch (displaySettings.sortBy) {
+                case 'name':
+                    return a.name.localeCompare(b.name);
+                case 'price':
+                    return b.price - a.price;
+                default:
+                    return 0;
+            }
+        });
+    }, [filteredStocks, displaySettings.sortBy]);
+
     const Header = () => (
         <View 
             className="bg-black px-4 pt-2 pb-3" 
@@ -192,7 +442,6 @@ export default function StocksScreen() {
                 <NewsHeaderLeftItem size="md" secondaryTitle="Stocks" theme="dark" />
                 <StockMenu />
             </View>
-            <SearchComponent />
             {/* <View className="flex-row gap-2 mt-4">
                 {stocksData.indices.map((index) => (
                     <IndexItem key={index.symbol} index={index} />
@@ -276,32 +525,54 @@ export default function StocksScreen() {
         <DropdownMenu.Root>
             <DropdownMenu.Trigger>
                 <View className="flex-row items-center px-4 py-3">
-                    <Text className="text-xl font-bold text-[#57AEFB]">My Symbols</Text>
-                    <View className=" items-center">
+                    <Text className="text-xl font-bold text-[#57AEFB]">{activeWatchlist.name}</Text>
+                    <View className="items-center">
                         <Ionicons name="chevron-up" size={12} color="#57AEFB" className="ml-2" />
-                        <Ionicons name="chevron-down" size={12} color="#57AEFB" className="ml-2 " />
+                        <Ionicons name="chevron-down" size={12} color="#57AEFB" className="ml-2" />
                     </View>
-                   
                 </View>
             </DropdownMenu.Trigger>
             <DropdownMenu.Content>
-                {stocksData.stocks.slice(0, 3).map((stock) => (
+                {watchlists.map((watchlist) => (
                     <DropdownMenu.Item 
-                        key={stock.symbol} 
-                        onSelect={() => handleStockPress(stock)}
-                        textValue={stock.symbol}
+                        key={watchlist.id}
+                        onSelect={() => setActiveWatchlist(watchlist)}
+                        textValue={watchlist.name}
                     >
                         <View className="flex-row items-center">
-                            <Ionicons name="checkmark-circle" size={24} color="#32D74B" />
-                            <View className="ml-3">
-                                <DropdownMenu.ItemTitle>{stock.symbol}</DropdownMenu.ItemTitle>
-                                <Text className="text-sm text-gray-400">{stock.name}</Text>
-                            </View>
+                            {watchlist.id === activeWatchlist.id && (
+                                <Ionicons name="checkmark" size={20} color="#32D74B" />
+                            )}
+                            <DropdownMenu.ItemTitle className="ml-2">{watchlist.name}</DropdownMenu.ItemTitle>
                         </View>
                     </DropdownMenu.Item>
                 ))}
                 <DropdownMenu.Separator />
-                <DropdownMenu.Item key="new" onSelect={() => {}} textValue="New Watchlist">
+                <DropdownMenu.Item 
+                    key="new" 
+                    onSelect={() => {
+                        Alert.prompt(
+                            'New Watchlist',
+                            'Enter a name for this watchlist',
+                            [
+                                {
+                                    text: 'Cancel',
+                                    style: 'cancel',
+                                },
+                                {
+                                    text: 'Save',
+                                    onPress: (name?: string) => {
+                                        if (name?.trim()) {
+                                            handleCreateWatchlist(name.trim());
+                                        }
+                                    }
+                                }
+                            ],
+                            'plain-text'
+                        );
+                    }} 
+                    textValue="New Watchlist"
+                >
                     <View className="flex-row items-center">
                         <View className="w-6 h-6 rounded-full bg-[#32D74B] items-center justify-center">
                             <Ionicons name="add" size={20} color="white" />
@@ -331,24 +602,192 @@ export default function StocksScreen() {
         </BottomSheetScrollView>
     );
 
+    const EmptyWatchlist = () => (
+        <View className="flex-1 items-center justify-center py-16">
+            <Text className="text-xl font-semibold text-white mb-2">No Symbols</Text>
+            <Text className="text-base text-gray-400 mb-6">Add symbols to see prices</Text>
+            <TouchableOpacity 
+                onPress={() => {
+                    setIsSearchFocused(true);
+                    searchRef.current?.focus();
+                }}
+                className="bg-[#32D74B] px-6 py-3 rounded-lg"
+            >
+                <Text className="text-white font-semibold text-lg">Add Symbols</Text>
+            </TouchableOpacity>
+        </View>
+    );
+
+    const StockMenu = useCallback(() => (
+        <DropdownMenu.Root>
+            <DropdownMenu.Trigger>
+                <View className="p-1 bg-[#57aefb0c] rounded-full">
+                    <Ionicons name="ellipsis-horizontal" size={24} color="#57AEFB" />
+                </View>
+            </DropdownMenu.Trigger>
+            <DropdownMenu.Content>
+                <DropdownMenu.Item key="edit" onSelect={() => {}} textValue="Edit Watchlist">
+                    <DropdownMenu.ItemIcon ios={{ name: "pencil" }} />
+                    <DropdownMenu.ItemTitle>Edit Watchlist</DropdownMenu.ItemTitle>
+                </DropdownMenu.Item>
+                <DropdownMenu.Item 
+                    key="show" 
+                    onSelect={() => {
+                        setDisplaySettings(prev => ({
+                            ...prev,
+                            showCurrency: !prev.showCurrency
+                        }));
+                    }} 
+                    textValue="Show Currency"
+                >
+                    <DropdownMenu.ItemIcon ios={{ name: "dollarsign.circle" }} />
+                    <DropdownMenu.ItemTitle>Show Currency</DropdownMenu.ItemTitle>
+                    {displaySettings.showCurrency && (
+                        <Ionicons name="checkmark" size={20} color="#32D74B" className="ml-2" />
+                    )}
+                </DropdownMenu.Item>
+                <DropdownMenu.Sub>
+                    <DropdownMenu.SubTrigger key="sort-trigger">
+                        <DropdownMenu.ItemIcon ios={{ name: "arrow.up.arrow.down" }} />
+                        <DropdownMenu.ItemTitle>Sort Watchlist By</DropdownMenu.ItemTitle>
+                    </DropdownMenu.SubTrigger>
+                    <DropdownMenu.SubContent>
+                        <DropdownMenu.Item 
+                            key="manual" 
+                            onSelect={() => setDisplaySettings(prev => ({ ...prev, sortBy: 'manual' }))} 
+                            textValue="Manual"
+                        >
+                            <DropdownMenu.ItemIcon ios={{ name: "hand.draw" }} />
+                            <DropdownMenu.ItemTitle>Manual</DropdownMenu.ItemTitle>
+                            {displaySettings.sortBy === 'manual' && (
+                                <Ionicons name="checkmark" size={20} color="#32D74B" className="ml-2" />
+                            )}
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Item 
+                            key="name" 
+                            onSelect={() => setDisplaySettings(prev => ({ ...prev, sortBy: 'name' }))} 
+                            textValue="Name"
+                        >
+                            <DropdownMenu.ItemIcon ios={{ name: "textformat" }} />
+                            <DropdownMenu.ItemTitle>Name</DropdownMenu.ItemTitle>
+                            {displaySettings.sortBy === 'name' && (
+                                <Ionicons name="checkmark" size={20} color="#32D74B" className="ml-2" />
+                            )}
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Item 
+                            key="price" 
+                            onSelect={() => setDisplaySettings(prev => ({ ...prev, sortBy: 'price' }))} 
+                            textValue="Price"
+                        >
+                            <DropdownMenu.ItemIcon ios={{ name: "dollarsign" }} />
+                            <DropdownMenu.ItemTitle>Price</DropdownMenu.ItemTitle>
+                            {displaySettings.sortBy === 'price' && (
+                                <Ionicons name="checkmark" size={20} color="#32D74B" className="ml-2" />
+                            )}
+                        </DropdownMenu.Item>
+                    </DropdownMenu.SubContent>
+                </DropdownMenu.Sub>
+                <DropdownMenu.Sub>
+                    <DropdownMenu.SubTrigger key="watchlist-shows-trigger">
+                        <DropdownMenu.ItemIcon ios={{ name: "eye" }} />
+                        <DropdownMenu.ItemTitle>Watchlist Shows</DropdownMenu.ItemTitle>
+                    </DropdownMenu.SubTrigger>
+                    <DropdownMenu.SubContent>
+                        <DropdownMenu.Item 
+                            key="price-change" 
+                            onSelect={() => setDisplaySettings(prev => ({ ...prev, displayMode: 'price-change' }))} 
+                            textValue="Price Change"
+                        >
+                            <DropdownMenu.ItemIcon ios={{ name: "chart.line.uptrend.xyaxis" }} />
+                            <DropdownMenu.ItemTitle>Price Change</DropdownMenu.ItemTitle>
+                            {displaySettings.displayMode === 'price-change' && (
+                                <Ionicons name="checkmark" size={20} color="#32D74B" className="ml-2" />
+                            )}
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Item 
+                            key="percent-change" 
+                            onSelect={() => setDisplaySettings(prev => ({ ...prev, displayMode: 'percent-change' }))} 
+                            textValue="Percent Change"
+                        >
+                            <DropdownMenu.ItemIcon ios={{ name: "percent" }} />
+                            <DropdownMenu.ItemTitle>Percent Change</DropdownMenu.ItemTitle>
+                            {displaySettings.displayMode === 'percent-change' && (
+                                <Ionicons name="checkmark" size={20} color="#32D74B" className="ml-2" />
+                            )}
+                        </DropdownMenu.Item>
+                        <DropdownMenu.Item 
+                            key="market-cap" 
+                            onSelect={() => setDisplaySettings(prev => ({ ...prev, displayMode: 'market-cap' }))} 
+                            textValue="Market Cap"
+                        >
+                            <DropdownMenu.ItemIcon ios={{ name: "chart.pie" }} />
+                            <DropdownMenu.ItemTitle>Market Cap</DropdownMenu.ItemTitle>
+                            {displaySettings.displayMode === 'market-cap' && (
+                                <Ionicons name="checkmark" size={20} color="#32D74B" className="ml-2" />
+                            )}
+                        </DropdownMenu.Item>
+                    </DropdownMenu.SubContent>
+                </DropdownMenu.Sub>
+                <DropdownMenu.Item 
+                    key="feedback" 
+                    onSelect={() => {
+                        Linking.openURL('https://www.apple.com/feedback/stocks/').catch(err => 
+                            console.error('Error opening feedback link:', err)
+                        );
+                    }} 
+                    textValue="Provide Feedback"
+                >
+                    <DropdownMenu.ItemIcon ios={{ name: "envelope" }} />
+                    <DropdownMenu.ItemTitle>Provide Feedback</DropdownMenu.ItemTitle>
+                </DropdownMenu.Item>
+            </DropdownMenu.Content>
+        </DropdownMenu.Root>
+    ), [displaySettings, setDisplaySettings]);
+
     return (
         <View className="flex-1 bg-black">
             <Header />
             <ScrollView 
                 className="flex-1"
                 contentContainerStyle={{ paddingBottom: bottom }}
-                // stickyHeaderIndices={[0]}
+                keyboardShouldPersistTaps="handled"
             >
+                <SearchComponent 
+                    value={searchQuery}
+                    onChangeText={setSearchQuery}
+                    onFocus={() => setIsSearchFocused(true)}
+                    onBlur={handleSearchBlur}
+                    inputRef={searchRef}
+                />
                 <WatchlistButton />
-                <View>
-                    {stocksData.stocks.map((stock) => (
-                        <StockItem 
-                            key={stock.symbol} 
-                            stock={stock} 
-                            onPress={handleStockPress}
-                        />
-                    ))}
-                </View>
+                {!isSearchFocused && activeWatchlist.symbols.length === 0 ? (
+                    <EmptyWatchlist />
+                ) : (
+                    <View>
+                        {sortedStocks.map((stock) => (
+                            <StockItem 
+                                key={stock.symbol} 
+                                stock={stock} 
+                                onPress={handleStockPress}
+                                isInWatchlist={activeWatchlist.symbols.includes(stock.symbol)}
+                                onToggleWatchlist={isInWatchlist => 
+                                    isInWatchlist ? 
+                                        handleRemoveFromWatchlist(stock.symbol) : 
+                                        handleAddToWatchlist(stock.symbol)
+                                }
+                                showWatchlistButton={isSearchFocused || !activeWatchlist.symbols.includes(stock.symbol)}
+                                displayMode={displaySettings.displayMode}
+                                showCurrency={displaySettings.showCurrency}
+                            />
+                        ))}
+                        {sortedStocks.length === 0 && searchQuery && (
+                            <View className="flex-1 items-center justify-center py-16">
+                                <Text className="text-lg text-gray-400">No results found</Text>
+                                <Text className="text-base text-gray-500 mt-1">Try searching for a different symbol or company</Text>
+                            </View>
+                        )}
+                    </View>
+                )}
             </ScrollView>
 
             <BottomSheet
