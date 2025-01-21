@@ -58,33 +58,38 @@ const StockItem = ({ stock, onPress }: { stock: StockData; onPress: (stock: Stoc
             className="flex-row items-center justify-between p-4 border-b border-gray-800"
         >
             <View className="flex-1">
-                <Text className="text-lg font-semibold text-white">{stock.symbol}</Text>
-                <Text className="text-sm text-gray-400">{stock.name}</Text>
+                <Text className="text-2xl font-bold text-white">{stock.symbol}</Text>
+                <Text className="text-base text-gray-400">{stock.name}</Text>
             </View>
-            <View className="items-end">
-                <View className="w-16 h-8 mb-1">
-                    <CartesianChart
-                        data={stock.historicalData.map(d => ({ x: new Date(d.date).getTime(), y: d.price }))}
-                        xKey="x"
-                        yKeys={["y"]}
-                        domainPadding={{ left: 0, right: 0 }}
-                        axisOptions={{
-                            formatXLabel: () => "",
-                            formatYLabel: () => "",
-                        }}
-                    >
-                        {({ points }) => (
-                            <Line
+            <View className="w-16 h-8 mb-1 mr-4">
+                <CartesianChart
+                    data={stock.historicalData.map(d => ({ x: new Date(d.date).getTime(), y: d.price }))}
+                    xKey="x"
+                    yKeys={["y"]}
+                    domainPadding={{ left: 0, right: 0 }}
+                    axisOptions={{
+                        formatXLabel: () => "",
+                        formatYLabel: () => "",
+                    }}
+                >
+                    {({ points }) => (
+                        <>
+                            <Line 
                                 points={points.y}
                                 color={stock.change >= 0 ? "#32D74B" : "#FF453A"}
+                                strokeWidth={2.5}
                             />
-                        )}
-                    </CartesianChart>
-                </View>
+                        </>
+                    )}
+                </CartesianChart>
+            </View>
+            <View className="items-end">
                 <Text className="text-lg text-white">${stock.price}</Text>
-                <Text className={`text-sm ${stock.change >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                    {stock.change >= 0 ? '+' : ''}{stock.change} ({stock.percentChange}%)
-                </Text>
+                <View className={`px-2 py-0.5 rounded ${stock.change >= 0 ? 'bg-[#32D74B]' : 'bg-[#FF453A]'}`}>
+                    <Text className="text-sm text-white">
+                        {stock.change >= 0 ? '+' : ''}{stock.change} ({stock.percentChange}%)
+                    </Text>
+                </View>
             </View>
         </TouchableOpacity>
     );
@@ -160,7 +165,7 @@ export default function StocksScreen() {
         }));
 
         return (
-            <BottomSheetScrollView className="flex-1 px-4 bg-black">
+            <BottomSheetScrollView className="flex-1 px-4 bg-[#1C1C1C]">
                 <View className="py-4">
                     <Text className="text-2xl font-bold text-white">{selectedStock.name}</Text>
                     <Text className="text-3xl font-semibold mt-2 text-white">${selectedStock.price}</Text>
@@ -256,7 +261,7 @@ export default function StocksScreen() {
                 index={-1}
                 snapPoints={snapPoints}
                 enablePanDownToClose
-                backgroundStyle={{ backgroundColor: '#000' }}
+                backgroundStyle={{ backgroundColor: '#1C1C1C' }}
                 handleIndicatorStyle={{ backgroundColor: '#666' }}
             >
                 {renderStockDetails()}
