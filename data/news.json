@@ -2,7 +2,8 @@
     "news": [
         {
             "id": "1",
-            "title": "Trump and Powell could be on a collision course in 2025",
+            "title": "Trump signs executive actions on Jan. 6, TikTok, immigration and more",
+            "description": "President Trump on Monday signed a flurry of executive orders, reversing many of his predecessors' policies from his first term in office.",
             "source": {
                 "id": "yahoo-finance",
                 "name": "Yahoo Finance",
@@ -22,10 +23,48 @@
             "author": {
                 "name": "Yahoo Finance Staff"
             },
-            "featured_image": "https://images.axios.com/7p8rnmQOIkgEFK-kQul_-_2AfG0=/0x45:2657x1540/1920x1080/2024/07/18/1721312447294.jpg?w=3840",
+            "featured_image": "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/4477x2984+0+0/resize/1100/quality/85/format/webp/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2Fd0%2Fef%2F9b556f744f428622f04dff087855%2Fgettyimages-2194440770.jpg",
             "card_type": "full",
             "has_next": true,
-            "is_news_plus": true
+            "is_news_plus": true,
+            "related_news": [
+                {
+                    "id": "r1",
+                    "title": "Trump begins second term with series of sweeping executive actions",
+                    "description": "Trump signed a series of executive actions, revoking 78 of Joe Biden's policies. The 47th US president ordered a crackdown on immigration...",
+                    "source":  {
+                        "id": "e-news",
+                        "name": "E!News",
+                        "logo_transparent_light": "https://s.yimg.com/ny/api/res/1.2/HCK4vJDx3zdUNy7TIZflKw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEwODtoPTYwO2NmPXdlYnA-/https://s.yimg.com/os/creatr-uploaded-images/2020-11/cbab8640-2433-11eb-bf17-84d627ebb663"
+                    },
+                    "time_ago": "8 minutes ago",
+                    "is_live": true
+                },
+                {
+                    "id": "r2", 
+                    "title": "Live updates: Trump to meet with GOP leadership after action-packed Inauguration Day",
+                    "description": "President Donald Trump is set to meet with Republican leaders about his legislative agenda after he issued numerous executive orders on...",
+                    "source": {
+                        "id": "business-insider",
+                        "name": "Business Insider",
+                        "logo_transparent_light": "https://s.yimg.com/ny/api/res/1.2/8VRr4oswXC1aT2_km_xOXw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTQwODtoPTYw/https://s.yimg.com/os/creatr-uploaded-images/2024-04/81befb70-0706-11ef-9fbf-6960dce53585"
+                    },
+                    "time_ago": "19 minutes ago",
+                    "is_live": true
+                },
+                {
+                    "id": "r3",
+                    "title": "Trump to announce private sector AI infrastructure investment",
+                    "description": "President Trump is announcing billions in private sector investment by OpenAI, Softbank and Oracle to build AI infrastructure in the U.S..",
+                    "source": {
+                        "id": "usa-today",
+                        "name": "USA Today",
+                        "logo_transparent_light": "https://s.yimg.com/ny/api/res/1.2/sxFlX7qjeiv6DDIEHXCduw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTI2MDtoPTYw/https://s.yimg.com/os/creatr-uploaded-images/2020-11/092f7540-26ea-11eb-bdb4-b7283677d9f5"
+                    },
+                    "time_ago": "52 minutes ago",
+                    "is_live": false
+                }
+            ]
         },
         {
             "id": "2",
