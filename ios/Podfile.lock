@@ -15,7 +15,7 @@ PODS:
     - ReactCommon/turbomodule/core
   - EXConstants (17.0.4):
     - ExpoModulesCore
-  - Expo (52.0.25):
+  - Expo (52.0.27):
     - ExpoModulesCore
   - ExpoAsset (11.0.2):
     - ExpoModulesCore
@@ -27,7 +27,7 @@ PODS:
     - ExpoModulesCore
   - ExpoHaptics (14.0.1):
     - ExpoModulesCore
-  - ExpoHead (4.0.16):
+  - ExpoHead (4.0.17):
     - ExpoModulesCore
   - ExpoKeepAwake (14.0.2):
     - ExpoModulesCore
@@ -35,7 +35,7 @@ PODS:
     - ExpoModulesCore
   - ExpoLinking (7.0.4):
     - ExpoModulesCore
-  - ExpoModulesCore (2.1.3):
+  - ExpoModulesCore (2.1.4):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -60,7 +60,7 @@ PODS:
     - Yoga
   - ExpoSharing (13.0.1):
     - ExpoModulesCore
-  - ExpoSplashScreen (0.29.20):
+  - ExpoSplashScreen (0.29.21):
     - ExpoModulesCore
   - ExpoSymbols (0.2.1):
     - ExpoModulesCore
@@ -1445,7 +1445,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-safe-area-context (4.12.0):
+  - react-native-safe-area-context (4.14.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1458,8 +1458,8 @@ PODS:
     - React-featureflags
     - React-graphics
     - React-ImageManager
-    - react-native-safe-area-context/common (= 4.12.0)
-    - react-native-safe-area-context/fabric (= 4.12.0)
+    - react-native-safe-area-context/common (= 4.14.1)
+    - react-native-safe-area-context/fabric (= 4.14.1)
     - React-NativeModulesApple
     - React-RCTFabric
     - React-rendererdebug
@@ -1468,7 +1468,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-safe-area-context/common (4.12.0):
+  - react-native-safe-area-context/common (4.14.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1489,7 +1489,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - react-native-safe-area-context/fabric (4.12.0):
+  - react-native-safe-area-context/fabric (4.14.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2048,7 +2048,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNSVG (15.8.0):
+  - RNSVG (15.11.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2068,9 +2068,9 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNSVG/common (= 15.8.0)
+    - RNSVG/common (= 15.11.1)
     - Yoga
-  - RNSVG/common (15.8.0):
+  - RNSVG/common (15.11.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2424,19 +2424,19 @@ SPEC CHECKSUMS:
   DoubleConversion: f16ae600a246532c4020132d54af21d0ddb2a385
   EXAV: 57ea461614a714b8b8fcc72c6fbc298b8f1ec78b
   EXConstants: cc788e18fb962b77999c16f6b90e551542b1bcf4
-  Expo: 377cc60ce8c9030cf52e36987ab3ce099ab9006e
+  Expo: 7021c4880d0bbd02781e88e213b6786c1200ebdf
   ExpoAsset: 6cc988c426b5fc997859cc0f8f6728d1376bf53f
   ExpoBlur: 5327b09a58e04e4066dd95fe994d8ef5539a1f26
   ExpoFileSystem: a0a5c44d3d3e8a2aa54fe7c70c7690df03cf4dd8
   ExpoFont: 8b14db1afebf62e9774613a082e402985f4e747c
   ExpoHaptics: e01cce0741d68c281853118eb0267f88d42c6b7a
-  ExpoHead: 9ea4e125f3aafd23e56f7feb4942c7b595889610
+  ExpoHead: 3d555eb5d0d68c478b9ea259337686c58de22c71
   ExpoKeepAwake: 1f74cdf53ab3b3aeb7110f18eb053c92e7c3e710
   ExpoLinearGradient: ee9efc5acb988b911320e964fab9b4cbdeb198c4
   ExpoLinking: a9e64f08d2bb4fc42e7441174f15cc535bb390ba
-  ExpoModulesCore: b8cf31b6555210d2455ba77d8812bfa6508a6119
+  ExpoModulesCore: d6d140b694e1e6d243d5e250b478df7ec754d8de
   ExpoSharing: c4540ef2e6615a92e05d2bddf019e1f58f27119e
-  ExpoSplashScreen: d86865bb6e660da9e5de992ca178be2cbae338ee
+  ExpoSplashScreen: 2625fffb137856c82c32d6f25e7ee97249bdc0ee
   ExpoSymbols: 54fa089478e1bc00f4d1d66ffb5c8bc64dc71ada
   ExpoSystemUI: 7296f92af7c30ec0fc4305bbeb5c396d7fc9e86c
   ExpoWebBrowser: 6890a769e6c9d83da938dceb9a03e764afc3ec9c
@@ -2478,7 +2478,7 @@ SPEC CHECKSUMS:
   react-native-menu: d652fa1a08321a6c9453c66e416f21b152920ff1
   react-native-mmkv: 35992c4170a4a46be095fd1b7fe17d2fd1d42124
   react-native-pager-view: 90bde7996adffa8af7ce5d1b2255b45880bd1091
-  react-native-safe-area-context: 908ee3cf872b29ed987a0514f1a6ccbf57f0fef4
+  react-native-safe-area-context: d71edcee579673b370c053804f34c40c1f250976
   react-native-skia: e63b4764dd20becf6ba46a05e509b85cb3ccf8c5
   react-native-slider: da7c05c52827d597bb7824c5b1acb35741d41f89
   React-nativeconfig: f2bddc1e6c2eb793c065b37e12c513fdea88afef
@@ -2515,7 +2515,7 @@ SPEC CHECKSUMS:
   RNGestureHandler: 598e45cedb905b157e9764acbef0b5e365693451
   RNReanimated: ddc60075b382b872662cadaf9972b07d52a8fce7
   RNScreens: 8ae716a7e26b9ecee7f2856e6ff47b8e7e253ee8
-  RNSVG: 568f3246803db2088000ed771eb21f7f75065ccf
+  RNSVG: 3cd6669b7ad658c8b482db630dccf364c3b59cfb
   SDWebImage: 73c6079366fea25fa4bb9640d5fb58f0893facd8
   SDWebImageSVGCoder: 8e10c8f6cc879c7dfb317b284e13dd589379f01c
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748

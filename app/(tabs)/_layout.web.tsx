@@ -32,7 +32,7 @@ type Styles = {
 };
 
 type AppRoutes = 
-  | "/(tabs)/(home)/home"
+  | "/(tabs)/(index)/index"
   | "/(tabs)/(news+)/news+"
   | "/(tabs)/(sports)/sports"
   | "/(tabs)/(audio)/audio"
@@ -116,17 +116,17 @@ export default function WebLayout() {
           }
         ]}>
           <Pressable
-            onPress={() => router.push("/(tabs)/(home)/home")}
+            onPress={() => router.push("/(tabs)/(index)/home")}
             style={styles.mobileTabItem}
           >
             <Ionicons
               name="home"
               size={24}
-              color={segments[2] === 'home' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666'}
+              color={segments[2] === 'index' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666'}
             />
             <Text style={[
               styles.mobileTabLabel, 
-              { color: segments[2] === 'home' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666' }
+              { color: segments[2] === 'index' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666' }
             ]}>Home</Text>
           </Pressable>
           <Pressable
@@ -210,7 +210,7 @@ export default function WebLayout() {
           </View>
 
           <View style={styles.nav}>
-            <SidebarItem icon="home" label="Home" href="/(tabs)/(home)/home" compact={isCompact} isActive={segments[2] === 'home'} />
+            <SidebarItem icon="home" label="Home" href="/(tabs)/(index)/home" compact={isCompact} isActive={segments[2] === 'home'} />
             <SidebarItem icon="newspaper" label="News+" href="/(tabs)/(news+)/news+" compact={isCompact} isActive={segments[2] == 'news+'} />
             <SidebarItem icon="football" label="Sports" href="/(tabs)/(sports)/sports" compact={isCompact} isActive={segments[2] == 'sports'} />
             <SidebarItem icon="headset" label="Audio" href="/(tabs)/(audio)/audio" compact={isCompact} isActive={segments[2] == 'audio'} />

@@ -7,7 +7,7 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
 export const unstable_settings = {
-  initialRouteName: '(home)',
+  initialRouteName: '(index)',
 };
 
 type TabBarIconProps = {
@@ -46,7 +46,7 @@ export default function TabLayout() {
         
         >
         <Tabs.Screen
-          name="(home)"
+          name="(index)"
           options={{
             title: 'Home',
             tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'newspaper', 'newspaper-outline'),
