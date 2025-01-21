@@ -149,11 +149,11 @@ export default function NewsPlusScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-100">
+    <View className="flex-1 bg-gray-100" style={{ paddingTop: insets.top }}>
       <View className="flex-1 bg-gray-100">
         {renderContent()}
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
