@@ -21,16 +21,16 @@
         {
             "id": "special_coverage",
             "title": "Special Coverage",
-            "items": ["election_2024", "climate_change"]
+            "items": ["stock_market", "bitcoin", "climate_change"]
         },
         {
-            "id": "favorites",
-            "title": "Favorites",
+            "id": "trending",
+            "title": "Trending",
             "items": ["tech_news", "business"]
         },
         {
-            "id": "my_sports",
-            "title": "My Sports",
+            "id": "my_following",
+            "title": "My Following",
             "items": ["man_utd", "premier_league", "nba", "nfl", "mlb", "f1", "ufc"]
         }
     ]

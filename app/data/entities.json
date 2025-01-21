@@ -1,9 +1,9 @@
 {
-    "puzzles": {
-        "id": "puzzles",
-        "title": "Puzzles",
-        "icon": "extension-puzzle",
-        "description": "Daily puzzles and brain teasers",
+    "stock_market": {
+        "id": "stock_market",
+        "title": "Stock Market",
+        "logo": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/78/f9/87/78f987f6-ae23-1ff5-5417-a5081f7ecd68/AppIcon-0-0-1x_U007emarketing-0-8-0-P3-85-220.png/246x0w.webp",
+        "description": "Daily stock market updates",
         "type": "category",
         "theme": {
             "backgroundColor": "#F2F2F7",
@@ -32,12 +32,11 @@
         "icon": "time",
         "type": "category"
     },
-    "election_2024": {
-        "id": "election_2024",
-        "title": "Election 2024",
-        "logo": "https://bloximages.newyork1.vip.townnews.com/hermistonherald.com/content/tncms/assets/v3/editorial/b/e8/be8fb83d-6ede-5302-9d18-162ee39bc357/663a950fb6ed9.image.png",
-        "entity_type": "politics_topic",
-        "description": "Complete coverage of the 2024 Presidential Election",
+    "bitcoin": {
+        "id": "bitcoin",
+        "title": "Bitcoin",
+        "logo": "https://images.vexels.com/media/users/3/144837/isolated/preview/40f189daa5c0279718484ca5f5569f78-crypto-icon.png",
+        "entity_type": "crypto_topic",
         "type": "topic",
         "theme": {
             "backgroundColor": "#E8F5E9",
@@ -91,10 +90,11 @@
     "nba": {
         "id": "nba",
         "title": "NBA",
-        "logo": "",
+        "logo": "https://img.sofascore.com/api/v1/unique-tournament/132/image/dark",
         "entity_type": "Sports League",
         "type": "league"
     },
+    
     "nfl": {
         "id": "nfl",
         "title": "NFL",
@@ -110,7 +110,7 @@
     "mlb": {
         "id": "mlb",
         "title": "MLB",
-        "logo": "/assets/leagues/mlb.png",
+        "logo": "https://img.sofascore.com/api/v1/unique-tournament/11205/image/dark",
         "entity_type": "sport_league",
         "type": "league"
     },
