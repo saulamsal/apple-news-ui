@@ -11,6 +11,7 @@ import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
 import { BlurView } from 'expo-blur';
 import Animated, { SharedValue } from 'react-native-reanimated';
 import { getAllCategories, getAllEntitiesForSection, lookupEntity } from '@/app/utils/entityUtils';
+import { Link } from 'expo-router';
 
 interface Entity {
     id: string;
@@ -64,9 +65,9 @@ export default function SearchScreen() {
             }
             headerRight={
                 <View className="flex-row items-start px-4 pt-4">
-                    <TouchableOpacity>
+                    <Link href="/following/edit">
                         <Text className="text-[17px] text-[#fe425f]">Edit</Text>
-                    </TouchableOpacity>
+                    </Link>
                 </View>
             }
         />
