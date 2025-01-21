@@ -1,21 +1,19 @@
 import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { NewsLogo } from '@/components/NewsLogo';
-import { useColorScheme } from '@/hooks/useColorScheme';
 import { formatSimpleDate } from '@/utils/dateFormatters';
 
 interface NewsHeaderLeftItemProps {
     size: 'sm' | 'md';
     secondaryTitle?: string;
+    theme?: 'light' | 'dark';
 }
 
-export const NewsHeaderLeftItem = ({ size, secondaryTitle }: NewsHeaderLeftItemProps) => {
-    const colorScheme = useColorScheme();
-
+export const NewsHeaderLeftItem = ({ size, secondaryTitle, theme = 'light' }: NewsHeaderLeftItemProps) => {
     return (
         <View style={styles.headerLeft}>
             <NewsLogo
-                color={colorScheme === 'light' ? '#000' : '#fff'}
+                color={theme === 'light' ? '#000' : '#fff'}
                 size={size === 'sm' ? 24 : 36}
             />
             <Text
