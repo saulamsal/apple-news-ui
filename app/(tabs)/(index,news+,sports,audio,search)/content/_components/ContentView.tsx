@@ -92,6 +92,11 @@ export function ContentView({ content }: ContentViewProps) {
               {new Date(content.created_at).toLocaleDateString()}
             </Text>
           </View>
+
+
+          <Text style={{ fontSize: 16, lineHeight: 24, marginTop: 16 }}>
+            {content.content}
+          </Text>
         </View>
       </View>
     </ScrollViewWithHeaders>
