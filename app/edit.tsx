@@ -40,6 +40,7 @@ export default function EditFollowingScreen() {
     const { top, bottom } = useSafeAreaInsets();
     const [followingItems, setFollowingItems] = useState<Entity[]>([]);
     const [isOrderChanged, setIsOrderChanged] = useState(false);
+    const insets = useSafeAreaInsets();
 
     useEffect(() => {
         const myFollowingSection = searchEntities.sections.find(section => section.id === 'my_following');
@@ -98,7 +99,7 @@ export default function EditFollowingScreen() {
                 <TouchableOpacity 
                     onLongPress={drag}
                     disabled={isActive}
-                    className={`flex-row items-center bg-white px-4 py-2 ${isActive ? 'bg-gray-100' : ''}`}
+                    className={`flex-row items-center bg-white mx-2 px-4 py-2 rounded-xl ${isActive ? 'bg-gray-100' : ''}`}
                     style={[
                         isActive && {
                             shadowColor: "#000",
@@ -123,9 +124,9 @@ export default function EditFollowingScreen() {
                         <Text className="text-[17px] font-medium">{item.title}</Text>
                     </View>
                     <Ionicons 
-                        name="reorder-three" 
+                        name="menu-outline" 
                         size={24} 
-                        color="#666"
+                        color="gray"
                     />
                 </TouchableOpacity>
             </ScaleDecorator>
@@ -139,11 +140,11 @@ export default function EditFollowingScreen() {
     };
 
     return (
-        <View className="flex-1 bg-white">
-            <View className="px-4 py-3 border-b border-gray-200">
+        <View className="flex-1 bg-white" style={{ paddingTop: insets.top }}>
+            <View className="px-4 py-3 border-b border-gray-200" >
                 <View className="flex-row items-center justify-between">
                     <Text onPress={handleDone} className="text-[17px] text-[#fe425f]">
-                        {isOrderChanged ? 'Save' : 'Done'}
+                        {isOrderChanged ? 'Save' : 'Back'}
                     </Text>
                     <Text className="text-xl font-semibold">Edit Following</Text>
                     <View style={{ width: 60 }} />
@@ -162,7 +163,7 @@ export default function EditFollowingScreen() {
                         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
                         setIsOrderChanged(true);
                     }}
-                    contentContainerStyle={{ paddingBottom: bottom }}
+                    contentContainerStyle={{ paddingBottom: bottom, paddingTop: 20 }}
                     animationConfig={{
                         damping: 20,
                         mass: 0.2,

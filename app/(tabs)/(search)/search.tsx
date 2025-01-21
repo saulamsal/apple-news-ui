@@ -65,7 +65,7 @@ export default function SearchScreen() {
             }
             headerRight={
                 <View className="flex-row items-start px-4 pt-4">
-                    <Link href="/following/edit">
+                    <Link href="/edit">
                         <Text className="text-[17px] text-[#fe425f]">Edit</Text>
                     </Link>
                 </View>
