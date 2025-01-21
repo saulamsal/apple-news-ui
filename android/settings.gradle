@@ -21,7 +21,7 @@ extensions.configure(com.facebook.react.ReactSettingsExtension) { ex ->
   }
 }
 
-rootProject.name = 'apple-news-ui'
+rootProject.name = 'Apple News UI'
 
 dependencyResolutionManagement {
   versionCatalogs {

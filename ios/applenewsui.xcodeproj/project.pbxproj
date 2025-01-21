@@ -1,9 +1,9 @@
 // !$*UTF8*$!
 {
 	archiveVersion = 1;
+	objectVersion = 46;
 	classes = {
 	};
-	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		3C8212D1E6A447A49051C591 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29F19690918E4098B387F8FE /* noop-file.swift */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
+		56A8BD9553EA4929AF68FE34 /* noop-file.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6870A94A47BB472CBB878A81 /* noop-file.swift */; };
 		57A028A006318231A2F12BA6 /* Pods_AppleNewsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D760AED7FEA37CFA29B55960 /* Pods_AppleNewsUI.framework */; };
 		B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
@@ -26,13 +27,15 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text.plist.xml; name = Info.plist; path = AppleNewsUI/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = main.m; path = AppleNewsUI/main.m; sourceTree = "<group>"; };
 		29F19690918E4098B387F8FE /* noop-file.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = "noop-file.swift"; path = "AppleNewsUI/noop-file.swift"; sourceTree = "<group>"; };
+		6870A94A47BB472CBB878A81 /* noop-file.swift */ = {isa = PBXFileReference; name = "noop-file.swift"; path = "applenewsui/noop-file.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
 		6C2E3173556A471DD304B334 /* Pods-AppleNewsUI.debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppleNewsUI.debug.xcconfig"; path = "Target Support Files/Pods-AppleNewsUI/Pods-AppleNewsUI.debug.xcconfig"; sourceTree = "<group>"; };
 		7A4D352CD337FB3A3BF06240 /* Pods-AppleNewsUI.release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AppleNewsUI.release.xcconfig"; path = "Target Support Files/Pods-AppleNewsUI/Pods-AppleNewsUI.release.xcconfig"; sourceTree = "<group>"; };
-		977BCE5B55F7780B0761B1A3 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = AppleNewsUI/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		977BCE5B55F7780B0761B1A3 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = AppleNewsUI/PrivacyInfo.xcprivacy; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = undefined; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = AppleNewsUI/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
+		C2A06A5A4B1C45769F085AAC /* SplashScreen.storyboard */ = {isa = PBXFileReference; name = SplashScreen.storyboard; path = applenewsui/SplashScreen.storyboard; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		D1F5B1B7EB3B4F29B3CC4B43 /* AppleNewsUI-Bridging-Header.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = "AppleNewsUI-Bridging-Header.h"; path = "AppleNewsUI/AppleNewsUI-Bridging-Header.h"; sourceTree = "<group>"; };
-		D760AED7FEA37CFA29B55960 /* Pods_AppleNewsUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AppleNewsUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D760AED7FEA37CFA29B55960 /* Pods_AppleNewsUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = undefined; path = Pods_AppleNewsUI.framework; sourceTree = BUILT_PRODUCTS_DIR; fileEncoding = 4; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; fileEncoding = 4; includeInIndex = undefined; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FAC715A2D49A985799AEE119 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-AppleNewsUI/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -91,6 +94,8 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				D65327D7A22EEC0BE12398D9 /* Pods */,
 				D7E4C46ADA2E9064B798F356 /* ExpoModulesProviders */,
+				6870A94A47BB472CBB878A81 /* noop-file.swift */,
+				C2A06A5A4B1C45769F085AAC /* SplashScreen.storyboard */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -307,6 +312,10 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AppleNewsUI/Pods-AppleNewsUI-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+			outputFileListPaths = (
+			);
+			inputFileListPaths = (
+			);
 		};
 		D417DA84DDB23F447297D0A2 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -325,6 +334,10 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AppleNewsUI/Pods-AppleNewsUI-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+			outputFileListPaths = (
+			);
+			inputFileListPaths = (
+			);
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -337,6 +350,7 @@
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				B18059E884C0ABDD17F3DC3D /* ExpoModulesProvider.swift in Sources */,
 				3C8212D1E6A447A49051C591 /* noop-file.swift in Sources */,
+				56A8BD9553EA4929AF68FE34 /* noop-file.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,6 +387,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
+				DEVELOPMENT_TEAM = F7P5RH5CTP;
 			};
 			name = Debug;
 		};
@@ -400,6 +415,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
+				DEVELOPMENT_TEAM = F7P5RH5CTP;
 			};
 			name = Release;
 		};

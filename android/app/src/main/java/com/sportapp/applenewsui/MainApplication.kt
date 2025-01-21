@@ -1,4 +1,4 @@
-package com.apple.applenewsui
+package com.sportapp.applenewsui
 
 import android.app.Application
 import android.content.res.Configuration
