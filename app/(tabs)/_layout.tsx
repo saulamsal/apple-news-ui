@@ -5,6 +5,7 @@ import { MiniPlayer } from '@/components/BottomSheet/MiniPlayer';
 import { useAudio } from '@/contexts/AudioContext';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { Home, NewsPlus, Sports, Search } from '@/assets/svg/tab-icons'
 
 export const unstable_settings = {
   initialRouteName: '(index)',
@@ -49,21 +50,24 @@ export default function TabLayout() {
           name="(index)"
           options={{
             title: 'Home',
-            tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'newspaper', 'newspaper-outline'),
+            // tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'newspaper', 'newspaper-outline'),
+            tabBarIcon: (props: TabBarIconProps) => <Home width={24} height={24} color={props.focused ? '#FA2D48' : '#8E8E8F'} />,
           }}
         />
         <Tabs.Screen
           name="(news+)"
           options={{
             title: 'News+',
-            tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'beaker', 'beaker'),
+            // tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'beaker', 'beaker'),
+            tabBarIcon: (props: TabBarIconProps) => <NewsPlus width={24} height={24} color={props.focused ? '#FA2D48' : '#8E8E8F'} />,
           }}
         />
         <Tabs.Screen
           name="(sports)"
           options={{
             title: 'Sports',
-            tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'basketball', 'basketball-outline'),
+            // tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'basketball', 'basketball-outline'),
+            tabBarIcon: (props: TabBarIconProps) => <Sports width={30} height={30} color={props.focused ? '#FA2D48' : '#8E8E8F'} />,
           }}
         />
         <Tabs.Screen
@@ -77,7 +81,8 @@ export default function TabLayout() {
           name="(search)"
           options={{
             title: 'Following',
-            tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'heart', 'heart-outline'),
+            // tabBarIcon: (props: TabBarIconProps) => renderIcon(props, 'heart', 'heart-outline'),
+            tabBarIcon: (props: TabBarIconProps) => <Search width={24} height={24} color={props.focused ? '#FA2D48' : '#8E8E8F'} />,
           }}
         />
       </Tabs>
