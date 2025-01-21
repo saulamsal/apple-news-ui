@@ -41,7 +41,7 @@ export function ContentView({ content }: ContentViewProps) {
         showNavBar={animatedValue}
         headerLeft={
           <View style={{ flexDirection: 'row', alignItems: 'center' }} className="gap-4">
-            <TouchableOpacity onPress={() => router.back()} className="p-1 rounded-full bg-[#eaeaea2d]">
+            <TouchableOpacity onPress={() => router.back()} className="p-1 rounded-full bg-[#0000002d]">
               <Ionicons
                 name="chevron-back"
                 size={22}
@@ -49,7 +49,7 @@ export function ContentView({ content }: ContentViewProps) {
               />
             </TouchableOpacity>
 
-            <TouchableOpacity className="bg-[#eaeaea2d] rounded-full p-1.5">
+            <TouchableOpacity className="bg-[#0000002d] rounded-full p-1.5">
               <MaterialCommunityIcons name="thumbs-up-down-outline" size={20} color={content.source.light_text} />
             </TouchableOpacity>
           </View>
@@ -65,11 +65,11 @@ export function ContentView({ content }: ContentViewProps) {
         headerRight={
           <View style={{ flexDirection: 'row', alignItems: 'center' }} className="gap-4">
 
-          <TouchableOpacity className="bg-[#eaeaea2d] rounded-full p-1.5">
+          <TouchableOpacity className="bg-[#0000002d] rounded-full p-1.5">
             <Ionicons name="share-outline" size={20} color={content.source.light_text} />
             </TouchableOpacity>
 
-            <TouchableOpacity className="bg-[#eaeaea2d] rounded-full p-1.5">
+            <TouchableOpacity className="bg-[#0000002d] rounded-full p-1.5">
               <Ionicons name="ellipsis-horizontal" size={20} color={content.source.light_text} />
             </TouchableOpacity>
           </View>
@@ -78,7 +78,7 @@ export function ContentView({ content }: ContentViewProps) {
 
         headerStyle={{
           backgroundColor: content.source.dark_bg,
-          paddingBottom: 10,
+          paddingBottom: 4,
         }}
         borderWidth={0}
       />
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
     // padding: 16,
   },
   headerLogo: {
-    height: 24,
+    height: 40,
     width: 120,
     resizeMode: 'contain',
   },
