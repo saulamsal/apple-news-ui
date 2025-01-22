@@ -86,6 +86,7 @@
             "backgroundColor": "#004527",
             "textColor": "#ffffff"
         },
+        "featured_background": "https://i.imgur.com/TX8gHyb.png",
         "tabs": ["overview","news","scores","videos", "stats"],
         "has_scores": true,
         "filter": "soccer",
