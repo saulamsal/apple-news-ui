@@ -3,7 +3,9 @@ import { View, Text, useWindowDimensions } from 'react-native';
 import { TabView } from 'react-native-tab-view';
 import { news } from '@/data/news.json';
 import { ContentView } from './_components/ContentView';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { StatusBar } from 'react-native';
+
 
 export default function ContentScreen() {
   const { id } = useLocalSearchParams();
@@ -26,6 +28,13 @@ export default function ContentScreen() {
   const [index, setIndex] = useState(1);
 
   const [isAnimating, setIsAnimating] = useState(false);
+
+  useEffect(() => {
+    StatusBar.setBarStyle('light-content');
+    return () => {
+      StatusBar.setBarStyle('dark-content');
+    };
+  }, []);
 
   const renderScene = useCallback(({ route }: { route: { key: string } }) => {
     switch (route.key) {
