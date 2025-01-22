@@ -134,7 +134,7 @@ export default function HomeScreen() {
     <View className="flex-1 bg-gray-100" style={{ paddingTop: insets.top }}>
       <Animated.View 
         className="absolute -top-4 left-0 right-0 z-50 bg-gray-100 px-5"
-        style={[headerAnimatedStyle, { paddingTop: insets.top, paddingBottom: 10 }]}
+        style={[headerAnimatedStyle, { paddingTop: insets.top + 10, paddingBottom: 14 }]}
       >
         <NewsHeaderLeftItem size="sm" />
       </Animated.View>
