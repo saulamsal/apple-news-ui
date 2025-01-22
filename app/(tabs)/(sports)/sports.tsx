@@ -225,10 +225,10 @@ export default function SportsScreen() {
                         <View style={SportsStyles.listHeaderContainer}>
                             <Image
                                 source={require('@/assets/images/temp/sports-light-bg.png')}
-                                style={{ width: '100%', height: Platform.OS === "ios" ? 140 : 120, position: 'absolute', left: 0, right: 0, top: -insets.top + 50 }}
+                                style={{ width: '100%', height: Platform.OS === 'ios' ? insets.top + 140 :  70, position: 'absolute', left: 0, right: 0, top: -insets.top  }}
                             />
 
-                            <View style={{ paddingHorizontal: 16, paddingTop: Platform.OS === 'ios' ? 50 : 35 }}>
+                            <View style={{ paddingHorizontal: 16, paddingTop:insets.top   }}>
                                 <View style={styles.header}>
                                     <NewsHeaderLeftItem size="md" secondaryTitle='Sports' />
                                     <View style={styles.headerRight}>
