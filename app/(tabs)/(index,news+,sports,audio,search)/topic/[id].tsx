@@ -235,6 +235,7 @@ export default function TopicScreen() {
     );
 
     const SubTopicsModal = () => (
+        //todo remove bottom view
         <Modal
             // animationType="slide"
             presentationStyle="formSheet"
@@ -243,18 +244,19 @@ export default function TopicScreen() {
             onRequestClose={() => setShowSubTopicsModal(false)}
         >
            
-                <View className="mt-auto bg-white rounded-t-3xl">
                     <View className="p-4 border-b border-gray-200">
                         <View className="flex-row justify-between items-center">
-                            <Text className="text-2xl font-semibold">{entity.sub_topics?.title}</Text>
+                        <Text className="text-lg font-semibold">{entity.title}</Text>
                             <TouchableOpacity 
                                 onPress={() => setShowSubTopicsModal(false)}
                                 className="p-2"
                             >
-                                <Ionicons name="close" size={24} color="#666" />
+                                <Text className="font-bold color-apple-news text-xl">Done</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
+                    <Text className="text-2xl font-semibold">{entity.sub_topics?.title}</Text>
+
                         {entity.sub_topics?.items.map((item, index) => (
                             <TouchableOpacity 
                                 key={item.id}
@@ -264,16 +266,18 @@ export default function TopicScreen() {
                                 }}
                                 className="flex-row items-center p-4 border-b border-gray-100"
                             >
-                                <Image 
+
+                                <Image
                                     source={{ uri: item.logo }} 
                                     className="w-12 h-12 rounded-full mr-4"
                                 />
-                                <Text className="text-lg flex-1">{item.title}</Text>
+
+                                <Text className="text-2xl font-semibold tracking-tight flex-1">{item.title}</Text>
                                 <MaterialIcons name="chevron-right" size={24} color="#666" />
                             </TouchableOpacity>
                         ))}
              
-                </View>
+        
      
         </Modal>
     );
