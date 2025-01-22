@@ -18,7 +18,7 @@ export const CategoryCard = ({ id, title, icon, logo }: CategoryCardProps) => {
         if (id === 'stocks') {
             router.push('/stocks');
         } else {
-            router.push(`/(tabs)/(search)/${id}`);
+            router.push(`/(tabs)/(search)/topic/${id}`);
         } 
     }
 

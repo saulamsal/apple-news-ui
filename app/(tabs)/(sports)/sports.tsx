@@ -157,7 +157,15 @@ export default function SportsScreen() {
                 {sportsList.map((sport) => (
                     <DropdownMenu.Item
                         key={sport}
-                        onSelect={() => Alert.alert(`${sport} clicked`)}
+                        onSelect={() => {
+                            //if soccer then push to siccer else Alert.alert(`${sport} clicked`)
+                            if (sport === 'Soccer') {
+                                // router.push('/topic/soccer');
+                                router.push(`/(tabs)/(sports)/topic/soccer`);
+                            } else {
+                                Alert.alert(`${sport} clicked`);
+                            }
+                        }}
                     >
                         <DropdownMenu.ItemTitle>{sport}</DropdownMenu.ItemTitle>
                     </DropdownMenu.Item>
