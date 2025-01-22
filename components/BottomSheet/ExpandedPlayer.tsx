@@ -254,9 +254,10 @@ const styles = StyleSheet.create({
         marginBottom: 30,
     },
     source: {
-        fontSize: 15,
+        fontSize: 18,
         color: 'rgba(255,255,255,0.7)',
         marginBottom: 8,
+        fontWeight: '600',
     },
     titleWrapper: {
         overflow: 'hidden',

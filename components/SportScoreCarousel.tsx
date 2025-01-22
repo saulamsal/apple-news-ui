@@ -129,7 +129,7 @@ export const SportScoreCarousel: React.FC<SportScoreCarouselProps> = ({ scores }
           onPress={() => Alert.alert('See More clicked')}
           activeOpacity={0.7}
         >
-          <Text style={[styles.seeMoreText, { color: isDark ? '#FFFFFF' : '#000000' }]}>
+          <Text style={[styles.seeMoreText, { }]} className="text-apple-news">
             See More
           </Text>
         </TouchableOpacity>
@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 16,
     width: 140,
+ 
   },
   seeMoreCard: {
     paddingVertical: 12,
@@ -157,6 +158,10 @@ const styles = StyleSheet.create({
     width: 140,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#E3E2EA',
+    height: 40,
+    alignSelf: 'center',
+    borderRadius: 12,
   },
   seeMoreText: {
     fontSize: 17,
