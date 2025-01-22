@@ -10,6 +10,7 @@ import { MiniPlayer } from '@/components/BottomSheet/MiniPlayer';
 import { useAudio } from '@/contexts/AudioContext';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { Home, NewsPlus, Sports, Search } from '@/assets/svg/tab-icons'
 
 
 // Helper component for cross-platform icons
@@ -78,26 +79,29 @@ export default function TabLayout() {
           name="(news+)"
           options={{
             title: 'News+',
-            tabBarIcon: ({ color }) => (
-              <TabIcon
-                sfSymbol="square.grid.2x2.fill"
-                ionIcon="newspaper"
-                color={color}
-              />
-            ),
+            // tabBarIcon: ({ color }) => (
+            //   <TabIcon
+            //     sfSymbol="square.grid.2x2.fill"
+            //     ionIcon="newspaper"
+            //     color={color}
+            //   />
+            // ),
+            tabBarIcon: (props) => <NewsPlus width={24} height={24} color={props.focused ? '#FA2D48' : '#8E8E8F'} />,
+
           }}
         />
         <Tabs.Screen
           name="(sports)"
           options={{
             title: 'Sports',
-            tabBarIcon: ({ color }) => (
-              <TabIcon
-                sfSymbol="dot.radiowaves.left.and.right"
-                ionIcon="football"
-                color={color}
-              />
-            ),
+            // tabBarIcon: ({ color }) => (
+            //   <TabIcon
+            //     sfSymbol="dot.radiowaves.left.and.right"
+            //     ionIcon="football"
+            //     color={color}
+            //   />
+            // ),
+            tabBarIcon: (props) => <Sports width={30} height={30} color={props.focused ? '#FA2D48' : '#8E8E8F'} />,
           }}
         />
         <Tabs.Screen
@@ -109,6 +113,7 @@ export default function TabLayout() {
                 sfSymbol="music.note.list"
                 ionIcon="headset"
                 color={color}
+                
               />
             ),
           }}
@@ -118,13 +123,14 @@ export default function TabLayout() {
           options={{
             title: 'Following',
             headerShown: false,
-            tabBarIcon: ({ color }) => (
-              <TabIcon
-                sfSymbol="magnifyingglass"
-                ionIcon="heart"
-                color={color}
-              />
-            ),
+            // tabBarIcon: ({ color }) => (
+            //   <TabIcon
+            //     sfSymbol="magnifyingglass"
+            //     ionIcon="heart"
+            //     color={color}
+            //   />
+            // ),
+            tabBarIcon: (props) => <Search width={24} height={24} color={props.focused ? '#FA2D48' : '#8E8E8F'} />,
           }}
         />
       </Tabs>
