@@ -76,6 +76,61 @@
             "textColor": "#ffffff"
         }
     },
+    "soccer": {
+        "id": "soccer",
+        "title": "Soccer",
+        "logo": "https://static.vecteezy.com/system/resources/thumbnails/018/927/904/small_2x/soccer-ball-3d-illustration-png.png",
+        "entity_type": "England",
+        "type": "league",
+        "theme": {
+            "backgroundColor": "#004527",
+            "textColor": "#ffffff"
+        },
+        "tabs": ["overview","news","scores","videos", "stats"],
+        "has_scores": true,
+        "filter": "soccer",
+        "sub_topics": {
+            "title": "Leagues", 
+            "items": [
+                {
+                    "id": "premier_league",
+                    "title": "Premier League",
+                    "logo": "https://api.sofascore.app/api/v1/unique-tournament/17/image",
+                    "type": "league"
+                },
+                {
+                    "id": "la_liga",
+                    "title": "La Liga",
+                    "logo": "https://api.sofascore.app/api/v1/unique-tournament/18/image",
+                    "type": "league"
+                },
+                {
+                    "id": "bundesliga",
+                    "title": "Bundesliga",
+                    "logo": "https://api.sofascore.app/api/v1/unique-tournament/19/image",
+                    "type": "league"
+                },
+                {
+                    "id": "serie_a",
+                    "title": "Serie A",
+                    "logo": "https://api.sofascore.app/api/v1/unique-tournament/20/image",
+                    "type": "league"
+                },
+                {
+                    "id": "ligue_1",
+                    "title": "Ligue 1",
+                    "logo": "https://api.sofascore.app/api/v1/unique-tournament/21/image",
+                    "type": "league"
+                },
+                {
+                    "id": "ligue_1",
+                    "title": "Ligue 1",
+                    "logo": "https://api.sofascore.app/api/v1/unique-tournament/21/image",
+                    "type": "league"
+                }
+            ]
+        }
+    },
     "premier_league": {
         "id": "premier_league",
         "title": "Premier League",
@@ -85,7 +140,7 @@
         "theme": {
             "backgroundColor": "#E20451",
             "textColor": "#ffffff"
-        }
+        },
     },
     "nba": {
         "id": "nba",

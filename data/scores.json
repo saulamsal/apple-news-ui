@@ -8,6 +8,7 @@
         "full_name": "EPL",
         "matchweek": 21
       },
+      "sports_type": "soccer",
       "team1": {
         "id": "mun",
         "name": "MUN",
@@ -45,6 +46,7 @@
         "full_name": "UCL",
         "matchweek": "League Phase"
       },
+      "sports_type": "soccer",
       "team1": {
         "id": "brest",
         "name": "BRE",
@@ -74,6 +76,7 @@
         "full_name": "NFL",
         "matchweek": "Playoffs"
       },
+      "sports_type": "american_football",
       "team1": {
         "id": "kc",
         "name": "KC",
@@ -105,6 +108,7 @@
         "full_name": "NFL",
         "matchweek": "Playoffs"
       },
+      "sports_type": "american_football",
       "team1": {
         "id": "sf",
         "name": "SF",
@@ -136,6 +140,7 @@
         "full_name": "NBA",
         "matchweek": "Regular Season"
       },
+      "sports_type": "basketball",
       "team1": {
         "id": "bos",
         "name": "BOS",
@@ -167,6 +172,7 @@
         "full_name": "NBA",
         "matchweek": "Regular Season"
       },
+      "sports_type": "basketball",
       "team1": {
         "id": "lal",
         "name": "LAL",
@@ -189,4 +195,4 @@
       "is_live": true
     }
   ]
-} 
+}
