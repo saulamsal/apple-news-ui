@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, Modal } from 'react-native';
 import { ScrollViewWithHeaders, Header } from '@codeherence/react-native-header';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -98,6 +98,7 @@ export default function TopicScreen() {
     const router = useRouter();
     const scrollRef = React.useRef(null);
     const [selectedTab, setSelectedTab] = useState('news');
+    const [showSubTopicsModal, setShowSubTopicsModal] = useState(false);
 
     const entity = entities[id as keyof typeof entities] as Entity;
 
@@ -233,6 +234,50 @@ export default function TopicScreen() {
         </View>
     );
 
+    const SubTopicsModal = () => (
+        <Modal
+            // animationType="slide"
+            presentationStyle="formSheet"
+            // transparent={true}
+            visible={showSubTopicsModal}
+            onRequestClose={() => setShowSubTopicsModal(false)}
+        >
+           
+                <View className="mt-auto bg-white rounded-t-3xl">
+                    <View className="p-4 border-b border-gray-200">
+                        <View className="flex-row justify-between items-center">
+                            <Text className="text-2xl font-semibold">{entity.sub_topics?.title}</Text>
+                            <TouchableOpacity 
+                                onPress={() => setShowSubTopicsModal(false)}
+                                className="p-2"
+                            >
+                                <Ionicons name="close" size={24} color="#666" />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                        {entity.sub_topics?.items.map((item, index) => (
+                            <TouchableOpacity 
+                                key={item.id}
+                                onPress={() => {
+                                    setShowSubTopicsModal(false);
+                                    router.push(`/topic/${item.id}`);
+                                }}
+                                className="flex-row items-center p-4 border-b border-gray-100"
+                            >
+                                <Image 
+                                    source={{ uri: item.logo }} 
+                                    className="w-12 h-12 rounded-full mr-4"
+                                />
+                                <Text className="text-lg flex-1">{item.title}</Text>
+                                <MaterialIcons name="chevron-right" size={24} color="#666" />
+                            </TouchableOpacity>
+                        ))}
+             
+                </View>
+     
+        </Modal>
+    );
+
     const renderContent = () => {
         switch (selectedTab) {
             case 'scores':
@@ -269,7 +314,7 @@ export default function TopicScreen() {
                             <View className="mt-4 mb-10">
                                 <View className="px-4 flex-row justify-between items-center">
                                     <Text className="text-2xl font-semibold">{entity.sub_topics.title}</Text>
-                                    <TouchableOpacity>
+                                    <TouchableOpacity onPress={() => setShowSubTopicsModal(true)}>
                                         <MaterialIcons name="chevron-right" size={30} color="#666" />
                                     </TouchableOpacity>
                                 </View>
@@ -345,6 +390,7 @@ export default function TopicScreen() {
                 )}
                 {renderContent()}
             </ScrollViewWithHeaders>
+            <SubTopicsModal />
         </View>
     );
 }
