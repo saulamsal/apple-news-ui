@@ -1362,7 +1362,7 @@ PODS:
     - SDWebImageSVGCoder (>= 1.7.0)
     - SwiftUIIntrospect (~> 1.0)
     - Yoga
-  - react-native-menu (1.2.0):
+  - react-native-menu (1.2.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2503,7 +2503,7 @@ SPEC CHECKSUMS:
   React-Mapbuffer: 6cb36cecef68ec3b4782ea54b0bca45a1e7da9e0
   React-microtasksnativemodule: 81c795a6bbe87c94eeef9fa4e8ed35fdc21b8c3e
   react-native-bottom-tabs: d304f0eba3df0bfcce04e7b53b5e25afc35f7fab
-  react-native-menu: d652fa1a08321a6c9453c66e416f21b152920ff1
+  react-native-menu: 947e2112c97c671d931acadf510dec5a4bd559de
   react-native-mmkv: 35992c4170a4a46be095fd1b7fe17d2fd1d42124
   react-native-pager-view: 90bde7996adffa8af7ce5d1b2255b45880bd1091
   react-native-safe-area-context: d71edcee579673b370c053804f34c40c1f250976
@@ -2552,6 +2552,6 @@ SPEC CHECKSUMS:
   SwiftUIIntrospect: fee9aa07293ee280373a591e1824e8ddc869ba5d
   Yoga: 748f06daed00132bf0a051dbb2f4347660ac1a98
 
-PODFILE CHECKSUM: 740d87704b9259baac786d58fef065989ed87ce7
+PODFILE CHECKSUM: 3383ec4dc758a84face2f64bcf3c1c16abe3759f
 
 COCOAPODS: 1.16.2

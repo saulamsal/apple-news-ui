@@ -9,7 +9,8 @@
     "ios": "expo run:ios",
     "web": "expo start --web",
     "test": "jest --watchAll",
-    "lint": "expo lint"
+    "lint": "expo lint",
+    "preinstall": "npm install --force"
   },
   "jest": {
     "preset": "jest-expo"
@@ -86,6 +87,9 @@
     "typescript": "~5.3.3"
   },
   "resolutions": {
+    "react-native-reanimated": "^4.0.0-nightly-20250121-4c66cb237"
+  },
+  "overrides": {
     "react-native-reanimated": "^4.0.0-nightly-20250121-4c66cb237"
   },
   "private": true
