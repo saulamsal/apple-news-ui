@@ -10,7 +10,8 @@
     "web": "expo start --web",
     "test": "jest --watchAll",
     "lint": "expo lint",
-    "preinstall": "npm install --force"
+    "preinstall": "npm install --force",
+    "prebuild-apple-targets": "npx expo prebuild --template node_modules/@bacons/apple-targets/prebuild-blank.tgz"
   },
   "jest": {
     "preset": "jest-expo"
