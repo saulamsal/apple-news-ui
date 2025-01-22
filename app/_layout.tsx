@@ -15,6 +15,7 @@ import { StatusBar } from 'expo-status-bar';
 import { MiniPlayer } from '@/components/BottomSheet/MiniPlayer';
 import '../global.css';
 
+
 function AnimatedStack() {
   const segments = useSegments();
   const router = useRouter();
