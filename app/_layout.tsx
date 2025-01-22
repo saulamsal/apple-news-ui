@@ -121,10 +121,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Platform.OS === 'android' ? 'transparent' : '#000',
+  
   },
   stackContainer: {
     flex: 1,
     overflow: 'hidden',
+    
   },
 });
 
