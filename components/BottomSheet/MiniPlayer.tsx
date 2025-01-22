@@ -95,10 +95,10 @@ function MiniPlayerContent({
     return (
         <View style={styles.miniPlayerContent}>
             <View style={styles.leftSection}>
-                <Text style={styles.source} numberOfLines={1}>{episode.showTitle}</Text>
-                <Animated.View style={{ transform: [{ translateX: scrollX }] }}>
-                    <Text style={styles.title} numberOfLines={1}>{episode.title}</Text>
-                </Animated.View>
+                <Text  numberOfLines={1} className='text-white font-bold text-base tracking-tighter opacity-60'>{episode.showTitle}</Text>
+                {/* <Animated.View style={{ transform: [{ translateX: scrollX }] }}> */}
+                    <Text className='text-white font-bold text-lg tracking-tighter' numberOfLines={1}>{episode.title}</Text>
+                {/* </Animated.View> */}
             </View>
             <View style={styles.controls}>
                 <Pressable 
@@ -146,11 +146,11 @@ function MiniPlayerContent({
 
 const styles = StyleSheet.create({
     container: {
-        borderRadius: 12,
+        // borderRadius: 12,
         // position: 'absolute',
         left: 0,
         right: 0,
-        height: 86,
+        // height: 60,
         zIndex: 1,
         shadowColor: '#000',
         shadowOffset: {
@@ -160,11 +160,22 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.15,
         shadowRadius: 8,
         elevation: 5,
-        marginTop: 4,
+        marginTop: -20,
         backgroundColor: '#000',
         overflow: 'hidden',
+        paddingTop: 5,
     },
+    backgroundImage: {
+        width: '100%',
+        // height: '100%',
+        height: 80,
+        borderRadius: 12,
+        overflow: 'hidden',
+      
+    },
+ 
     content: {
+
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 10,
@@ -183,23 +194,15 @@ const styles = StyleSheet.create({
         height: '100%',
         paddingHorizontal: 16,
         backgroundColor: 'transparent',
+        marginBottom: 16,
+   
     },
     leftSection: {
         
         flex: 1,
         backgroundColor: 'transparent',
         justifyContent: 'center',
-        marginRight: 16,
-    },
-    source: {
-        color: '#rgba(255,255,255,0.7)',
-        fontSize: 13,
-        marginBottom: 2,
-    },
-    title: {
-        fontWeight: '500',
-        color: '#fff',
-        fontSize: 15,
+        marginRight:10,
     },
     controls: {
         flexDirection: 'row',
@@ -220,12 +223,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0,0,0,0.3)',
         
     },
-    backgroundImage: {
-        width: '100%',
-        height: '100%',
-        
-       
-    },
+  
     blurContainer: {
         flexDirection: 'row',
         alignItems: 'center',
