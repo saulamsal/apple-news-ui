@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, Pressable, Dimensions, Platform } from 'react-native';
+import { View, Text, StyleSheet, Image, Pressable, Dimensions, Platform, ImageBackground } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect } from 'react';
@@ -28,56 +28,116 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
     if (!currentEpisode) return null;
 
     return (
-        <View style={[styles.rootContainer, { 
-            paddingTop: insets.top + (Platform.OS === 'android' ? 30 : 0),
-            marginTop: Platform.OS === 'android' ? -30 : 0,
-        }]}>
-            <ScrollComponentToUse style={styles.scrollView}>
-                <View style={styles.container}>
-                    <Image
-                        source={{ uri: currentEpisode.artwork.url }}
-                        style={styles.artwork}
-                    />
+        <ImageBackground
+            source={{ uri: currentEpisode.artwork.url }}
+            style={[styles.rootContainer, { 
+                paddingTop: insets.top + (Platform.OS === 'android' ? 30 : 0),
+                marginTop: Platform.OS === 'android' ? -30 : 0,
+            }]}
+            blurRadius={20}
+        >
+            {Platform.OS === 'ios' ? (
+                <BlurView
+                    tint="dark"
+                    intensity={80}
+                    style={styles.blurContainer}
+                >
+                    <ScrollComponentToUse style={styles.scrollView}>
+                        <View style={styles.container} className="mx-5 gap-8">
+                            <Image
+                                source={{ uri: currentEpisode.artwork.url }}
+                                style={styles.artwork}
+                            />
 
-                    <View style={styles.contentContainer}>
-                        <View style={styles.textContainer}>
-                            <Text style={styles.source}>{currentEpisode.showTitle}</Text>
-                            <Text style={styles.title}>{currentEpisode.title}</Text>
-                        </View>
+                            <View style={styles.contentContainer}>
+                                <View style={styles.textContainer}>
+                                    <Text style={styles.source}>{currentEpisode.showTitle}</Text>
+                                    <Text style={styles.title}>{currentEpisode.title}</Text>
+                                </View>
 
-                        <View style={styles.progressContainer}>
-                            <View style={styles.progressBar}>
-                                <View style={[styles.progress, { width: `${progress}%` }]} />
+                                <View style={styles.progressContainer}>
+                                    <View style={styles.progressBar}>
+                                        <View style={[styles.progress, { width: `${progress}%` }]} />
+                                    </View>
+                                    <View style={styles.timeContainer}>
+                                        <Text style={styles.timeText}>{formatTime(position)}</Text>
+                                        <Text style={styles.timeText}>-{formatTime(Math.max(0, duration - position))}</Text>
+                                    </View>
+                                </View>
+
+                                <View style={styles.controls}>
+                                    <Pressable onPress={rewind15Seconds} style={styles.controlButton}>
+                                        <BlurView intensity={80} tint="dark" style={styles.buttonBlur}>
+                                            <Ionicons name="play-back" size={24} color="#fff" />
+                                        </BlurView>
+                                    </Pressable>
+                                    
+                                    <Pressable onPress={togglePlayPause} style={[styles.controlButton, styles.playButton]}>
+                                        <BlurView intensity={80} tint="dark" style={styles.buttonBlur}>
+                                            <Ionicons name={isPlaying ? "pause" : "play"} size={30} color="#fff" />
+                                        </BlurView>
+                                    </Pressable>
+
+                                    <Pressable style={styles.controlButton}>
+                                        <BlurView intensity={80} tint="dark" style={styles.buttonBlur}>
+                                            <Ionicons name="close" size={24} color="#fff" />
+                                        </BlurView>
+                                    </Pressable>
+                                </View>
                             </View>
-                            <View style={styles.timeContainer}>
-                                <Text style={styles.timeText}>{formatTime(position)}</Text>
-                                <Text style={styles.timeText}>-{formatTime(Math.max(0, duration - position))}</Text>
+                        </View>
+                    </ScrollComponentToUse>
+                </BlurView>
+            ) : (
+                <View style={[styles.blurContainer, { backgroundColor: 'rgba(0,0,0,0.8)' }]}>
+                    <ScrollComponentToUse style={styles.scrollView}>
+                        <View style={styles.container}>
+                            <Image
+                                source={{ uri: currentEpisode.artwork.url }}
+                                style={styles.artwork}
+                            />
+
+                            <View style={styles.contentContainer}>
+                                <View style={styles.textContainer}>
+                                    <Text style={styles.source}>{currentEpisode.showTitle}</Text>
+                                    <Text style={styles.title}>{currentEpisode.title}</Text>
+                                </View>
+
+                                <View style={styles.progressContainer}>
+                                    <View style={styles.progressBar}>
+                                        <View style={[styles.progress, { width: `${progress}%` }]} />
+                                    </View>
+                                    <View style={styles.timeContainer}>
+                                        <Text style={styles.timeText}>{formatTime(position)}</Text>
+                                        <Text style={styles.timeText}>-{formatTime(Math.max(0, duration - position))}</Text>
+                                    </View>
+                                </View>
+
+                                <View style={styles.controls}>
+                                    <Pressable onPress={rewind15Seconds} style={styles.controlButton}>
+                                        <BlurView intensity={80} tint="dark" style={styles.buttonBlur}>
+                                            <Ionicons name="play-back" size={24} color="#fff" />
+                                        </BlurView>
+                                    </Pressable>
+                                    
+                                    <Pressable onPress={togglePlayPause} style={[styles.controlButton, styles.playButton]}>
+                                        <BlurView intensity={80} tint="dark" style={styles.buttonBlur}>
+                                            <Ionicons name={isPlaying ? "pause" : "play"} size={30} color="#fff" />
+                                        </BlurView>
+                                    </Pressable>
+
+                                    <Pressable style={styles.controlButton}>
+                                        <BlurView intensity={80} tint="dark" style={styles.buttonBlur}>
+                                            <Ionicons name="close" size={24} color="#fff" />
+                                        </BlurView>
+                                    </Pressable>
+                                </View>
                             </View>
                         </View>
-
-                        <View style={styles.controls}>
-                            <Pressable onPress={rewind15Seconds} style={styles.controlButton}>
-                                <BlurView intensity={80} tint="dark" style={styles.buttonBlur}>
-                                    <Ionicons name="play-back" size={24} color="#fff" />
-                                </BlurView>
-                            </Pressable>
-                            
-                            <Pressable onPress={togglePlayPause} style={[styles.controlButton, styles.playButton]}>
-                                <BlurView intensity={80} tint="dark" style={styles.buttonBlur}>
-                                    <Ionicons name={isPlaying ? "pause" : "play"} size={30} color="#fff" />
-                                </BlurView>
-                            </Pressable>
-
-                            <Pressable style={styles.controlButton}>
-                                <BlurView intensity={80} tint="dark" style={styles.buttonBlur}>
-                                    <Ionicons name="close" size={24} color="#fff" />
-                                </BlurView>
-                            </Pressable>
-                        </View>
-                    </View>
+                    </ScrollComponentToUse>
                 </View>
-            </ScrollComponentToUse>
-        </View>
+            )}
+        </ImageBackground>
     );
 }
 
@@ -86,7 +146,10 @@ const styles = StyleSheet.create({
         flex: 1,
         height: '100%',
         width: '100%',
-        backgroundColor: '#000',
+    },
+    blurContainer: {
+        flex: 1,
+        paddingTop: 40,
     },
     scrollView: {
         flex: 1,
@@ -96,13 +159,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     artwork: {
-        width: width,
-        height: width,
+        width: '100%',
+        height: 400,
         resizeMode: 'cover',
+        borderRadius: 12,
+   
     },
     contentContainer: {
         width: '100%',
-        padding: 20,
+        // padding: 20,
         flex: 1,
     },
     textContainer: {
