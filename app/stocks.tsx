@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions, useColorScheme, T
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
-import { CartesianChart, Line } from 'victory-native';
+import { LineChart } from 'react-native-gifted-charts';
 import { NewsItem } from '@/components/NewsItem';
 import stocksData from '@/app/data/stocks.json';
 import { news } from '@/data/news.json';
@@ -74,6 +74,11 @@ const StockItem = ({
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
     
+    const chartData = stock.historicalData.map(d => ({
+        value: d.price,
+        date: new Date(d.date).getTime()
+    }));
+    
     const StockPreview = () => (
         <View className="p-4 bg-[#1C1C1C] rounded-lg">
             <Text className="text-2xl font-bold text-white">{stock.name}</Text>
@@ -83,27 +88,86 @@ const StockItem = ({
             </Text>
 
             <View className="h-[200] mt-4">
-                <CartesianChart
-                    data={stock.historicalData.map(d => ({ x: new Date(d.date).getTime(), y: d.price }))}
-                    xKey="x"
-                    yKeys={["y"]}
-                    domainPadding={{ left: 20, right: 20 }}
-                    axisOptions={{
-                        formatXLabel: (value) => {
-                            const date = new Date(value);
-                            return `${date.getMonth() + 1}/${date.getDate()}`;
+                <LineChart
+                    areaChart
+                    data={chartData}
+                    height={200}
+                    width={width - 48}
+                    rotateLabel
+                    labelsExtraHeight={20}
+                    hideDataPoints
+                    spacing={width / chartData.length - 2}
+                    color={stock.change >= 0 ? "#32D74B" : "#FF453A"}
+                    thickness={1}
+                    startFillColor={stock.change >= 0 ? "#32D74B" : "#FF453A"}
+                    endFillColor={stock.change >= 0 ? "#32D74B" : "#FF453A"}
+                    startOpacity={0.15}
+                    endOpacity={0.05}
+                    initialSpacing={0}
+                    yAxisTextStyle={{color: '#666', fontSize: 12}}
+                    yAxisLabelWidth={60}
+                    xAxisLabelTextStyle={{color: '#666', fontSize: 12}}
+                    rulesColor="#333"
+                    xAxisColor="#333"
+                    pointerConfig={{
+                        pointerStripHeight: 140,
+                        pointerStripColor: "#333",
+                        pointerStripWidth: 1,
+                        pointerColor: "#666",
+                        radius: 4,
+                        pointerLabelWidth: 100,
+                        pointerLabelHeight: 90,
+                        activatePointersOnLongPress: true,
+                        autoAdjustPointerLabelPosition: false,
+                        pointerLabelComponent: (items: any) => {
+                            return (
+                                <View
+                                    style={{
+                                        height: 90,
+                                        width: 100,
+                                        justifyContent: "center",
+                                        marginTop: -30,
+                                        marginLeft: -40,
+                                        borderRadius: 5,
+                                    }}
+                                >
+                                    <Text
+                                        style={{
+                                            color: "white",
+                                            fontSize: 12,
+                                            marginBottom: 6,
+                                            textAlign: "center",
+                                        }}
+                                    >
+                                        {new Date(items[0].date).toLocaleTimeString([], {
+                                            hour: 'numeric',
+                                            minute: '2-digit'
+                                        })}
+                                    </Text>
+
+                                    <View
+                                        style={{
+                                            paddingHorizontal: 14,
+                                            paddingVertical: 6,
+                                            borderRadius: 16,
+                                            backgroundColor: "white",
+                                        }}
+                                    >
+                                        <Text
+                                            style={{
+                                                fontWeight: "bold",
+                                                textAlign: "center",
+                                                color: "black",
+                                            }}
+                                        >
+                                            {"$" + items[0].value.toFixed(2)}
+                                        </Text>
+                                    </View>
+                                </View>
+                            );
                         },
-                        formatYLabel: (value) => `$${value}`
                     }}
-                >
-                    {({ points }) => (
-                        <Line
-                            points={points.y}
-                            color={stock.change >= 0 ? "#32D74B" : "#FF453A"}
-                            animate={{ type: "timing", duration: 300 }}
-                        />
-                    )}
-                </CartesianChart>
+                />
             </View>
 
             <View className="mt-4 flex-row flex-wrap">
@@ -180,26 +244,19 @@ const StockItem = ({
                         <Text className="text-base text-gray-400">{stock.name}</Text>
                     </View>
                     <View className="w-16 h-8 mb-1 mr-4">
-                        <CartesianChart
-                            data={stock.historicalData.map(d => ({ x: new Date(d.date).getTime(), y: d.price }))}
-                            xKey="x"
-                            yKeys={["y"]}
-                            domainPadding={{ left: 0, right: 0 }}
-                            axisOptions={{
-                                formatXLabel: () => "",
-                                formatYLabel: () => "",
-                            }}
-                        >
-                            {({ points }) => (
-                                <>
-                                    <Line 
-                                        points={points.y}
-                                        color={stock.change >= 0 ? "#32D74B" : "#FF453A"}
-                                        strokeWidth={2.5}
-                                    />
-                                </>
-                            )}
-                        </CartesianChart>
+                        <LineChart
+                            data={chartData}
+                            height={32}
+                            width={64}
+                            hideDataPoints
+                            color={stock.change >= 0 ? "#32D74B" : "#FF453A"}
+                            thickness={1.5}
+                            hideYAxisText
+                            hideAxesAndRules
+                            initialSpacing={0}
+                            endSpacing={0}
+                            curved
+                        />
                     </View>
                     <View className="items-end">
                         <Text className="text-lg text-white">{showCurrency ? '$' : ''}{stock.price}</Text>
@@ -454,8 +511,8 @@ export default function StocksScreen() {
         if (!selectedStock) return null;
 
         const chartData = selectedStock.historicalData.map((data) => ({
-            x: new Date(data.date).getTime(),
-            y: data.price
+            value: data.price,
+            date: new Date(data.date).getTime()
         }));
 
         return (
@@ -468,27 +525,86 @@ export default function StocksScreen() {
                     </Text>
 
                     <View className="h-[200] mt-4">
-                        <CartesianChart
+                        <LineChart
+                            areaChart
                             data={chartData}
-                            xKey="x"
-                            yKeys={["y"]}
-                            domainPadding={{ left: 20, right: 20 }}
-                            axisOptions={{
-                                formatXLabel: (value) => {
-                                    const date = new Date(value);
-                                    return `${date.getMonth() + 1}/${date.getDate()}`;
+                            height={200}
+                            width={width - 48}
+                            rotateLabel
+                            labelsExtraHeight={20}
+                            hideDataPoints
+                            spacing={width / chartData.length - 2}
+                            color={selectedStock.change >= 0 ? "#32D74B" : "#FF453A"}
+                            thickness={1}
+                            startFillColor={selectedStock.change >= 0 ? "#32D74B" : "#FF453A"}
+                            endFillColor={selectedStock.change >= 0 ? "#32D74B" : "#FF453A"}
+                            startOpacity={0.15}
+                            endOpacity={0.05}
+                            initialSpacing={0}
+                            yAxisTextStyle={{color: '#666', fontSize: 12}}
+                            yAxisLabelWidth={60}
+                            xAxisLabelTextStyle={{color: '#666', fontSize: 12}}
+                            rulesColor="#333"
+                            xAxisColor="#333"
+                            pointerConfig={{
+                                pointerStripHeight: 140,
+                                pointerStripColor: "#333",
+                                pointerStripWidth: 1,
+                                pointerColor: "#666",
+                                radius: 4,
+                                pointerLabelWidth: 100,
+                                pointerLabelHeight: 90,
+                                activatePointersOnLongPress: true,
+                                autoAdjustPointerLabelPosition: false,
+                                pointerLabelComponent: (items: any) => {
+                                    return (
+                                        <View
+                                            style={{
+                                                height: 90,
+                                                width: 100,
+                                                justifyContent: "center",
+                                                marginTop: -30,
+                                                marginLeft: -40,
+                                                borderRadius: 5,
+                                            }}
+                                        >
+                                            <Text
+                                                style={{
+                                                    color: "white",
+                                                    fontSize: 12,
+                                                    marginBottom: 6,
+                                                    textAlign: "center",
+                                                }}
+                                            >
+                                                {new Date(items[0].date).toLocaleTimeString([], {
+                                                    hour: 'numeric',
+                                                    minute: '2-digit'
+                                                })}
+                                            </Text>
+
+                                            <View
+                                                style={{
+                                                    paddingHorizontal: 14,
+                                                    paddingVertical: 6,
+                                                    borderRadius: 16,
+                                                    backgroundColor: "white",
+                                                }}
+                                            >
+                                                <Text
+                                                    style={{
+                                                        fontWeight: "bold",
+                                                        textAlign: "center",
+                                                        color: "black",
+                                                    }}
+                                                >
+                                                    {"$" + items[0].value.toFixed(2)}
+                                                </Text>
+                                            </View>
+                                        </View>
+                                    );
                                 },
-                                formatYLabel: (value) => `$${value}`
                             }}
-                        >
-                            {({ points }) => (
-                                <Line
-                                    points={points.y}
-                                    color={selectedStock.change >= 0 ? "#32D74B" : "#FF453A"}
-                                    animate={{ type: "timing", duration: 300 }}
-                                />
-                            )}
-                        </CartesianChart>
+                        />
                     </View>
 
                     <View className="mt-4 flex-row flex-wrap">
