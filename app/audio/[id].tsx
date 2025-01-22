@@ -218,8 +218,10 @@ export default function AudioScreen() {
                     scrollEventThrottle={16}
 
                     //temp fix for bounce + scroll upon dragging
-                    bounces={scale.value <= 1}
-                    scrollEnabled={scale.value <= 1}
+                    // bounces={scale.value <= 1}
+                    // scrollEnabled={scale.value <= 1}
+                    bounces={false}
+                    scrollEnabled={false}
                 />
             </GestureDetector>
         );
@@ -289,6 +291,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: 'transparent',
+
     },
     modalContent: {
         flex: 1,
