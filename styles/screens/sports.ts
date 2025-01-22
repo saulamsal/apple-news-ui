@@ -32,7 +32,7 @@ export const SportsStyles = StyleSheet.create({
     },
     listHeaderSubText: {
         fontSize: 15,
-        fontWeight: '400',
+        fontWeight: '500',
         color: '#000000',
         opacity: 0.5
     },
