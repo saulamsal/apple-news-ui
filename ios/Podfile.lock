@@ -4,6 +4,8 @@ PODS:
     - ExpoModulesCore
     - SPAlert (~> 4.2)
     - SPIndicator (~> 1.6)
+  - BVLinearGradient (2.8.3):
+    - React-Core
   - ComputableLayout (0.7.0):
     - DGSwiftUtilities (~> 0.11)
   - ContextMenuAuxiliaryPreview (0.5.2):
@@ -1916,7 +1918,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNReanimated (3.16.7):
+  - RNReanimated (4.0.0-nightly-20250121-4c66cb237):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1936,10 +1938,10 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNReanimated/reanimated (= 3.16.7)
-    - RNReanimated/worklets (= 3.16.7)
+    - RNReanimated/reanimated (= 4.0.0-nightly-20250121-4c66cb237)
+    - RNReanimated/worklets (= 4.0.0-nightly-20250121-4c66cb237)
     - Yoga
-  - RNReanimated/reanimated (3.16.7):
+  - RNReanimated/reanimated (4.0.0-nightly-20250121-4c66cb237):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1959,9 +1961,9 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNReanimated/reanimated/apple (= 3.16.7)
+    - RNReanimated/reanimated/apple (= 4.0.0-nightly-20250121-4c66cb237)
     - Yoga
-  - RNReanimated/reanimated/apple (3.16.7):
+  - RNReanimated/reanimated/apple (4.0.0-nightly-20250121-4c66cb237):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1982,7 +1984,29 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNReanimated/worklets (3.16.7):
+  - RNReanimated/worklets (4.0.0-nightly-20250121-4c66cb237):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - RNReanimated/worklets/apple (= 4.0.0-nightly-20250121-4c66cb237)
+    - Yoga
+  - RNReanimated/worklets/apple (4.0.0-nightly-20250121-4c66cb237):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2105,6 +2129,7 @@ PODS:
 DEPENDENCIES:
   - boost (from `../node_modules/react-native/third-party-podspecs/boost.podspec`)
   - Burnt (from `../node_modules/burnt/ios`)
+  - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - EXAV (from `../node_modules/expo-av/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
@@ -2221,6 +2246,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/boost.podspec"
   Burnt:
     :path: "../node_modules/burnt/ios"
+  BVLinearGradient:
+    :path: "../node_modules/react-native-linear-gradient"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
   EXAV:
@@ -2418,6 +2445,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   boost: 1dca942403ed9342f98334bf4c3621f011aa7946
   Burnt: dde5dd245f124a4594098e3938ba71aae4ec83c3
+  BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
   ComputableLayout: c50faffac4ed9f8f05b0ce5e6f3a60df1f6042c8
   ContextMenuAuxiliaryPreview: 20be0be795b783b68f8792732eed4bed9f202c1c
   DGSwiftUtilities: 2f0d35d5ff3d57bd70ccc42f15971460db202c41
@@ -2513,7 +2541,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 722620dc87fb48ad321505fcfccd1782455c7448
   RNFlashList: b85e7b9e77c3b6d9169f88d60ed6dca0a479a822
   RNGestureHandler: 598e45cedb905b157e9764acbef0b5e365693451
-  RNReanimated: ddc60075b382b872662cadaf9972b07d52a8fce7
+  RNReanimated: 45b3cd54e72fa73fa4d023ba3cff6e080396da73
   RNScreens: 8ae716a7e26b9ecee7f2856e6ff47b8e7e253ee8
   RNSVG: 3cd6669b7ad658c8b482db630dccf364c3b59cfb
   SDWebImage: 73c6079366fea25fa4bb9640d5fb58f0893facd8
