@@ -31,7 +31,7 @@ export function MiniPlayer({ onPress }: { onPress: () => void }) {
                 {Platform.OS === 'ios' ? (
                     <BlurView
                         tint={'systemThickMaterialDark'}
-                        intensity={99}
+                        intensity={80}
                         style={[styles.content, styles.blurContainer]}
                     >
                         <MiniPlayerContent 
@@ -146,6 +146,7 @@ function MiniPlayerContent({
 
 const styles = StyleSheet.create({
     container: {
+        borderRadius: 12,
         // position: 'absolute',
         left: 0,
         right: 0,
@@ -159,7 +160,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.15,
         shadowRadius: 8,
         elevation: 5,
-        marginTop: 10,
+        marginTop: 4,
         backgroundColor: '#000',
         overflow: 'hidden',
     },
@@ -174,6 +175,7 @@ const styles = StyleSheet.create({
         paddingVertical: 0,
     },
     miniPlayerContent: {
+        
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
@@ -183,6 +185,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
     },
     leftSection: {
+        
         flex: 1,
         backgroundColor: 'transparent',
         justifyContent: 'center',
@@ -215,10 +218,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'rgba(0,0,0,0.3)',
+        
     },
     backgroundImage: {
         width: '100%',
         height: '100%',
+        
+       
     },
     blurContainer: {
         flexDirection: 'row',
@@ -229,6 +235,7 @@ const styles = StyleSheet.create({
         zIndex: 1000,
         flex: 1,
         paddingVertical: 0,
+        
     },
     androidContainer: {
         flexDirection: 'row',
@@ -240,5 +247,6 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingVertical: 0,
         backgroundColor: 'rgba(0,0,0,0.8)',
+        
     },
 });
