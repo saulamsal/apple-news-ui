@@ -3,7 +3,7 @@ import { useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import { SwipeListView, RowMap } from 'react-native-swipe-list-view';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { MotiView } from 'moti';
 import Animated, { 
   useAnimatedScrollHandler,
@@ -13,6 +13,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import * as WebBrowser from 'expo-web-browser';
 import { SlidingBanner } from '@/components/SlidingBanner';
+import { ExtensionStorage } from "@bacons/apple-targets";
 
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -52,6 +53,28 @@ interface NewsItem {
   featured_image: string;
   card_type: 'full' | 'medium';
 }
+
+const storage = new ExtensionStorage("group.bacon.data");
+
+const updateWidget = async (newsItem: NewsItemType) => {
+  if (process.env.EXPO_PUBLIC_OS === "ios") {
+    try {
+      const widgetData = {
+        title: newsItem.title,
+        source: newsItem.source.name,
+        sourceLogo: newsItem.source.logo_transparent_light,
+        imageUrl: newsItem.featured_image,
+        isNewsPlus: newsItem.is_news_plus ? 1 : 0
+      };
+      
+      // Convert to JSON string before storing
+      await storage.set("latestNews", JSON.stringify(widgetData));
+      ExtensionStorage.reloadWidget();
+    } catch (error) {
+      console.error('Failed to update widget:', error);
+    }
+  }
+};
 
 const DonateButton = () => {
   const handlePress = async () => {
@@ -122,9 +145,12 @@ export default function HomeScreen() {
     };
   });
 
-  const renderNewsItem = (rowData: ListRenderItemInfo<NewsItemType>) => (
-    <NewsItem item={rowData.item} />
-  );
+  const renderNewsItem = (rowData: ListRenderItemInfo<NewsItemType>) => {
+    if (rowData.index === 0) {
+      updateWidget(rowData.item);
+    }
+    return <NewsItem item={rowData.item} />;
+  };
 
   const renderHiddenItem = (rowData: ListRenderItemInfo<NewsItemType>, rowMap: RowMap<NewsItemType>) => (
     <SwipeableNewsItem item={rowData.item} />
