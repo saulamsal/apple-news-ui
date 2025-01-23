@@ -3,7 +3,7 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start",
+    "start": "expo start --dev-client",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo run:android",
     "ios": "expo run:ios",
@@ -56,6 +56,7 @@
     "react-dom": "18.3.1",
     "react-native": "0.76.3",
     "react-native-bottom-tabs": "^0.7.8",
+    "react-native-default-preference": "^1.4.4",
     "react-native-draggable-flatlist": "^4.0.1",
     "react-native-gesture-handler": "~2.20.2",
     "react-native-gifted-charts": "^1.4.55",

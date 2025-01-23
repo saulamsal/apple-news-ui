@@ -7,7 +7,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { NewsLogo } from '@/components/NewsLogo';
 import * as DropdownMenu from 'zeego/dropdown-menu';
 import * as ContextMenu from 'zeego/context-menu';
-import { verifyInstallation } from 'nativewind';
+// import { verifyInstallation } from 'nativewind';
 
 interface Source {
   id: string;
@@ -196,7 +196,7 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
 export const NewsItem = ({ item }: NewsItemProps) => {
   const colorScheme = useColorScheme();
   
-  verifyInstallation();
+  // verifyInstallation();
   
   const href = {
     pathname: '/content/[id]' as const,
