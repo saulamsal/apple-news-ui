@@ -48,7 +48,7 @@ struct widgetEntryView : View {
     }
 }
 
-struct widget: Widget {
+struct NewsWidget: Widget {
     let kind: String = "widget"
 
     var body: some WidgetConfiguration {
@@ -74,7 +74,7 @@ extension ConfigurationAppIntent {
 }
 
 #Preview(as: .systemSmall) {
-    widget()
+  NewsWidget()
 } timeline: {
     SimpleEntry(date: .now, configuration: .smiley)
     SimpleEntry(date: .now, configuration: .starEyes)
