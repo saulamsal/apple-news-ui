@@ -14,6 +14,7 @@ import Animated, {
 import * as WebBrowser from 'expo-web-browser';
 import { SlidingBanner } from '@/components/SlidingBanner';
 import { ExtensionStorage } from "@bacons/apple-targets";
+import DefaultPreference from 'react-native-default-preference';
 
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -54,9 +55,12 @@ interface NewsItem {
   card_type: 'full' | 'medium';
 }
 
-const storage = new ExtensionStorage("group.bacon.data");
+// Initialize DefaultPreference with app group
+DefaultPreference.setName("group.com.sportapp.apple-news-ui");
 
-const updateWidget = async (newsItem: NewsItemType) => {
+const storage = new ExtensionStorage("group.com.sportapp.apple-news-ui");
+
+const updateWidget = (newsItem: NewsItemType) => {
   if (process.env.EXPO_PUBLIC_OS === "ios") {
     try {
       const widgetData = {
@@ -67,11 +71,18 @@ const updateWidget = async (newsItem: NewsItemType) => {
         isNewsPlus: newsItem.is_news_plus ? 1 : 0
       };
       
+      console.log('🔄 Updating widget with data:', widgetData);
+      
       // Convert to JSON string before storing
-      await storage.set("latestNews", JSON.stringify(widgetData));
-      ExtensionStorage.reloadWidget();
+      const jsonString = JSON.stringify(widgetData);
+      storage.set("latestNews", jsonString);
+      console.log('✅ Successfully stored widget data:', jsonString);
+      
+      // Reload widget
+      ExtensionStorage.reloadWidget("NewsWidget");
+      console.log('🔄 Widget reload requested');
     } catch (error) {
-      console.error('Failed to update widget:', error);
+      console.error('❌ Widget update failed:', error);
     }
   }
 };
@@ -147,7 +158,8 @@ export default function HomeScreen() {
 
   const renderNewsItem = (rowData: ListRenderItemInfo<NewsItemType>) => {
     if (rowData.index === 0) {
-      updateWidget(rowData.item);
+      console.log('Updating widget with first news item:', rowData.item);
+      void updateWidget(rowData.item);
     }
     return <NewsItem item={rowData.item} />;
   };
