@@ -5,7 +5,7 @@ import SwiftUI
 struct exportWidgets: WidgetBundle {
     var body: some Widget {
         // Export widgets here
-        widget()
+        NewsWidget()
         widgetControl()
         WidgetLiveActivity()
     }
