@@ -236,6 +236,44 @@ export default function TopicScreen() {
         </View>
     );
 
+    const ModalData = () => {
+        return (
+                <View className=" border-b border-gray-200">
+                    <View className="flex-row justify-between items-center p-4 gap-4">
+                        <Text className="text-2xl font-bold">{entity.title}</Text>
+                        <TouchableOpacity
+                            onPress={() => setShowSubTopicsModal(false)}
+                            className="p-2"
+                        >
+                            <Text className="font-semibold color-apple-news text-lg">Done</Text>
+                        </TouchableOpacity>
+                    </View>
+          
+                <Text className="text-xl font-bold px-4 pb-2">{entity.sub_topics?.title}</Text>
+
+                {entity.sub_topics?.items.map((item, index) => (
+                    <TouchableOpacity
+                        key={item.id}
+                        onPress={() => {
+                            setShowSubTopicsModal(false);
+                            router.push(`/topic/${item.id}`);
+                        }}
+                        className=" flex-row items-center px-4 py-3 border-b border-gray-200 border-hairline" 
+                    >
+
+                        <Image
+                            source={{ uri: item.logo }}
+                            className="w-8 h-8 rounded-full mr-4"
+                        />
+
+                        <Text className="text-xl font-semibold tracking-tight flex-1">{item.title}</Text>
+                        <Entypo name="chevron-right" size={20} color="#666" />
+                    </TouchableOpacity>
+                ))}
+              </View>
+        )
+    }
+
     const SubTopicsModal = () => (
 
 
@@ -247,39 +285,7 @@ export default function TopicScreen() {
             onRequestClose={() => setShowSubTopicsModal(false)}
         >
 
-            <View className="p-4 border-b border-gray-200">
-                <View className="flex-row justify-between items-center">
-                    <Text className="text-lg font-semibold">{entity.title}</Text>
-                    <TouchableOpacity
-                        onPress={() => setShowSubTopicsModal(false)}
-                        className="p-2"
-                    >
-                        <Text className="font-bold color-apple-news text-xl">Done</Text>
-                    </TouchableOpacity>
-                </View>
-            </View>
-            <Text className="text-2xl font-semibold">{entity.sub_topics?.title}</Text>
-
-            {entity.sub_topics?.items.map((item, index) => (
-                <TouchableOpacity
-                    key={item.id}
-                    onPress={() => {
-                        setShowSubTopicsModal(false);
-                        router.push(`/topic/${item.id}`);
-                    }}
-                    className="flex-row items-center p-4 border-b border-gray-100"
-                >
-
-                    <Image
-                        source={{ uri: item.logo }}
-                        className="w-12 h-12 rounded-full mr-4"
-                    />
-
-                    <Text className="text-2xl font-semibold tracking-tight flex-1">{item.title}</Text>
-                    <Entypo name="chevron-right" size={24} color="#666" />
-                </TouchableOpacity>
-            ))}
-
+            <ModalData />
 
 
         </Modal>
@@ -398,7 +404,9 @@ export default function TopicScreen() {
                         />
                     </View>
                 )}
+                        {/* <ModalData /> */}
                 {renderContent()}
+        
                 <SubTopicsModal />
             </ScrollViewWithHeaders>
 
