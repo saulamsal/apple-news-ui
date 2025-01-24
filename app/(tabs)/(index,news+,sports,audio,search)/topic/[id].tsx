@@ -18,6 +18,8 @@ import * as DropdownMenu from 'zeego/dropdown-menu';
 import { MaterialIcons } from '@expo/vector-icons';
 import { SegmentedControl } from '@/components/SegmentedControl';
 import { SportScoreCarousel } from '@/components/SportScoreCarousel';
+import { StatusBar } from 'expo-status-bar';
+import Entypo from '@expo/vector-icons/Entypo';
 
 interface Entity {
     id: string;
@@ -39,10 +41,10 @@ interface Entity {
     };
 }
 
-const FadingView = ({ opacity, children, style }: { 
-    opacity: SharedValue<number>, 
+const FadingView = ({ opacity, children, style }: {
+    opacity: SharedValue<number>,
     children?: React.ReactNode,
-    style?: any 
+    style?: any
 }) => (
     <Animated.View style={[{ opacity }, style]}>
         {children}
@@ -116,7 +118,7 @@ export default function TopicScreen() {
                 <Text className="text-xl font-semibold text-center">
                     Topic not found
                 </Text>
-                <TouchableOpacity 
+                <TouchableOpacity
                     onPress={() => router.back()}
                     className="mt-4 bg-gray-100 px-6 py-3 rounded-full"
                 >
@@ -129,7 +131,7 @@ export default function TopicScreen() {
     // Dummy news items data
     const dummyNews: NewsItemType[] = Array(5).fill(null).map((_, i) => ({
         id: `dummy-${i}`,
-        title: i === 0 
+        title: i === 0
             ? `WATCH: ${entity.title} latest news headline`
             : `${entity.title} News Item ${i + 1}`,
         source: {
@@ -158,9 +160,9 @@ export default function TopicScreen() {
 
     const HeaderSurface = ({ showNavBar }: { showNavBar: SharedValue<number> }) => (
         <FadingView opacity={showNavBar} style={StyleSheet.absoluteFill}>
-            <BlurView 
+            <BlurView
                 style={[StyleSheet.absoluteFill, { backgroundColor }]}
-                intensity={80} 
+                intensity={80}
                 tint="light"
             />
         </FadingView>
@@ -172,7 +174,7 @@ export default function TopicScreen() {
             SurfaceComponent={HeaderSurface}
             noBottomBorder
             headerLeft={
-                <TouchableOpacity 
+                <TouchableOpacity
                     onPress={() => router.back()}
                     className="w-9 h-9 bg-[#0000002d] rounded-full items-center justify-center ml-4"
                 >
@@ -192,7 +194,7 @@ export default function TopicScreen() {
                     <TopicMenu textColor={textColor} />
                 </View>
             }
-            headerStyle={{ 
+            headerStyle={{
                 backgroundColor,
                 paddingBottom: 10
             }}
@@ -200,7 +202,7 @@ export default function TopicScreen() {
     );
 
     const LargeHeaderComponent = () => (
-        <View 
+        <View
             style={[
                 styles.largeHeader,
                 {
@@ -212,13 +214,13 @@ export default function TopicScreen() {
         >
             <View className="flex-row items-center gap-4">
                 {entity.logo && (
-                    <Image 
-                        source={{ uri: entity.logo }} 
+                    <Image
+                        source={{ uri: entity.logo }}
                         className="w-16 h-16 rounded-lg"
                     />
                 )}
                 <View>
-                    <Text 
+                    <Text
                         style={[
                             styles.title,
                             { color: textColor }
@@ -235,50 +237,51 @@ export default function TopicScreen() {
     );
 
     const SubTopicsModal = () => (
+
+
         //todo remove bottom view
         <Modal
-            // animationType="slide"
+            animationType="slide"
             presentationStyle="formSheet"
-            // transparent={true}
             visible={showSubTopicsModal}
             onRequestClose={() => setShowSubTopicsModal(false)}
         >
-           
-                    <View className="p-4 border-b border-gray-200">
-                        <View className="flex-row justify-between items-center">
-                        <Text className="text-lg font-semibold">{entity.title}</Text>
-                            <TouchableOpacity 
-                                onPress={() => setShowSubTopicsModal(false)}
-                                className="p-2"
-                            >
-                                <Text className="font-bold color-apple-news text-xl">Done</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                    <Text className="text-2xl font-semibold">{entity.sub_topics?.title}</Text>
 
-                        {entity.sub_topics?.items.map((item, index) => (
-                            <TouchableOpacity 
-                                key={item.id}
-                                onPress={() => {
-                                    setShowSubTopicsModal(false);
-                                    router.push(`/topic/${item.id}`);
-                                }}
-                                className="flex-row items-center p-4 border-b border-gray-100"
-                            >
+            <View className="p-4 border-b border-gray-200">
+                <View className="flex-row justify-between items-center">
+                    <Text className="text-lg font-semibold">{entity.title}</Text>
+                    <TouchableOpacity
+                        onPress={() => setShowSubTopicsModal(false)}
+                        className="p-2"
+                    >
+                        <Text className="font-bold color-apple-news text-xl">Done</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+            <Text className="text-2xl font-semibold">{entity.sub_topics?.title}</Text>
 
-                                <Image
-                                    source={{ uri: item.logo }} 
-                                    className="w-12 h-12 rounded-full mr-4"
-                                />
+            {entity.sub_topics?.items.map((item, index) => (
+                <TouchableOpacity
+                    key={item.id}
+                    onPress={() => {
+                        setShowSubTopicsModal(false);
+                        router.push(`/topic/${item.id}`);
+                    }}
+                    className="flex-row items-center p-4 border-b border-gray-100"
+                >
 
-                                <Text className="text-2xl font-semibold tracking-tight flex-1">{item.title}</Text>
-                                <MaterialIcons name="chevron-right" size={24} color="#666" />
-                            </TouchableOpacity>
-                        ))}
-             
-        
-     
+                    <Image
+                        source={{ uri: item.logo }}
+                        className="w-12 h-12 rounded-full mr-4"
+                    />
+
+                    <Text className="text-2xl font-semibold tracking-tight flex-1">{item.title}</Text>
+                    <Entypo name="chevron-right" size={24} color="#666" />
+                </TouchableOpacity>
+            ))}
+
+
+
         </Modal>
     );
 
@@ -312,31 +315,32 @@ export default function TopicScreen() {
                                 <SportScoreCarousel scores={filteredScores} />
                             </View>
                         )}
-                        
+
                         {/* Show subtopics if they exist */}
                         {entity.sub_topics && (
                             <View className="mt-4 mb-10">
                                 <View className="px-4 flex-row justify-between items-center">
                                     <Text className="text-2xl font-semibold">{entity.sub_topics.title}</Text>
                                     <TouchableOpacity onPress={() => setShowSubTopicsModal(true)}>
-                                        <MaterialIcons name="chevron-right" size={30} color="#666" />
+                                        <Entypo name="chevron-thin-right" size={18} color="black" />
                                     </TouchableOpacity>
+
                                 </View>
-                                <ScrollView 
-                                    horizontal 
+                                <ScrollView
+                                    horizontal
                                     showsHorizontalScrollIndicator={false}
                                     className="mt-4"
                                     contentContainerStyle={{ paddingHorizontal: 16 }}
                                 >
                                     {entity.sub_topics.items.map((item, index) => (
-                                        <TouchableOpacity 
+                                        <TouchableOpacity
                                             key={item.id}
                                             onPress={() => router.push(`/topic/${item.id}`)}
                                             className="mr-2 items-center"
                                             style={{ width: 90 }}
                                         >
-                                            <Image 
-                                                source={{ uri: item.logo }} 
+                                            <Image
+                                                source={{ uri: item.logo }}
                                                 className="rounded-lg mb-2 bg-gray-200"
                                                 style={{ width: 80, height: 80, borderRadius: 80 }}
                                             />
@@ -383,6 +387,8 @@ export default function TopicScreen() {
                 headerFadeInThreshold={0.5}
                 initialAbsoluteHeaderHeight={110}
             >
+                <StatusBar style={showSubTopicsModal ? 'light' : 'dark'} />
+
                 {entity.tabs && (
                     <View className="px-4 pt-4">
                         <SegmentedControl
@@ -393,8 +399,9 @@ export default function TopicScreen() {
                     </View>
                 )}
                 {renderContent()}
+                <SubTopicsModal />
             </ScrollViewWithHeaders>
-            <SubTopicsModal />
+
         </View>
     );
 }

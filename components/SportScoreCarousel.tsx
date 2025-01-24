@@ -6,6 +6,7 @@ import { useRouter } from 'expo-router';
 import { MotiView } from 'moti';
 
 
+
 interface Team {
   id: string;
   name: string;
