@@ -343,14 +343,14 @@ export default function TopicScreen() {
                                             key={item.id}
                                             onPress={() => router.push(`/topic/${item.id}`)}
                                             className="mr-2 items-center"
-                                            style={{ width: 90 }}
+                                            style={{ width: 100 }}
                                         >
                                             <Image
                                                 source={{ uri: item.logo }}
                                                 className="rounded-lg mb-2 bg-gray-200"
                                                 style={{ width: 80, height: 80, borderRadius: 80 }}
                                             />
-                                            <Text className="text-center font-semibold text-lg" numberOfLines={2}>
+                                            <Text className="text-center font-semibold text-md tracking-tighter" numberOfLines={1}>
                                                 {item.title}
                                             </Text>
                                         </TouchableOpacity>
