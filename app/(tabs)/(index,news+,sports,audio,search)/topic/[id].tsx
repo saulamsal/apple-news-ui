@@ -195,10 +195,11 @@ export default function TopicScreen() {
                 </View>
             }
             headerStyle={{
-                backgroundColor,
+                // backgroundColor,
                 paddingBottom: 10
             }}
-        />
+        >
+        </Header>
     );
 
     const LargeHeaderComponent = () => (
@@ -206,12 +207,19 @@ export default function TopicScreen() {
             style={[
                 styles.largeHeader,
                 {
-                    backgroundColor,
+                    // backgroundColor,
                     borderBottomWidth: 0,
                     borderTopWidth: 0
                 }
             ]}
         >
+                
+            <Image 
+                source={{ uri: "https://i.imgur.com/TX8gHyb.png" }}
+                className="absolute -top-[120] -left-0  right-0 h-[200]"
+             
+            />
+
             <View className="flex-row items-center gap-4">
                 {entity.logo && (
                     <Image
@@ -380,6 +388,10 @@ export default function TopicScreen() {
 
     return (
         <View className="flex-1 bg-gray-100">
+            
+        
+
+
             <ScrollViewWithHeaders
                 alwaysBounceHorizontal={false}
                 alwaysBounceVertical={false}
@@ -392,8 +404,13 @@ export default function TopicScreen() {
                 absoluteHeader={true}
                 headerFadeInThreshold={0.5}
                 initialAbsoluteHeaderHeight={110}
+            
             >
                 <StatusBar style={showSubTopicsModal ? 'light' : 'dark'} />
+
+              
+                
+
 
                 {entity.tabs && (
                     <View className="px-4 pt-4">
@@ -409,6 +426,8 @@ export default function TopicScreen() {
         
                 <SubTopicsModal />
             </ScrollViewWithHeaders>
+
+
 
         </View>
     );

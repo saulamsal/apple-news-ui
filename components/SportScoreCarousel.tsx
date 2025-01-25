@@ -12,6 +12,7 @@ interface Team {
   name: string;
   current_form: string;
   logo: string;
+  score?: number;
 }
 
 interface Competition {
@@ -100,6 +101,11 @@ export const SportScoreCarousel: React.FC<SportScoreCarouselProps> = ({ scores }
                   <Text style={[styles.teamName, { color: isDark ? '#FFFFFF' : '#000000' }]}>
                     {score.team1.name}
                   </Text>
+                  {score.team1.score !== undefined && (
+                    <Text style={[styles.scoreText, { color: isDark ? '#FFFFFF' : '#000000' }]}>
+                      {score.team1.score}
+                    </Text>
+                  )}
                   <Text style={styles.formText}>{score.team1.current_form}</Text>
                 </View>
                 
@@ -108,6 +114,11 @@ export const SportScoreCarousel: React.FC<SportScoreCarouselProps> = ({ scores }
                   <Text style={[styles.teamName, { color: isDark ? '#FFFFFF' : '#000000' }]}>
                     {score.team2.name}
                   </Text>
+                  {score.team2.score !== undefined && (
+                    <Text style={[styles.scoreText, { color: isDark ? '#FFFFFF' : '#000000' }]}>
+                      {score.team2.score}
+                    </Text>
+                  )}
                   <Text style={styles.formText}>{score.team2.current_form}</Text>
                 </View>
               </View>
@@ -223,5 +234,10 @@ const styles = StyleSheet.create({
   teamLogo:{
     width: 16,
     height: 16,
-  }
+  },
+  scoreText: {
+    fontSize: 15,
+    fontWeight: '600',
+    marginLeft: 4,
+  },
 }); 

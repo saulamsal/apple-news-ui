@@ -53,7 +53,8 @@
         "full_name": "Brest",
         "current_form": "3-5-5",
         "bg_color": "#E30613",
-        "logo": "https://api.sofascore.app/api/v1/team/1158/image"
+        "logo": "https://api.sofascore.app/api/v1/team/1158/image",
+        "score": 1
       },
       "team2": {
         "id": "rma",
@@ -61,7 +62,8 @@
         "full_name": "Madrid",
         "current_form": "8-3-1",
         "bg_color": "#00529F",
-        "logo": "https://api.sofascore.app/api/v1/team/2829/image"
+        "logo": "https://api.sofascore.app/api/v1/team/2829/image",
+        "score": 1
       },
       "startTime": "2024-01-29T15:00:00Z",
       "status": "upcoming",
@@ -190,6 +192,70 @@
         "logo": "https://a.espncdn.com/i/teamlogos/nba/500/gsw.png"
       },
       "startTime": "2024-01-27T03:30:00Z",
+      "status": "upcoming",
+      "is_finished": false,
+      "is_live": true
+    },
+    {
+      "id": "7",
+      "competition": {
+        "id": "laliga",
+        "name": "LaLiga",
+        "full_name": "LaLiga",
+        "matchweek": 22
+      },
+      "sports_type": "soccer",
+      "team1": {
+        "id": "bar",
+        "name": "BAR",
+        "full_name": "Barcelona",
+        "current_form": "7-2-3",
+        "bg_color": "#A50044",
+        "logo": "https://api.sofascore.app/api/v1/team/2817/image",
+        "score": 2
+      },
+      "team2": {
+        "id": "vill",
+        "name": "VIL",
+        "full_name": "Villarreal",
+        "current_form": "4-4-4",
+        "bg_color": "#005C85",
+        "logo": "https://api.sofascore.app/api/v1/team/2819/image",
+        "score": 1
+      },
+      "startTime": "2024-01-27T15:00:00Z",
+      "status": "completed",
+      "is_finished": true,
+      "is_live": false
+    },
+    {
+      "id": "8",
+      "competition": {
+        "id": "bundesliga",
+        "name": "BL",
+        "full_name": "Bundesliga",
+        "matchweek": 19
+      },
+      "sports_type": "soccer",
+      "team1": {
+        "id": "bay",
+        "name": "BAY",
+        "full_name": "Bayern",
+        "current_form": "8-1-2",
+        "bg_color": "#DC052D",
+        "logo": "https://api.sofascore.app/api/v1/team/2672/image",
+        "score": 2
+      },
+      "team2": {
+        "id": "bvb",
+        "name": "BVB",
+        "full_name": "Dortmund",
+        "current_form": "6-2-3",
+        "bg_color": "#FDE100",
+        "logo": "https://api.sofascore.app/api/v1/team/2673/image",
+        "score": 2
+      },
+      "startTime": "2024-01-27T17:30:00Z",
       "status": "upcoming",
       "is_finished": false,
       "is_live": true
