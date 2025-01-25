@@ -1,4 +1,4 @@
-import { StyleSheet, Pressable, Image, Platform, ImageBackground, View, Text, Animated } from 'react-native';
+import { StyleSheet, Pressable, Image, Platform, ImageBackground, View, Text, Animated, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useState, useEffect, useRef } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -7,11 +7,24 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { useAudio } from '@/contexts/AudioContext';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
-
 export function MiniPlayer({ onPress }: { onPress: () => void }) {
     const insets = useSafeAreaInsets();
     const colorScheme = useColorScheme();
     const { currentEpisode, isPlaying, togglePlayPause, seek, closePlayer } = useAudio();
+    const slideAnim = useRef(new Animated.Value(100)).current;
+
+    useEffect(() => {
+        if (currentEpisode) {
+            Animated.spring(slideAnim, {
+                toValue: 0,
+                useNativeDriver: true,
+                tension: 65,
+                friction: 11
+            }).start();
+        } else {
+            slideAnim.setValue(100);
+        }
+    }, [currentEpisode]);
 
     // Don't render if no episode is selected
     if (!currentEpisode) return null;
@@ -19,40 +32,43 @@ export function MiniPlayer({ onPress }: { onPress: () => void }) {
     const bottomPosition = Platform.OS === 'ios' ? insets.bottom + 57 : 60;
 
     return (
-        <Pressable 
-            onPress={onPress} 
-            style={[styles.container, { bottom: 0 }]}
-        >
-            <ImageBackground
-                source={{ uri: currentEpisode.artwork.url }}
-                style={styles.backgroundImage}
-                blurRadius={20}
+        <Animated.View style={{ transform: [{ translateY: slideAnim }] }}>
+            <Pressable 
+                onPress={onPress} 
+                style={[styles.container, { bottom: 0 }]}
             >
-                {Platform.OS === 'ios' ? (
-                    <BlurView
-                        tint={'systemThickMaterialDark'}
-                        intensity={80}
-                        style={[styles.content, styles.blurContainer]}
-                    >
-                        <MiniPlayerContent 
-                            episode={currentEpisode}
-                            isPlaying={isPlaying}
-                            onPlayPause={togglePlayPause}
-                            onClose={closePlayer}
-                        />
-                    </BlurView>
-                ) : (
-                    <View style={[styles.content, styles.androidContainer]}>
-                        <MiniPlayerContent 
-                            episode={currentEpisode}
-                            isPlaying={isPlaying}
-                            onPlayPause={togglePlayPause}
-                            onClose={closePlayer}
-                        />
-                    </View>
-                )}
-            </ImageBackground>
-        </Pressable>
+         
+                <ImageBackground
+                    source={{ uri: currentEpisode.artwork.url }}
+                    style={styles.backgroundImage}
+                    blurRadius={20}
+                >
+                    {Platform.OS === 'ios' ? (
+                        <BlurView
+                            tint={'systemThickMaterialDark'}
+                            intensity={80}
+                            style={[styles.content, styles.blurContainer]}
+                        >
+                            <MiniPlayerContent 
+                                episode={currentEpisode}
+                                isPlaying={isPlaying}
+                                onPlayPause={togglePlayPause}
+                                onClose={closePlayer}
+                            />
+                        </BlurView>
+                    ) : (
+                        <View style={[styles.content, styles.androidContainer]}>
+                            <MiniPlayerContent 
+                                episode={currentEpisode}
+                                isPlaying={isPlaying}
+                                onPlayPause={togglePlayPause}
+                                onClose={closePlayer}
+                            />
+                        </View>
+                    )}
+                </ImageBackground>
+            </Pressable>
+        </Animated.View>
     );
 }
 
@@ -68,24 +84,20 @@ function MiniPlayerContent({
     onClose: () => void;
 }) {
     const colorScheme = useColorScheme();
-    const scrollX = useRef(new Animated.Value(0)).current;
+    const scrollAnim = useRef(new Animated.Value(0)).current;
     const { seek } = useAudio();
+    const { width } = Dimensions.get('window');
     
-    // Animation for long titles
     useEffect(() => {
         const startAnimation = () => {
+            scrollAnim.setValue(0);
             Animated.sequence([
-                Animated.timing(scrollX, {
-                    toValue: -1000,
-                    duration: 15000,
+                Animated.timing(scrollAnim, {
+                    toValue: 1,
+                    duration: 8000,
                     useNativeDriver: true,
                 }),
-                Animated.delay(1000),
-                Animated.timing(scrollX, {
-                    toValue: 0,
-                    duration: 0,
-                    useNativeDriver: true,
-                })
+                Animated.delay(2000),
             ]).start(() => startAnimation());
         };
 
@@ -99,10 +111,28 @@ function MiniPlayerContent({
     return (
         <View style={styles.miniPlayerContent}>
             <View style={styles.leftSection}>
-                <Text  numberOfLines={1} className='text-white font-bold text-base tracking-tighter opacity-60'>{episode.showTitle}</Text>
-                {/* <Animated.View style={{ transform: [{ translateX: scrollX }] }}> */}
-                    <Text className='text-white font-bold text-lg tracking-tighter' numberOfLines={1}>{episode.title}</Text>
-                {/* </Animated.View> */}
+
+                <Text numberOfLines={1} 
+                className='text-white font-bold text-base tracking-tighter opacity-60'>
+                    {episode.showTitle}</Text>
+                <View style={{ overflow: 'hidden' }}>
+                    <Animated.Text 
+                        className='text-white font-bold text-lg tracking-tighter flex-nowrap'
+                        numberOfLines={1}
+                        style={{
+                            transform: [{
+                                translateX: scrollAnim.interpolate({
+                                    inputRange: [0, 1],
+                                    outputRange: [0, -width/2]
+                                })
+                            }]
+                            ,
+                            flexShrink: 0
+                        }}
+                    >
+                        {episode.title}
+                    </Animated.Text>
+                </View>
             </View>
             <View style={styles.controls}>
                 <Pressable 
@@ -156,7 +186,7 @@ const styles = StyleSheet.create({
         right: 0,
         // height: 60,
         zIndex: 1,
-        shadowColor: '#000',
+        // shadowColor: 'red',
         shadowOffset: {
             width: 0,
             height: 2,
@@ -164,15 +194,20 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.15,
         shadowRadius: 8,
         elevation: 5,
-        marginTop: -20,
-        backgroundColor: '#000',
+        marginTop: -40,
+        // backgroundColor: 'red',
         overflow: 'hidden',
         paddingTop: 5,
+        height: 90,
+        // position: 'absolute',
+        bottom: 0,
+        backgroundColor: '#000',
+       
     },
     backgroundImage: {
         width: '100%',
-        // height: '100%',
-        height: 80,
+        height: '100%',
+        // height: 80,
         borderRadius: 12,
         overflow: 'hidden',
       
