@@ -11,7 +11,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 export function MiniPlayer({ onPress }: { onPress: () => void }) {
     const insets = useSafeAreaInsets();
     const colorScheme = useColorScheme();
-    const { currentEpisode, isPlaying, togglePlayPause, seek } = useAudio();
+    const { currentEpisode, isPlaying, togglePlayPause, seek, closePlayer } = useAudio();
 
     // Don't render if no episode is selected
     if (!currentEpisode) return null;
@@ -38,6 +38,7 @@ export function MiniPlayer({ onPress }: { onPress: () => void }) {
                             episode={currentEpisode}
                             isPlaying={isPlaying}
                             onPlayPause={togglePlayPause}
+                            onClose={closePlayer}
                         />
                     </BlurView>
                 ) : (
@@ -46,6 +47,7 @@ export function MiniPlayer({ onPress }: { onPress: () => void }) {
                             episode={currentEpisode}
                             isPlaying={isPlaying}
                             onPlayPause={togglePlayPause}
+                            onClose={closePlayer}
                         />
                     </View>
                 )}
@@ -57,11 +59,13 @@ export function MiniPlayer({ onPress }: { onPress: () => void }) {
 function MiniPlayerContent({ 
     episode,
     isPlaying,
-    onPlayPause 
+    onPlayPause,
+    onClose
 }: {
     episode: any;
     isPlaying: boolean;
     onPlayPause: () => void;
+    onClose: () => void;
 }) {
     const colorScheme = useColorScheme();
     const scrollX = useRef(new Animated.Value(0)).current;
@@ -126,7 +130,7 @@ function MiniPlayerContent({
                         />
                    
                 </Pressable>
-                <Pressable style={styles.controlButton}>
+                <Pressable style={styles.controlButton} onPress={onClose}>
                     <BlurView
                         tint="dark"
                         intensity={80}
