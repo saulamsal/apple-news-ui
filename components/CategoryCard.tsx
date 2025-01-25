@@ -1,17 +1,19 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Text, Image } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text, Image, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
 import { useRouter } from 'expo-router';
 
 interface CategoryCardProps {
     id: string;
-    title: string;
+    title: string | React.ReactElement;
     icon?: string;
     logo?: string;
+    description?: string | React.ReactElement;
+    entity_type?: string;
 }
 
-export const CategoryCard = ({ id, title, icon, logo }: CategoryCardProps) => {
+export const CategoryCard = ({ id, title, icon, logo, description, entity_type }: CategoryCardProps) => {
     const router = useRouter();
 
     const handlePress = () => {
@@ -30,19 +32,20 @@ export const CategoryCard = ({ id, title, icon, logo }: CategoryCardProps) => {
             {icon ? (
                 <Ionicons name={icon as any} size={28} color={Colors.light.tint} />
             ) : logo ? (
-                <Image source={{ uri: logo }} style={styles.logo} />
+                <Image source={{ uri: logo }} className={`w-8 h-8 mr-2 ${entity_type === 'person' ? 'rounded-lg' : 'rounded-full'}`} />
             ) : null}
-            <Text style={styles.title}>{title}</Text>
+            <View className="flex-1">
+                <Text style={styles.title}>{title}</Text>
+                {description && (
+                    <Text className="text-gray-500 text-sm mt-1">{description}</Text>
+                )}  
+            </View>
         </TouchableOpacity>
     );
 };
 
 const styles = StyleSheet.create({
-    logo: {
-        width: 24,
-        height: 24,
-        marginRight: 8,
-    },
+ 
     title: {
         fontSize: 18,
         fontWeight: '500',

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { View, TextInput, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { ScrollViewWithHeaders, Header } from '@codeherence/react-native-header';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { AnimatedAccordion } from '@/components/AnimatedAccordion';
 import searchEntities from '@/app/data/search_entities.json';
+import entities from '@/app/data/entities.json';
 import { CategoryCard } from '@/components/CategoryCard';
 import { SearchData } from '@/app/types/search';
 import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
@@ -19,7 +20,31 @@ interface Entity {
     logo?: string;
     icon?: string;
     type: string;
+    description?: string;
 }
+
+interface HighlightedTextProps {
+    text: string;
+    highlight: string;
+}
+
+const HighlightedText = ({ text, highlight }: HighlightedTextProps) => {
+    if (!highlight.trim()) return <Text>{text}</Text>;
+    
+    const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
+    
+    return (
+        <Text>
+            {parts.map((part, i) => 
+                part.toLowerCase() === highlight.toLowerCase() ? (
+                    <Text key={i} className="font-bold">{part}</Text>
+                ) : (
+                    <Text key={i}>{part}</Text>
+                )
+            )}
+        </Text>
+    );
+};
 
 const FadingView = ({ opacity, children, style }: { 
     opacity: SharedValue<number>, 
@@ -31,19 +56,70 @@ const FadingView = ({ opacity, children, style }: {
     </Animated.View>
 );
 
-export default function SearchScreen() {
-    const { top, bottom } = useSafeAreaInsets();
+interface SearchComponentProps {
+    value: string;
+    onChangeText: (text: string) => void;
+}
 
-    const SearchComponent = () => (
+const SearchComponent = React.memo(({ value, onChangeText }: SearchComponentProps) => {
+    const handleClear = useCallback(() => {
+        onChangeText('');
+    }, [onChangeText]);
+
+    return (
         <View className="flex-row items-center bg-[#E3E2EA] px-3 h-[38px] rounded-[10px]">
             <Ionicons name="search" size={20} color="#666" />
             <TextInput
                 placeholder="Channels, Topics, & Stories"
                 className="flex-1 pl-2 text-[17px]"
                 placeholderTextColor="#666"
+                value={value}
+                onChangeText={onChangeText}
+                autoCapitalize="none"
             />
+            {value ? (
+                <TouchableOpacity onPress={handleClear}>
+                    <Ionicons name="close-circle" size={20} color="#666" />
+                </TouchableOpacity>
+            ) : null}
         </View>
     );
+});
+
+export default function SearchScreen() {
+    const { top, bottom } = useSafeAreaInsets();
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const searchResults = useMemo(() => {
+        if (!searchQuery.trim()) return [];
+
+        const query = searchQuery.toLowerCase();
+        const results: Entity[] = [];
+        const addedIds = new Set<string>();
+        
+        Object.values(entities).forEach((entity: any) => {
+            const matchesTitle = entity.title?.toLowerCase().includes(query);
+            const matchesDescription = entity.description?.toLowerCase().includes(query);
+            const matchesType = entity.type?.toLowerCase().includes(query);
+            
+            if ((matchesTitle || matchesDescription || matchesType) && !addedIds.has(entity.id)) {
+                results.push(entity);
+                addedIds.add(entity.id);
+            }
+
+            // Search in sub_topics if they exist
+            if (entity.sub_topics?.items) {
+                entity.sub_topics.items.forEach((subTopic: any) => {
+                    if (subTopic.title?.toLowerCase().includes(query) && !addedIds.has(subTopic.id)) {
+                        results.push(subTopic);
+                        addedIds.add(subTopic.id);
+                    }
+                });
+            }
+        });
+
+        return results;
+    }, [searchQuery]);
 
     const HeaderSurface = ({ showNavBar }: { showNavBar: SharedValue<number> }) => (
         <FadingView opacity={showNavBar} style={StyleSheet.absoluteFill}>
@@ -80,7 +156,7 @@ export default function SearchScreen() {
                 <View className="flex-row justify-between items-start">
                     <NewsHeaderLeftItem size={'md'} secondaryTitle='Following' />
                 </View>
-                <SearchComponent />
+                <SearchComponent value={searchQuery} onChangeText={setSearchQuery} />
             </View>
         );
     }
@@ -103,31 +179,59 @@ export default function SearchScreen() {
                 disableLargeHeaderFadeAnim={false}
                 largeHeaderContainerStyle={{ paddingTop: top + 4 }}
             >
-                <View className="p-4 flex-col gap-4">
-                    {getAllCategories().map((entity: Entity) => (
-                        <CategoryCard
-                            key={entity.id}
-                            id={entity.id}
-                            title={entity.title}
-                            icon={entity.icon}
-                        />
-                    ))}
-                </View>
-
-                {searchEntities.sections.map((section) => (
-                    <AnimatedAccordion key={section.id} title={section.title}>
-                        <View className="p-4 gap-3">
-                            {getAllEntitiesForSection(section.id).map((entity: Entity) => (
+                {searchQuery ? (
+                    <View className="p-4">
+                        {searchResults.length > 0 ? (
+                            <View className="gap-3">
+                                {searchResults.map((entity) => (
+                                    <CategoryCard
+                                        key={entity.id}
+                                        id={entity.id}
+                                        title={<HighlightedText text={entity.title} highlight={searchQuery} />}
+                                        logo={entity.logo}
+                                        icon={entity.icon}
+                                        entity_type={entity.entity_type}
+                                        description={entity.description && (
+                                            <HighlightedText text={entity.description} highlight={searchQuery} />
+                                        )}
+                                    />
+                                ))}
+                            </View>
+                        ) : (
+                            <Text className="text-center text-gray-500">No results found</Text>
+                        )}
+                    </View>
+                ) : (
+                    <>
+                        <View className="p-4 flex-col gap-4">
+                            {getAllCategories().map((entity: Entity) => (
                                 <CategoryCard
                                     key={entity.id}
                                     id={entity.id}
                                     title={entity.title}
-                                    logo={entity.logo}
+                                    icon={entity.icon}
+                                    entity_type={entity.entity_type}
                                 />
                             ))}
                         </View>
-                    </AnimatedAccordion>
-                ))}
+
+                        {searchEntities.sections.map((section) => (
+                            <AnimatedAccordion key={section.id} title={section.title}>
+                                <View className="p-4 gap-3">
+                                    {getAllEntitiesForSection(section.id).map((entity: Entity) => (
+                                        <CategoryCard
+                                            key={entity.id}
+                                            id={entity.id}
+                                            title={entity.title}
+                                            logo={entity.logo}
+                                            entity_type={entity.entity_type}
+                                        />
+                                    ))}
+                                </View>
+                            </AnimatedAccordion>
+                        ))}
+                    </>
+                )}
             </ScrollViewWithHeaders>
         </View>
     );

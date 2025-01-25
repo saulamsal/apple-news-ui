@@ -14,7 +14,7 @@ import Animated, {
 import * as WebBrowser from 'expo-web-browser';
 import { SlidingBanner } from '@/components/SlidingBanner';
 import { ExtensionStorage } from "@bacons/apple-targets";
-import DefaultPreference from 'react-native-default-preference';
+import DefaultPreference from '@/helper/defaultpreferences';
 
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
