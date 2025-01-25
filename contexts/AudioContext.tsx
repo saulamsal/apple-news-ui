@@ -59,19 +59,20 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
     const playEpisode = async (episode: PodcastEpisode) => {
         try {
-            if (sound) {
-                await sound.stopAsync();
-                await sound.unloadAsync();
-                setSound(null);
-            }
-
-            console.log('Playing episode:', episode.title, 'URL:', episode.streamUrl);
-
+            // Start loading the new sound immediately
             const { sound: newSound } = await Audio.Sound.createAsync(
                 { uri: episode.streamUrl },
                 { shouldPlay: true, progressUpdateIntervalMillis: 1000 },
                 onPlaybackStatusUpdate
             );
+
+            // Clean up old sound after new one is loaded
+            if (sound) {
+                const oldSound = sound;
+                setSound(null);
+                await oldSound.stopAsync();
+                await oldSound.unloadAsync();
+            }
 
             setSound(newSound);
             setCurrentEpisode(episode);
@@ -80,6 +81,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
             console.error('Error playing episode:', error);
             setSound(null);
             setIsPlaying(false);
+            throw error; // Re-throw to handle in UI
         }
     };
 
@@ -134,11 +136,20 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     const togglePlayPause = async () => {
         if (!sound || !currentEpisode) return;
 
-        if (isPlaying) {
-            await pauseSound();
-        } else {
-            await sound.playAsync();
-            setIsPlaying(true);
+        // Set state immediately for UI responsiveness
+        const newIsPlaying = !isPlaying;
+        setIsPlaying(newIsPlaying);
+
+        try {
+            if (newIsPlaying) {
+                await sound.playAsync();
+            } else {
+                await sound.pauseAsync();
+            }
+        } catch (error) {
+            // Revert state if operation fails
+            console.error('Error toggling play/pause:', error);
+            setIsPlaying(!newIsPlaying);
         }
     };
 
@@ -165,16 +176,24 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     };
 
     const closePlayer = async () => {
-        if (sound) {
-            await sound.stopAsync();
-            await sound.unloadAsync();
-            setSound(null);
-        }
+        // Set states immediately for UI responsiveness
         setCurrentEpisode(null);
         setIsPlaying(false);
         setPosition(0);
         setDuration(0);
         progress.value = 0;
+
+        // Clean up sound in the background
+        if (sound) {
+            try {
+                const soundToUnload = sound;
+                setSound(null);
+                await soundToUnload.stopAsync();
+                await soundToUnload.unloadAsync();
+            } catch (error) {
+                console.error('Error closing player:', error);
+            }
+        }
     };
 
     return (

@@ -1,4 +1,4 @@
-import { Text, Image, View, StyleSheet, Pressable, TouchableOpacity, Alert, RefreshControl } from 'react-native';
+import { Text, Image, View, StyleSheet, Pressable, TouchableOpacity, Alert, RefreshControl, ActivityIndicator } from 'react-native';
 import { useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
@@ -126,6 +126,7 @@ export default function AudioScreen() {
   const [activeTab, setActiveTab] = useState('best');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [episodes, setEpisodes] = useState((podcasts.results['podcast-episodes'][0].data || []) as PodcastEpisodeData[]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleTabPress = (tabId: string) => {
     setActiveTab(tabId);
@@ -133,10 +134,11 @@ export default function AudioScreen() {
 
   const { currentEpisode, playEpisode, isPlaying, togglePlayPause } = useAudio();
   
-  const handlePlayAll = () => {
+  const handlePlayAll = async () => {
     const firstEpisode = podcasts.results['podcast-episodes'][0].data[0] as PodcastEpisodeData;
     
     if (firstEpisode) {
+      setIsLoading(true);
       const imageUrl = firstEpisode.attributes.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || 'https://via.placeholder.com/300';
 
       const podcast: PodcastEpisode = {
@@ -150,8 +152,15 @@ export default function AudioScreen() {
         summary: firstEpisode.attributes.description.standard
       };
 
-      playEpisode(podcast);
-      router.push(`/audio/${firstEpisode.id}`);
+      // Start loading audio before navigation
+      try {
+        await playEpisode(podcast);
+        router.push(`/audio/${firstEpisode.id}`);
+      } catch (error) {
+        console.error('Error playing episode:', error);
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
@@ -204,16 +213,25 @@ export default function AudioScreen() {
                   <NewsHeaderLeftItem size="md" secondaryTitle="Audio" />
                   <View style={styles.headerRight}>
                     <TouchableOpacity 
-                      style={[styles.headerRightButton, { backgroundColor: currentEpisode ? '#86858D' : Colors.light.tint }]}
+                      style={[
+                        styles.headerRightButton, 
+                        { 
+                          backgroundColor: currentEpisode ? '#86858D' : Colors.light.tint,
+                          opacity: isLoading ? 0.7 : 1 
+                        }
+                      ]}
                       onPress={currentEpisode ? togglePlayPause : handlePlayAll}
+                      disabled={isLoading}
                     >
-                      {isPlaying ? (
+                      {isLoading ? (
+                        <ActivityIndicator size="small" color="#fff" />
+                      ) : isPlaying ? (
                         <AudioVisualizer isPlaying={true} />
                       ) : (
                         <Ionicons name="headset" size={14} color={'#fff'} />
                       )}
                       <Text style={styles.headerRightText}>
-                        {currentEpisode ? (isPlaying ? 'Playing' : 'Paused') : 'Play'}
+                        {isLoading ? 'Loading...' : currentEpisode ? (isPlaying ? 'Playing' : 'Paused') : 'Play'}
                       </Text>
                     </TouchableOpacity>
                   </View>
