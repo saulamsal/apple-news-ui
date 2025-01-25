@@ -132,7 +132,7 @@ export default function AudioScreen() {
     setActiveTab(tabId);
   };
 
-  const { currentEpisode, playEpisode, isPlaying, togglePlayPause } = useAudio();
+  const { currentEpisode, playEpisode, isPlaying, togglePlayPause, closePlayer } = useAudio();
   
   const handlePlayAll = async () => {
     const firstEpisode = podcasts.results['podcast-episodes'][0].data[0] as PodcastEpisodeData;
@@ -152,8 +152,9 @@ export default function AudioScreen() {
         summary: firstEpisode.attributes.description.standard
       };
 
-      // Start loading audio before navigation
       try {
+        // Ensure any existing audio is cleaned up before playing new one
+        await closePlayer();
         await playEpisode(podcast);
         router.push(`/audio/${firstEpisode.id}`);
       } catch (error) {

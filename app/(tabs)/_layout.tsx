@@ -4,7 +4,7 @@ import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { BlurView } from 'expo-blur';
-import { Platform, StyleSheet, StatusBar } from 'react-native';
+import { Platform, StyleSheet, StatusBar, View } from 'react-native';
 import { AppleNewsLogo } from '@/components/icons/AppleNewsLogo';
 import { MiniPlayer } from '@/components/BottomSheet/MiniPlayer';
 import { useAudio } from '@/contexts/AudioContext';
@@ -33,6 +33,8 @@ export default function TabLayout() {
 
   return (
     <>
+     
+
       <Tabs
         screenOptions={{
           animation: 'shift',
@@ -79,28 +81,13 @@ export default function TabLayout() {
           name="(news+)"
           options={{
             title: 'News+',
-            // tabBarIcon: ({ color }) => (
-            //   <TabIcon
-            //     sfSymbol="square.grid.2x2.fill"
-            //     ionIcon="newspaper"
-            //     color={color}
-            //   />
-            // ),
             tabBarIcon: (props) => <NewsPlus width={24} height={24} color={props.focused ? '#FA2D48' : '#8E8E8F'} />,
-
           }}
         />
         <Tabs.Screen
           name="(sports)"
           options={{
             title: 'Sports',
-            // tabBarIcon: ({ color }) => (
-            //   <TabIcon
-            //     sfSymbol="dot.radiowaves.left.and.right"
-            //     ionIcon="football"
-            //     color={color}
-            //   />
-            // ),
             tabBarIcon: (props) => <Sports width={30} height={30} color={props.focused ? '#FA2D48' : '#8E8E8F'} />,
           }}
         />
@@ -113,7 +100,6 @@ export default function TabLayout() {
                 sfSymbol="music.note.list"
                 ionIcon="headset"
                 color={color}
-                
               />
             ),
           }}
@@ -123,17 +109,12 @@ export default function TabLayout() {
           options={{
             title: 'Following',
             headerShown: false,
-            // tabBarIcon: ({ color }) => (
-            //   <TabIcon
-            //     sfSymbol="magnifyingglass"
-            //     ionIcon="heart"
-            //     color={color}
-            //   />
-            // ),
             tabBarIcon: (props) => <Search width={24} height={24} color={props.focused ? '#FA2D48' : '#8E8E8F'} />,
           }}
         />
       </Tabs>
+
+ 
 
       {currentSong && (
         <MiniPlayer
