@@ -215,7 +215,7 @@ export default function TopicScreen() {
         >
                 
             <Image 
-                source={{ uri: "https://i.imgur.com/TX8gHyb.png" }}
+                source={{ uri: entity.featured_background }}
                 className="absolute -top-[120] -left-0  right-0 h-[200]"
              
             />

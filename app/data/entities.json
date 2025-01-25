@@ -76,6 +76,7 @@
             "textColor": "#ffffff"
         }
     },
+    
     "soccer": {
         "id": "soccer",
         "title": "Soccer",
@@ -193,6 +194,172 @@
         "theme": {
             "backgroundColor": "#E3F2FD",
             "textColor": "#1565C0"
+        }
+    },
+    "elon_musk": {
+        "id": "elon_musk",
+        "title": "Elon Musk",
+        "logo": "https://media.wired.com/photos/635afc21e53b9bdcb463c641/1:1/w_1599,h_1599,c_limit/Elon-Musk-Twitter-Town-Square-Ideas-1233961984.jpg",
+        "entity_type": "person",
+        "featured_background": "https://wallpapercat.com/w/full/2/6/d/77544-1920x1080-desktop-1080p-elon-musk-background-image.jpg",
+        "type": "topic",
+        "description": "CEO of Tesla, SpaceX",
+        "theme": {
+            "backgroundColor": "darkblue",
+            "textColor": "#ffffff"
+        }
+    },
+    "donald_trump": {
+        "id": "donald_trump",
+        "title": "Donald Trump",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/TrumpPortrait.jpg/220px-TrumpPortrait.jpg",
+        "entity_type": "person",
+        "featured_background": "https://media.newyorker.com/photos/641ca6e1428b96a33ea5bfbb/master/pass/Glasser-Trump-Troll.jpg",
+        "type": "topic",
+        "description": "President of the United States",
+        "theme": {
+            "backgroundColor": "#000000",
+            "textColor": "#ffffff"
+        }
+    },
+    "supreme_court": {
+        "id": "supreme_court",
+        "title": "Supreme Court",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/f/f3/Seal_of_the_United_States_Supreme_Court.svg",
+        "entity_type": "institution",
+        "type": "topic",
+        "description": "Highest court in the United States federal judiciary",
+        "theme": {
+            "backgroundColor": "#E8EAF6",
+            "textColor": "#283593"
+        }
+    },
+    "tiktok": {
+        "id": "tiktok",
+        "title": "TikTok",
+        "logo": "https://pbs.twimg.com/profile_images/1879333037005053953/e1dnDyxK_400x400.jpg",
+        "entity_type": "company",
+        "type": "topic",
+        "description": "Social media platform for short-form videos",
+        "theme": {
+            "backgroundColor": "#F3E5F5",
+            "textColor": "#6A1B9A"
+        }
+    },
+    "cricket": {
+        "id": "cricket",
+        "title": "Cricket",
+        "logo": "https://static.vecteezy.com/system/resources/previews/011/571/519/original/circle-cricket-logo-free-png.png",
+        "entity_type": "sport",
+        "type": "league",
+        "theme": {
+            "backgroundColor": "#1A237E",
+            "textColor": "#ffffff"
+        },
+        "featured_background": "https://i.imgur.com/RX8xJbY.jpg",
+        "tabs": ["overview", "news", "scores", "videos", "stats"],
+        "has_scores": true,
+        "filter": "cricket",
+        "sub_topics": {
+            "title": "Leagues",
+            "items": [
+                {
+                    "id": "indian_premier_league",
+                    "title": "Indian Premier League",
+                    "logo": "https://api.sofascore.app/api/v1/unique-tournament/10192/image",
+                    "type": "league"
+                },
+                {
+                    "id": "bbl",
+                    "title": "Big Bash League",
+                    "logo": "https://api.sofascore.app/api/v1/unique-tournament/10208/image",
+                    "type": "league"
+                },
+                {
+                    "id": "psl",
+                    "title": "Pakistan Super League",
+                    "logo": "https://api.sofascore.app/api/v1/unique-tournament/10191/image",
+                    "type": "league"
+                }
+            ]
+        }
+    },
+    "indian_premier_league": {
+        "id": "indian_premier_league",
+        "title": "Indian Premier League",
+        "logo": "https://api.sofascore.app/api/v1/unique-tournament/10192/image",
+        "entity_type": "India",
+        "type": "league",
+        "theme": {
+            "backgroundColor": "#0D47A1",
+            "textColor": "#ffffff"
+        },
+        "tabs": ["overview", "news", "scores", "videos", "stats"],
+        "has_scores": true,
+        "sub_topics": {
+            "title": "Teams",
+            "items": [
+                {
+                    "id": "kkr",
+                    "title": "Kolkata Knight Riders",
+                    "logo": "https://api.sofascore.app/api/v1/team/187775/image",
+                    "type": "team"
+                },
+                {
+                    "id": "mi",
+                    "title": "Mumbai Indians",
+                    "logo": "https://api.sofascore.app/api/v1/team/187773/image",
+                    "type": "team"
+                },
+                {
+                    "id": "csk",
+                    "title": "Chennai Super Kings",
+                    "logo": "https://api.sofascore.app/api/v1/team/187774/image",
+                    "type": "team"
+                },
+                {
+                    "id": "rcb",
+                    "title": "Royal Challengers Bangalore",
+                    "logo": "https://api.sofascore.app/api/v1/team/187776/image",
+                    "type": "team"
+                },
+                {
+                    "id": "dc",
+                    "title": "Delhi Capitals",
+                    "logo": "https://api.sofascore.app/api/v1/team/187777/image",
+                    "type": "team"
+                },
+                {
+                    "id": "rr",
+                    "title": "Rajasthan Royals",
+                    "logo": "https://api.sofascore.app/api/v1/team/187778/image",
+                    "type": "team"
+                },
+                {
+                    "id": "srh",
+                    "title": "Sunrisers Hyderabad",
+                    "logo": "https://api.sofascore.app/api/v1/team/187779/image",
+                    "type": "team"
+                },
+                {
+                    "id": "pbks",
+                    "title": "Punjab Kings",
+                    "logo": "https://api.sofascore.app/api/v1/team/187780/image",
+                    "type": "team"
+                },
+                {
+                    "id": "gt",
+                    "title": "Gujarat Titans",
+                    "logo": "https://api.sofascore.app/api/v1/team/377372/image",
+                    "type": "team"
+                },
+                {
+                    "id": "lsg",
+                    "title": "Lucknow Super Giants",
+                    "logo": "https://api.sofascore.app/api/v1/team/377371/image",
+                    "type": "team"
+                }
+            ]
         }
     }
 } 
