@@ -151,11 +151,20 @@ export default function ScoreDetailsScreen() {
               <DropdownMenu.ItemIcon ios={{ name: "link" }} />
               <DropdownMenu.ItemTitle>Copy Link</DropdownMenu.ItemTitle>
             </DropdownMenu.Item>
+            <DropdownMenu.Item key="liveactivity" onSelect={() => handleLiveActivity()}>
+              <DropdownMenu.ItemIcon 
+                ios={{
+                  name: "inset.filled.topthird.square",
+                  paletteColors: ['#007AFF']
+                }}
+              />
+              <DropdownMenu.ItemTitle>Enable Live Activity</DropdownMenu.ItemTitle>
+            </DropdownMenu.Item>
             <DropdownMenu.Separator />
             <DropdownMenu.Group>
               <DropdownMenu.Sub>
                 <DropdownMenu.SubTrigger key="team1">
-                  <DropdownMenu.ItemIcon ios={{ name: "person.2" }} />
+                  <DropdownMenu.ItemIcon />
                   <DropdownMenu.ItemTitle>{score.team1.full_name}</DropdownMenu.ItemTitle>
                 </DropdownMenu.SubTrigger>
                 <DropdownMenu.SubContent>
@@ -175,7 +184,7 @@ export default function ScoreDetailsScreen() {
               </DropdownMenu.Sub>
               <DropdownMenu.Sub>
                 <DropdownMenu.SubTrigger key="team2">
-                  <DropdownMenu.ItemIcon ios={{ name: "person.2" }} />
+                  <DropdownMenu.ItemIcon  />
                   <DropdownMenu.ItemTitle>{score.team2.full_name}</DropdownMenu.ItemTitle>
                 </DropdownMenu.SubTrigger>
                 <DropdownMenu.SubContent>
