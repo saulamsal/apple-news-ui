@@ -1,5 +1,3 @@
-import { NativeModule, requireNativeModule } from "expo";
-
 export type ExpoLiveActivityModuleEvents = {
   onLiveActivityCancel: () => void;
 };
@@ -14,30 +12,13 @@ interface LiveActivityState {
   awayColor: string;
 }
 
-interface ExpoLiveActivityModule {
-  areActivitiesEnabled(): boolean;
-  isActivityInProgress(): boolean;
-  startActivity(
-    competition: string,
-    homeTeam: string,
-    awayTeam: string,
-    homeLogo: string,
-    awayLogo: string,
-    initialState: LiveActivityState
-  ): Promise<boolean>;
-  updateActivity(state: LiveActivityState): void;
-  endActivity(state: LiveActivityState): void;
-}
-
-const nativeModule = requireNativeModule<ExpoLiveActivityModule>("ExpoLiveActivity");
-
 const LiveActivities = {
   areActivitiesEnabled(): boolean {
-    return nativeModule.areActivitiesEnabled();
+    return false;
   },
 
   isActivityInProgress(): boolean {
-    return nativeModule.isActivityInProgress();
+    return false;
   },
 
   startActivity(
@@ -48,23 +29,12 @@ const LiveActivities = {
     awayLogo: string,
     initialState: LiveActivityState
   ): Promise<boolean> {
-    return nativeModule.startActivity(
-      competition,
-      homeTeam,
-      awayTeam,
-      homeLogo,
-      awayLogo,
-      initialState
-    );
+    return Promise.resolve(false);
   },
 
-  updateActivity(state: LiveActivityState): void {
-    nativeModule.updateActivity(state);
-  },
+  updateActivity(state: LiveActivityState): void {},
 
-  endActivity(state: LiveActivityState): void {
-    nativeModule.endActivity(state);
-  },
+  endActivity(state: LiveActivityState): void {},
 };
 
 export default LiveActivities;
