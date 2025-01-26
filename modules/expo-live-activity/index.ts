@@ -4,13 +4,67 @@ export type ExpoLiveActivityModuleEvents = {
   onLiveActivityCancel: () => void;
 };
 
-declare class ExpoLiveActivityModule extends NativeModule<ExpoLiveActivityModuleEvents> {
-  areActivitiesEnabled(): boolean;
-  isActivityInProgress(): boolean;
-  startActivity(name: string, emoji: string): Promise<boolean>;
-  updateActivity(emoji: string): void;
-  endActivity(emoji: string): void;
+interface LiveActivityState {
+  homeScore: number;
+  awayScore: number;
+  timeOrPeriod: string;
+  currentEvent: string;
+  situation: string;
+  homeColor: string;
+  awayColor: string;
 }
 
-// This call loads the native module object from the JSI.
-export default requireNativeModule<ExpoLiveActivityModule>("ExpoLiveActivity");
+interface ExpoLiveActivityModule {
+  areActivitiesEnabled(): boolean;
+  isActivityInProgress(): boolean;
+  startActivity(
+    competition: string,
+    homeTeam: string,
+    awayTeam: string,
+    homeLogo: string,
+    awayLogo: string,
+    initialState: LiveActivityState
+  ): Promise<boolean>;
+  updateActivity(state: LiveActivityState): void;
+  endActivity(state: LiveActivityState): void;
+}
+
+const nativeModule = requireNativeModule<ExpoLiveActivityModule>("ExpoLiveActivity");
+
+const LiveActivities = {
+  areActivitiesEnabled(): boolean {
+    return nativeModule.areActivitiesEnabled();
+  },
+
+  isActivityInProgress(): boolean {
+    return nativeModule.isActivityInProgress();
+  },
+
+  startActivity(
+    competition: string,
+    homeTeam: string,
+    awayTeam: string,
+    homeLogo: string,
+    awayLogo: string,
+    initialState: LiveActivityState
+  ): Promise<boolean> {
+    return nativeModule.startActivity(
+      competition,
+      homeTeam,
+      awayTeam,
+      homeLogo,
+      awayLogo,
+      initialState
+    );
+  },
+
+  updateActivity(state: LiveActivityState): void {
+    nativeModule.updateActivity(state);
+  },
+
+  endActivity(state: LiveActivityState): void {
+    nativeModule.endActivity(state);
+  },
+};
+
+export default LiveActivities;

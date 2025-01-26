@@ -4,11 +4,21 @@ import ActivityKit
 // MUST exactly match the WidgetAttributes struct in WidgetLiveActivity.
 struct WidgetAttributes: ActivityAttributes {
     public struct ContentState: Codable, Hashable {
-        var emoji: String
+        var homeScore: Int
+        var awayScore: Int
+        var timeOrPeriod: String
+        var currentEvent: String
+        var situation: String
+        var homeColor: String
+        var awayColor: String
     }
     
     // Fixed non-changing properties about your activity go here!
-    var name: String
+    var competition: String
+    var homeTeam: String
+    var awayTeam: String
+    var homeLogo: String
+    var awayLogo: String
 }
 
 public class ExpoLiveActivityModule: Module {
@@ -39,16 +49,34 @@ public class ExpoLiveActivityModule: Module {
             }
         }
         
-        Function("startActivity") { (name: String, emoji: String) -> Bool in
+        Function("startActivity") { (competition: String, homeTeam: String, awayTeam: String, homeLogo: String, awayLogo: String, initialState: [String: Any]) -> Bool in
             if #available(iOS 16.2, *) {
-                let attributes = WidgetAttributes(name: name)
-                let contentState = WidgetAttributes.ContentState(emoji: emoji)
+                let attributes = WidgetAttributes(
+                    competition: competition,
+                    homeTeam: homeTeam,
+                    awayTeam: awayTeam,
+                    homeLogo: homeLogo,
+                    awayLogo: awayLogo
+                )
+                
+                let contentState = WidgetAttributes.ContentState(
+                    homeScore: initialState["homeScore"] as? Int ?? 0,
+                    awayScore: initialState["awayScore"] as? Int ?? 0,
+                    timeOrPeriod: initialState["timeOrPeriod"] as? String ?? "0'",
+                    currentEvent: initialState["currentEvent"] as? String ?? "",
+                    situation: initialState["situation"] as? String ?? "",
+                    homeColor: initialState["homeColor"] as? String ?? "#000000",
+                    awayColor: initialState["awayColor"] as? String ?? "#000000"
+                )
+                
                 let activityContent = ActivityContent(state: contentState, staleDate: nil)
+                
                 do {
                     let activity = try Activity.request(attributes: attributes, content: activityContent)
                     NotificationCenter.default.addObserver(self, selector: #selector(self.onLiveActivityCancel), name: Notification.Name("onLiveActivityCancel"), object: nil)
                     return true
                 } catch (let error) {
+                    print("Error starting activity: \(error)")
                     return false
                 }
             } else {
@@ -56,9 +84,17 @@ public class ExpoLiveActivityModule: Module {
             }
         }
         
-        Function("updateActivity") { (emoji: String) -> Void in
+        Function("updateActivity") { (state: [String: Any]) -> Void in
             if #available(iOS 16.2, *) {
-                let contentState = WidgetAttributes.ContentState(emoji: emoji)
+                let contentState = WidgetAttributes.ContentState(
+                    homeScore: state["homeScore"] as? Int ?? 0,
+                    awayScore: state["awayScore"] as? Int ?? 0,
+                    timeOrPeriod: state["timeOrPeriod"] as? String ?? "0'",
+                    currentEvent: state["currentEvent"] as? String ?? "",
+                    situation: state["situation"] as? String ?? "",
+                    homeColor: state["homeColor"] as? String ?? "#000000",
+                    awayColor: state["awayColor"] as? String ?? "#000000"
+                )
                 
                 Task {
                     for activity in Activity<WidgetAttributes>.activities {
@@ -68,9 +104,18 @@ public class ExpoLiveActivityModule: Module {
             }
         }
         
-        Function("endActivity") { (emoji: String) -> Void in
+        Function("endActivity") { (state: [String: Any]) -> Void in
             if #available(iOS 16.2, *) {
-                let contentState = WidgetAttributes.ContentState(emoji: emoji)
+                let contentState = WidgetAttributes.ContentState(
+                    homeScore: state["homeScore"] as? Int ?? 0,
+                    awayScore: state["awayScore"] as? Int ?? 0,
+                    timeOrPeriod: state["timeOrPeriod"] as? String ?? "FINAL",
+                    currentEvent: state["currentEvent"] as? String ?? "",
+                    situation: state["situation"] as? String ?? "",
+                    homeColor: state["homeColor"] as? String ?? "#000000",
+                    awayColor: state["awayColor"] as? String ?? "#000000"
+                )
+                
                 let finalContent = ActivityContent(state: contentState, staleDate: nil)
                 
                 Task {
