@@ -19,7 +19,42 @@ import * as Sharing from 'expo-sharing';
 
 import LiveActivities from "@/modules/expo-live-activity";
 
+type GameEvent = {
+  time: string;
+  event: string;
+  situation: string;
+};
 
+type Team = {
+  id: string;
+  name: string;
+  full_name: string;
+  current_form: string;
+  bg_color: string;
+  logo: string;
+  score?: number;
+  events: GameEvent[];
+  points?: number;
+  position?: number;
+  position_suffix?: string;
+};
+
+type Score = {
+  id: string;
+  competition: {
+    id: string;
+    name: string;
+    full_name: string;
+    matchweek: string | number;
+  };
+  sports_type: string;
+  team1: Team;
+  team2: Team;
+  startTime: string;
+  status: string;
+  is_finished: boolean;
+  is_live: boolean;
+};
 
 const getImageSource = (path: string) => {
   return { uri: path };
@@ -64,7 +99,7 @@ export default function ScoreDetailsScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
 
-  const score = scores.find(s => s.id === id);
+  const score = scores.find(s => s.id === id) as Score;
   if (!score) return null;
 
   const isCompleted = score.status === 'completed';
@@ -157,82 +192,87 @@ export default function ScoreDetailsScreen() {
               <DropdownMenu.ItemIcon ios={{ name: "link" }} />
               <DropdownMenu.ItemTitle>Copy Link</DropdownMenu.ItemTitle>
             </DropdownMenu.Item>
-            <DropdownMenu.Item key="liveactivity" onSelect={async ()=> {
-              try {
-                const initialState = {
-                  homeScore: score.team1.score,
-                  awayScore: score.team2.score,
-                  timeOrPeriod: "0'",
-                  currentEvent: "Match started!",
-                  situation: "KICKOFF",
-                  homeColor: score.team1.bg_color,
-                  awayColor: score.team2.bg_color
-                };
+            {Platform.OS === 'ios' && score.is_live && (
+              <DropdownMenu.Item key="liveactivity" onSelect={async ()=> {
+                try {
+                  const initialState = {
+                    homeScore: score.team1.score || 0,
+                    awayScore: score.team2.score || 0,
+                    timeOrPeriod: score.team1.events?.[0]?.time || "Q1 0:00",
+                    currentEvent: score.team1.events?.[0]?.event || "Game started!",
+                    situation: score.team1.events?.[0]?.situation || "KICKOFF",
+                    homeColor: score.team1.bg_color,
+                    awayColor: score.team2.bg_color
+                  };
 
-                // Start the Live Activity
-                const success = await LiveActivities.startActivity(
-                  score.competition.full_name,
-                  score.team1.full_name,
-                  score.team2.full_name,
-                  score.team1.logo,
-                  score.team2.logo,
-                  initialState
-                );
-                
-                if (success) {
-                  Alert.alert('Success', 'Live Activity started!');
+                  // Start the Live Activity
+                  const success = await LiveActivities.startActivity(
+                    score.competition.full_name,
+                    score.team1.full_name,
+                    score.team2.full_name,
+                    score.team1.logo,
+                    score.team2.logo,
+                    initialState
+                  );
                   
-                  let minute = 0;
-                  // Set up an interval to update the score (simulating live updates)
-                  const interval = setInterval(() => {
-                    minute += 1;
-                    const randomScore1 = Math.floor(Math.random() * 5);
-                    const randomScore2 = Math.floor(Math.random() * 5);
-                    const events = ["Goal!", "Yellow Card", "Corner Kick", "Free Kick", "Shot on Target"];
-                    const situations = ["GOAL", "YELLOW_CARD", "CORNER", "FREE_KICK", "SHOT"];
-                    const randomEventIndex = Math.floor(Math.random() * events.length);
-
-                    LiveActivities.updateActivity({
-                      homeScore: randomScore1,
-                      awayScore: randomScore2,
-                      timeOrPeriod: `${minute}'`,
-                      currentEvent: events[randomEventIndex],
-                      situation: situations[randomEventIndex],
-                      homeColor: score.team1.bg_color,
-                      awayColor: score.team2.bg_color
+                  if (success) {
+                    // Alert.alert('Success', 'Live Activity started!');
+                    
+                    let eventIndex = 0;
+                    const allEvents = [...(score.team1.events || []), ...(score.team2.events || [])].sort((a: GameEvent, b: GameEvent) => {
+                      const timeA = parseInt(a.time.split(' ')[0].replace('Q', ''));
+                      const timeB = parseInt(b.time.split(' ')[0].replace('Q', ''));
+                      return timeA - timeB;
                     });
-                  }, 5000);
 
-                  // Clean up after 30 seconds
-                  setTimeout(() => {
-                    clearInterval(interval);
-                    LiveActivities.endActivity({
-                      homeScore: score.team1.score,
-                      awayScore: score.team2.score,
-                      timeOrPeriod: "FINAL",
-                      currentEvent: "Match ended!",
-                      situation: "FINAL",
-                      homeColor: score.team1.bg_color,
-                      awayColor: score.team2.bg_color
-                    });
-                    Alert.alert('Info', 'Live Activity ended');
-                  }, 30000);
-                } else {
-                  Alert.alert('Error', 'Failed to start Live Activity');
+                    // Set up an interval to update with real events
+                    const interval = setInterval(() => {
+                      if (eventIndex < allEvents.length) {
+                        const event = allEvents[eventIndex];
+                        const isTeam1Event = score.team1.events?.includes(event);
+                        
+                        LiveActivities.updateActivity({
+                          homeScore: isTeam1Event ? (score.team1.score || 0) : (score.team1.score || 0),
+                          awayScore: !isTeam1Event ? (score.team2.score || 0) : (score.team2.score || 0),
+                          timeOrPeriod: event.time,
+                          currentEvent: event.event,
+                          situation: event.situation,
+                          homeColor: score.team1.bg_color,
+                          awayColor: score.team2.bg_color
+                        });
+                        
+                        eventIndex++;
+                      } else {
+                        clearInterval(interval);
+                        LiveActivities.endActivity({
+                          homeScore: score.team1.score || 0,
+                          awayScore: score.team2.score || 0,
+                          timeOrPeriod: "FINAL",
+                          currentEvent: "Game Over!",
+                          situation: "FINAL",
+                          homeColor: score.team1.bg_color,
+                          awayColor: score.team2.bg_color
+                        });
+                        // Alert.alert('Info', 'Live Activity ended');
+                      }
+                    }, 5000);
+                  } else {
+                    // Alert.alert('Error', 'Failed to start Live Activity');
+                  }
+                } catch (error) {
+                  console.error('Live Activity error:', error);
+                  // Alert.alert('Error', 'Failed to start Live Activity');
                 }
-              } catch (error) {
-                console.error('Live Activity error:', error);
-                Alert.alert('Error', 'Failed to start Live Activity');
-              }
-            }}>
-              <DropdownMenu.ItemIcon 
-                ios={{
-                  name: "inset.filled.topthird.square",
-                  paletteColors: ['#007AFF']
-                }}
-              />
-              <DropdownMenu.ItemTitle>Enable Live Activity</DropdownMenu.ItemTitle>
-            </DropdownMenu.Item>
+              }}>
+                <DropdownMenu.ItemIcon 
+                  ios={{
+                    name: "inset.filled.topthird.square",
+                    paletteColors: ['#007AFF']
+                  }}
+                />
+                <DropdownMenu.ItemTitle>Enable Live Activity</DropdownMenu.ItemTitle>
+              </DropdownMenu.Item>
+            )}
             <DropdownMenu.Separator />
             <DropdownMenu.Group>
               <DropdownMenu.Sub>
@@ -500,6 +540,10 @@ const styles = StyleSheet.create({
   scoreText: {
     // fontFamily: 'Orbitron_700Bold',
     fontFamily: 'Orbitron_900Black',
+    width: '100%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
     fontSize: 60,
     color: '#fff',
     letterSpacing: 2,
