@@ -61,11 +61,19 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
     const playEpisode = async (episode: PodcastEpisode) => {
         try {
-            // First cleanup any existing audio completely
-            await closePlayer();
+            // If there's an existing sound, just stop and unload it
+            // but don't reset UI states yet
+            if (sound) {
+                await sound.stopAsync();
+                await sound.unloadAsync();
+                setSound(null);
+            }
 
-            // Set the current audio ID first
+            // Set the new episode info before loading audio
+            // This maintains the UI while audio loads
+            setCurrentEpisode(episode);
             setCurrentAudioId(episode.id);
+            setIsPlaying(false); // Temporarily set to false while loading
 
             // Create and play the new sound
             const { sound: newSound } = await Audio.Sound.createAsync(
@@ -75,11 +83,10 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
             );
 
             setSound(newSound);
-            setCurrentEpisode(episode);
             setIsPlaying(true);
         } catch (error) {
             console.error('Error playing episode:', error);
-            // Ensure complete cleanup on error
+            // On error, do full cleanup
             await closePlayer();
             throw error;
         }
