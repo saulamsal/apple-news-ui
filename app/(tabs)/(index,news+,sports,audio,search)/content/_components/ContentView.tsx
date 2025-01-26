@@ -45,12 +45,12 @@ export function ContentView({ content }: ContentViewProps) {
               <Ionicons
                 name="chevron-back"
                 size={22}
-                color={content.source.light_text}
+                color={content.source.dark_text || '#fff'}
               />
             </TouchableOpacity>
 
             <TouchableOpacity className="bg-[#0000002d] rounded-full p-1.5">
-              <MaterialCommunityIcons name="thumbs-up-down-outline" size={20} color={content.source.light_text} />
+              <MaterialCommunityIcons name="thumbs-up-down-outline" size={20} color={content.source.dark_text} />
             </TouchableOpacity>
           </View>
 
@@ -66,11 +66,11 @@ export function ContentView({ content }: ContentViewProps) {
           <View style={{ flexDirection: 'row', alignItems: 'center' }} className="gap-4">
 
           <TouchableOpacity className="bg-[#0000002d] rounded-full p-1.5">
-            <Ionicons name="share-outline" size={20} color={content.source.light_text} />
+            <Ionicons name="share-outline" size={20} color={content.source.dark_text} />
             </TouchableOpacity>
 
             <TouchableOpacity className="bg-[#0000002d] rounded-full p-1.5">
-              <Ionicons name="ellipsis-horizontal" size={20} color={content.source.light_text} />
+              <Ionicons name="ellipsis-horizontal" size={20} color={content.source.dark_text} />
             </TouchableOpacity>
           </View>
         }
@@ -143,6 +143,9 @@ export function ContentView({ content }: ContentViewProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
+    position: 'relative',
+    width: '100%',
   },
   featuredImage: {
     width: '100%',
