@@ -2,20 +2,18 @@ import ActivityKit
 import WidgetKit
 import SwiftUI
 
+// MUST exactly match the WidgetAttributes struct in ExpoLiveActivityModule
 struct WidgetAttributes: ActivityAttributes {
     public struct ContentState: Codable, Hashable {
-        // Dynamic stateful properties about your activity go here!
         var emoji: String
     }
-
-    // Fixed non-changing properties about your activity go here!
+    
     var name: String
 }
 
 struct WidgetLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: WidgetAttributes.self) { context in
-            // Lock screen/banner UI goes here
             VStack {
                 Text("Hello \(context.state.emoji)")
             }
@@ -24,8 +22,6 @@ struct WidgetLiveActivity: Widget {
 
         } dynamicIsland: { context in
             DynamicIsland {
-                // Expanded UI goes here.  Compose the expanded UI through
-                // various regions, like leading/trailing/center/bottom
                 DynamicIslandExpandedRegion(.leading) {
                     Text("Leading")
                 }
@@ -34,7 +30,6 @@ struct WidgetLiveActivity: Widget {
                 }
                 DynamicIslandExpandedRegion(.bottom) {
                     Text("Bottom \(context.state.emoji)")
-                    // more content
                 }
             } compactLeading: {
                 Text("L")
@@ -57,7 +52,7 @@ extension WidgetAttributes {
 
 extension WidgetAttributes.ContentState {
     fileprivate static var smiley: WidgetAttributes.ContentState {
-        WidgetAttributes.ContentState(emoji: "😀")
+        WidgetAttributes.ContentState(emoji: "Haha")
      }
      
      fileprivate static var starEyes: WidgetAttributes.ContentState {

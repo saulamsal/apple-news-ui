@@ -17,6 +17,10 @@ import * as DropdownMenu from 'zeego/dropdown-menu';
 import * as Sharing from 'expo-sharing';
 // import * as Clipboard from 'expo-clipboard';
 
+import LiveActivities from "@/modules/expo-live-activity";
+
+
+
 const getImageSource = (path: string) => {
   return { uri: path };
 };
@@ -112,6 +116,8 @@ export default function ScoreDetailsScreen() {
     );
   };
 
+
+
   const HeaderComponent = ({ showNavBar }: { showNavBar: SharedValue<number> }) => (
     <Header
       borderWidth={0}
@@ -151,7 +157,38 @@ export default function ScoreDetailsScreen() {
               <DropdownMenu.ItemIcon ios={{ name: "link" }} />
               <DropdownMenu.ItemTitle>Copy Link</DropdownMenu.ItemTitle>
             </DropdownMenu.Item>
-            <DropdownMenu.Item key="liveactivity" onSelect={() => handleLiveActivity()}>
+            <DropdownMenu.Item key="liveactivity" onSelect={()=> {
+              try {
+                const name = score.team1.full_name + " vs " + score.team2.full_name;
+                const scoreText = score.team1.score + "-" + score.team2.score;
+                
+                // Start the Live Activity
+                const success = LiveActivities.startActivity(name, scoreText);
+                
+                if (success) {
+                  Alert.alert('Success', 'Live Activity started!');
+                  
+                  // Set up an interval to update the score (simulating live updates)
+                  const interval = setInterval(() => {
+                    const randomScore1 = Math.floor(Math.random() * 5);
+                    const randomScore2 = Math.floor(Math.random() * 5);
+                    LiveActivities.updateActivity(`${randomScore1}-${randomScore2}`);
+                  }, 5000);
+
+                  // Clean up after 30 seconds
+                  setTimeout(() => {
+                    clearInterval(interval);
+                    LiveActivities.endActivity();
+                    Alert.alert('Info', 'Live Activity ended');
+                  }, 30000);
+                } else {
+                  Alert.alert('Error', 'Failed to start Live Activity');
+                }
+              } catch (error) {
+                console.error('Live Activity error:', error);
+                Alert.alert('Error', 'Failed to start Live Activity');
+              }
+            }}>
               <DropdownMenu.ItemIcon 
                 ios={{
                   name: "inset.filled.topthird.square",

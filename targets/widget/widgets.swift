@@ -23,92 +23,85 @@ struct NewsArticle: Codable {
     }
 }
 
+// Dummy data for testing
+let dummyArticles = [
+    NewsArticle(
+        title: "Trump signs executive actions on Jan. 6, TikTok, immigration and more",
+        source: "Yahoo",
+        sourceLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Yahoo%21_%282019%29.svg/1200px-Yahoo%21_%282019%29.svg.png",
+        imageUrl: "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/4477x2984+0+0/resize/1100/quality/85/format/webp/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2Fd0%2Fef%2F9b556f744f428622f04dff087855%2Fgettyimages-2194440770.jpg",
+        isNewsPlus: 1
+    ),
+    NewsArticle(
+        title: "Mike Tyson is bigger than boxing. His fight with Jake Paul is proof.",
+        source: "Sports Illustrated", 
+        sourceLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/SportsIllustratedLogo.svg/2560px-SportsIllustratedLogo.svg.png",
+        imageUrl: "https://www.aljazeera.com/wp-content/uploads/2024/11/AFP__20241115__36MH9YH__v2__HighRes__BoxHeavyUsaTysonPaulWeighIn-1731720368.jpg?resize=570%2C380&quality=80",
+        isNewsPlus: 1
+    ),
+    NewsArticle(
+        title: "Trump's family circle has a different look as he returns to the White House",
+        source: "AP",
+        sourceLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Associated_Press_logo_2012.svg/2560px-Associated_Press_logo_2012.svg.png",
+        imageUrl: "https://s.yimg.com/ny/api/res/1.2/TMni9_X6IlPj3l5Hv8zcjQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTY0MA--/https://media.zenfs.com/en/ap.org/24c93ab1b4b4259db0817866f8c821a3",
+        isNewsPlus: 0
+    )
+]
+
 struct Provider: AppIntentTimelineProvider {
-    func loadDataFromSharedStore() -> NewsArticle? {
+    func loadArticleData(useDummyData: Bool = true) -> NewsArticle? {
+        if useDummyData {
+            return dummyArticles[0]
+        }
+        
+        // TODO: Fix issue with SharedDefaults not working properly
+        // Uncomment and fix the below code when SharedDefaults is working
+        /*
         print("🔍 Widget: Starting to load data from shared store")
         let sharedDefaults = UserDefaults(suiteName: APP_GROUP_NAME)
-        print("🔍 Widget: Using app group:", APP_GROUP_NAME)
         
-        // Debug: Print all available keys and values
-        if let dict = sharedDefaults?.dictionaryRepresentation() {
-            print("📝 Widget: All keys in UserDefaults:", Array(dict.keys))
-            print("📝 Widget: All values in UserDefaults:", dict)
-        } else {
-            print("❌ Widget: Failed to get UserDefaults dictionary")
-        }
-        
-        // Get JSON string from UserDefaults
-        guard let jsonString = sharedDefaults?.string(forKey: "latestNews") else {
-            print("❌ Widget: No JSON string found for latestNews")
+        guard let jsonString = sharedDefaults?.string(forKey: "latestNews"),
+              let jsonData = jsonString.data(using: .utf8) else {
             return nil
         }
         
-        print("📝 Widget: Retrieved JSON string:", jsonString)
-        
-        // Convert string to data
-        guard let jsonData = jsonString.data(using: .utf8) else {
-            print("❌ Widget: Failed to convert string to data")
-            return nil
-        }
-        
-        // Decode JSON
         do {
             let decoder = JSONDecoder()
-            let article = try decoder.decode(NewsArticle.self, from: jsonData)
-            print("✅ Widget: Successfully decoded article:", article)
-            return article
+            return try decoder.decode(NewsArticle.self, from: jsonData)
         } catch {
             print("❌ Widget: Failed to decode article. Error:", error)
-            print("📝 Widget: JSON data:", String(data: jsonData, encoding: .utf8) ?? "nil")
             return nil
         }
+        */
+        
+        return nil
     }
     
     func placeholder(in context: Context) -> SimpleEntry {
-        print("📱 Widget: placeholder() called")
-        if let article = loadDataFromSharedStore() {
-            print("✅ Widget: Using real data for placeholder")
+        if let article = loadArticleData() {
             return SimpleEntry(date: Date(), article: article)
         }
-        
-        print("ℹ️ Widget: Using default placeholder data")
-        let placeholderArticle = NewsArticle(
-            title: "Loading latest news...",
-            source: "News",
-            sourceLogo: "https://example.com/logo.png",
-            imageUrl: "https://example.com/image.jpg",
-            isNewsPlus: 0
-        )
-        return SimpleEntry(date: Date(), article: placeholderArticle)
+        return SimpleEntry(date: Date(), article: dummyArticles[0])
     }
 
     func snapshot(for configuration: ConfigurationAppIntent, in context: Context) async -> SimpleEntry {
-        print("📱 Widget: snapshot() called")
-        if let article = loadDataFromSharedStore() {
-            print("✅ Widget: Using real data for snapshot")
+        if let article = loadArticleData() {
             return SimpleEntry(date: Date(), article: article)
         }
-        
-        print("ℹ️ Widget: Using placeholder for snapshot")
-        return placeholder(in: context)
+        return SimpleEntry(date: Date(), article: dummyArticles[1])
     }
     
     func timeline(for configuration: ConfigurationAppIntent, in context: Context) async -> Timeline<SimpleEntry> {
-        print("📱 Widget: timeline() called")
         var entries: [SimpleEntry] = []
         let currentDate = Date()
         let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate)!
         
-        if let article = loadDataFromSharedStore() {
-            print("✅ Widget: Using real data for timeline")
-            let entry = SimpleEntry(date: currentDate, article: article)
-            entries.append(entry)
+        if let article = loadArticleData() {
+            entries.append(SimpleEntry(date: currentDate, article: article))
         } else {
-            print("ℹ️ Widget: Using placeholder for timeline")
-            entries.append(placeholder(in: context))
+            entries.append(SimpleEntry(date: currentDate, article: dummyArticles[2]))
         }
 
-        print("📱 Widget: Timeline created, next update at", nextUpdate)
         return Timeline(entries: entries, policy: .after(nextUpdate))
     }
 }
@@ -252,7 +245,7 @@ struct NewsWidget: Widget {
 } timeline: {
     SimpleEntry(
         date: .now,
-        article: Provider().loadDataFromSharedStore() ?? NewsArticle(
+        article: Provider().loadArticleData() ?? NewsArticle(
             title: "Loading latest news...",
             source: "News",
             sourceLogo: "https://example.com/logo.png",
@@ -267,7 +260,7 @@ struct NewsWidget: Widget {
 } timeline: {
     SimpleEntry(
         date: .now,
-        article: Provider().loadDataFromSharedStore() ?? NewsArticle(
+        article: Provider().loadArticleData() ?? NewsArticle(
             title: "Loading latest news...",
             source: "News",
             sourceLogo: "https://example.com/logo.png",
@@ -282,7 +275,7 @@ struct NewsWidget: Widget {
 } timeline: {
     SimpleEntry(
         date: .now,
-        article: Provider().loadDataFromSharedStore() ?? NewsArticle(
+        article: Provider().loadArticleData() ?? NewsArticle(
             title: "Loading latest news...",
             source: "News",
             sourceLogo: "https://example.com/logo.png",
