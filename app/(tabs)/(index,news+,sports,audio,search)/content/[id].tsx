@@ -6,12 +6,18 @@ import { ContentView } from './_components/ContentView';
 import { useState, useCallback, useEffect } from 'react';
 import { StatusBar } from 'react-native';
 
-
 export default function ContentScreen() {
   const { id } = useLocalSearchParams();
   const layout = useWindowDimensions();
   
-  const currentIndex = news.findIndex(item => item.id === id);
+  const [currentIndex, setCurrentIndex] = useState(() => news.findIndex(item => item.id === id));
+  
+  useEffect(() => {
+    const newIndex = news.findIndex(item => item.id === id);
+    setCurrentIndex(newIndex);
+    setIndex(1); // Reset to middle tab
+  }, [id]);
+
   const hasPrevious = currentIndex > 0;
   const hasNext = currentIndex < news.length - 1;
   
@@ -26,8 +32,6 @@ export default function ContentScreen() {
   ]);
 
   const [index, setIndex] = useState(1);
-
-  const [isAnimating, setIsAnimating] = useState(false);
 
   useEffect(() => {
     StatusBar.setBarStyle('light-content');
@@ -50,24 +54,18 @@ export default function ContentScreen() {
   }, [prevContent, currentContent, nextContent]);
 
   const handleIndexChange = useCallback((newIndex: number) => {
-    // Only allow navigation if content exists
     if ((newIndex === 0 && !hasPrevious) || (newIndex === 2 && !hasNext)) {
       return;
     }
 
-    if (isAnimating) return;
-    setIsAnimating(true);
+    setIndex(newIndex);
 
-    // Wait for animation to complete before updating URL
-    setTimeout(() => {
-      if (newIndex === 0 && prevContent) {
-        router.setParams({ id: prevContent.id });
-      } else if (newIndex === 2 && nextContent) {
-        router.setParams({ id: nextContent.id });
-      }
-      setIsAnimating(false);
-    }, 300); // Adjust timing to match swipe animation duration
-  }, [prevContent, nextContent, hasPrevious, hasNext, isAnimating]);
+    if (newIndex === 0 && prevContent) {
+      router.setParams({ id: prevContent.id });
+    } else if (newIndex === 2 && nextContent) {
+      router.setParams({ id: nextContent.id });
+    }
+  }, [prevContent, nextContent, hasPrevious, hasNext]);
 
   if (!currentContent) {
     return (
@@ -84,7 +82,6 @@ export default function ContentScreen() {
       renderTabBar={() => null}
       onIndexChange={handleIndexChange}
       initialLayout={{ width: layout.width }}
-      swipeEnabled={!isAnimating}  // Disable swipe while animating
       style={{ backgroundColor: 'transparent' }}
     />
   );
