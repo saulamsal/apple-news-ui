@@ -31,21 +31,21 @@ type Styles = {
   mobileTabLabel: TextStyle;
 };
 
-type AppRoutes = 
-  | "/(tabs)/(index)/index"
-  | "/(tabs)/(news+)/news+"
-  | "/(tabs)/(sports)/sports"
-  | "/(tabs)/(audio)/audio"
-  | "/(tabs)/(search)/search";
+type AppRoutes =
+  | "/(tabs)/(index)"
+  | "/(tabs)/(news+)"
+  | "/(tabs)/(sports)"
+  | "/(tabs)/(audio)"
+  | "/(tabs)/(search)";
 
 // Helper component for sidebar items
-function SidebarItem({ 
-  icon, 
-  label, 
-  href, 
+function SidebarItem({
+  icon,
+  label,
+  href,
   isActive,
   compact = false
-}: { 
+}: {
   icon: keyof typeof Ionicons.glyphMap;
   label: string;
   href: AppRoutes;
@@ -56,9 +56,9 @@ function SidebarItem({
   const router = useRouter();
   const hoverBg = colorScheme === 'dark' ? 'rgba(239, 243, 244, 0.1)' : 'rgba(15, 20, 25, 0.1)';
   const activeBg = colorScheme === 'dark' ? 'rgba(250, 45, 72, 0.1)' : 'rgba(250, 45, 72, 0.1)';
-  
+
   return (
-    <Pressable 
+    <Pressable
       onPress={() => router.push(href)}
       style={({ pressed, hovered }) => [
         styles.navItem,
@@ -67,10 +67,10 @@ function SidebarItem({
         (pressed || hovered) && { backgroundColor: hoverBg }
       ]}
     >
-      <Ionicons 
-        name={icon} 
+      <Ionicons
+        name={icon}
         size={28}
-        color={isActive ? '#FA2D48' : colorScheme === 'dark' ? '#e7e9ea' : '#0f1419'} 
+        color={isActive ? '#FA2D48' : colorScheme === 'dark' ? '#e7e9ea' : '#0f1419'}
       />
       {!compact && (
         <Text style={[
@@ -90,11 +90,11 @@ export default function WebLayout() {
   const { width } = useWindowDimensions();
   const backgroundColor = colorScheme === 'dark' ? '#000' : '#fff';
   const borderColor = colorScheme === 'dark' ? '#2f3336' : '#eee';
-  
+
   const isCompact = width < 1024;
   const isMobile = width < 768;
   const showSidebar = width >= 1024;
-  
+
   const router = useRouter();
   const segments = useSegments();
 
@@ -107,8 +107,8 @@ export default function WebLayout() {
           }}
         />
         <View style={[
-          styles.mobileTabBar, 
-          { 
+          styles.mobileTabBar,
+          {
             borderTopColor: borderColor,
             backgroundColor: colorScheme === 'dark' ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.7)',
             backdropFilter: 'blur(12px)',
@@ -116,17 +116,17 @@ export default function WebLayout() {
           }
         ]}>
           <Pressable
-            onPress={() => router.push("/(tabs)/(index)/home")}
+            onPress={() => router.push("/(tabs)/(index)")}
             style={styles.mobileTabItem}
           >
             <Ionicons
               name="home"
               size={24}
-              color={segments[2] === 'index' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666'}
+              color={segments[1] === '(index)' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666'}
             />
             <Text style={[
-              styles.mobileTabLabel, 
-              { color: segments[2] === 'index' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666' }
+              styles.mobileTabLabel,
+              { color: segments[1] === '(index)' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666' }
             ]}>Home</Text>
           </Pressable>
           <Pressable
@@ -139,7 +139,7 @@ export default function WebLayout() {
               color={segments[2] === 'news+' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666'}
             />
             <Text style={[
-              styles.mobileTabLabel, 
+              styles.mobileTabLabel,
               { color: segments[2] === 'news+' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666' }
             ]}>News+</Text>
           </Pressable>
@@ -153,7 +153,7 @@ export default function WebLayout() {
               color={segments[2] === 'sports' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666'}
             />
             <Text style={[
-              styles.mobileTabLabel, 
+              styles.mobileTabLabel,
               { color: segments[2] === 'sports' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666' }
             ]}>Sports</Text>
           </Pressable>
@@ -167,7 +167,7 @@ export default function WebLayout() {
               color={segments[2] === 'audio' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666'}
             />
             <Text style={[
-              styles.mobileTabLabel, 
+              styles.mobileTabLabel,
               { color: segments[2] === 'audio' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666' }
             ]}>Audio</Text>
           </Pressable>
@@ -181,7 +181,7 @@ export default function WebLayout() {
               color={segments[2] === 'search' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666'}
             />
             <Text style={[
-              styles.mobileTabLabel, 
+              styles.mobileTabLabel,
               { color: segments[2] === 'search' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666' }
             ]}>Following</Text>
           </Pressable>
@@ -193,7 +193,7 @@ export default function WebLayout() {
   return (
     <View style={[styles.container, { backgroundColor }]}>
       <View style={[
-        styles.leftNav, 
+        styles.leftNav,
         { borderRightColor: borderColor },
         isCompact && styles.leftNavCompact
       ]}>
@@ -210,48 +210,58 @@ export default function WebLayout() {
           </View>
 
           <View style={styles.nav}>
-            <SidebarItem icon="home" label="Home" href="/(tabs)/(index)/home" compact={isCompact} isActive={segments[2] === 'home'} />
-            <SidebarItem icon="newspaper" label="News+" href="/(tabs)/(news+)/news+" compact={isCompact} isActive={segments[2] == 'news+'} />
-            <SidebarItem icon="football" label="Sports" href="/(tabs)/(sports)/sports" compact={isCompact} isActive={segments[2] == 'sports'} />
-            <SidebarItem icon="headset" label="Audio" href="/(tabs)/(audio)/audio" compact={isCompact} isActive={segments[2] == 'audio'} />
-            <SidebarItem icon="heart" label="Following" href="/(tabs)/(search)/search" compact={isCompact} isActive={segments[2] == 'search'} />
+            <SidebarItem icon="home" label="Home" href="/(tabs)/(index)" compact={isCompact} isActive={segments[1] === '(index)'} />
+            <SidebarItem icon="newspaper" label="News+" href="/(tabs)/(news+)" compact={isCompact} isActive={segments[1] === '(news+)'} />
+            <SidebarItem icon="football" label="Sports" href="/(tabs)/(sports)" compact={isCompact} isActive={segments[1] === '(sports)'} />
+            <SidebarItem icon="headset" label="Audio" href="/(tabs)/(audio)" compact={isCompact} isActive={segments[1] === '(audio)'} />
+            <SidebarItem icon="heart" label="Following" href="/(tabs)/(search)" compact={isCompact} isActive={segments[1] === '(search)'} />
           </View>
         </View>
       </View>
 
-      <View style={styles.content}>
-        <View style={styles.contentInner}>
-          <Stack
-            screenOptions={{
-              headerShown: false,
-            }}
-          />
-        </View>
-      </View>
+      <View className="flex-1 flex-row" style={styles.mainContentWrapper}>
 
-      {showSidebar && (
-        <View style={[styles.sidebar, { borderLeftColor: borderColor }]}>
-          <View style={styles.sidebarContent}>
-            <Text style={{ color: colorScheme === 'dark' ? '#fff' : '#000' }}>
-              Download the App Now
-            </Text>
+        <View style={styles.content}>
+          <View style={styles.contentInner}>
+            <Stack
+              screenOptions={{
+                headerShown: false,
+              }}
+            />
           </View>
         </View>
-      )}
+
+        {showSidebar && (
+          <View style={[styles.sidebar, { borderLeftColor: borderColor }]}>
+            <View style={styles.sidebarContent}>
+              <Text style={{ color: colorScheme === 'dark' ? '#fff' : '#000' }}>
+                Download the App Now
+              </Text>
+            </View>
+          </View>
+        )}
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create<Styles>({
+
+  mainContentWrapper: {
+    maxWidth: 1000,
+    justifyContent: 'center',
+    // alignItems: 'center',
+  },
   container: {
     flex: 1,
     flexDirection: 'row',
     height: '100%',
   },
   leftNav: {
-    width: 275,
+    width: 400,
     borderRightWidth: 1,
     height: '100%',
+    alignItems: 'flex-end',
   },
   leftNavCompact: {
     width: 72,
@@ -305,7 +315,7 @@ const styles = StyleSheet.create<Styles>({
   },
   content: {
     flex: 1,
-    alignItems: 'center',
+    // alignItems: 'center',
   },
   contentInner: {
     flex: 1,
@@ -317,10 +327,13 @@ const styles = StyleSheet.create<Styles>({
     width: 320,
     borderLeftWidth: 1,
     height: '100%',
+    position: 'sticky',
+    top:0,
+    // right: 0,
   },
   sidebarContent: {
-    position: 'fixed',
-    width: 320,
+    // position: 'fixed',
+    // width: 320,
     height: '100%',
     padding: 16,
   },
