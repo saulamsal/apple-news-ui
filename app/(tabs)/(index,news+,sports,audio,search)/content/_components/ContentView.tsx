@@ -143,7 +143,7 @@ export function ContentView({ content }: ContentViewProps) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     position: 'relative',
     width: '100%',
   },
@@ -153,6 +153,7 @@ const styles = StyleSheet.create({
   },
   content: {
     // padding: 16,
+    backgroundColor: '#fff',
   },
   headerLogo: {
     height: 40,
