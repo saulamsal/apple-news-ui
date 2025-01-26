@@ -157,28 +157,64 @@ export default function ScoreDetailsScreen() {
               <DropdownMenu.ItemIcon ios={{ name: "link" }} />
               <DropdownMenu.ItemTitle>Copy Link</DropdownMenu.ItemTitle>
             </DropdownMenu.Item>
-            <DropdownMenu.Item key="liveactivity" onSelect={()=> {
+            <DropdownMenu.Item key="liveactivity" onSelect={async ()=> {
               try {
-                const name = score.team1.full_name + " vs " + score.team2.full_name;
-                const scoreText = score.team1.score + "-" + score.team2.score;
-                
+                const initialState = {
+                  homeScore: score.team1.score,
+                  awayScore: score.team2.score,
+                  timeOrPeriod: "0'",
+                  currentEvent: "Match started!",
+                  situation: "KICKOFF",
+                  homeColor: score.team1.bg_color,
+                  awayColor: score.team2.bg_color
+                };
+
                 // Start the Live Activity
-                const success = LiveActivities.startActivity(name, scoreText);
+                const success = await LiveActivities.startActivity(
+                  score.competition.full_name,
+                  score.team1.full_name,
+                  score.team2.full_name,
+                  score.team1.logo,
+                  score.team2.logo,
+                  initialState
+                );
                 
                 if (success) {
                   Alert.alert('Success', 'Live Activity started!');
                   
+                  let minute = 0;
                   // Set up an interval to update the score (simulating live updates)
                   const interval = setInterval(() => {
+                    minute += 1;
                     const randomScore1 = Math.floor(Math.random() * 5);
                     const randomScore2 = Math.floor(Math.random() * 5);
-                    LiveActivities.updateActivity(`${randomScore1}-${randomScore2}`);
+                    const events = ["Goal!", "Yellow Card", "Corner Kick", "Free Kick", "Shot on Target"];
+                    const situations = ["GOAL", "YELLOW_CARD", "CORNER", "FREE_KICK", "SHOT"];
+                    const randomEventIndex = Math.floor(Math.random() * events.length);
+
+                    LiveActivities.updateActivity({
+                      homeScore: randomScore1,
+                      awayScore: randomScore2,
+                      timeOrPeriod: `${minute}'`,
+                      currentEvent: events[randomEventIndex],
+                      situation: situations[randomEventIndex],
+                      homeColor: score.team1.bg_color,
+                      awayColor: score.team2.bg_color
+                    });
                   }, 5000);
 
                   // Clean up after 30 seconds
                   setTimeout(() => {
                     clearInterval(interval);
-                    LiveActivities.endActivity();
+                    LiveActivities.endActivity({
+                      homeScore: score.team1.score,
+                      awayScore: score.team2.score,
+                      timeOrPeriod: "FINAL",
+                      currentEvent: "Match ended!",
+                      situation: "FINAL",
+                      homeColor: score.team1.bg_color,
+                      awayColor: score.team2.bg_color
+                    });
                     Alert.alert('Info', 'Live Activity ended');
                   }, 30000);
                 } else {
