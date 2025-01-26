@@ -133,23 +133,26 @@ struct SmallWidgetView: View {
     var entry: Provider.Entry
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            AsyncImage(url: URL(string: entry.article.sourceLogo)) { image in
-                image.resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 20)
-            } placeholder: {
-                Text(entry.article.source)
-                    .font(.caption)
-                    .fontWeight(.bold)
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
+                Text("Top Stories")
+                    .font(.headline)
+                    .foregroundColor(.red)
+                Spacer()
+                Image(systemName: "apple.news")
+                    .foregroundColor(.red)
             }
+            .padding(.horizontal)
+            .padding(.top)
             
             Text(entry.article.title)
-                .font(.headline)
-                .lineLimit(3)
-                .minimumScaleFactor(0.8)
+                .font(.subheadline)
+                .lineLimit(4)
+                .padding(.horizontal)
+                .padding(.bottom)
         }
-        .padding()
+        .background(Color(.systemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 15))
     }
 }
 
@@ -157,34 +160,53 @@ struct MediumWidgetView: View {
     var entry: Provider.Entry
     
     var body: some View {
-        HStack(spacing: 12) {
-            VStack(alignment: .leading, spacing: 8) {
-                AsyncImage(url: URL(string: entry.article.sourceLogo)) { image in
-                    image.resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 24)
-                } placeholder: {
-                    Text(entry.article.source)
-                        .font(.caption)
-                        .fontWeight(.bold)
-                }
-                
-                Text(entry.article.title)
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                Text("Science")
                     .font(.headline)
-                    .lineLimit(4)
-                    .minimumScaleFactor(0.8)
+                    .foregroundColor(.blue)
+                Spacer()
+                Image(systemName: "apple.news")
+                    .foregroundColor(.red)
             }
-            .padding()
+            .padding(.horizontal)
+            .padding(.top, 8)
             
-            AsyncImage(url: URL(string: entry.article.imageUrl)) { image in
-                image.resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 120)
-                    .clipped()
-            } placeholder: {
-                Color.gray.opacity(0.3)
+            VStack(alignment: .leading, spacing: 8) {
+                ForEach(0..<2) { index in
+                    if index > 0 {
+                        Divider()
+                    }
+                    
+                    HStack(spacing: 8) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(entry.article.source)
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                            Text(entry.article.title)
+                                .font(.callout)
+                                .lineLimit(2)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        AsyncImage(url: URL(string: entry.article.imageUrl)) { image in
+                            image.resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 50, height: 50)
+                                .clipShape(RoundedRectangle(cornerRadius: 6))
+                        } placeholder: {
+                            Color.gray.opacity(0.3)
+                                .frame(width: 50, height: 50)
+                                .clipShape(RoundedRectangle(cornerRadius: 6))
+                        }
+                    }
+                    .padding(.horizontal)
+                }
             }
+            .padding(.vertical, 8)
         }
+        .background(Color(.systemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 15))
     }
 }
 
@@ -192,37 +214,52 @@ struct LargeWidgetView: View {
     var entry: Provider.Entry
     
     var body: some View {
-        VStack(spacing: 0) {
-            AsyncImage(url: URL(string: entry.article.imageUrl)) { image in
-                image.resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(height: 160)
-                    .clipped()
-            } placeholder: {
-                Color.gray.opacity(0.3)
-                    .frame(height: 160)
-            }
-            
-            VStack(alignment: .leading, spacing: 12) {
-                AsyncImage(url: URL(string: entry.article.sourceLogo)) { image in
-                    image.resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(height: 24)
-                } placeholder: {
-                    Text(entry.article.source)
-                        .font(.caption)
-                        .fontWeight(.bold)
-                }
-                
-                Text(entry.article.title)
-                    .font(.title3)
-                    .fontWeight(.bold)
-                    .lineLimit(3)
-                    .minimumScaleFactor(0.8)
+        VStack(alignment: .leading, spacing: 0) {
+            HStack {
+                Text("Science")
+                    .font(.headline)
+                    .foregroundColor(.blue)
+                Spacer()
+                Image(systemName: "apple.news")
+                    .foregroundColor(.red)
             }
             .padding()
-            .frame(maxWidth: .infinity, alignment: .leading)
+            
+            VStack(alignment: .leading, spacing: 12) {
+                ForEach(0..<3) { index in
+                    if index > 0 {
+                        Divider()
+                    }
+                    
+                    HStack(spacing: 12) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(entry.article.source)
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                            Text(entry.article.title)
+                                .font(.headline)
+                                .lineLimit(2)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        AsyncImage(url: URL(string: entry.article.imageUrl)) { image in
+                            image.resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 60, height: 60)
+                                .clipShape(RoundedRectangle(cornerRadius: 8))
+                        } placeholder: {
+                            Color.gray.opacity(0.3)
+                                .frame(width: 60, height: 60)
+                                .clipShape(RoundedRectangle(cornerRadius: 8))
+                        }
+                    }
+                    .padding(.horizontal)
+                }
+            }
+            .padding(.vertical, 8)
         }
+        .background(Color(.systemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 15))
     }
 }
 
