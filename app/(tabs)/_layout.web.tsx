@@ -4,6 +4,7 @@ import { AppleNewsLogo } from '@/components/icons/AppleNewsLogo';
 import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import type { ViewStyle, TextStyle } from 'react-native';
+import { Sidebar } from '@/components/Sidebar';
 
 // Add WebKit types for web
 type WebkitStyles = {
@@ -29,6 +30,7 @@ type Styles = {
   mobileTabBar: ViewStyle & WebkitStyles;
   mobileTabItem: ViewStyle;
   mobileTabLabel: TextStyle;
+  mainContentWrapper: ViewStyle;
 };
 
 type AppRoutes =
@@ -234,9 +236,7 @@ export default function WebLayout() {
         {showSidebar && (
           <View style={[styles.sidebar, { borderLeftColor: borderColor }]}>
             <View style={styles.sidebarContent}>
-              <Text style={{ color: colorScheme === 'dark' ? '#fff' : '#000' }}>
-                Download the App Now
-              </Text>
+              <Sidebar />
             </View>
           </View>
         )}
