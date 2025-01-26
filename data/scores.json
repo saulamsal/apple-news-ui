@@ -5,21 +5,22 @@
       "competition": {
         "id": "epl",
         "name": "EPL",
-        "full_name": "EPL",
+        "full_name": "Premier League",
         "matchweek": 21
       },
       "sports_type": "soccer",
       "team1": {
         "id": "mun",
         "name": "MUN",
-        "full_name": "United",
+        "full_name": "Manchester United",
         "current_form": "4-3-4",
         "points": 31,
         "position": 8,
         "position_suffix": "th",
         "bg_color": "#DA020E",
         "logo": "https://api.sofascore.app/api/v1/team/35/image",
-        "score": 3
+        "score": 2,
+        "events": []
       },
       "team2": {
         "id": "sou",
@@ -31,7 +32,8 @@
         "position_suffix": "th",
         "bg_color": "#D71920",
         "logo": "https://api.sofascore.app/api/v1/team/40/image",
-        "score": 1
+        "score": 1,
+        "events": []
       },
       "startTime": "2024-01-16T20:00:00Z",
       "status": "completed",
@@ -43,8 +45,8 @@
       "competition": {
         "id": "ucl",
         "name": "UCL",
-        "full_name": "UCL",
-        "matchweek": "League Phase"
+        "full_name": "Champions League",
+        "matchweek": "Round of 16"
       },
       "sports_type": "soccer",
       "team1": {
@@ -54,16 +56,16 @@
         "current_form": "3-5-5",
         "bg_color": "#E30613",
         "logo": "https://api.sofascore.app/api/v1/team/1158/image",
-        "score": 1
+        "events": []
       },
       "team2": {
         "id": "rma",
         "name": "RMA",
-        "full_name": "Madrid",
+        "full_name": "Real Madrid",
         "current_form": "8-3-1",
         "bg_color": "#00529F",
         "logo": "https://api.sofascore.app/api/v1/team/2829/image",
-        "score": 1
+        "events": []
       },
       "startTime": "2024-01-29T15:00:00Z",
       "status": "upcoming",
@@ -76,26 +78,28 @@
         "id": "nfl",
         "name": "NFL",
         "full_name": "NFL",
-        "matchweek": "Playoffs"
+        "matchweek": "Divisional Round"
       },
       "sports_type": "american_football",
       "team1": {
         "id": "kc",
         "name": "KC",
-        "full_name": "Chiefs",
+        "full_name": "Kansas City Chiefs",
         "current_form": "7-3",
         "bg_color": "#E31837",
         "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/kc.png",
-        "score": 27
+        "score": 27,
+        "events": []
       },
       "team2": {
         "id": "buf",
         "name": "BUF",
-        "full_name": "Bills",
+        "full_name": "Buffalo Bills",
         "current_form": "8-2",
         "bg_color": "#00338D",
         "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/buf.png",
-        "score": 24
+        "score": 24,
+        "events": []
       },
       "startTime": "2024-01-21T20:00:00Z",
       "status": "completed",
@@ -108,26 +112,45 @@
         "id": "nfl",
         "name": "NFL",
         "full_name": "NFL",
-        "matchweek": "Playoffs"
+        "matchweek": "Conference Championship"
       },
       "sports_type": "american_football",
       "team1": {
         "id": "sf",
         "name": "SF",
-        "full_name": "49ers",
+        "full_name": "San Francisco 49ers",
         "current_form": "9-1",
         "bg_color": "#AA0000",
         "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/sf.png",
-        "score": 27
+        "score": 34,
+        "events": [
+          {
+            "time": "Q4 11:22",
+            "event": "Touchdown - Kittle 23 yd pass from Purdy (Moody kick)",
+            "situation": "TOUCHDOWN"
+          },
+          {
+            "time": "Q4 3:45",
+            "event": "Field Goal - Moody 35 yards",
+            "situation": "FIELD_GOAL"
+          }
+        ]
       },
       "team2": {
         "id": "det",
         "name": "DET",
-        "full_name": "Lions",
+        "full_name": "Detroit Lions",
         "current_form": "7-3",
         "bg_color": "#0076B6",
         "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/det.png",
-        "score": 24
+        "score": 31,
+        "events": [
+          {
+            "time": "Q4 9:15",
+            "event": "Touchdown - Reynolds 25 yd pass from Goff (Badgley kick)",
+            "situation": "TOUCHDOWN"
+          }
+        ]
       },
       "startTime": "2024-01-28T23:30:00Z",
       "status": "upcoming",
@@ -146,20 +169,22 @@
       "team1": {
         "id": "bos",
         "name": "BOS",
-        "full_name": "Celtics",
+        "full_name": "Boston Celtics",
         "current_form": "8-2",
         "bg_color": "#007A33",
         "logo": "https://a.espncdn.com/i/teamlogos/nba/500/bos.png",
-        "score": 115
+        "score": 115,
+        "events": []
       },
       "team2": {
         "id": "mil",
         "name": "MIL",
-        "full_name": "Bucks",
+        "full_name": "Milwaukee Bucks",
         "current_form": "7-3",
         "bg_color": "#00471B",
         "logo": "https://a.espncdn.com/i/teamlogos/nba/500/mil.png",
-        "score": 108
+        "score": 108,
+        "events": []
       },
       "startTime": "2024-01-21T00:30:00Z",
       "status": "completed",
@@ -178,18 +203,44 @@
       "team1": {
         "id": "lal",
         "name": "LAL",
-        "full_name": "Lakers",
+        "full_name": "Los Angeles Lakers",
         "current_form": "6-4",
         "bg_color": "#552583",
-        "logo": "https://a.espncdn.com/i/teamlogos/nba/500/lal.png"
+        "logo": "https://a.espncdn.com/i/teamlogos/nba/500/lal.png",
+        "score": 112,
+        "events": [
+          {
+            "time": "Q4 7:33",
+            "event": "3PT - James step back three!",
+            "situation": "THREE_POINTER"
+          },
+          {
+            "time": "Q4 2:15",
+            "event": "Dunk - Davis putback slam!",
+            "situation": "DUNK"
+          }
+        ]
       },
       "team2": {
         "id": "gsw",
         "name": "GSW",
-        "full_name": "Warriors",
+        "full_name": "Golden State Warriors",
         "current_form": "5-5",
         "bg_color": "#1D428A",
-        "logo": "https://a.espncdn.com/i/teamlogos/nba/500/gsw.png"
+        "logo": "https://a.espncdn.com/i/teamlogos/nba/500/gsw.png",
+        "score": 119,
+        "events": [
+          {
+            "time": "Q4 4:33",
+            "event": "3PT - Curry clutch three!",
+            "situation": "THREE_POINTER"
+          },
+          {
+            "time": "Q4 1:15",
+            "event": "Layup - Wiggins game-winner!",
+            "situation": "LAYUP"
+          }
+        ]
       },
       "startTime": "2024-01-27T03:30:00Z",
       "status": "upcoming",
@@ -212,7 +263,24 @@
         "current_form": "7-2-3",
         "bg_color": "#A50044",
         "logo": "https://api.sofascore.app/api/v1/team/2817/image",
-        "score": 2
+        "score": 2,
+        "events": [
+          {
+            "time": "23'",
+            "event": "Goal by Lewandowski!",
+            "situation": "GOAL"
+          },
+          {
+            "time": "45+3'",
+            "event": "Yellow Card - Gundogan",
+            "situation": "YELLOW_CARD"
+          },
+          {
+            "time": "78'",
+            "event": "Goal by Pedri!",
+            "situation": "GOAL"
+          }
+        ]
       },
       "team2": {
         "id": "vill",
@@ -221,7 +289,19 @@
         "current_form": "4-4-4",
         "bg_color": "#005C85",
         "logo": "https://api.sofascore.app/api/v1/team/2819/image",
-        "score": 1
+        "score": 1,
+        "events": [
+          {
+            "time": "56'",
+            "event": "Goal by Gerard Moreno!",
+            "situation": "GOAL"
+          },
+          {
+            "time": "82'",
+            "event": "Yellow Card - Parejo",
+            "situation": "YELLOW_CARD"
+          }
+        ]
       },
       "startTime": "2024-01-27T15:00:00Z",
       "status": "completed",
@@ -244,7 +324,24 @@
         "current_form": "8-1-2",
         "bg_color": "#DC052D",
         "logo": "https://api.sofascore.app/api/v1/team/2672/image",
-        "score": 2
+        "score": 2,
+        "events": [
+          {
+            "time": "12'",
+            "event": "Goal by Kane!",
+            "situation": "GOAL"
+          },
+          {
+            "time": "34'",
+            "event": "Yellow Card - Kimmich",
+            "situation": "YELLOW_CARD"
+          },
+          {
+            "time": "67'",
+            "event": "Goal by Musiala!",
+            "situation": "GOAL"
+          }
+        ]
       },
       "team2": {
         "id": "bvb",
@@ -253,7 +350,24 @@
         "current_form": "6-2-3",
         "bg_color": "#a6940f",
         "logo": "https://api.sofascore.app/api/v1/team/2673/image",
-        "score": 2
+        "score": 2,
+        "events": [
+          {
+            "time": "45'",
+            "event": "Goal by Reus!",
+            "situation": "GOAL"
+          },
+          {
+            "time": "56'",
+            "event": "Yellow Card - Can",
+            "situation": "YELLOW_CARD"
+          },
+          {
+            "time": "89'",
+            "event": "Goal by Haller!",
+            "situation": "GOAL"
+          }
+        ]
       },
       "startTime": "2024-01-27T17:30:00Z",
       "status": "upcoming",
