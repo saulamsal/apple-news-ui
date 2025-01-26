@@ -13,6 +13,7 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
+      "appleTeamId": "F7P5RH5CTP",
       "supportsTablet": true,
       "bundleIdentifier": "com.sportapp.apple-news-ui",
       "deploymentTarget": "15.1",
