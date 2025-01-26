@@ -16,8 +16,9 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.sportapp.apple-news-ui",
       "deploymentTarget": "15.1",
-      "teamId": "F7P5RH5CTP",
-      "appleTeamId": "F7P5RH5CTP",
+      "infoPlist": {
+        "NSSupportsLiveActivities": true
+      },
       "entitlements": {
         "com.apple.security.application-groups": [
           "group.com.sportapp.apple-news-ui"
