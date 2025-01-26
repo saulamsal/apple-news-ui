@@ -13,6 +13,9 @@ import { SlidingBanner } from '@/components/SlidingBanner';
 import { ScrollViewWithHeaders, Header } from '@codeherence/react-native-header';
 import Animated, { SharedValue, useSharedValue } from 'react-native-reanimated';
 import { useFonts, Orbitron_700Bold, Orbitron_900Black } from '@expo-google-fonts/orbitron';
+import * as DropdownMenu from 'zeego/dropdown-menu';
+import * as Sharing from 'expo-sharing';
+// import * as Clipboard from 'expo-clipboard';
 
 const getImageSource = (path: string) => {
   return { uri: path };
@@ -74,51 +77,156 @@ export default function ScoreDetailsScreen() {
     </FadingView>
   );
 
-  const HeaderComponent = ({ showNavBar }: { showNavBar: SharedValue<number> }) => {
-    // const sharedValue = useSharedValue(1);
-    return(
-      <Header
-        borderWidth={0}
-        showNavBar={showNavBar}
-        SurfaceComponent={HeaderSurface}
-        headerLeft={
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-            <BlurView intensity={40} style={styles.blurButton} tint="dark">
+  const handleShare = async () => {
+    try {
+      await Sharing.shareAsync(`https://news.expo.app/scores/${id}`);
+    } catch (error) {
+      console.error('Error sharing:', error);
+    }
+  };
+
+
+  const handleCopyLink = async () => {
+    try {
+      
+      // TODO
+      // await Clipboard.setStringAsync(`https://example.com/scores/${id}`);
+    } catch (error) {
+      console.error('Error copying link:', error);
+    }
+  };
+
+  const handleReportIssue = (issue: string) => {
+    Alert.alert(
+      'Report Issue',
+      `Thank you for reporting ${issue}. We'll look into it.`,
+      [{ text: 'OK' }]
+    );
+  };
+
+  const handleTeamAction = (team: typeof score.team1 | typeof score.team2, action: string) => {
+    Alert.alert(
+      'Team Action',
+      `${action} ${team.full_name}`,
+      [{ text: 'OK' }]
+    );
+  };
+
+  const HeaderComponent = ({ showNavBar }: { showNavBar: SharedValue<number> }) => (
+    <Header
+      borderWidth={0}
+      showNavBar={showNavBar}
+      SurfaceComponent={HeaderSurface}
+      headerLeft={
+        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+          <BlurView intensity={40} style={styles.blurButton} tint="dark">
             <Ionicons name="chevron-back" size={20} color="#fff" />
-            </BlurView>
-          </TouchableOpacity>
-        }
-        headerCenter={
-          <View>
-          <BlurView intensity={70} style={[styles.blurButton, { overflow: 'hidden', borderRadius: 100, paddingHorizontal: 8 }]} tint="dark">
-          <View style={styles.headerTeamsContainer}>
-            <Image source={getImageSource(score.team1.logo)} style={styles.headerTeamLogo} />
-            <Text style={[styles.headerVsText, { color: '#fff' }]}>VS</Text>
-            <Image source={getImageSource(score.team2.logo)} style={styles.headerTeamLogo} />
-       
-          </View>
           </BlurView>
-          </View>
-        }
-        headerRight={
-          <TouchableOpacity style={styles.menuButton}>
-            <BlurView intensity={40} style={styles.blurButton} tint="dark">
+        </TouchableOpacity>
+      }
+      headerCenter={
+        <View>
+          <BlurView intensity={70} style={[styles.blurButton, { overflow: 'hidden', borderRadius: 100, paddingHorizontal: 8 }]} tint="dark">
+            <View style={styles.headerTeamsContainer}>
+              <Image source={getImageSource(score.team1.logo)} style={styles.headerTeamLogo} />
+              <Text style={[styles.headerVsText, { color: '#fff' }]}>VS</Text>
+              <Image source={getImageSource(score.team2.logo)} style={styles.headerTeamLogo} />
+            </View>
+          </BlurView>
+        </View>
+      }
+      headerRight={
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger>
+            <BlurView intensity={40} style={[styles.blurButton, styles.menuButton]} tint="dark">
               <Ionicons name="ellipsis-horizontal" size={20} color="#fff" />
             </BlurView>
-          </TouchableOpacity>
-        }
-        headerStyle={{
-          backgroundColor: 'transparent',
-          // height: 300,
-          zIndex: 100,
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-        }}
-      />
-    )
-  }
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Content>
+            <DropdownMenu.Item key="share" onSelect={handleShare}>
+              <DropdownMenu.ItemIcon ios={{ name: "square.and.arrow.up" }} />
+              <DropdownMenu.ItemTitle>Share Game</DropdownMenu.ItemTitle>
+            </DropdownMenu.Item>
+            <DropdownMenu.Item key="copy" onSelect={handleCopyLink}>
+              <DropdownMenu.ItemIcon ios={{ name: "link" }} />
+              <DropdownMenu.ItemTitle>Copy Link</DropdownMenu.ItemTitle>
+            </DropdownMenu.Item>
+            <DropdownMenu.Separator />
+            <DropdownMenu.Group>
+              <DropdownMenu.Sub>
+                <DropdownMenu.SubTrigger key="team1">
+                  <DropdownMenu.ItemIcon ios={{ name: "person.2" }} />
+                  <DropdownMenu.ItemTitle>{score.team1.full_name}</DropdownMenu.ItemTitle>
+                </DropdownMenu.SubTrigger>
+                <DropdownMenu.SubContent>
+                  <DropdownMenu.Item key="follow1" onSelect={() => handleTeamAction(score.team1, 'Follow')}>
+                    <DropdownMenu.ItemIcon ios={{ name: "minus.circle" }} />
+                    <DropdownMenu.ItemTitle>Unfollow Team</DropdownMenu.ItemTitle>
+                  </DropdownMenu.Item>
+                  <DropdownMenu.Item key="block1" onSelect={() => handleTeamAction(score.team1, 'Block')}>
+                    <DropdownMenu.ItemIcon ios={{ name: "hand.raised" }} />
+                    <DropdownMenu.ItemTitle>Block Team</DropdownMenu.ItemTitle>
+                  </DropdownMenu.Item>
+                  <DropdownMenu.Item key="goto1" onSelect={() => handleTeamAction(score.team1, 'Go to')}>
+                    <DropdownMenu.ItemIcon ios={{ name: "arrow.forward" }} />
+                    <DropdownMenu.ItemTitle>Go to Team</DropdownMenu.ItemTitle>
+                  </DropdownMenu.Item>
+                </DropdownMenu.SubContent>
+              </DropdownMenu.Sub>
+              <DropdownMenu.Sub>
+                <DropdownMenu.SubTrigger key="team2">
+                  <DropdownMenu.ItemIcon ios={{ name: "person.2" }} />
+                  <DropdownMenu.ItemTitle>{score.team2.full_name}</DropdownMenu.ItemTitle>
+                </DropdownMenu.SubTrigger>
+                <DropdownMenu.SubContent>
+                  <DropdownMenu.Item key="follow2" onSelect={() => handleTeamAction(score.team2, 'Follow')}>
+                    <DropdownMenu.ItemIcon ios={{ name: "minus.circle" }} />
+                    <DropdownMenu.ItemTitle>Unfollow Team</DropdownMenu.ItemTitle>
+                  </DropdownMenu.Item>
+                  <DropdownMenu.Item key="block2" onSelect={() => handleTeamAction(score.team2, 'Block')}>
+                    <DropdownMenu.ItemIcon ios={{ name: "hand.raised" }} />
+                    <DropdownMenu.ItemTitle>Block Team</DropdownMenu.ItemTitle>
+                  </DropdownMenu.Item>
+                  <DropdownMenu.Item key="goto2" onSelect={() => handleTeamAction(score.team2, 'Go to')}>
+                    <DropdownMenu.ItemIcon ios={{ name: "arrow.forward" }} />
+                    <DropdownMenu.ItemTitle>Go to Team</DropdownMenu.ItemTitle>
+                  </DropdownMenu.Item>
+                </DropdownMenu.SubContent>
+              </DropdownMenu.Sub>
+              <DropdownMenu.Sub>
+                <DropdownMenu.SubTrigger key="report">
+                  <DropdownMenu.ItemIcon ios={{ name: "exclamationmark.triangle" }} />
+                  <DropdownMenu.ItemTitle>Report an Issue</DropdownMenu.ItemTitle>
+                </DropdownMenu.SubTrigger>
+                <DropdownMenu.SubContent>
+                  <DropdownMenu.Item key="report1" onSelect={() => handleReportIssue('Score Not Updating')}>
+                    <DropdownMenu.ItemIcon ios={{ name: "clock" }} />
+                    <DropdownMenu.ItemTitle>Score Not Updating</DropdownMenu.ItemTitle>
+                  </DropdownMenu.Item>
+                  <DropdownMenu.Item key="report2" onSelect={() => handleReportIssue('Inaccurate Score')}>
+                    <DropdownMenu.ItemIcon ios={{ name: "xmark.circle" }} />
+                    <DropdownMenu.ItemTitle>Inaccurate Score</DropdownMenu.ItemTitle>
+                  </DropdownMenu.Item>
+                  <DropdownMenu.Item key="report3" onSelect={() => handleReportIssue('Other Info Incorrect')}>
+                    <DropdownMenu.ItemIcon ios={{ name: "info.circle" }} />
+                    <DropdownMenu.ItemTitle>Other Info Incorrect</DropdownMenu.ItemTitle>
+                  </DropdownMenu.Item>
+                </DropdownMenu.SubContent>
+              </DropdownMenu.Sub>
+            </DropdownMenu.Group>
+          </DropdownMenu.Content>
+        </DropdownMenu.Root>
+      }
+      headerStyle={{
+        backgroundColor: 'transparent',
+        zIndex: 100,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+      }}
+    />
+  );
 
   return (
       <ScrollViewWithHeaders
