@@ -175,7 +175,7 @@ export default function SportsScreen() {
     );
 
     return (
-        <View style={{ flex: 1, backgroundColor: '#F2F2F6' }}>
+        <View className="flex-1 bg-white">
 
 
 
@@ -203,7 +203,9 @@ export default function SportsScreen() {
 
 
 
-            <View style={[styles.container, { backgroundColor: '#F2F2F6' }]}>
+            <View style={[styles.container, 
+                // { backgroundColor: '#F2F2F6' }
+                ]}>
                 <AnimatedSwipeListView
                       alwaysBounceHorizontal={false}
                       alwaysBounceVertical={false}
@@ -221,6 +223,9 @@ export default function SportsScreen() {
                     previewOpenDelay={3000}
                     keyExtractor={item => item.id}
                     contentContainerStyle={styles.listContent}
+                    style={{
+                        flexShrink: 0  //SUPER IMPORTANT TO DISABLE CHILD SCROLL ON RNW
+                      }}
                     ListHeaderComponent={
                         <View style={SportsStyles.listHeaderContainer}>
                             <Image
@@ -228,7 +233,7 @@ export default function SportsScreen() {
                                 style={{ width: '100%', height: Platform.OS === 'ios' ? insets.top + 140 :  70, position: 'absolute', left: 0, right: 0, top: -insets.top  }}
                             />
 
-                            <View style={{ paddingHorizontal: 16, paddingTop:insets.top   }}>
+                            <View style={{ paddingHorizontal: 16, paddingTop:insets.top+ (Platform.OS === 'web' ? 24 : 0)   }}>
                                 <View style={styles.header}>
                                     <NewsHeaderLeftItem size="md" secondaryTitle='Sports' />
                                     <View style={styles.headerRight}>

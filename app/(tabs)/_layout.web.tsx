@@ -175,7 +175,7 @@ export default function WebLayout() {
   }
 
   return (
-    <View className="flex-row sticky left-0 right-0 min-h-full h-screen overflow-y-scroll  bg-white" 
+    <View className="flex-row sticky left-0 right-0 min-h-full h-screen overflow-y-auto  bg-white justify-center" 
       // style={{backgroundColor}}
       >
       <View className={`${isCompact ? 'w-[72px]' : 'w-[400px]'}  items-end sticky top-0 h-screen border-r border-gray-500`}
