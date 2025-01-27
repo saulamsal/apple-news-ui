@@ -152,7 +152,7 @@ export function Sidebar() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    // Remove flex: 1 to prevent internal scrolling
   },
   searchContainer: {
     flexDirection: 'row',
