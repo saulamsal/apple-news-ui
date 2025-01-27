@@ -1,4 +1,4 @@
-import { Text, Image, View, StyleSheet, Pressable, TouchableOpacity, Alert, RefreshControl, ActivityIndicator } from 'react-native';
+import { Text, Image, View, StyleSheet, Pressable, TouchableOpacity, Alert, RefreshControl, ActivityIndicator, Platform } from 'react-native';
 import { useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
@@ -286,11 +286,13 @@ export default function AudioScreen() {
 
   return (
     <>
+    { Platform.OS === 'web' && (
       <Head>
         <title>Apple News Audio - News Stories & Podcasts</title>
         <meta name="description" content="Listen to your favorite news stories and podcasts, professionally narrated and curated for the best audio experience." />
         <meta name="keywords" content="apple news audio, news podcasts, audio stories, news narration" />
       </Head>
+    )}  
       <View style={[styles.container, { backgroundColor: '#F2F2F6', paddingTop: insets.top }]}>
         {renderContent()}
       </View>

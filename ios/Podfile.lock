@@ -21,6 +21,8 @@ PODS:
     - ExpoModulesCore
   - ExpoAsset (11.0.2):
     - ExpoModulesCore
+  - ExpoAudio (0.3.4):
+    - ExpoModulesCore
   - ExpoBlur (14.0.2):
     - ExpoModulesCore
   - ExpoClipboard (7.0.1):
@@ -1583,6 +1585,9 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - react-native-track-player (4.1.1):
+    - React-Core
+    - SwiftAudioEx (= 1.1.0)
   - React-nativeconfig (0.76.3)
   - React-NativeModulesApple (0.76.3):
     - glog
@@ -2129,6 +2134,7 @@ PODS:
   - SocketRocket (0.7.1)
   - SPAlert (4.2.0)
   - SPIndicator (1.6.4)
+  - SwiftAudioEx (1.1.0)
   - SwiftUIIntrospect (1.3.0)
   - Yoga (0.0.0)
 
@@ -2141,6 +2147,7 @@ DEPENDENCIES:
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - Expo (from `../node_modules/expo`)
   - ExpoAsset (from `../node_modules/expo-asset/ios`)
+  - ExpoAudio (from `../node_modules/expo-audio/ios`)
   - ExpoBlur (from `../node_modules/expo-blur/ios`)
   - ExpoClipboard (from `../node_modules/expo-clipboard/ios`)
   - ExpoFileSystem (from `../node_modules/expo-file-system/ios`)
@@ -2200,6 +2207,7 @@ DEPENDENCIES:
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - "react-native-skia (from `../node_modules/@shopify/react-native-skia`)"
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
+  - react-native-track-player (from `../node_modules/react-native-track-player`)
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -2248,6 +2256,7 @@ SPEC REPOS:
     - SocketRocket
     - SPAlert
     - SPIndicator
+    - SwiftAudioEx
     - SwiftUIIntrospect
 
 EXTERNAL SOURCES:
@@ -2267,6 +2276,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo"
   ExpoAsset:
     :path: "../node_modules/expo-asset/ios"
+  ExpoAudio:
+    :path: "../node_modules/expo-audio/ios"
   ExpoBlur:
     :path: "../node_modules/expo-blur/ios"
   ExpoClipboard:
@@ -2382,6 +2393,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@shopify/react-native-skia"
   react-native-slider:
     :path: "../node_modules/@react-native-community/slider"
+  react-native-track-player:
+    :path: "../node_modules/react-native-track-player"
   React-nativeconfig:
     :path: "../node_modules/react-native/ReactCommon"
   React-NativeModulesApple:
@@ -2469,6 +2482,7 @@ SPEC CHECKSUMS:
   EXConstants: cc788e18fb962b77999c16f6b90e551542b1bcf4
   Expo: 7021c4880d0bbd02781e88e213b6786c1200ebdf
   ExpoAsset: 6cc988c426b5fc997859cc0f8f6728d1376bf53f
+  ExpoAudio: 4e15220669743c6b5abf6ca64fd8f3a1935cc5af
   ExpoBlur: 5327b09a58e04e4066dd95fe994d8ef5539a1f26
   ExpoClipboard: 5250b207b6d545f4e9aac5ea3c6e61c4f16d0aed
   ExpoFileSystem: a0a5c44d3d3e8a2aa54fe7c70c7690df03cf4dd8
@@ -2526,6 +2540,7 @@ SPEC CHECKSUMS:
   react-native-safe-area-context: d71edcee579673b370c053804f34c40c1f250976
   react-native-skia: e63b4764dd20becf6ba46a05e509b85cb3ccf8c5
   react-native-slider: da7c05c52827d597bb7824c5b1acb35741d41f89
+  react-native-track-player: 82ef1756ffeea61140fea17519ecd6d64ec3cf3e
   React-nativeconfig: f2bddc1e6c2eb793c065b37e12c513fdea88afef
   React-NativeModulesApple: 3d43a432a7fdc0938af4fb1b09e1bc6952049f24
   React-perflogger: 6afb7eebf7d9521cc70481688ccddf212970e9d3
@@ -2567,6 +2582,7 @@ SPEC CHECKSUMS:
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
   SPAlert: 735da1f16a887e294719217572ce1f936d8c8782
   SPIndicator: 93e0a4fb23de51294ac48e874c0f081a5e293e4f
+  SwiftAudioEx: f6aa653770f3a0d3851edaf8d834a30aee4a7646
   SwiftUIIntrospect: fee9aa07293ee280373a591e1824e8ddc869ba5d
   Yoga: 748f06daed00132bf0a051dbb2f4347660ac1a98
 

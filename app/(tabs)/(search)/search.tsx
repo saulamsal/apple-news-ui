@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { View, TextInput, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
 import { ScrollViewWithHeaders, Header } from '@codeherence/react-native-header';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -164,11 +164,13 @@ export default function SearchScreen() {
 
     return (
         <>
+        { Platform.OS === 'web' && (
             <Head>
                 <title>Apple News Search - Find News & Topics</title>
                 <meta name="description" content="Search through millions of articles, topics, and trusted sources to find the news that matters to you." />
                 <meta name="keywords" content="apple news search, news search, article search, topic search" />
             </Head>
+            )}
             <View className="flex-1 bg-white">
                 <ScrollViewWithHeaders
                     contentContainerStyle={[{ paddingBottom: bottom }]}

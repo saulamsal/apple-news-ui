@@ -1,4 +1,4 @@
-import { Text, Image, View, Pressable, TouchableOpacity, ListRenderItemInfo, RefreshControl } from 'react-native';
+import { Text, Image, View, Pressable, TouchableOpacity, ListRenderItemInfo, RefreshControl, Platform } from 'react-native';
 import { useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
@@ -171,11 +171,13 @@ export default function HomeScreen() {
 
   return (
     <>
+    { Platform.OS === 'web' && (
       <Head>
         <title>Apple News UI - Latest News & Updates</title>
         <meta name="description" content="Stay updated with the latest news, trending stories, and personalized content from trusted sources." />
         <meta name="keywords" content="apple news, news app, latest news, trending stories" />
       </Head>
+      )}
       <View className="flex-1 bg-gray-100" style={{ paddingTop: insets.top }}>
         <Animated.View 
           className="absolute -top-4 left-0 right-0 z-50 bg-gray-100 px-5"

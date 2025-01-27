@@ -177,11 +177,13 @@ export default function SportsScreen() {
 
     return (
         <>
+        { Platform.OS === 'web' && (
             <Head>
                 <title>Apple News Sports - Live Scores & Sports Updates</title>
                 <meta name="description" content="Get real-time sports updates, live scores, and breaking sports news from your favorite teams and leagues." />
                 <meta name="keywords" content="sports news, live scores, sports updates, apple news sports" />
             </Head>
+            )}
             <View className="flex-1 bg-white">
 
 
