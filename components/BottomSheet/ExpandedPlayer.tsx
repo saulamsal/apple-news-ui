@@ -7,6 +7,7 @@ const { width } = Dimensions.get('window');
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
 import Foundation from '@expo/vector-icons/Foundation';
+import { router } from 'expo-router';
 
 
 interface ExpandedPlayerProps {
@@ -54,14 +55,11 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
             style={[styles.rootContainer, {
                 // paddingTop: insets.top + (Platform.OS === 'android' ? 30 : 0),
                 // marginTop: Platform.OS === 'android' ? -30 : 0,
+                borderRadius: Platform.OS === 'ios' ? 40 : 0
             }]}
             blurRadius={20}
         >
-
-
-    
-
-
+          
 
             {Platform.OS === 'ios' ? (
                 <BlurView
@@ -143,10 +141,24 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
                     </ScrollComponentToUse>
                 </BlurView>
             ) : (
-                <View style={[styles.blurContainer, { backgroundColor: 'rgba(0,0,0,0.8)' }]}>
+                <View className="max-w-[400px] m-auto">
+                    {Platform.OS === 'web' && (
+                        <Pressable 
+                            onPress={() => router.back()}
+                            style={{
+                                position: 'absolute',
+                                left: -80,
+                                top: -80,
+                                zIndex: 10,
+                                backgroundColor: 'rgba(0,0,0,0.5)',
+                                padding: 8,
+                                borderRadius: 20,
+                            }}
+                        >
+                            <Ionicons name="close" size={24} color="#fff" />
+                        </Pressable>
+                    )}
                     <ScrollComponentToUse style={styles.scrollView}>
-
-
 
 
                         <View style={styles.container}>
@@ -210,8 +222,10 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
                             </View>
                         </View>
                     </ScrollComponentToUse>
-                </View>
+                    </View>
             )}
+       
+
         </ImageBackground>
     );
 }
@@ -219,10 +233,20 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
 const styles = StyleSheet.create({
     rootContainer: {
         flex: 1,
-        // height: '100%',
-        // width: '100%',
-        borderRadius: 40,
+  
+        // borderRadius: 40,
         overflow: 'hidden',
+        backgroundColor: 'black',
+
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        top: 0,
+        zIndex: 1000,
+        height: '100%',
+        width: '100%',
+        
     },
     blurContainer: {
         flex: 1,
@@ -258,6 +282,7 @@ const styles = StyleSheet.create({
         color: 'rgba(255,255,255,0.7)',
         marginBottom: 8,
         fontWeight: '600',
+        marginTop: 20,
     },
     titleWrapper: {
         overflow: 'hidden',
@@ -298,6 +323,7 @@ const styles = StyleSheet.create({
         gap: 20,
         marginHorizontal: 20,
         marginTop: 20,
+        height: 60,
     },
     controlButton: {
         borderRadius: 25,
@@ -312,6 +338,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'rgba(0,0,0,0.3)',
+        borderRadius: 50,
+        overflow: 'hidden',
     },
     playButton: {
         transform: [{ scale: 1.2 }],
