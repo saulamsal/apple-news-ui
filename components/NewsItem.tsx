@@ -114,7 +114,7 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
             className="flex-row py-1  absolute top-0 left-0 w-full "
           >
             <View className="pl-3 py-1 flex-row items-center gap-1">
-              <NewsLogo size={16} color="#F92B53" /><Text className="text-sm font-bold text-apple-news">+</Text>
+              <NewsLogo size={16} color="#F92B53" forceShow={true} /><Text className="text-sm font-bold text-apple-news">+</Text>
             </View>
           </LinearGradient>
         )}
@@ -175,7 +175,7 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
             className="flex-row py-1  absolute top-0 left-0 w-full "
           >
             <View className="pl-3 py-1 flex-row items-center gap-1">
-              <NewsLogo size={16} color="#F92B53" /><Text className="text-sm font-bold text-apple-news">+</Text>
+              <NewsLogo size={16} color="#F92B53" forceShow={true} /><Text className="text-sm font-bold text-apple-news">+</Text>
             </View>
           </LinearGradient>
         )}
