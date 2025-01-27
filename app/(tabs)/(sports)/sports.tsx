@@ -12,7 +12,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import { BlurView } from 'expo-blur';
 import { ListRenderItemInfo } from 'react-native';
-import * as DropdownMenu from 'zeego/dropdown-menu';
+import * as DropdownMenu from '@/components/StyledDropdownMenu';
+import Head from 'expo-router/head';
 
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -29,6 +30,7 @@ import { SportsStyles } from '@/styles/screens/sports'
 import { Platform } from 'react-native';
 import { SportScoreCarousel } from '@/components/SportScoreCarousel';
 import { scores } from '@/data/scores.json';
+import { SlidingBanner } from '@/components/SlidingBanner';
 
 interface Source {
     id: string;
@@ -59,55 +61,20 @@ interface NewsItem {
 }
 
 const NFLPortalButton = () => {
-
     return (
-        <View className="px-1">
-        <TouchableOpacity 
-        onPress={() => router.push(`/topic/nfl_playoffs`)}
-        style={{
-            // marginTop: 20,
-            marginHorizontal: 0,
-            height: 56,
-            backgroundColor: '#144174',
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingHorizontal: 16,
-            justifyContent: 'space-between',
-            borderRadius: 12,
-            overflow: 'hidden'
-        }}
-    >
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-            <Image 
-                source={{ uri: 'https://img.sofascore.com/api/v1/unique-tournament/9464/image/light' }}
-                style={{ width: 28, height: 28 }}
-            />
-            <View>
-                <Text style={{ color: '#fff', fontSize: 20, marginBottom: 2 }} className="font-bold">
-                    NFL Playoffs
-                </Text>
-              <View className="flex-row items-center gap-1">
-              <Text style={{ color: '#fff', fontSize: 13, opacity: 0.8, marginTop: -2 }}>
-                    Full coverage
-                </Text>
-                <Ionicons name="chevron-forward" size={14} color="#fff" />
-              </View>
-            </View>
-        </View>
-        <Image 
-            source={{ uri: 'https://img.sofascore.com/api/v1/unique-tournament/9464/image/light' }}
-            style={{ 
-                width: 80, 
-                height: 80,
-                position: 'absolute',
-                right: -10,
-                opacity: 0.1
+        <SlidingBanner
+            onPress={() => router.push(`/topic/nfl_playoffs`)}
+            image={{
+                uri: 'https://img.sofascore.com/api/v1/unique-tournament/9464/image/light'
             }}
+            title="NFL Playoffs"
+            subtitle="Full coverage"
+            backgroundColor="#144174"
         />
-    </TouchableOpacity>
-    </View>
     );
-};
+}
+
+const AnimatedBlurView = Animated.createAnimatedComponent(BlurView);
 
 export default function SportsScreen() {
     const router = useRouter();
@@ -120,11 +87,11 @@ export default function SportsScreen() {
     // const iconColor = colorScheme === 'light' ? '#000' : '#fff';
     const iconColor = '#fff';
 
-    const backgroundColor = colorScheme === 'light' ? '#F2F2F6' : '#1C1C1E';
+    const backgroundColor = '#F2F2F6';
     const insets = useSafeAreaInsets();
 
     const lastScrollY = useSharedValue(0);
-    const translationY = useSharedValue(-40);
+    const translationY = useSharedValue(-100);
 
     const AnimatedSwipeListView = Animated.createAnimatedComponent(SwipeListView);
 
@@ -167,7 +134,7 @@ export default function SportsScreen() {
     );
 
     const sportsList = [
-        'NFL', 'MLB', 'NBA', 'WNBA', 'College Football', 
+        'NFL', 'MLB', 'NBA', 'WNBA', 'College Football',
         'Men\'s College Basketball', 'Women\'s College Basketball',
         'NHL', 'PWHL', 'MLS', 'Soccer', 'Golf', 'Tennis',
         'Mixed Martial Arts', 'Motorsports', 'Boxing',
@@ -189,9 +156,15 @@ export default function SportsScreen() {
 
             <DropdownMenu.Content>
                 {sportsList.map((sport) => (
-                    <DropdownMenu.Item 
+                    <DropdownMenu.Item
                         key={sport}
-                        onSelect={() => Alert.alert(`${sport} clicked`)}
+                        onSelect={() => {
+                            if (sport === 'Soccer') {
+                                router.push(`/(tabs)/(sports)/topic/soccer`);
+                            } else {
+                                Alert.alert(`${sport} clicked`);
+                            }
+                        }}
                     >
                         <DropdownMenu.ItemTitle>{sport}</DropdownMenu.ItemTitle>
                     </DropdownMenu.Item>
@@ -201,103 +174,133 @@ export default function SportsScreen() {
     );
 
     return (
-        <View style={{ flex: 1, backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }}>
+        <>
+        { Platform.OS === 'web' && (
+            <Head>
+                <title>Apple News Sports - Live Scores & Sports Updates</title>
+                <meta name="description" content="Get real-time sports updates, live scores, and breaking sports news from your favorite teams and leagues." />
+                <meta name="keywords" content="sports news, live scores, sports updates, apple news sports" />
+            </Head>
+            )}
+            <View className="flex-1 bg-white">
 
 
 
 
-            <Animated.View
-                style={[
-                    styles.todayContainer,
-                    {
-                        backgroundColor: colorScheme === 'dark' ? '#0D0D09' : '#F2F2F6',
-                        paddingTop: insets.top
-                    },
-                    headerAnimatedStyle
-                ]}
-            >
-                <View style={SportsStyles.headerLeft}>
-                    <Text style={SportsStyles.headerLeftText}>Sports</Text>
+                <AnimatedBlurView
+                    intensity={70}
+                    tint={colorScheme === 'dark' ? 'systemChromeMaterialDark' : 'systemChromeMaterialLight'}
+                    style={[
+                        styles.todayContainer,
+                        {
+                            // backgroundColor: '#F2F2F6',
+                            paddingTop: insets.top
+                        },
+                        headerAnimatedStyle
+                    ]}
+                >
+                    <View style={SportsStyles.headerLeft}>
+                        <Text style={SportsStyles.headerLeftText}>Sports</Text>
 
-                    <TouchableOpacity style={SportsStyles.headerIconRight}>
-                        <Ionicons name="menu" size={18} color={'#1E1E1F'} />
-                    </TouchableOpacity>
-                </View>
-            </Animated.View>
+                        <TouchableOpacity style={SportsStyles.headerIconRight}>
+                            <Ionicons name="menu" size={22} color={'#1E1E1F'} />
+                        </TouchableOpacity>
+                    </View>
+                </AnimatedBlurView>
 
 
 
-            <View style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
-                <AnimatedSwipeListView
-                    onScroll={scrollHandler}
-                    scrollEventThrottle={16}
-                    data={news as NewsItem[]}
-                    renderItem={renderNewsItem}
-                    renderHiddenItem={renderHiddenItem}
-                    leftOpenValue={120}
-                    rightOpenValue={-120}
-                    previewRowKey={'0'}
-                    previewOpenValue={-40}
-                    previewOpenDelay={3000}
-                    keyExtractor={item => item.id}
-                    contentContainerStyle={styles.listContent}
-                    ListHeaderComponent={
-                        <View style={SportsStyles.listHeaderContainer}>
-                            <Image
-                                source={colorScheme === 'light' ? require('@/assets/images/temp/sports-light-bg.png') : require('@/assets/images/temp/sports-dark-bg.png')}
-                                style={{ width: '100%', height: Platform.OS === "ios" ? 140 : 120, position: 'absolute', left: 0, right: 0, top: -insets.top+50 }}
-                            />
+                <View style={[styles.container, 
+                    // { backgroundColor: '#F2F2F6' }
+                    ]}>
+                    <AnimatedSwipeListView
+                          alwaysBounceHorizontal={false}
+                          alwaysBounceVertical={false}
+                          bounces={false}
 
-                            <View style={{ paddingHorizontal: 16, paddingTop: Platform.OS === 'ios' ? 50 : 35 }}>
-                                <View style={styles.header}>
-                                    <NewsHeaderLeftItem size="md" secondaryTitle='Sports' />
-                                    <View style={styles.headerRight}>
-                                        {renderSportsMenu()}
+                        onScroll={scrollHandler}
+                        scrollEventThrottle={16}
+                        data={news as NewsItem[]}
+                        renderItem={renderNewsItem}
+                        renderHiddenItem={renderHiddenItem}
+                        leftOpenValue={120}
+                        rightOpenValue={-120}
+                        previewRowKey={'0'}
+                        previewOpenValue={-40}
+                        previewOpenDelay={3000}
+                        keyExtractor={item => item.id}
+                        contentContainerStyle={styles.listContent}
+                        style={{
+                            flexShrink: 0  //SUPER IMPORTANT TO DISABLE CHILD SCROLL ON RNW
+                          }}
+                        ListHeaderComponent={
+                            <View style={SportsStyles.listHeaderContainer}>
+                                <Image
+                                    source={require('@/assets/images/temp/sports-light-bg.png')}
+                                    style={{ width: '100%', height: Platform.OS === 'ios' ? insets.top + 140 :  70, position: 'absolute', left: 0, right: 0, top: -insets.top  }}
+                                />
+
+                                <View style={{ paddingHorizontal: 16, paddingTop:insets.top+ (Platform.OS === 'web' ? 24 : 0)   }}>
+                                    <View style={styles.header}>
+                                        <NewsHeaderLeftItem size="md" secondaryTitle='Sports' />
+                                        <View style={styles.headerRight}>
+                                            {renderSportsMenu()}
+                                        </View>
+                                    </View>
+                                    <SportScoreCarousel scores={scores} />
+
+                                    <NFLPortalButton />
+
+                                    <View style={SportsStyles.listHeader}>
+
+                                        <View>
+                                            <Text style={[styles.listHeaderText, { color: '#000000', marginTop: 30 }]}>Top Stories</Text>
+                                            <Text style={SportsStyles.listHeaderSubText}>Selected by the Apple News editors.</Text>
+                                        </View>
+
+                                        <Pressable style={SportsStyles.seeAll}>
+                                            <DropdownMenu.Root>
+                                                <DropdownMenu.Trigger>
+                                                    <MaterialIcons
+                                                        name="more-horiz"
+                                                        size={24}
+                                                        color='#000'
+                                                    />
+                                                </DropdownMenu.Trigger>
+                                                <DropdownMenu.Content>
+                                                    <DropdownMenu.Item
+                                                        key="not-interested"
+                                                        onSelect={() => Alert.alert('Not interested clicked')}
+                                                    >
+                                                        <DropdownMenu.ItemIcon ios={{ name: 'hand.thumbsdown' }} />
+                                                        <DropdownMenu.ItemTitle>Not interested</DropdownMenu.ItemTitle>
+                                                    </DropdownMenu.Item>
+                                                    <DropdownMenu.Item
+                                                        key="block"
+                                                        onSelect={() => Alert.alert('Block Sports Top Stories clicked')}
+                                                    >
+                                                        <DropdownMenu.ItemIcon ios={{ 
+                                                            name: 'hand.raised.slash.fill',
+                                                            hierarchicalColor: '#FF3B30'
+                                                        }} />
+                                                        <DropdownMenu.ItemTitle destructive>Block Sports Top Stories</DropdownMenu.ItemTitle>
+                                                    </DropdownMenu.Item>
+                                                </DropdownMenu.Content>
+                                            </DropdownMenu.Root>
+                                        </Pressable>
                                     </View>
                                 </View>
-                                <SportScoreCarousel scores={scores} />
 
-                        <NFLPortalButton />
 
-                                <View style={SportsStyles.listHeader}>
-                                   
-                                   <View>
-                                   <Text style={[styles.listHeaderText, { color: colorScheme === 'light' ? '#000000' : '#ffffff', marginTop: 30 }]}>Top Stories</Text>
-                                   <Text style={SportsStyles.listHeaderSubText}>Selected by the Apple News editors.</Text>
-                                   </View>
-
-                                    <Pressable style={SportsStyles.seeAll}>
-                                        <DropdownMenu.Root>
-                                            <DropdownMenu.Trigger>
-                                                <MaterialIcons
-                                                    name="more-horiz"
-                                                    size={24}
-                                                    color={colorScheme === 'light' ? '#000' : '#fff'}
-                                                />
-                                            </DropdownMenu.Trigger>
-                                            <DropdownMenu.Content>
-                                                <DropdownMenu.Item 
-                                                    key="block"
-                                                    onSelect={() => Alert.alert('Block Sports Top Stories clicked')}
-                                                >
-                                                    <DropdownMenu.ItemIcon ios={{ name: 'xmark.circle.fill' }} />
-                                                    <DropdownMenu.ItemTitle>Block Sports Top Stories</DropdownMenu.ItemTitle>
-                                                </DropdownMenu.Item>
-                                            </DropdownMenu.Content>
-                                        </DropdownMenu.Root>
-                                    </Pressable>
-                                </View>
                             </View>
+                        }
+                    />
+                </View>
 
 
-                        </View>
-                    }
-                />
+
             </View>
-
-
-
-        </View>
+        </>
     );
 }
 

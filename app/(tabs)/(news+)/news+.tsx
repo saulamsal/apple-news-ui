@@ -1,4 +1,4 @@
-import { Text, Image, View, Pressable } from 'react-native';
+import { Text, Image, View, Pressable, Platform } from 'react-native';
 import { useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
@@ -11,6 +11,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { ListRenderItemInfo } from 'react-native';
+import Head from 'expo-router/head';
 
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -97,6 +98,9 @@ export default function NewsPlusScreen() {
             previewOpenValue={-40}
             previewOpenDelay={3000}
             keyExtractor={(item: any) => item.id}
+            style = {{
+              flexShrink: 0
+            }}
             // contentContainerStyle={{ padding: 16 }}
             ListHeaderComponent={
               <View className="space-y-4">
@@ -121,8 +125,8 @@ export default function NewsPlusScreen() {
                 />
 
                 <View className="py-6 px-5">
-                  <Text className="text-sm font-semibold text-gray-500 dark:text-gray-400">FOR YOU</Text>
-                  <Text className="mt-2 text-xs text-gray-400 dark:text-gray-500">
+                  <Text className="text-sm font-semibold text-gray-500">FOR YOU</Text>
+                  <Text className="mt-2 text-xs text-gray-400">
                     NEWS+ RECOMMENDATIONS{'\n'}
                     BASED ON WHAT YOU READ.
                   </Text>
@@ -134,13 +138,13 @@ export default function NewsPlusScreen() {
       case 'magazines':
         return (
           <View className="flex-1 items-center justify-center">
-            <Text className="text-lg text-gray-600 dark:text-gray-300">My Magazines Content</Text>
+            <Text className="text-lg text-gray-600">My Magazines Content</Text>
           </View>
         );
       case 'downloaded':
         return (
           <View className="flex-1 items-center justify-center">
-            <Text className="text-lg text-gray-600 dark:text-gray-300">Downloaded Content</Text>
+            <Text className="text-lg text-gray-600">Downloaded Content</Text>
           </View>
         );
       default:
@@ -149,11 +153,18 @@ export default function NewsPlusScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-100 dark:bg-[#0D0D09]">
-      <View className="flex-1 bg-gray-100 dark:bg-[#0D0D09]">
-        {renderContent()}
+    <>
+    { Platform.OS === 'web' && (  
+      <Head>
+        <title>Apple News+ - Premium News & Magazine Content</title>
+        <meta name="description" content="Access premium news articles, magazines, and exclusive content with Apple News+" />
+        <meta name="keywords" content="apple news plus, premium news, digital magazines, exclusive content" />
+      </Head>
+      )}
+      <View className="flex-1 bg-white" style={{ paddingTop: insets.top+10 }}>
+          {renderContent()}
       </View>
-    </SafeAreaView>
+    </>
   );
 }
 

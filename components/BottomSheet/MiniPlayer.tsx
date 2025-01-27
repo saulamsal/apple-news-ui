@@ -1,39 +1,43 @@
-import { StyleSheet, Pressable, Image, Platform, ImageBackground, View, Text, Animated as RNAnimated } from 'react-native';
+import { StyleSheet, Pressable, Image, Platform, ImageBackground, View, Text, Animated, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useState, useEffect, useRef } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useAudio } from '@/contexts/AudioContext';
-import Animated, { useAnimatedStyle, withTiming, withSpring } from 'react-native-reanimated';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 export function MiniPlayer({ onPress }: { onPress: () => void }) {
     const insets = useSafeAreaInsets();
     const colorScheme = useColorScheme();
     const { currentEpisode, isPlaying, togglePlayPause, seek, closePlayer } = useAudio();
-    const [isClosing, setIsClosing] = useState(false);
+    const slideAnim = useRef(new Animated.Value(100)).current;
 
-    const handleClose = async () => {
-        setIsClosing(true);
-        await closePlayer();
-    };
+    useEffect(() => {
+        if (currentEpisode) {
+            Animated.spring(slideAnim, {
+                toValue: 0,
+                useNativeDriver: true,
+                tension: 65,
+                friction: 11
+            }).start();
+        } else {
+            slideAnim.setValue(100);
+        }
+    }, [currentEpisode]);
 
-    const animatedStyle = useAnimatedStyle(() => ({
-        opacity: isClosing ? withTiming(0, { duration: 300 }) : 1,
-        transform: [
-            { 
-                translateY: isClosing ? 
-                    withSpring(100, { damping: 15, stiffness: 100 }) : 
-                    withSpring(0, { damping: 15, stiffness: 100 }) 
-            }
-        ]
-    }));
-
+    // Don't render if no episode is selected
     if (!currentEpisode) return null;
 
+    const bottomPosition = Platform.OS === 'ios' ? insets.bottom + 57 : 60;
+
     return (
-        <Animated.View style={[styles.container, animatedStyle]}>
-            <Pressable onPress={onPress} style={styles.pressable}>
+        <Animated.View style={{ transform: [{ translateY: slideAnim }] }}>
+            <Pressable 
+                onPress={onPress} 
+                style={[styles.container, { bottom: 0 }]}
+            >
+         
                 <ImageBackground
                     source={{ uri: currentEpisode.artwork.url }}
                     style={styles.backgroundImage}
@@ -42,14 +46,14 @@ export function MiniPlayer({ onPress }: { onPress: () => void }) {
                     {Platform.OS === 'ios' ? (
                         <BlurView
                             tint={'systemThickMaterialDark'}
-                            intensity={99}
+                            intensity={80}
                             style={[styles.content, styles.blurContainer]}
                         >
                             <MiniPlayerContent 
                                 episode={currentEpisode}
                                 isPlaying={isPlaying}
                                 onPlayPause={togglePlayPause}
-                                onClose={handleClose}
+                                onClose={closePlayer}
                             />
                         </BlurView>
                     ) : (
@@ -58,7 +62,7 @@ export function MiniPlayer({ onPress }: { onPress: () => void }) {
                                 episode={currentEpisode}
                                 isPlaying={isPlaying}
                                 onPlayPause={togglePlayPause}
-                                onClose={handleClose}
+                                onClose={closePlayer}
                             />
                         </View>
                     )}
@@ -79,23 +83,21 @@ function MiniPlayerContent({
     onPlayPause: () => void;
     onClose: () => void;
 }) {
-    const scrollX = useRef(new RNAnimated.Value(0)).current;
+    const colorScheme = useColorScheme();
+    const scrollAnim = useRef(new Animated.Value(0)).current;
     const { seek } = useAudio();
+    const { width } = Dimensions.get('window');
     
     useEffect(() => {
         const startAnimation = () => {
-            RNAnimated.sequence([
-                RNAnimated.timing(scrollX, {
-                    toValue: -1000,
-                    duration: 15000,
+            scrollAnim.setValue(0);
+            Animated.sequence([
+                Animated.timing(scrollAnim, {
+                    toValue: 1,
+                    duration: 8000,
                     useNativeDriver: true,
                 }),
-                RNAnimated.delay(1000),
-                RNAnimated.timing(scrollX, {
-                    toValue: 0,
-                    duration: 0,
-                    useNativeDriver: true,
-                })
+                Animated.delay(2000),
             ]).start(() => startAnimation());
         };
 
@@ -109,10 +111,29 @@ function MiniPlayerContent({
     return (
         <View style={styles.miniPlayerContent}>
             <View style={styles.leftSection}>
-                <Text style={styles.source} numberOfLines={1}>{episode.showTitle}</Text>
-                <RNAnimated.View style={{ transform: [{ translateX: scrollX }] }}>
-                    <Text style={styles.title} numberOfLines={1}>{episode.title}</Text>
-                </RNAnimated.View>
+
+                <Text numberOfLines={1} 
+                className='text-gray-300 font-bold text-base tracking-tighter '>
+                    {episode.showTitle}</Text>
+                <View style={{ overflow: 'hidden' }}>
+                    <Animated.Text 
+                        className='text-white font-bold text-lg tracking-tighter flex-nowrap'
+                        numberOfLines={1}
+                        style={{
+                            transform: [{
+                                translateX: scrollAnim.interpolate({
+                                    inputRange: [0, 1],
+                                    outputRange: [0, -width/2]
+                                })
+                            }]
+                            ,
+                            flexShrink: 0,
+                            color: '#fff'
+                        }}
+                    >
+                        {episode.title}
+                    </Animated.Text>
+                </View>
             </View>
             <View style={styles.controls}>
                 <Pressable 
@@ -132,17 +153,13 @@ function MiniPlayerContent({
                     </BlurView>
                 </Pressable>
                 <Pressable style={styles.controlButton} onPress={onPlayPause}>
-                    <BlurView
-                        tint="dark"
-                        intensity={80}
-                        style={styles.buttonBlur}
-                    >
-                        <Ionicons 
+                  
+                        <FontAwesome 
                             name={isPlaying ? "pause" : "play"} 
                             size={20} 
                             color={'#fff'} 
                         />
-                    </BlurView>
+                   
                 </Pressable>
                 <Pressable style={styles.controlButton} onPress={onClose}>
                     <BlurView
@@ -164,13 +181,13 @@ function MiniPlayerContent({
 
 const styles = StyleSheet.create({
     container: {
-        position: 'absolute',
+        // borderRadius: 12,
+        // position: 'absolute',
         left: 0,
         right: 0,
-        bottom: Platform.OS === 'ios' ? 80 : 60,
-        height: 86,
-        zIndex: 1000,
-        shadowColor: '#000',
+        // height: 60,
+        zIndex: 1,
+        // shadowColor: 'red',
         shadowOffset: {
             width: 0,
             height: 2,
@@ -178,12 +195,27 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.15,
         shadowRadius: 8,
         elevation: 5,
-        marginHorizontal: 10,
+        marginTop: -40,
+        // backgroundColor: 'red',
+        overflow: 'hidden',
+        paddingTop: 5,
+        height: 90,
+        // position: 'absolute',
+        bottom: 0,
+        backgroundColor: '#000',
+       
     },
-    pressable: {
-        flex: 1,
+    backgroundImage: {
+        width: '100%',
+        height: '100%',
+        // height: 80,
+        borderRadius: 12,
+        overflow: 'hidden',
+      
     },
+ 
     content: {
+
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 10,
@@ -194,6 +226,7 @@ const styles = StyleSheet.create({
         paddingVertical: 0,
     },
     miniPlayerContent: {
+        
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
@@ -201,27 +234,20 @@ const styles = StyleSheet.create({
         height: '100%',
         paddingHorizontal: 16,
         backgroundColor: 'transparent',
+        marginBottom: 16,
+   
     },
     leftSection: {
+        
         flex: 1,
         backgroundColor: 'transparent',
         justifyContent: 'center',
-        marginRight: 16,
-    },
-    source: {
-        color: '#rgba(255,255,255,0.7)',
-        fontSize: 13,
-        marginBottom: 2,
-    },
-    title: {
-        fontWeight: '500',
-        color: '#fff',
-        fontSize: 15,
+        marginRight:10,
     },
     controls: {
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 8,
+        gap: 18,
         backgroundColor: 'transparent',
     },
     controlButton: {
@@ -235,11 +261,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'rgba(0,0,0,0.3)',
+        
     },
-    backgroundImage: {
-        width: '100%',
-        height: '100%',
-    },
+  
     blurContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -249,6 +273,7 @@ const styles = StyleSheet.create({
         zIndex: 1000,
         flex: 1,
         paddingVertical: 0,
+        
     },
     androidContainer: {
         flexDirection: 'row',
@@ -260,5 +285,6 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingVertical: 0,
         backgroundColor: 'rgba(0,0,0,0.8)',
+        
     },
 });

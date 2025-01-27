@@ -21,17 +21,17 @@
         {
             "id": "special_coverage",
             "title": "Special Coverage",
-            "items": ["election_2024", "climate_change"]
+            "items": ["stocks", "bitcoin", "climate_change"]
         },
         {
-            "id": "favorites",
-            "title": "Favorites",
-            "items": ["tech_news", "business"]
+            "id": "trending",
+            "title": "Trending",
+            "items": ["tech_news", "business", "elon_musk", "donald_trump", "supreme_court", "tiktok"]
         },
         {
-            "id": "my_sports",
-            "title": "My Sports",
-            "items": ["man_utd", "premier_league", "nba", "nfl", "mlb", "f1", "ufc"]
+            "id": "my_following",
+            "title": "My Following",
+            "items": ["man_utd", "premier_league", "nba", "nfl", "mlb", "f1", "ufc", "cricket", "indian_premier_league"]
         }
     ]
 }

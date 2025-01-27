@@ -1,23 +1,23 @@
-# Apple Music Sheet UI Demo with Expo
+# Apple News UI Clone with Expo
 
-This project demonstrates an implementation of the Apple Music player UI in React Native using Expo, with a focus on replicating the smooth sheet transitions and scaling animations.
-
-![Demo](assets/gifs/demo1.gif)
+This project demonstrates an implementation of the Apple News app UI in React Native using Expo, with a focus on replicating the native iOS experience and features.
 
 ## Features
 
-- 🎵 Full-screen music player modal with gesture controls
-- 🔄 Smooth scaling animations of the root content
-- 👆 Interactive pan gesture handling
-- 📱 iOS-style sheet presentation
-- 🎨 Dynamic border radius animations
-- 🌟 Visual audio visualizer
-- 💫 Haptic feedback on modal interactions
-- 🖼️ Blur effects and backdrop filters
-- 📱 Sticky mini-player navigation
-- 📋 Apple Music style track listing
-- ⚡ Gesture handling with drag thresholds
-- 🔄 Horizontal swipe to dismiss
+- 📰 News feed with swipeable article cards
+- 🔍 Search functionality
+- 🎯 Topic-based news filtering
+- 📱 iOS-style news article presentation
+- 🌟 News+ premium content support
+- 💫 Live Activities for sports scores
+- 🎨 Dynamic UI with dark/light mode
+- 🖼️ Home Screen Widgets
+- 📋 Magazine and newspaper catalogs
+- ⚡ Context menus and peek previews
+- 🔄 Swipe gestures for article actions
+- 📱 Native iOS widgets integration
+- 🏆 Sports scores with live updates
+- 🎵 Audio content support
 
 ## Tech Stack
 
@@ -25,6 +25,9 @@ This project demonstrates an implementation of the Apple Music player UI in Reac
 - [Expo Router](https://docs.expo.dev/router/introduction) - File-based routing
 - [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/) - Smooth animations
 - [React Native Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/) - Native-driven gesture handling
+- [WidgetKit](https://developer.apple.com/documentation/widgetkit) - iOS widgets
+- [ActivityKit](https://developer.apple.com/documentation/activitykit) - Live Activities
+- [Zeego](https://zeego.dev/) - Context menus
 
 ## Getting Started
 
@@ -44,52 +47,40 @@ This project demonstrates an implementation of the Apple Music player UI in Reac
    - Press `i` for iOS
    - Press `a` for Android
 
-## Implementation Details
-
-The project showcases several key features of modern React Native development:
-
-- Shared element transitions between mini and full player
-- Gesture-based interactions with multi-axis support
-- Context-based animation state management
-- Worklet-based animations for optimal performance
-
-### Known Issues
-
-- Horizontal drag gesture conflicts with content scrolling when the modal is partially scrolled, causing flickering. This needs to be addressed by properly managing gesture priorities and scroll state.
-
 ## Project Structure
 
 ```
 project-root/
 ├── app/
 │   ├── (tabs)/
-│   │   ├── search/            # Search and library screens
-│   │   │   ├── _layout.tsx
-│   │   │   ├── library.tsx
-│   │   │   ├── new.tsx
-│   │   │   └── radio.tsx
-│   │   ├── music/             # Music player routes
-│   │   │   ├── [id].tsx
-│   │   │   └── _layout.tsx
-│   │   └── _layout.tsx        # Tab navigation layout
+│   │   ├── (index)/       # Home feed
+│   │   ├── (news+)/       # News+ content
+│   │   ├── (sports)/      # Sports section
+│   │   ├── (audio)/       # Audio content
+│   │   ├── (search)/      # Search functionality
+│   │   └── _layout.tsx    # Tab navigation layout
 ├── components/
-│   ├── navigation/
-│   │   └── TabBarIcon.tsx     # Tab bar icons
-│   ├── Overlay/               # Sheet UI components
-│   │   ├── OverlayContext.tsx
-│   │   ├── OverlayProvider.tsx
-│   │   └── ThemedView.tsx
-│   └── ThemedText.tsx
+│   ├── NewsItem.tsx       # News article component
+│   ├── SwipeableNewsItem.tsx
+│   ├── NewsLogo.tsx
+│   └── CategoryCard.tsx
 ├── contexts/
-│   ├── AudioContext.tsx       # Audio playback state
-│   └── RootScaleContext.tsx   # Scale animation state
-├── constants/
-│   └── Colors.ts             # Theme colors
-└── hooks/                    # Custom React hooks
-    ├── useColorScheme.ts
-    ├── useThemeColor.ts
-    └── useColorScheme.web.ts
+│   └── AudioContext.tsx   # Audio playback state
+├── modules/
+│   └── expo-live-activity/# Live Activities module
+├── targets/
+│   └── widget/           # iOS widget implementation
+└── styles/
+    └── screens/          # Screen-specific styles
 ```
+
+## Features in Development
+
+- [ ] Android widget support
+- [ ] Background audio playback
+- [ ] Push notifications
+- [ ] React Server Components integration
+- [ ] Enhanced Live Activities
 
 ## Contributing
 
@@ -111,3 +102,12 @@ i. replace: {w}x{h}
 with : /376x376bb.webp
 
 ii.
+
+
+
+#TODO - apple news
+[] swap expo-av with expo-audio
+[x] Lock screen player
+[] Lock screen control
+[] Push Notifications (APNs credentials left)
+[] Shared transitions [Broken in Expo 52]

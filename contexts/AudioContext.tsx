@@ -8,6 +8,7 @@ interface AudioContextType {
     sound: Audio.Sound | null;
     isPlaying: boolean;
     currentEpisode: PodcastEpisode | null;
+    currentAudioId: string | null;
     position: number;
     duration: number;
     setSound: (sound: Audio.Sound | null) => void;
@@ -29,6 +30,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     const [sound, setSound] = useState<Audio.Sound | null>(null);
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentEpisode, setCurrentEpisode] = useState<PodcastEpisode | null>(null);
+    const [currentAudioId, setCurrentAudioId] = useState<string | null>(null);
     const [position, setPosition] = useState(0);
     const [duration, setDuration] = useState(0);
     const progress = useSharedValue(0);
@@ -59,14 +61,21 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
     const playEpisode = async (episode: PodcastEpisode) => {
         try {
+            // If there's an existing sound, just stop and unload it
+            // but don't reset UI states yet
             if (sound) {
                 await sound.stopAsync();
                 await sound.unloadAsync();
                 setSound(null);
             }
 
-            console.log('Playing episode:', episode.title, 'URL:', episode.streamUrl);
+            // Set the new episode info before loading audio
+            // This maintains the UI while audio loads
+            setCurrentEpisode(episode);
+            setCurrentAudioId(episode.id);
+            setIsPlaying(false); // Temporarily set to false while loading
 
+            // Create and play the new sound
             const { sound: newSound } = await Audio.Sound.createAsync(
                 { uri: episode.streamUrl },
                 { shouldPlay: true, progressUpdateIntervalMillis: 1000 },
@@ -74,12 +83,12 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
             );
 
             setSound(newSound);
-            setCurrentEpisode(episode);
             setIsPlaying(true);
         } catch (error) {
             console.error('Error playing episode:', error);
-            setSound(null);
-            setIsPlaying(false);
+            // On error, do full cleanup
+            await closePlayer();
+            throw error;
         }
     };
 
@@ -134,11 +143,20 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     const togglePlayPause = async () => {
         if (!sound || !currentEpisode) return;
 
-        if (isPlaying) {
-            await pauseSound();
-        } else {
-            await sound.playAsync();
-            setIsPlaying(true);
+        // Set state immediately for UI responsiveness
+        const newIsPlaying = !isPlaying;
+        setIsPlaying(newIsPlaying);
+
+        try {
+            if (newIsPlaying) {
+                await sound.playAsync();
+            } else {
+                await sound.pauseAsync();
+            }
+        } catch (error) {
+            // Revert state if operation fails
+            console.error('Error toggling play/pause:', error);
+            setIsPlaying(!newIsPlaying);
         }
     };
 
@@ -165,15 +183,23 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     };
 
     const closePlayer = async () => {
+        // Stop and unload the sound first
         if (sound) {
-            await sound.stopAsync();
-            await sound.unloadAsync();
-            setSound(null);
+            try {
+                await sound.stopAsync();
+                await sound.unloadAsync();
+            } catch (error) {
+                console.error('Error stopping sound:', error);
+            }
         }
+
+        // Reset all states
+        setSound(null);
         setCurrentEpisode(null);
         setIsPlaying(false);
         setPosition(0);
         setDuration(0);
+        setCurrentAudioId(null);
         progress.value = 0;
     };
 
@@ -182,6 +208,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
             sound,
             isPlaying,
             currentEpisode,
+            currentAudioId,
             position,
             duration,
             setSound,

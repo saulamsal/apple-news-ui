@@ -1,0 +1,344 @@
+{
+  "indices": [
+    {
+      "symbol": "^DJI",
+      "name": "Dow Jones Industrial Average",
+      "price": 43487.83,
+      "change": 334.73,
+      "percentChange": 0.77
+    },
+    {
+      "symbol": "^GSPC",
+      "name": "S&P 500",
+      "price": 5996.66,
+      "change": 59.32,
+      "percentChange": 1.00
+    }
+  ],
+  "stocks": [
+    {
+      "symbol": "AAPL",
+      "name": "Apple Inc",
+      "price": 229.98,
+      "change": 1.72,
+      "percentChange": 0.75,
+      "marketCap": "3458.41B",
+      "pe": 37.89,
+      "volume": "67,841,859",
+      "high52": 229.98,
+      "low52": 167.03,
+      "historicalData": [
+        {"date": "2024-01-13", "price": 224.15},
+        {"date": "2024-01-14", "price": 227.83},
+        {"date": "2024-01-15", "price": 226.42},
+        {"date": "2024-01-16", "price": 228.26},
+        {"date": "2024-01-17", "price": 229.98}
+      ]
+    },
+    {
+      "symbol": "NVDA",
+      "name": "NVIDIA Corp",
+      "price": 137.71,
+      "change": 4.14,
+      "percentChange": 3.10,
+      "marketCap": "3372.52B",
+      "pe": 54.24,
+      "volume": "199,317,018",
+      "high52": 147.71,
+      "low52": 92.03,
+      "historicalData": [
+        {"date": "2024-01-13", "price": 131.25},
+        {"date": "2024-01-14", "price": 134.92},
+        {"date": "2024-01-15", "price": 133.58},
+        {"date": "2024-01-16", "price": 135.84},
+        {"date": "2024-01-17", "price": 137.71}
+      ]
+    },
+    {
+      "symbol": "MSFT",
+      "name": "Microsoft Corporation",
+      "price": 429.03,
+      "change": 4.45,
+      "percentChange": 1.05,
+      "marketCap": "3189.79B",
+      "pe": 35.41,
+      "volume": "25,435,575",
+      "high52": 429.03,
+      "low52": 315.12,
+      "historicalData": [
+        {"date": "2024-01-13", "price": 421.35},
+        {"date": "2024-01-14", "price": 425.92},
+        {"date": "2024-01-15", "price": 424.18},
+        {"date": "2024-01-16", "price": 426.75},
+        {"date": "2024-01-17", "price": 429.03}
+      ]
+    },
+    {
+      "symbol": "GOOG",
+      "name": "Alphabet Inc",
+      "price": 197.55,
+      "change": 3.15,
+      "percentChange": 1.62,
+      "marketCap": "2407.81B",
+      "pe": 26.21,
+      "volume": "21,028,391",
+      "high52": 197.55,
+      "low52": 142.23,
+      "historicalData": [
+        {"date": "2024-01-13", "price": 193.28},
+        {"date": "2024-01-14", "price": 195.84},
+        {"date": "2024-01-15", "price": 194.62},
+        {"date": "2024-01-16", "price": 196.35},
+        {"date": "2024-01-17", "price": 197.55}
+      ]
+    },
+    {
+        "symbol": "BAC",
+        "name": "Bank Of America Corp",
+        "price": 46.53,
+        "change": -0.11,
+        "percentChange": -0.24,
+        "marketCap": "357.02B",
+        "pe": 14.46,
+        "volume": "44,293,040",
+        "high52": 46.53,
+        "low52": 35.12,
+        "historicalData": [
+          {"date": "2024-01-13", "price": 47.35},
+          {"date": "2024-01-14", "price": 46.82},
+          {"date": "2024-01-15", "price": 47.15},
+          {"date": "2024-01-16", "price": 46.64},
+          {"date": "2024-01-17", "price": 46.53}
+        ]
+      },
+    {
+      "symbol": "AMZN",
+      "name": "Amazon.com Inc",
+      "price": 225.94,
+      "change": 5.27,
+      "percentChange": 2.39,
+      "marketCap": "2375.76B",
+      "pe": 48.42,
+      "volume": "42,080,206",
+      "high52": 225.94,
+      "low52": 155.12,
+      "historicalData": [
+        {"date": "2024-01-13", "price": 219.45},
+        {"date": "2024-01-14", "price": 222.83},
+        {"date": "2024-01-15", "price": 221.56},
+        {"date": "2024-01-16", "price": 223.85},
+        {"date": "2024-01-17", "price": 225.94}
+      ]
+    },
+    {
+      "symbol": "META",
+      "name": "Meta Platforms Inc",
+      "price": 612.77,
+      "change": 1.46,
+      "percentChange": 0.24,
+      "marketCap": "1546.63B",
+      "pe": 28.86,
+      "volume": "16,916,722",
+      "high52": 612.77,
+      "low52": 445.23,
+      "historicalData": [
+        {"date": "2024-01-13", "price": 607.35},
+        {"date": "2024-01-14", "price": 611.92},
+        {"date": "2024-01-15", "price": 609.48},
+        {"date": "2024-01-16", "price": 611.31},
+        {"date": "2024-01-17", "price": 612.77}
+      ]
+    },
+    {
+      "symbol": "TSLA",
+      "name": "Tesla Inc",
+      "price": 426.50,
+      "change": 12.67,
+      "percentChange": 3.06,
+      "marketCap": "1369.09B",
+      "pe": 116.84,
+      "volume": "94,155,846",
+      "high52": 426.50,
+      "low52": 315.12,
+      "historicalData": [
+        {"date": "2024-01-13", "price": 413.85},
+        {"date": "2024-01-14", "price": 419.92},
+        {"date": "2024-01-15", "price": 417.45},
+        {"date": "2024-01-16", "price": 421.83},
+        {"date": "2024-01-17", "price": 426.50}
+      ]
+    },
+    {
+      "symbol": "COST",
+      "name": "Costco Wholesale Corp",
+      "price": 943.19,
+      "change": 23.45,
+      "percentChange": 2.55,
+      "marketCap": "418.68B",
+      "pe": 55.39,
+      "volume": "2,352,449",
+      "high52": 943.19,
+      "low52": 725.12,
+      "historicalData": [
+        {"date": "2024-01-13", "price": 923.85},
+        {"date": "2024-01-14", "price": 933.42},
+        {"date": "2024-01-15", "price": 930.75},
+        {"date": "2024-01-16", "price": 936.84},
+        {"date": "2024-01-17", "price": 943.19}
+      ]
+    },
+    {
+      "symbol": "HD",
+      "name": "Home Depot, Inc",
+      "price": 409.38,
+      "change": 0.04,
+      "percentChange": 0.01,
+      "marketCap": "406.66B",
+      "pe": 27.81,
+      "volume": "3,191,978",
+      "high52": 409.38,
+      "low52": 320.12,
+      "historicalData": [
+        {"date": "2024-01-13", "price": 406.92},
+        {"date": "2024-01-14", "price": 408.75},
+        {"date": "2024-01-15", "price": 407.83},
+        {"date": "2024-01-16", "price": 408.95},
+        {"date": "2024-01-17", "price": 409.38}
+      ]
+    },
+    {
+      "symbol": "PG",
+      "name": "Procter & Gamble Co",
+      "price": 161.13,
+      "change": 0.63,
+      "percentChange": 0.39,
+      "marketCap": "379.47B",
+      "pe": 27.79,
+      "volume": "6,580,372",
+      "high52": 161.13,
+      "low52": 135.25,
+      "historicalData": [
+        {"date": "2024-01-13", "price": 158.95},
+        {"date": "2024-01-14", "price": 160.42},
+        {"date": "2024-01-15", "price": 159.83},
+        {"date": "2024-01-16", "price": 160.75},
+        {"date": "2024-01-17", "price": 161.13}
+      ]
+    },
+    {
+      "symbol": "NFLX",
+      "name": "Netflix Inc",
+      "price": 858.10,
+      "change": 15.73,
+      "percentChange": 1.87,
+      "marketCap": "366.80B",
+      "pe": 48.56,
+      "volume": "3,581,445",
+      "high52": 858.10,
+      "low52": 645.23,
+      "historicalData": [
+        {"date": "2024-01-13", "price": 843.85},
+        {"date": "2024-01-14", "price": 850.92},
+        {"date": "2024-01-15", "price": 848.45},
+        {"date": "2024-01-16", "price": 852.83},
+        {"date": "2024-01-17", "price": 858.10}
+      ]
+    },
+
+    {
+      "symbol": "JNJ",
+      "name": "Johnson & Johnson",
+      "price": 147.03,
+      "change": -0.74,
+      "percentChange": -0.50,
+      "marketCap": "353.99B",
+      "pe": 24.30,
+      "volume": "10,571,345",
+      "high52": 147.03,
+      "low52": 125.12,
+      "historicalData": [
+        {"date": "2024-01-13", "price": 148.95},
+        {"date": "2024-01-14", "price": 148.15},
+        {"date": "2024-01-15", "price": 148.42},
+        {"date": "2024-01-16", "price": 147.35},
+        {"date": "2024-01-17", "price": 147.03}
+      ]
+    },
+    {
+      "symbol": "CRM",
+      "name": "Salesforce Inc",
+      "price": 324.56,
+      "change": 4.54,
+      "percentChange": 1.42,
+      "marketCap": "310.60B",
+      "pe": 53.40,
+      "volume": "6,268,689",
+      "high52": 324.56,
+      "low52": 245.23,
+      "historicalData": [
+        {"date": "2024-01-13", "price": 318.95},
+        {"date": "2024-01-14", "price": 321.82},
+        {"date": "2024-01-15", "price": 320.45},
+        {"date": "2024-01-16", "price": 322.85},
+        {"date": "2024-01-17", "price": 324.56}
+      ]
+    },
+    {
+      "symbol": "ABBV",
+      "name": "Abbvie Inc",
+      "price": 171.56,
+      "change": -2.13,
+      "percentChange": -1.23,
+      "marketCap": "303.17B",
+      "pe": 59.83,
+      "volume": "7,152,599",
+      "high52": 171.56,
+      "low52": 130.12,
+      "historicalData": [
+        {"date": "2024-01-13", "price": 174.85},
+        {"date": "2024-01-14", "price": 173.25},
+        {"date": "2024-01-15", "price": 173.92},
+        {"date": "2024-01-16", "price": 172.35},
+        {"date": "2024-01-17", "price": 171.56}
+      ]
+    },
+    {
+      "symbol": "SAP",
+      "name": "Sap SE ADR",
+      "price": 262.83,
+      "change": 1.25,
+      "percentChange": 0.48,
+      "marketCap": "302.20B",
+      "pe": 105.65,
+      "volume": "737,428",
+      "high52": 262.83,
+      "low52": 195.23,
+      "historicalData": [
+        {"date": "2024-01-13", "price": 259.95},
+        {"date": "2024-01-14", "price": 261.42},
+        {"date": "2024-01-15", "price": 260.85},
+        {"date": "2024-01-16", "price": 261.95},
+        {"date": "2024-01-17", "price": 262.83}
+      ]
+    },
+    {
+      "symbol": "ASML",
+      "name": "ASML Holding NV",
+      "price": 756.33,
+      "change": 6.08,
+      "percentChange": 0.81,
+      "marketCap": "293.21B",
+      "pe": 39.64,
+      "volume": "1,897,255",
+      "high52": 756.33,
+      "low52": 560.12,
+      "historicalData": [
+        {"date": "2024-01-13", "price": 747.85},
+        {"date": "2024-01-14", "price": 751.92},
+        {"date": "2024-01-15", "price": 750.45},
+        {"date": "2024-01-16", "price": 753.85},
+        {"date": "2024-01-17", "price": 756.33}
+      ]
+    }
+  ]
+} 

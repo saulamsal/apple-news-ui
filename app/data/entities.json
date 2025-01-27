@@ -1,9 +1,9 @@
 {
-    "puzzles": {
-        "id": "puzzles",
-        "title": "Puzzles",
-        "icon": "extension-puzzle",
-        "description": "Daily puzzles and brain teasers",
+    "stocks": {
+        "id": "stocks",
+        "title": "Stocks App",
+        "logo": "https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/78/f9/87/78f987f6-ae23-1ff5-5417-a5081f7ecd68/AppIcon-0-0-1x_U007emarketing-0-8-0-P3-85-220.png/246x0w.webp",
+        "description": "Daily stock market updates",
         "type": "category",
         "theme": {
             "backgroundColor": "#F2F2F7",
@@ -32,12 +32,11 @@
         "icon": "time",
         "type": "category"
     },
-    "election_2024": {
-        "id": "election_2024",
-        "title": "Election 2024",
-        "logo": "https://bloximages.newyork1.vip.townnews.com/hermistonherald.com/content/tncms/assets/v3/editorial/b/e8/be8fb83d-6ede-5302-9d18-162ee39bc357/663a950fb6ed9.image.png",
-        "entity_type": "politics_topic",
-        "description": "Complete coverage of the 2024 Presidential Election",
+    "bitcoin": {
+        "id": "bitcoin",
+        "title": "Bitcoin",
+        "logo": "https://images.vexels.com/media/users/3/144837/isolated/preview/40f189daa5c0279718484ca5f5569f78-crypto-icon.png",
+        "entity_type": "crypto_topic",
         "type": "topic",
         "theme": {
             "backgroundColor": "#E8F5E9",
@@ -73,35 +72,102 @@
         "description": "Men's Football",
         "type": "team",
         "theme": {
-            "backgroundColor": "#FFE8E8",
-            "textColor": "#C62828"
+            "backgroundColor": "#C62828",
+            "textColor": "#ffffff"
+        }
+    },
+    
+    "soccer": {
+        "id": "soccer",
+        "title": "Soccer",
+        "logo": "https://static.vecteezy.com/system/resources/thumbnails/018/927/904/small_2x/soccer-ball-3d-illustration-png.png",
+        "entity_type": "England",
+        "type": "league",
+        "theme": {
+            "backgroundColor": "#004527",
+            "textColor": "#ffffff"
+        },
+        "featured_background": "https://i.imgur.com/TX8gHyb.png",
+        "tabs": ["overview","news","scores","videos", "stats"],
+        "has_scores": true,
+        "filter": "soccer",
+        "sub_topics": {
+            "title": "Leagues", 
+            "items": [
+                {
+                    "id": "premier_league",
+                    "title": "Premier League",
+                    "logo": "https://api.sofascore.app/api/v1/unique-tournament/17/image",
+                    "type": "league"
+                },
+                {
+                    "id": "la_liga",
+                    "title": "La Liga",
+                    "logo": "https://api.sofascore.app/api/v1/unique-tournament/18/image",
+                    "type": "league"
+                },
+                {
+                    "id": "bundesliga",
+                    "title": "Bundesliga",
+                    "logo": "https://api.sofascore.app/api/v1/unique-tournament/19/image",
+                    "type": "league"
+                },
+                {
+                    "id": "serie_a",
+                    "title": "Serie A",
+                    "logo": "https://api.sofascore.app/api/v1/unique-tournament/20/image",
+                    "type": "league"
+                },
+                {
+                    "id": "ligue_1",
+                    "title": "Ligue 1",
+                    "logo": "https://api.sofascore.app/api/v1/unique-tournament/21/image",
+                    "type": "league"
+                },
+                {
+                    "id": "ligue_1",
+                    "title": "Ligue 1",
+                    "logo": "https://api.sofascore.app/api/v1/unique-tournament/21/image",
+                    "type": "league"
+                }
+            ]
         }
     },
     "premier_league": {
         "id": "premier_league",
         "title": "Premier League",
         "logo": "https://api.sofascore.app/api/v1/unique-tournament/17/image",
-        "entity_type": "sport_league",
-        "type": "league"
+        "entity_type": "England",
+        "type": "league",
+        "theme": {
+            "backgroundColor": "#E20451",
+            "textColor": "#ffffff"
+        },
     },
     "nba": {
         "id": "nba",
         "title": "NBA",
-        "logo": "/assets/leagues/nba.png",
-        "entity_type": "sport_league",
+        "logo": "https://img.sofascore.com/api/v1/unique-tournament/132/image/dark",
+        "entity_type": "Sports League",
         "type": "league"
     },
+    
     "nfl": {
         "id": "nfl",
         "title": "NFL",
-        "logo": "/assets/leagues/nfl.png",
-        "entity_type": "sport_league",
-        "type": "league"
+        "logo": "https://img.sofascore.com/api/v1/unique-tournament/9464/image/dark",
+        "entity_type": "United States",
+        "type": "league",
+        "tabs": ["news","scores","videos", "stats"],
+        "theme": {
+            "backgroundColor": "#DB2526",
+            "textColor": "#ffffff"
+        }
     },
     "mlb": {
         "id": "mlb",
         "title": "MLB",
-        "logo": "/assets/leagues/mlb.png",
+        "logo": "https://img.sofascore.com/api/v1/unique-tournament/11205/image/dark",
         "entity_type": "sport_league",
         "type": "league"
     },
@@ -128,6 +194,172 @@
         "theme": {
             "backgroundColor": "#E3F2FD",
             "textColor": "#1565C0"
+        }
+    },
+    "elon_musk": {
+        "id": "elon_musk",
+        "title": "Elon Musk",
+        "logo": "https://media.wired.com/photos/635afc21e53b9bdcb463c641/1:1/w_1599,h_1599,c_limit/Elon-Musk-Twitter-Town-Square-Ideas-1233961984.jpg",
+        "entity_type": "person",
+        "featured_background": "https://wallpapercat.com/w/full/2/6/d/77544-1920x1080-desktop-1080p-elon-musk-background-image.jpg",
+        "type": "topic",
+        "description": "CEO of Tesla, SpaceX",
+        "theme": {
+            "backgroundColor": "darkblue",
+            "textColor": "#ffffff"
+        }
+    },
+    "donald_trump": {
+        "id": "donald_trump",
+        "title": "Donald Trump",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/TrumpPortrait.jpg/220px-TrumpPortrait.jpg",
+        "entity_type": "person",
+        "featured_background": "https://media.newyorker.com/photos/641ca6e1428b96a33ea5bfbb/master/pass/Glasser-Trump-Troll.jpg",
+        "type": "topic",
+        "description": "President of the United States",
+        "theme": {
+            "backgroundColor": "#000000",
+            "textColor": "#ffffff"
+        }
+    },
+    "supreme_court": {
+        "id": "supreme_court",
+        "title": "Supreme Court",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/f/f3/Seal_of_the_United_States_Supreme_Court.svg",
+        "entity_type": "institution",
+        "type": "topic",
+        "description": "Highest court in the United States federal judiciary",
+        "theme": {
+            "backgroundColor": "#E8EAF6",
+            "textColor": "#283593"
+        }
+    },
+    "tiktok": {
+        "id": "tiktok",
+        "title": "TikTok",
+        "logo": "https://pbs.twimg.com/profile_images/1879333037005053953/e1dnDyxK_400x400.jpg",
+        "entity_type": "company",
+        "type": "topic",
+        "description": "Social media platform for short-form videos",
+        "theme": {
+            "backgroundColor": "#F3E5F5",
+            "textColor": "#6A1B9A"
+        }
+    },
+    "cricket": {
+        "id": "cricket",
+        "title": "Cricket",
+        "logo": "https://static.vecteezy.com/system/resources/previews/011/571/519/original/circle-cricket-logo-free-png.png",
+        "entity_type": "sport",
+        "type": "league",
+        "theme": {
+            "backgroundColor": "#1A237E",
+            "textColor": "#ffffff"
+        },
+        "featured_background": "https://i.imgur.com/RX8xJbY.jpg",
+        "tabs": ["overview", "news", "scores", "videos", "stats"],
+        "has_scores": true,
+        "filter": "cricket",
+        "sub_topics": {
+            "title": "Leagues",
+            "items": [
+                {
+                    "id": "indian_premier_league",
+                    "title": "Indian Premier League",
+                    "logo": "https://api.sofascore.app/api/v1/unique-tournament/10192/image",
+                    "type": "league"
+                },
+                {
+                    "id": "bbl",
+                    "title": "Big Bash League",
+                    "logo": "https://api.sofascore.app/api/v1/unique-tournament/10208/image",
+                    "type": "league"
+                },
+                {
+                    "id": "psl",
+                    "title": "Pakistan Super League",
+                    "logo": "https://api.sofascore.app/api/v1/unique-tournament/10191/image",
+                    "type": "league"
+                }
+            ]
+        }
+    },
+    "indian_premier_league": {
+        "id": "indian_premier_league",
+        "title": "Indian Premier League",
+        "logo": "https://api.sofascore.app/api/v1/unique-tournament/10192/image",
+        "entity_type": "India",
+        "type": "league",
+        "theme": {
+            "backgroundColor": "#0D47A1",
+            "textColor": "#ffffff"
+        },
+        "tabs": ["overview", "news", "scores", "videos", "stats"],
+        "has_scores": true,
+        "sub_topics": {
+            "title": "Teams",
+            "items": [
+                {
+                    "id": "kkr",
+                    "title": "Kolkata Knight Riders",
+                    "logo": "https://api.sofascore.app/api/v1/team/187775/image",
+                    "type": "team"
+                },
+                {
+                    "id": "mi",
+                    "title": "Mumbai Indians",
+                    "logo": "https://api.sofascore.app/api/v1/team/187773/image",
+                    "type": "team"
+                },
+                {
+                    "id": "csk",
+                    "title": "Chennai Super Kings",
+                    "logo": "https://api.sofascore.app/api/v1/team/187774/image",
+                    "type": "team"
+                },
+                {
+                    "id": "rcb",
+                    "title": "Royal Challengers Bangalore",
+                    "logo": "https://api.sofascore.app/api/v1/team/187776/image",
+                    "type": "team"
+                },
+                {
+                    "id": "dc",
+                    "title": "Delhi Capitals",
+                    "logo": "https://api.sofascore.app/api/v1/team/187777/image",
+                    "type": "team"
+                },
+                {
+                    "id": "rr",
+                    "title": "Rajasthan Royals",
+                    "logo": "https://api.sofascore.app/api/v1/team/187778/image",
+                    "type": "team"
+                },
+                {
+                    "id": "srh",
+                    "title": "Sunrisers Hyderabad",
+                    "logo": "https://api.sofascore.app/api/v1/team/187779/image",
+                    "type": "team"
+                },
+                {
+                    "id": "pbks",
+                    "title": "Punjab Kings",
+                    "logo": "https://api.sofascore.app/api/v1/team/187780/image",
+                    "type": "team"
+                },
+                {
+                    "id": "gt",
+                    "title": "Gujarat Titans",
+                    "logo": "https://api.sofascore.app/api/v1/team/377372/image",
+                    "type": "team"
+                },
+                {
+                    "id": "lsg",
+                    "title": "Lucknow Super Giants",
+                    "logo": "https://api.sofascore.app/api/v1/team/377371/image",
+                    "type": "team"
+                }
+            ]
         }
     }
 } 

@@ -1,4 +1,4 @@
-import { Text, Image, View, StyleSheet, Pressable, TouchableOpacity, Alert } from 'react-native';
+import { Text, Image, View, StyleSheet, Pressable, TouchableOpacity, Alert, RefreshControl, ActivityIndicator, Platform, FlatList } from 'react-native';
 import { useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
@@ -10,6 +10,9 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
+import { SlidingBanner } from '@/components/SlidingBanner';
+import { MotiView } from 'moti';
+import Head from 'expo-router/head';
 
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -24,7 +27,7 @@ import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
 import { TabMenu } from '@/components/TabMenu';
 import { Colors } from '@/constants/Colors';
 import { PodcastItem } from '@/components/PodcastItem';
-import { PodcastEpisode } from '@/types/podcast';
+import { PodcastEpisode } from '@/src/types/podcast';
 import podcasts from '@/data/podcasts.json';
 import type { ListRenderItemInfo } from '@shopify/flash-list';
 import { useAudio } from '@/contexts/AudioContext';
@@ -92,46 +95,16 @@ const TABS = [
 
 const DiscoverNewsButton = () => {
   return (
-    <View className=" mb-4">
-      <TouchableOpacity 
-        onPress={() => Alert.alert('Take to Apple Podcasts')}
-        style={{
-          height: 56,
-          backgroundColor: '#2196A5',
-          flexDirection: 'row',
-          alignItems: 'center',
-          paddingHorizontal: 16,
-          justifyContent: 'space-between',
-          borderRadius: 12,
-          overflow: 'hidden'
-        }}
-      >
-        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}>
-          <Ionicons name="headset" size={24} color="#fff" />
-          <View>
-            <Text style={{ color: '#fff', fontSize: 20 }} className="font-bold">
-              Discover News+ Narrated
-            </Text>
-            <View className="flex-row items-center gap-1">
-              <Text style={{ color: '#fff', fontSize: 13, opacity: 0.8 }}>
-                More audio stories in Apple Podcasts
-              </Text>
-              <Ionicons name="chevron-forward" size={14} color="#fff" />
-            </View>
-          </View>
-        </View>
-        <Ionicons 
-          name="headset" 
-          size={80} 
-          color="#fff" 
-          style={{ 
-            position: 'absolute',
-            right: -10,
-            opacity: 0.1
-          }}
-        />
-      </TouchableOpacity>
-    </View>
+    <SlidingBanner
+      onPress={() => Alert.alert('Take to Apple Podcasts')}
+      icon={{
+        name: 'headset',
+        size: 24,
+      }}
+      title="Discover News+ Narrated"
+      subtitle="More audio stories in Apple Podcasts"
+      backgroundColor="#2196A5"
+    />
   );
 };
 
@@ -146,23 +119,27 @@ export default function AudioScreen() {
   // const iconColor = colorScheme === 'light' ? '#000' : '#fff';
   const iconColor = '#fff';
 
-  const backgroundColor = colorScheme === 'light' ? '#F2F2F6' : '#1C1C1E';
+  const backgroundColor = '#F2F2F6';
   const insets = useSafeAreaInsets();
 
   const AnimatedSwipeListView = Animated.createAnimatedComponent(SwipeListView);
 
   const [activeTab, setActiveTab] = useState('best');
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [episodes, setEpisodes] = useState((podcasts.results['podcast-episodes'][0].data || []) as PodcastEpisodeData[]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleTabPress = (tabId: string) => {
     setActiveTab(tabId);
   };
 
-  const { currentEpisode, playEpisode, isPlaying, togglePlayPause } = useAudio();
+  const { currentEpisode, playEpisode, isPlaying, togglePlayPause, closePlayer } = useAudio();
   
-  const handlePlayAll = () => {
+  const handlePlayAll = async () => {
     const firstEpisode = podcasts.results['podcast-episodes'][0].data[0] as PodcastEpisodeData;
     
     if (firstEpisode) {
+      setIsLoading(true);
       const imageUrl = firstEpisode.attributes.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || 'https://via.placeholder.com/300';
 
       const podcast: PodcastEpisode = {
@@ -176,9 +153,35 @@ export default function AudioScreen() {
         summary: firstEpisode.attributes.description.standard
       };
 
-      playEpisode(podcast);
-      router.push(`/audio/${firstEpisode.id}`);
+      try {
+        // Ensure any existing audio is cleaned up before playing new one
+        await closePlayer();
+        await playEpisode(podcast);
+        router.push(`/audio/${firstEpisode.id}`);
+      } catch (error) {
+        console.error('Error playing episode:', error);
+      } finally {
+        setIsLoading(false);
+      }
     }
+  };
+
+  const shuffleArray = (array: PodcastEpisodeData[]) => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  };
+
+  const onRefresh = async () => {
+    setIsRefreshing(true);
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    const shuffledEpisodes = shuffleArray(episodes);
+    setEpisodes(shuffledEpisodes);
+    await new Promise(resolve => setTimeout(resolve, 500));
+    setIsRefreshing(false);
   };
 
   const renderPodcastItem = ({ item, index }: ListRenderItemInfo<PodcastEpisodeData>) => (
@@ -191,35 +194,74 @@ export default function AudioScreen() {
   const renderContent = () => {
     switch (activeTab) {
       case 'best':
-        const episodes = (podcasts.results['podcast-episodes'][0].data || []) as PodcastEpisodeData[];
         const remainingEpisodes = episodes.slice(5);
         return (
-          <FlashList
+          <FlatList
             data={remainingEpisodes}
             renderItem={renderPodcastItem}
             estimatedItemSize={84}
             keyExtractor={(item) => item.id}
             contentContainerStyle={styles.listContent}
+            refreshControl={
+              <RefreshControl
+                refreshing={isRefreshing}
+                onRefresh={onRefresh}
+                tintColor='#000'
+              />
+            }
+       
+            style={{
+              flexShrink: 0  //SUPER IMPORTANT TO DISABLE CHILD SCROLL ON RNW
+            }}
+        
+      
+            
             ListHeaderComponent={
               <View style={styles.headerContainer}>
                 <View style={styles.header}>
                   <NewsHeaderLeftItem size="md" secondaryTitle="Audio" />
                   <View style={styles.headerRight}>
                     <TouchableOpacity 
-                      style={[styles.headerRightButton, { backgroundColor: currentEpisode ? '#86858D' : Colors.light.tint }]}
+                      style={[
+                        styles.headerRightButton, 
+                        { 
+                          backgroundColor: currentEpisode ? '#86858D' : Colors.light.tint,
+                          opacity: isLoading ? 0.7 : 1 
+                        }
+                      ]}
                       onPress={currentEpisode ? togglePlayPause : handlePlayAll}
+                      disabled={isLoading}
                     >
-                      {isPlaying ? (
+                      {isLoading ? (
+                        <ActivityIndicator size="small" color="#fff" />
+                      ) : isPlaying ? (
                         <AudioVisualizer isPlaying={true} />
                       ) : (
                         <Ionicons name="headset" size={14} color={'#fff'} />
                       )}
                       <Text style={styles.headerRightText}>
-                        {currentEpisode ? (isPlaying ? 'Playing' : 'Paused') : 'Play'}
+                        {isLoading ? 'Loading...' : currentEpisode ? (isPlaying ? 'Playing' : 'Paused') : 'Play'}
                       </Text>
                     </TouchableOpacity>
                   </View>
                 </View>
+
+                {isRefreshing && (
+                  <Animated.View
+                    style={[{
+                      animationName: {
+                        from: { transform: [{ translateY: -20 }], opacity: 0 },
+                        to: { transform: [{ translateY: 0 }], opacity: 1 }
+                      },
+                      animationDuration: '300ms',
+                      animationTimingFunction: 'easeOut',
+                    } as any]}
+                  >
+                    <Text style={{ fontSize: 24, color: '#000' }}>
+                      Checking new podcasts...
+                    </Text>
+                  </Animated.View>
+                )}
 
                 <PodcastEditorsPickItem episodes={episodes} />
                 <DiscoverNewsButton />
@@ -246,11 +288,18 @@ export default function AudioScreen() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }}>
-      <View style={[styles.container, { backgroundColor: colorScheme === 'light' ? '#F2F2F6' : '#0D0D09' }]}>
+    <>
+    { Platform.OS === 'web' && (
+      <Head>
+        <title>Apple News Audio - News Stories & Podcasts</title>
+        <meta name="description" content="Listen to your favorite news stories and podcasts, professionally narrated and curated for the best audio experience." />
+        <meta name="keywords" content="apple news audio, news podcasts, audio stories, news narration" />
+      </Head>
+    )}  
+      <View style={[styles.container, { backgroundColor: '#F2F2F6', paddingTop: insets.top + 10 }]}>
         {renderContent()}
       </View>
-    </SafeAreaView>
+    </>
   );
 }
 

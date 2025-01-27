@@ -9,9 +9,10 @@ export const SportsStyles = StyleSheet.create({
     },
     headerLeft: {
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
-        gap: 8
+        gap: 8,
+        width: '100%',
     },
     headerIconRight: {
         borderRadius: 50,
@@ -31,7 +32,7 @@ export const SportsStyles = StyleSheet.create({
     },
     listHeaderSubText: {
         fontSize: 15,
-        fontWeight: '400',
+        fontWeight: '500',
         color: '#000000',
         opacity: 0.5
     },
