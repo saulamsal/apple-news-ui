@@ -328,7 +328,7 @@
         "id": "bundesliga",
         "name": "BL",
         "full_name": "Bundesliga",
-        "matchweek": 19
+        "matchweek": "Round 19"
       },
       "sports_type": "soccer",
       "team1": {
