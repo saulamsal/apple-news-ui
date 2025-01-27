@@ -119,14 +119,30 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
           </LinearGradient>
         )}
         
+
+
+
+
+
+
         <View className="px-4 py-3">
-          <View className="h-[20px] w-[150px] -ml-2.5 mb-2">
-            <Image
-              source={{ uri: item.source.logo_transparent_light }}
-              className="w-full h-full"
-              resizeMode="contain"
-            />
-          </View>
+
+
+        <View>
+
+
+<Image
+    source={{ uri: item.source.logo_transparent_light }}
+    className=""
+    style={{
+      width: 80,
+      height: 24 
+    }}
+    resizeMode="contain"
+  />
+</View>
+  
+
           <Animated.Text 
             className="text-2xl leading-8 font-bold -tracking-[1px]"
             sharedTransitionTag={`title-${item.id}`}
@@ -180,14 +196,30 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
           </LinearGradient>
         )}
 
+
+
+
       <View className="flex-1 p-4 pr-[120px] mt-2.5">
-        <View className="h-[30px] w-[120px] -ml-2.5 mb-2">
-          <Image
-            source={{ uri: item.source.logo_transparent_light }}
-            className="w-full h-full"
-            resizeMode="contain"
-          />
-        </View>
+     
+
+
+      <View className="
+      mb-2 overflow-hidden mt-4">
+
+
+<Image
+    source={{ uri: item.source.logo_transparent_light }}
+    className=""
+    style={{
+      width: 80,
+      height: 24 ,
+      overflow: 'hidden'
+    }}
+    resizeMode="contain"
+  />
+</View>
+  
+
         <Text className="text-lg leading-[22px] font-bold -tracking-[0.8px]">
           {item.title}
         </Text>
