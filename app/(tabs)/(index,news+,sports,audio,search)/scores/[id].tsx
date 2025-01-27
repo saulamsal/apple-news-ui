@@ -30,6 +30,7 @@ type Team = {
   id: string;
   name: string;
   full_name: string;
+  nickname: string;
   current_form: string;
   bg_color: string;
   logo: string;
@@ -398,14 +399,14 @@ export default function ScoreDetailsScreen() {
           <View style={[styles.teamsContainer, { marginTop: insets.top + 20 }]}>
             <View style={styles.teamSection}>
               {/* <BlurView intensity={40} tint="light" style={styles.scoreGradient}> */}
-                <Text style={styles.scoreText}>{score.team1.score}</Text>
+                <Text style={styles.scoreText}>{score.team1.score || ' '}</Text>
               {/* </BlurView> */}
               <Image source={getImageSource(score.team1.logo)} style={styles.teamLogo} />
             </View>
 
             <View style={styles.teamSection}>
               {/* <BlurView intensity={40} tint="light" style={styles.scoreGradient}> */}
-                <Text style={styles.scoreText}>{score.team2.score}</Text>
+                <Text style={styles.scoreText}>{score.team2.score || ' '}</Text>
               {/* </BlurView> */}
               <Image source={getImageSource(score.team2.logo)} style={styles.teamLogo} />
             </View>
@@ -461,17 +462,7 @@ export default function ScoreDetailsScreen() {
             />
           </View> */}
 
-          {score.is_live && (
-            <View style={styles.liveActivityContainer}>
-              <Text style={styles.liveActivityText}>Enable Live Activity</Text>
-              <Switch 
-                value={false}
-                onValueChange={(value) => Alert.alert('Live Activity', value ? 'Enabled' : 'Disabled')}
-                trackColor={{ false: '#767577', true: '#34C759' }}
-                thumbColor="#fff"
-              />
-            </View>
-          )}
+
 
           <View style={styles.viewMoreContainer}>
             <Text style={styles.viewMoreTitle}>View more from</Text>
@@ -576,11 +567,17 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   timeText: {
-    fontSize: 24,
+    fontSize: 10,
     fontWeight: '600',
+    backgroundColor: 'gray',
+    borderRadius: 10,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    color: '#fff',
+    marginBottom: 6,
   },
   finalText: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: '600',
     letterSpacing: 2,
   },
@@ -602,11 +599,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#FF3B30',
   },
   dateText: {
-    fontSize: 18,
+    fontSize: 15,
   },
   competitionText: {
     opacity: 0.8,
-    fontSize: 16,
+    fontSize: 14,
   },
   adContainer: {
     marginTop: 20,
@@ -618,19 +615,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  liveActivityContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '100%',
-    paddingHorizontal: 20,
-    marginTop: 20,
-    marginBottom: 10,
-  },
-  liveActivityText: {
-    fontSize: 17,
-    fontWeight: '600',
-  },
+
   viewMoreContainer: {
     width: '100%',
     paddingHorizontal: 20,
