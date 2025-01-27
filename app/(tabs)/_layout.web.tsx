@@ -181,12 +181,14 @@ export default function WebLayout() {
       <View className={`${isCompact ? 'w-[72px]' : 'w-[400px]'}  items-end sticky top-0 h-screen border-r border-gray-500`}
         style={{borderRightColor: borderColor, backgroundColor: backgroundColor}}>
         <View className={`sticky ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full`}>
+
           <View className="mb-8 pl-3 pt-3">
-            <AppleNewsLogo
-              color="#FA2E47"
-              width={isCompact ? 32 : 40}
-              height={isCompact ? 32 : 40}
-            />
+
+          <View className="flex-row items-center gap-[2px] mt-2">
+            <Ionicons name="logo-apple" size={32} color="#000" />
+            <Text className="font-extrabold text-[30px] tracking-tighter">News</Text>
+          </View>
+        
           </View>
 
           <View className="gap-2">
