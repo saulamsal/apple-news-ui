@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback } from 'react';
-import { View, TextInput, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity, StyleSheet, Platform, Image, ScrollView } from 'react-native';
 import { ScrollViewWithHeaders, Header } from '@codeherence/react-native-header';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,13 +7,14 @@ import { AnimatedAccordion } from '@/components/AnimatedAccordion';
 import searchEntities from '@/app/data/search_entities.json';
 import entities from '@/app/data/entities.json';
 import { CategoryCard } from '@/components/CategoryCard';
-import { SearchData } from '@/app/types/search';
+import { SearchData } from '@/src/types/search';
 import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
 import { BlurView } from 'expo-blur';
 import Animated, { SharedValue } from 'react-native-reanimated';
-import { getAllCategories, getAllEntitiesForSection, lookupEntity } from '@/app/utils/entityUtils';
+import { getAllCategories, getAllEntitiesForSection, lookupEntity } from '@/src/utils/entityUtils';
 import { Link } from 'expo-router';
 import Head from 'expo-router/head';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 
 interface Entity {
     id: string;
@@ -21,6 +22,7 @@ interface Entity {
     logo?: string;
     icon?: string;
     type: string;
+    entity_type?: string;
     description?: string;
 }
 
@@ -241,6 +243,10 @@ export default function SearchScreen() {
                             ))}
                         </>
                     )}
+
+                <Link href="/settings" className="p-4 mb-10">
+                    <Text className="text-gray-500 text-center">Settings</Text>
+                </Link>
                 </ScrollViewWithHeaders>
             </View>
         </>

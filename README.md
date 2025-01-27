@@ -109,3 +109,4 @@ ii.
 [] swap expo-av with expo-audio
 [x] Lock screen player
 [] Lock screen control
+[] Push Notifications (APNs credentials left)

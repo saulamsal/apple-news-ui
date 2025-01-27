@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ViewStyle } from 'react-native';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { CategoryCard } from './CategoryCard';
 import entities from '@/app/data/entities.json';
-import { getAllCategories, getAllEntitiesForSection } from '@/app/utils/entityUtils';
+import { getAllCategories, getAllEntitiesForSection } from '@/src/utils/entityUtils';
 import searchEntities from '@/app/data/search_entities.json';
 import { Ionicons } from '@expo/vector-icons';
 import { TextInput, TouchableOpacity } from 'react-native';

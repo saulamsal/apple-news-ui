@@ -20,7 +20,7 @@ import Head from 'expo-router/head';
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { NewsLogo } from '@/components/NewsLogo';
-import { formatSimpleDate } from '@/utils/dateFormatters';
+import { formatSimpleDate } from '@/src/utils/dateFormatters';
 import { FlashList } from '@shopify/flash-list';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
