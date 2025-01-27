@@ -586,17 +586,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 8,
     marginBottom: 4,
+    backgroundColor: '#FF3B30',
+    borderRadius: 6,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+   
   },
   liveText: {
-    fontSize: 24,
+    fontSize: 14,
     fontWeight: '600',
-    color: '#FF3B30',
+    color: '#fff',
   },
   liveDot: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#FF3B30',
+    backgroundColor: '#fff',
   },
   dateText: {
     fontSize: 15,
