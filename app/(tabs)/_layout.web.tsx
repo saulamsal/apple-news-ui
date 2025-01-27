@@ -1,37 +1,9 @@
 import { Stack, useSegments, useRouter } from "expo-router";
-import { Platform, StyleSheet, View, Pressable, useWindowDimensions, Text } from 'react-native';
+import { Platform, View, Pressable, useWindowDimensions, Text } from 'react-native';
 import { AppleNewsLogo } from '@/components/icons/AppleNewsLogo';
 import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import type { ViewStyle, TextStyle } from 'react-native';
 import { Sidebar } from '@/components/Sidebar';
-
-// Add WebKit types for web
-type WebkitStyles = {
-  WebkitBackdropFilter?: string;
-};
-
-type Styles = {
-  container: ViewStyle;
-  leftNav: ViewStyle;
-  leftNavCompact: ViewStyle;
-  leftNavContent: ViewStyle;
-  leftNavContentCompact: ViewStyle;
-  logoContainer: ViewStyle;
-  nav: ViewStyle;
-  navItem: ViewStyle;
-  navItemCompact: ViewStyle;
-  navLabel: TextStyle;
-  navLabelActive: TextStyle;
-  content: ViewStyle;
-  contentInner: ViewStyle;
-  sidebar: ViewStyle;
-  sidebarContent: ViewStyle;
-  mobileTabBar: ViewStyle & WebkitStyles;
-  mobileTabItem: ViewStyle;
-  mobileTabLabel: TextStyle;
-  mainContentWrapper: ViewStyle;
-};
 
 type AppRoutes =
   | "/(tabs)/(index)"
@@ -56,30 +28,28 @@ function SidebarItem({
 }) {
   const colorScheme = useColorScheme();
   const router = useRouter();
-  const hoverBg = colorScheme === 'dark' ? 'rgba(239, 243, 244, 0.1)' : 'rgba(15, 20, 25, 0.1)';
-  const activeBg = colorScheme === 'dark' ? 'rgba(250, 45, 72, 0.1)' : 'rgba(250, 45, 72, 0.1)';
+  const hoverBg = colorScheme === 'dark' ? 'rgba(255, 59, 48, 0.1)' : 'rgba(255, 59, 48, 0.1)';
+  const activeBg = colorScheme === 'dark' ? 'rgba(255, 59, 48, 0.15)' : 'rgba(255, 59, 48, 0.15)';
+  const textColor = colorScheme === 'dark' ? '#e7e9ea' : '#000000';
 
   return (
     <Pressable
       onPress={() => router.push(href)}
+      className={`flex flex-row items-center p-2 rounded-lg gap-3 mb-0.5 cursor-pointer transition-all duration-200 ${
+        compact ? 'justify-center p-3 gap-0' : 'pl-4 pr-6'
+      } ${isActive ? 'bg-[#e6e6e7]' : ''}`}
       style={({ pressed, hovered }) => [
-        styles.navItem,
-        compact && styles.navItemCompact,
-        isActive && { backgroundColor: activeBg },
         (pressed || hovered) && { backgroundColor: hoverBg }
       ]}
     >
       <Ionicons
         name={icon}
-        size={28}
-        color={isActive ? '#FA2D48' : colorScheme === 'dark' ? '#e7e9ea' : '#0f1419'}
+        size={24}
+        color={isActive ? '#FD325A' : '#FD325A'}
       />
       {!compact && (
-        <Text style={[
-          styles.navLabel,
-          isActive && styles.navLabelActive,
-          { color: colorScheme === 'dark' ? '#e7e9ea' : '#0f1419' }
-        ]}>
+        <Text className={`text-[15px] font-semibold ${isActive ? 'font-bold' : ''}`} 
+          style={{color: textColor}}>
           {label}
         </Text>
       )}
@@ -90,7 +60,8 @@ function SidebarItem({
 export default function WebLayout() {
   const colorScheme = useColorScheme();
   const { width } = useWindowDimensions();
-  const backgroundColor = colorScheme === 'dark' ? '#000' : '#fff';
+  // const backgroundColor = colorScheme === 'dark' ? '#000' : '#fff';
+  const backgroundColor = '#f9f9f9';
   const borderColor = colorScheme === 'dark' ? '#2f3336' : '#eee';
 
   const isCompact = width < 1024;
@@ -102,90 +73,88 @@ export default function WebLayout() {
 
   if (isMobile) {
     return (
-      <View style={{ flex: 1 }}>
+      <View className="flex-1">
         <Stack
           screenOptions={{
             headerShown: false,
           }}
         />
-        <View style={[
-          styles.mobileTabBar,
-          {
+        <View className={`fixed bottom-0 left-0 right-0 h-16 flex-row border-t ${Platform.OS === 'ios' ? 'pb-5' : ''}`}
+          style={{
             borderTopColor: borderColor,
             backgroundColor: colorScheme === 'dark' ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.7)',
             backdropFilter: 'blur(12px)',
             WebkitBackdropFilter: 'blur(12px)'
-          }
-        ]}>
+          }}>
           <Pressable
             onPress={() => router.push("/(tabs)/(index)")}
-            style={styles.mobileTabItem}
+            className="flex-1 items-center justify-center gap-1"
           >
             <Ionicons
               name="home"
               size={24}
-              color={segments[1] === '(index)' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666'}
+              color={segments[1] === '(index)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
             />
-            <Text style={[
-              styles.mobileTabLabel,
-              { color: segments[1] === '(index)' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666' }
-            ]}>Home</Text>
+            <Text className="text-xs font-medium"
+              style={{color: segments[1] === '(index)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}}>
+              Home
+            </Text>
           </Pressable>
           <Pressable
             onPress={() => router.push("/(tabs)/(news+)/news+")}
-            style={styles.mobileTabItem}
+            className="flex-1 items-center justify-center gap-1"
           >
             <Ionicons
               name="newspaper"
               size={24}
-              color={segments[2] === 'news+' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666'}
+              color={segments[2] === 'news+' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
             />
-            <Text style={[
-              styles.mobileTabLabel,
-              { color: segments[2] === 'news+' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666' }
-            ]}>News+</Text>
+            <Text className="text-xs font-medium"
+              style={{color: segments[2] === 'news+' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}}>
+              News+
+            </Text>
           </Pressable>
           <Pressable
             onPress={() => router.push("/(tabs)/(sports)/sports")}
-            style={styles.mobileTabItem}
+            className="flex-1 items-center justify-center gap-1"
           >
             <Ionicons
               name="football"
               size={24}
-              color={segments[2] === 'sports' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666'}
+              color={segments[2] === 'sports' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
             />
-            <Text style={[
-              styles.mobileTabLabel,
-              { color: segments[2] === 'sports' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666' }
-            ]}>Sports</Text>
+            <Text className="text-xs font-medium"
+              style={{color: segments[2] === 'sports' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}}>
+              Sports
+            </Text>
           </Pressable>
           <Pressable
             onPress={() => router.push("/(tabs)/(audio)/audio")}
-            style={styles.mobileTabItem}
+            className="flex-1 items-center justify-center gap-1"
           >
             <Ionicons
               name="headset"
               size={24}
-              color={segments[2] === 'audio' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666'}
+              color={segments[2] === 'audio' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
             />
-            <Text style={[
-              styles.mobileTabLabel,
-              { color: segments[2] === 'audio' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666' }
-            ]}>Audio</Text>
+            <Text className="text-xs font-medium"
+              style={{color: segments[2] === 'audio' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}}>
+              Audio
+            </Text>
           </Pressable>
           <Pressable
             onPress={() => router.push("/(tabs)/(search)/search")}
-            style={styles.mobileTabItem}
+            className="flex-1 items-center justify-center gap-1"
           >
             <Ionicons
               name="heart"
               size={24}
-              color={segments[2] === 'search' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666'}
+              color={segments[2] === 'search' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
             />
-            <Text style={[
-              styles.mobileTabLabel,
-              { color: segments[2] === 'search' ? '#FA2D48' : colorScheme === 'dark' ? '#999' : '#666' }
-            ]}>Following</Text>
+            <Text className="text-xs font-medium"
+              style={{color: segments[2] === 'search' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}}>
+              Following
+            </Text>
           </Pressable>
         </View>
       </View>
@@ -193,25 +162,20 @@ export default function WebLayout() {
   }
 
   return (
-    <View style={[styles.container, { backgroundColor }]}>
-      <View style={[
-        styles.leftNav,
-        { borderRightColor: borderColor },
-        isCompact && styles.leftNavCompact
-      ]}>
-        <View style={[
-          styles.leftNavContent,
-          isCompact && styles.leftNavContentCompact
-        ]}>
-          <View style={styles.logoContainer}>
+    <View className="flex-row sticky left-0 right-0 min-h-full h-screen overflow-y-scroll " 
+      style={{backgroundColor}}>
+      <View className={`${isCompact ? 'w-[72px]' : 'w-[400px]'}  items-end sticky top-0 h-screen border-r border-gray-500`}
+        style={{borderRightColor: borderColor}}>
+        <View className={`sticky ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full`}>
+          <View className="mb-8 pl-3 pt-3">
             <AppleNewsLogo
-              color="#FA2D48"
+              color="#FA2E47"
               width={isCompact ? 32 : 40}
               height={isCompact ? 32 : 40}
             />
           </View>
 
-          <View style={styles.nav}>
+          <View className="gap-1">
             <SidebarItem icon="home" label="Home" href="/(tabs)/(index)" compact={isCompact} isActive={segments[1] === '(index)'} />
             <SidebarItem icon="newspaper" label="News+" href="/(tabs)/(news+)" compact={isCompact} isActive={segments[1] === '(news+)'} />
             <SidebarItem icon="football" label="Sports" href="/(tabs)/(sports)" compact={isCompact} isActive={segments[1] === '(sports)'} />
@@ -221,10 +185,9 @@ export default function WebLayout() {
         </View>
       </View>
 
-      <View className="flex-1 flex-row" style={styles.mainContentWrapper}>
-
-        <View style={styles.content}>
-          <View style={styles.contentInner}>
+      <View className="flex-1 flex-row max-w-[1000px] justify-center min-h-full">
+        <View className="flex-1">
+          <View className="flex-1 w-full max-w-[611px] bg-transparent">
             <Stack
               screenOptions={{
                 headerShown: false,
@@ -234,8 +197,9 @@ export default function WebLayout() {
         </View>
 
         {showSidebar && (
-          <View style={[styles.sidebar, { borderLeftColor: borderColor }]}>
-            <View style={styles.sidebarContent}>
+          <View className="w-[320px] border-l sticky top-0"
+            style={{borderLeftColor: borderColor}}>
+            <View className="p-4">
               <Sidebar />
             </View>
           </View>
@@ -244,136 +208,4 @@ export default function WebLayout() {
     </View>
   );
 }
-
-const styles = StyleSheet.create<Styles>({
-  mainContentWrapper: {
-    flex: 1,
-    maxWidth: 1000,
-    justifyContent: 'center',
-    ...(Platform.OS === 'web' ? {
-      minHeight: '100%' as any,
-    } : {}),
-  },
-  container: {
-    flexDirection: 'row',
-    ...(Platform.OS === 'web' ? {
-      minHeight: '100%' as any,
-      position: 'absolute' as any,
-      left: 0,
-      right: 0,
-      height: '100vh' as any,
-      overflowY: 'scroll',
-    } : {}),
-  },
-  leftNav: {
-    width: 400,
-    borderRightWidth: 1,
-    alignItems: 'flex-end',
-    ...(Platform.OS === 'web' ? {
-      position: 'sticky' as any,
-      top: 0,
-      height: '100vh' as any,
-    } : {}),
-  },
-  leftNavCompact: {
-    width: 72,
-  },
-  leftNavContent: {
-    position: 'sticky',
-    width: 275,
-    height: '100%',
-    padding: 8,
-  },
-  leftNavContentCompact: {
-    width: 72,
-    padding: 8,
-  },
-  logoContainer: {
-    marginBottom: 32,
-    paddingLeft: 12,
-    paddingTop: 12,
-  },
-  nav: {
-    gap: 4,
-  },
-  navItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 12,
-    paddingLeft: 16,
-    paddingRight: 24,
-    borderRadius: 9999,
-    gap: 16,
-    ...(Platform.OS === 'web' ? {
-      cursor: 'pointer' as any,
-    } : {}),
-  },
-  navItemCompact: {
-    justifyContent: 'center',
-    padding: 12,
-    gap: 0,
-  },
-  navLabel: {
-    fontSize: 20,
-    fontWeight: '500',
-    fontFamily: Platform.select({
-      web: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
-      default: undefined,
-    }),
-  },
-  navLabelActive: {
-    color: '#FA2D48',
-    fontWeight: '700',
-  },
-  content: {
-    flex: 1,
-  },
-  contentInner: {
-    flex: 1,
-    width: '100%',
-    maxWidth: 611,
-    backgroundColor: 'transparent',
-  },
-  sidebar: {
-    width: 320,
-    borderLeftWidth: 1,
-    position: 'sticky' as any,
-    top: 0,
-    // height: '100vh' as any,
-    // ...(Platform.OS === 'web' ? {
-    //   position: 'sticky' as any,
-    //   top: 0,
-    //   height: '100vh' as any,
-    // }
-    //  : {})
-    //  ,
-  },
-  sidebarContent: {
-    padding: 16,
-  },
-  mobileTabBar: {
-    position: 'fixed',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 64,
-    flexDirection: 'row',
-    borderTopWidth: 1,
-    paddingBottom: Platform.OS === 'ios' ? 20 : 0,
-    ...(Platform.OS === 'web' ? {
-      backdropFilter: 'blur(12px)',
-      WebkitBackdropFilter: 'blur(12px)',
-    } : {}),
-  },
-  mobileTabItem: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 4,
-  },
-  mobileTabLabel: {
-    fontSize: 12,
-    fontWeight: '500',
-  },
-});
 
