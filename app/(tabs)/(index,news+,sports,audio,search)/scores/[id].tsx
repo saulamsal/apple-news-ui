@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet, TouchableOpacity, Platform, Alert, ScrollView, Switch } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Platform, Alert, ScrollView, Switch, ViewStyle } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -6,15 +6,25 @@ import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scores } from '@/data/scores.json';
 import { format } from 'date-fns';
-import { MotiView } from 'moti';
 import { news } from '@/data/news.json';
 import { NewsItem, NewsItemType } from '@/components/NewsItem';
 import { SlidingBanner } from '@/components/SlidingBanner';
 import { ScrollViewWithHeaders, Header } from '@codeherence/react-native-header';
-import Animated, { SharedValue, useSharedValue } from 'react-native-reanimated';
+import Animated, { 
+  SharedValue,
+  withSpring,
+  withRepeat,
+  useAnimatedStyle,
+  withSequence,
+  withTiming,
+  Easing,
+  useSharedValue,
+  AnimateStyle,
+} from 'react-native-reanimated';
 import { useFonts, Orbitron_700Bold, Orbitron_900Black } from '@expo-google-fonts/orbitron';
 import * as DropdownMenu from '@/components/StyledDropdownMenu';
 import * as Sharing from 'expo-sharing';
+import React, { useReducer, useEffect } from 'react';
 // import * as Clipboard from 'expo-clipboard';
 
 
@@ -62,22 +72,38 @@ const getImageSource = (path: string) => {
   return { uri: path };
 };
 
+const pulseKeyframes = {
+  0: {
+    opacity: 0.4,
+    transform: [{ scale: 0.8 }]
+  },
+  1: {
+    opacity: 1,
+    transform: [{ scale: 1 }]
+  }
+} as const;
+
 const LiveDot = () => (
-  <MotiView
-    from={{
-      opacity: 0.4,
-      scale: 0.8,
-    }}
-    animate={{
-      opacity: 1,
-      scale: 1,
-    }}
-    transition={{
-      type: 'timing',
-      duration: 1000,
-      loop: true,
-    }}
-    style={styles.liveDot}
+  <Animated.View
+    style={[
+      styles.liveDot,
+      {
+        animationName: {
+          from: {
+            opacity: 0.4,
+            transform: [{ scale: 0.8 }]
+          },
+          to: {
+            opacity: 1,
+            transform: [{ scale: 1 }]
+          }
+        },
+        animationDuration: '2000ms',
+        animationIterationCount: 'infinite',
+        animationDirection: 'alternate',
+        animationTimingFunction: 'easeInOut',
+      } as any
+    ]}
   />
 );
 
@@ -372,25 +398,21 @@ export default function ScoreDetailsScreen() {
       >
          <LinearGradient
         colors={[score.team1.bg_color, score.team2.bg_color]}
-
         start={Platform.OS === 'web' ? { x: -0.3, y: 0.3 } : { x: -0.3, y: 0.3 }}
         end={Platform.OS === 'web' ? { x: 1, y: 0.7 } : { x: 1, y: 0.7 }}
         locations={Platform.OS === 'web' ? [0.5, 0.5] : [0.65, 0.65]}
-
-        style={{
+        style={Platform.OS === 'web' ? {
           position: 'absolute',
-          ...(Platform.OS === 'web' ? {
-            width: 'calc(100% - 20px)',
-            // marginLeft: 10,
-            borderRadius: 20,
-            top: 10,
-            height: 240,
-          } : {
-            top: -100,
-            left: 0,
-            right: 0,
-            height: 350 + insets.top,
-          })
+          width: '95%',
+          borderRadius: 20,
+          top: 10,
+          height: 240,
+        } : {
+          position: 'absolute',
+          top: -100,
+          left: 0,
+          right: 0,
+          height: 350 + insets.top,
         }}
       />
 

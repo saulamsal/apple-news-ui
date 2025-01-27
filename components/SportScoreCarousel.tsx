@@ -3,7 +3,7 @@ import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Alert } fr
 import { format } from 'date-fns';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useRouter } from 'expo-router';
-import { MotiView } from 'moti';
+import Animated from 'react-native-reanimated';
 
 
 
@@ -35,21 +35,26 @@ interface SportScoreCarouselProps {
 }
 
 const LiveDot = () => (
-  <MotiView
-    from={{
-      opacity: 0.4,
-      scale: 0.8,
-    }}
-    animate={{
-      opacity: 1,
-      scale: 1,
-    }}
-    transition={{
-      type: 'timing',
-      duration: 1000,
-      loop: true,
-    }}
-    style={styles.liveDot}
+  <Animated.View
+    style={[
+      styles.liveDot,
+      {
+        animationName: {
+          from: {
+            opacity: 0.4,
+            transform: [{ scale: 0.8 }]
+          },
+          to: {
+            opacity: 1,
+            transform: [{ scale: 1 }]
+          }
+        },
+        animationDuration: '2000ms',
+        animationIterationCount: 'infinite',
+        animationDirection: 'alternate',
+        animationTimingFunction: 'easeInOut',
+      } as any
+    ]}
   />
 );
 

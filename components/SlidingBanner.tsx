@@ -1,5 +1,5 @@
 import { TouchableOpacity, View, Text, Image, StyleSheet } from 'react-native';
-import { MotiView } from 'moti';
+import Animated from 'react-native-reanimated';
 import { Ionicons } from '@expo/vector-icons';
 
 interface SlidingBannerProps {
@@ -27,28 +27,26 @@ export const SlidingBanner = ({
     backgroundColor 
 }: SlidingBannerProps) => {
     return (
-        <MotiView
-            from={{
-                opacity: 0,
-                scale: 0.95,
-                translateY: -20,
-            }}
-            animate={{
-                opacity: 1,
-                scale: 1,
-                translateY: 0,
-            }}
-            transition={{
-                type: 'timing',
-                duration: 400,
-                delay: 300,
-            }}
-            style={{
-                height: 56,
-                marginVertical: 16,
-                overflow: 'hidden',
-                paddingHorizontal: 4,
-            }}
+        <View className="my-2">
+            <Animated.View
+                style={[
+                    styles.container,
+                {
+                    animationName: {
+                        from: {
+                            transform: [{ translateY: 10 }],
+                            opacity: 0
+                        },
+                        to: {
+                            transform: [{ translateX: 0 }],
+                            opacity: 1
+                        }
+                    },
+                    animationDuration: '500ms',
+                    animationTimingFunction: 'easeOut',
+                    backgroundColor
+                } as any
+            ]}
         >
             <TouchableOpacity 
                 onPress={onPress}
@@ -98,24 +96,29 @@ export const SlidingBanner = ({
                     />
                 )}
             </TouchableOpacity>
-        </MotiView>
+        </Animated.View>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        height: '100%',
+        // height: '100%',
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 16,
+        paddingHorizontal: 4,
+        paddingVertical: 2,
         justifyContent: 'space-between',
         borderRadius: 12,
         overflow: 'hidden',
+        width: '100%',
+   
     },
     contentContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         gap: 12,
+        
     },
     leadingImage: {
         width: 28,
