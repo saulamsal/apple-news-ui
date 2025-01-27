@@ -7,6 +7,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { NewsLogo } from '@/components/NewsLogo';
 import * as DropdownMenu from '@/components/StyledDropdownMenu';
 import * as ContextMenu from 'zeego/context-menu';
+import Animated from 'react-native-reanimated';
 // import { verifyInstallation } from 'nativewind';
 
 interface Source {
@@ -30,6 +31,7 @@ export interface NewsItemType {
   featured_image: string;
   card_type: 'full' | 'medium';
   is_news_plus: boolean;
+  description?: string;
   related_news?: {
     id: string;
     title: string;
@@ -93,10 +95,11 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
   if (item.card_type === 'full') {
     return (
       <>
-        <Image 
+        <Animated.Image 
           source={{ uri: item.featured_image }} 
           className="w-full h-[240px]" 
           resizeMode="cover"
+          sharedTransitionTag={`image-${item.id}`}
         />
 
         {item.is_news_plus && (
@@ -120,9 +123,12 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
               resizeMode="contain"
             />
           </View>
-          <Text className="text-2xl leading-8 font-bold -tracking-[1px]">
+          <Animated.Text 
+            className="text-2xl leading-8 font-bold -tracking-[1px]"
+            sharedTransitionTag={`title-${item.id}`}
+          >
             {item.title}
-          </Text>
+          </Animated.Text>
 
           {item.description && <Text className="text-xl text-gray-500 mt-2 tracking-tighter ">{item.description}</Text>}
 

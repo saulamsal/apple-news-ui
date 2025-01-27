@@ -3,7 +3,6 @@ import { ScrollViewWithHeaders, Header, ScrollHeaderProps } from '@codeherence/r
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Ionicons } from '@expo/vector-icons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-
 import { router } from 'expo-router';
 import Animated, { useSharedValue } from 'react-native-reanimated';
 import { useEffect } from 'react'
@@ -97,9 +96,12 @@ export function ContentView({ content }: ContentViewProps) {
 
 
        <View className="gap-2 px-7 py-8">
-       <Text style={[styles.title, { fontWeight: 'bold' }]}>
+       <Animated.Text 
+         style={[styles.title, { fontWeight: 'bold' }]}
+         sharedTransitionTag={`title-${content.id}`}
+       >
             {content.title}
-          </Text>
+          </Animated.Text>
 {/* 
           {content.show_topic && (
             <View style={styles.topicContainer}>
@@ -124,10 +126,11 @@ export function ContentView({ content }: ContentViewProps) {
 
        </View>
 
-          <Image
-          source={{ uri: content.featured_image }}
-          style={styles.featuredImage}
-        />
+          <Animated.Image
+            source={{ uri: content.featured_image }}
+            style={styles.featuredImage}
+            sharedTransitionTag={`image-${content.id}`}
+          />
 
 
 
