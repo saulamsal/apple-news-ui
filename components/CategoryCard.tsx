@@ -48,9 +48,10 @@ export function CategoryCard({ id, title, logo, icon, description }: CategoryCar
 
 const styles = StyleSheet.create<Styles>({
   container: {
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
     borderRadius: 10,
-    padding: 12,
+    // padding: 4,
+    paddingHorizontal: 8,
   },
   content: {
     flexDirection: 'row',
@@ -58,8 +59,8 @@ const styles = StyleSheet.create<Styles>({
     gap: 12,
   },
   logo: {
-    width: 40,
-    height: 40,
+    width: 36,
+    height: 36,
     borderRadius: 20,
   },
   title: {

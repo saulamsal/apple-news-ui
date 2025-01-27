@@ -4,6 +4,7 @@ import { AppleNewsLogo } from '@/components/icons/AppleNewsLogo';
 import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Sidebar } from '@/components/Sidebar';
+import { Home, NewsPlus, Sports, Search } from '@/assets/svg/tab-icons'
 
 type AppRoutes =
   | "/(tabs)/(index)"
@@ -20,7 +21,7 @@ function SidebarItem({
   isActive,
   compact = false
 }: {
-  icon: keyof typeof Ionicons.glyphMap;
+  icon: keyof typeof Ionicons.glyphMap | 'home' | 'news' | 'sports' | 'search';
   label: string;
   href: AppRoutes;
   isActive?: boolean;
@@ -32,21 +33,34 @@ function SidebarItem({
   const activeBg = colorScheme === 'dark' ? 'rgba(255, 59, 48, 0.15)' : 'rgba(255, 59, 48, 0.15)';
   const textColor = colorScheme === 'dark' ? '#e7e9ea' : '#000000';
 
+  const iconColor = isActive ? '#FD325A' : '#8E8E8F';
+  
+  const getIcon = () => {
+    switch (icon) {
+      case 'home':
+        return <Home width={24} height={24} color={iconColor} />;
+      case 'news':
+        return <NewsPlus width={24} height={24} color={iconColor} />;
+      case 'sports':
+        return <Sports width={30} height={30} color={iconColor} />;
+      case 'search':
+        return <Search width={24} height={24} color={iconColor} />;
+      default:
+        return <Ionicons name={icon as keyof typeof Ionicons.glyphMap} size={24} color={iconColor} />;
+    }
+  };
+
   return (
     <Pressable
       onPress={() => router.push(href)}
-      className={`flex flex-row items-center p-2 rounded-lg gap-3 mb-0.5 cursor-pointer transition-all duration-200 ${
-        compact ? 'justify-center p-3 gap-0' : 'pl-4 pr-6'
+      className={`flex flex-row items-center p-1 rounded-lg gap-3 mb-0.5 cursor-pointer transition-all duration-200 mr-8 ${
+        compact ? 'justify-center p-3 gap-0' : 'pl-2 pr-6'
       } ${isActive ? 'bg-[#e6e6e7]' : ''}`}
       style={({ pressed, hovered }) => [
         (pressed || hovered) && { backgroundColor: hoverBg }
       ]}
     >
-      <Ionicons
-        name={icon}
-        size={24}
-        color={isActive ? '#FD325A' : '#FD325A'}
-      />
+      {getIcon()}
       {!compact && (
         <Text className={`text-[15px] font-semibold ${isActive ? 'font-bold' : ''}`} 
           style={{color: textColor}}>
@@ -60,16 +74,19 @@ function SidebarItem({
 export default function WebLayout() {
   const colorScheme = useColorScheme();
   const { width } = useWindowDimensions();
+
+
+  const router = useRouter();
+  const segments = useSegments();
+
+
   // const backgroundColor = colorScheme === 'dark' ? '#000' : '#fff';
   const backgroundColor = '#f9f9f9';
   const borderColor = colorScheme === 'dark' ? '#2f3336' : '#eee';
 
   const isCompact = width < 1024;
   const isMobile = width < 768;
-  const showSidebar = width >= 1024;
-
-  const router = useRouter();
-  const segments = useSegments();
+  const showSidebar = width >= 1024 && segments[1] !== '(search)';
 
   if (isMobile) {
     return (
@@ -90,10 +107,10 @@ export default function WebLayout() {
             onPress={() => router.push("/(tabs)/(index)")}
             className="flex-1 items-center justify-center gap-1"
           >
-            <Ionicons
-              name="home"
-              size={24}
-              color={segments[1] === '(index)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
+            <Home 
+              width={24} 
+              height={24} 
+              color={segments[1] === '(index)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'} 
             />
             <Text className="text-xs font-medium"
               style={{color: segments[1] === '(index)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}}>
@@ -104,13 +121,13 @@ export default function WebLayout() {
             onPress={() => router.push("/(tabs)/(news+)/news+")}
             className="flex-1 items-center justify-center gap-1"
           >
-            <Ionicons
-              name="newspaper"
-              size={24}
-              color={segments[2] === 'news+' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
+            <NewsPlus 
+              width={24} 
+              height={24} 
+              color={segments[1] === '(news+)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'} 
             />
             <Text className="text-xs font-medium"
-              style={{color: segments[2] === 'news+' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}}>
+              style={{color: segments[1] === '(news+)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}}>
               News+
             </Text>
           </Pressable>
@@ -118,13 +135,13 @@ export default function WebLayout() {
             onPress={() => router.push("/(tabs)/(sports)/sports")}
             className="flex-1 items-center justify-center gap-1"
           >
-            <Ionicons
-              name="football"
-              size={24}
-              color={segments[2] === 'sports' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
+            <Sports 
+              width={30} 
+              height={30} 
+              color={segments[1] === '(sports)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'} 
             />
             <Text className="text-xs font-medium"
-              style={{color: segments[2] === 'sports' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}}>
+              style={{color: segments[1] === '(sports)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}}>
               Sports
             </Text>
           </Pressable>
@@ -132,13 +149,9 @@ export default function WebLayout() {
             onPress={() => router.push("/(tabs)/(audio)/audio")}
             className="flex-1 items-center justify-center gap-1"
           >
-            <Ionicons
-              name="headset"
-              size={24}
-              color={segments[2] === 'audio' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
-            />
+            <Ionicons name="headset" size={24} color={segments[1] === '(audio)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'} />
             <Text className="text-xs font-medium"
-              style={{color: segments[2] === 'audio' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}}>
+              style={{color: segments[1] === '(audio)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}}>
               Audio
             </Text>
           </Pressable>
@@ -146,13 +159,13 @@ export default function WebLayout() {
             onPress={() => router.push("/(tabs)/(search)/search")}
             className="flex-1 items-center justify-center gap-1"
           >
-            <Ionicons
-              name="heart"
-              size={24}
-              color={segments[2] === 'search' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
+            <Search 
+              width={24} 
+              height={24} 
+              color={segments[1] === '(search)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'} 
             />
             <Text className="text-xs font-medium"
-              style={{color: segments[2] === 'search' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}}>
+              style={{color: segments[1] === '(search)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}}>
               Following
             </Text>
           </Pressable>
@@ -162,10 +175,11 @@ export default function WebLayout() {
   }
 
   return (
-    <View className="flex-row sticky left-0 right-0 min-h-full h-screen overflow-y-scroll " 
-      style={{backgroundColor}}>
+    <View className="flex-row sticky left-0 right-0 min-h-full h-screen overflow-y-scroll  bg-white" 
+      // style={{backgroundColor}}
+      >
       <View className={`${isCompact ? 'w-[72px]' : 'w-[400px]'}  items-end sticky top-0 h-screen border-r border-gray-500`}
-        style={{borderRightColor: borderColor}}>
+        style={{borderRightColor: borderColor, backgroundColor: backgroundColor}}>
         <View className={`sticky ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full`}>
           <View className="mb-8 pl-3 pt-3">
             <AppleNewsLogo
@@ -175,12 +189,12 @@ export default function WebLayout() {
             />
           </View>
 
-          <View className="gap-1">
+          <View className="gap-2">
             <SidebarItem icon="home" label="Home" href="/(tabs)/(index)" compact={isCompact} isActive={segments[1] === '(index)'} />
-            <SidebarItem icon="newspaper" label="News+" href="/(tabs)/(news+)" compact={isCompact} isActive={segments[1] === '(news+)'} />
-            <SidebarItem icon="football" label="Sports" href="/(tabs)/(sports)" compact={isCompact} isActive={segments[1] === '(sports)'} />
+            <SidebarItem icon="news" label="News+" href="/(tabs)/(news+)" compact={isCompact} isActive={segments[1] === '(news+)'} />
+            <SidebarItem icon="sports" label="Sports" href="/(tabs)/(sports)" compact={isCompact} isActive={segments[1] === '(sports)'} />
             <SidebarItem icon="headset" label="Audio" href="/(tabs)/(audio)" compact={isCompact} isActive={segments[1] === '(audio)'} />
-            <SidebarItem icon="heart" label="Following" href="/(tabs)/(search)" compact={isCompact} isActive={segments[1] === '(search)'} />
+            <SidebarItem icon="search" label="Following" href="/(tabs)/(search)" compact={isCompact} isActive={segments[1] === '(search)'} />
           </View>
         </View>
       </View>
@@ -197,7 +211,7 @@ export default function WebLayout() {
         </View>
 
         {showSidebar && (
-          <View className="w-[320px] border-l sticky top-0"
+          <View className="w-[350px] border-l sticky top-0"
             style={{borderLeftColor: borderColor}}>
             <View className="p-4">
               <Sidebar />

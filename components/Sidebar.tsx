@@ -43,6 +43,7 @@ const HighlightedText = ({ text, highlight }: HighlightedTextProps) => {
 
 export function Sidebar() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [isFocused, setIsFocused] = useState(false);
 
   const searchResults = React.useMemo(() => {
     if (!searchQuery.trim()) return [];
@@ -76,14 +77,26 @@ export function Sidebar() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.searchContainer}>
-        <Ionicons name="search" size={20} color="#666" />
+      <View style={[
+        styles.searchContainer, 
+        isFocused && { 
+          backgroundColor: '#fff',
+          borderColor: '#FA2E46',
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 3,
+        }
+      ]}>
+        <Ionicons name="search" size={20} color={isFocused ? "#FA2E46" : "#666"} />
         <TextInput
-          placeholder="Channels, Topics, & Stories"
+          placeholder="Search Apple News"
           style={styles.input}
           placeholderTextColor="#666"
           value={searchQuery}
           onChangeText={setSearchQuery}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
         />
         {searchQuery ? (
           <TouchableOpacity onPress={() => setSearchQuery('')}>
@@ -157,16 +170,23 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#E3E2EA',
+    backgroundColor: '#00000008',
     paddingHorizontal: 12,
     height: 38,
     borderRadius: 10,
     marginBottom: 16,
+    borderWidth: 1,
+    borderColor: 'transparent',
   },
   input: {
     flex: 1,
     paddingLeft: 8,
     fontSize: 17,
+    // fontWeight: '500',
+    height: '100%',
+    letterSpacing: -0.4,
+    outlineStyle: 'none', // Removes default focus outline on web
+    
   },
   content: {
     flex: 1,
@@ -179,17 +199,22 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   defaultContent: {
-    gap: 24,
+    gap: 12,
   },
   categories: {
     gap: 12,
+    marginVertical:16
   },
   section: {
     gap: 12,
+    borderRadius: 20,
+    padding: 12,
+    backgroundColor: '#00000008',
   },
   sectionTitle: {
-    fontSize: 20,
-    fontWeight: '600',
+    fontSize: 14,
+    // fontWeight: '600',
+    color: '#666',
   },
   sectionContent: {
     gap: 12,
