@@ -45,8 +45,6 @@
       <key>NSAllowsLocalNetworking</key>
       <true/>
     </dict>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>Allow $(PRODUCT_NAME) to access your microphone</string>
     <key>NSSupportsLiveActivities</key>
     <true/>
     <key>NSUserActivityTypes</key>

@@ -159,7 +159,7 @@ export default function HomeScreen() {
 
   const renderNewsItem = (rowData: ListRenderItemInfo<NewsItemType>) => {
     if (rowData.index === 0) {
-      console.log('Updating widget with first news item:', rowData.item);
+      // console.log('Updating widget with first news item:', rowData.item);
       void updateWidget(rowData.item);
     }
     return <NewsItem item={rowData.item} />;
