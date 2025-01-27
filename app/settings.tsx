@@ -82,6 +82,17 @@ export default function Settings() {
     Alert.alert('Copied', 'Token copied to clipboard');
   };
 
+  const sendLocalNotification = async () => {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Hey 𝕏, How is the demo so far? 👋",
+        body: "Go start the repo now!",
+        data: { data: "Local notification test" },
+      },
+      trigger: null,
+    });
+  };
+
   const HeaderComponent = (props: ScrollHeaderProps) => (
     <Header
       showNavBar={props.showNavBar}
@@ -125,6 +136,16 @@ export default function Settings() {
               <Text style={styles.token}>{expoPushToken}</Text>
             </Pressable>
           )}
+
+          <Pressable 
+            onPress={sendLocalNotification}
+            style={({ pressed }) => [
+              styles.notificationButton,
+              { opacity: pressed ? 0.8 : 1 }
+            ]}
+          >
+            <Text style={styles.buttonText}>Send Test Notification</Text>
+          </Pressable>
         </View>
       </View>
     </ScrollViewWithHeaders>
@@ -167,5 +188,17 @@ const styles = StyleSheet.create({
   token: {
     fontSize: 12,
     color: '#333',
+  },
+  notificationButton: {
+    backgroundColor: '#007AFF',
+    padding: 15,
+    borderRadius: 10,
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#000',
+    fontSize: 16,
+    fontWeight: '600',
   },
 }); 

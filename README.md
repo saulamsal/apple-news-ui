@@ -110,3 +110,4 @@ ii.
 [x] Lock screen player
 [] Lock screen control
 [] Push Notifications (APNs credentials left)
+[] Shared transitions [Broken in Expo 52]
