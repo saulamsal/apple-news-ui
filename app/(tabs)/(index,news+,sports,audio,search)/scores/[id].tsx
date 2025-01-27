@@ -209,8 +209,8 @@ export default function ScoreDetailsScreen() {
                   // Start the Live Activity
                   const success = await LiveActivities.startActivity(
                     score.competition.full_name,
-                    score.team1.full_name,
-                    score.team2.full_name,
+                    score.team1.nickname,
+                    score.team2.nickname,
                     score.team1.logo,
                     score.team2.logo,
                     initialState
@@ -279,7 +279,7 @@ export default function ScoreDetailsScreen() {
               <DropdownMenu.Sub>
                 <DropdownMenu.SubTrigger key="team1">
                   <DropdownMenu.ItemIcon />
-                  <DropdownMenu.ItemTitle>{score.team1.full_name}</DropdownMenu.ItemTitle>
+                  <DropdownMenu.ItemTitle>{score.team1.nickname}</DropdownMenu.ItemTitle>
                 </DropdownMenu.SubTrigger>
                 <DropdownMenu.SubContent>
                   <DropdownMenu.Item key="follow1" onSelect={() => handleTeamAction(score.team1, 'Follow')}>
@@ -299,7 +299,7 @@ export default function ScoreDetailsScreen() {
               <DropdownMenu.Sub>
                 <DropdownMenu.SubTrigger key="team2">
                   <DropdownMenu.ItemIcon  />
-                  <DropdownMenu.ItemTitle>{score.team2.full_name}</DropdownMenu.ItemTitle>
+                  <DropdownMenu.ItemTitle>{score.team2.nickname}</DropdownMenu.ItemTitle>
                 </DropdownMenu.SubTrigger>
                 <DropdownMenu.SubContent>
                   <DropdownMenu.Item key="follow2" onSelect={() => handleTeamAction(score.team2, 'Follow')}>
@@ -367,23 +367,29 @@ export default function ScoreDetailsScreen() {
         contentContainerStyle={{
           backgroundColor: '#fff',
         }}
+     
       >
          <LinearGradient
         colors={[score.team1.bg_color, score.team2.bg_color]}
-        // start={{ x: -0.3, y: 0.3 }}
-        // end={{ x: 1, y: 0.7 }}
-        // locations={[0.65, 0.65]}
 
-        start={{ x: -0.3, y: 0.3 }}
-        end={{ x: 1, y: 0.7 }}
-        locations={[0.5, 0.5]}
+        start={Platform.OS === 'web' ? { x: -0.3, y: 0.3 } : { x: -0.3, y: 0.3 }}
+        end={Platform.OS === 'web' ? { x: 1, y: 0.7 } : { x: 1, y: 0.7 }}
+        locations={Platform.OS === 'web' ? [0.5, 0.5] : [0.65, 0.65]}
 
         style={{
           position: 'absolute',
-          top: -100,
-          left: 0,
-          right: 0,
-          height: 350 + insets.top,
+          ...(Platform.OS === 'web' ? {
+            width: 'calc(100% - 20px)',
+            // marginLeft: 10,
+            borderRadius: 20,
+            top: 10,
+            height: 240,
+          } : {
+            top: -100,
+            left: 0,
+            right: 0,
+            height: 350 + insets.top,
+          })
         }}
       />
 
@@ -425,7 +431,7 @@ export default function ScoreDetailsScreen() {
           </Text>
 
           <Text style={styles.teamsText}>
-            {score.team1.full_name} vs {score.team2.full_name}
+            {score.team1.nickname} vs {score.team2.nickname}
           </Text>
 
           <Text style={styles.competitionText}>
@@ -474,14 +480,14 @@ export default function ScoreDetailsScreen() {
                 source={getImageSource(score.team1.logo)} 
                 style={styles.topicLogo} 
               />
-              <Text style={styles.topicName}>{score.team1.full_name}</Text>
+              <Text style={styles.topicName}>{score.team1.nickname}</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.topicItem}>
               <Image 
                 source={getImageSource(score.team2.logo)} 
                 style={styles.topicLogo} 
               />
-              <Text style={styles.topicName}>{score.team2.full_name}</Text>
+              <Text style={styles.topicName}>{score.team2.nickname}</Text>
             </TouchableOpacity>
           </View>
         </View>
