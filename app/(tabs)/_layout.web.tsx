@@ -246,28 +246,40 @@ export default function WebLayout() {
 }
 
 const styles = StyleSheet.create<Styles>({
-
   mainContentWrapper: {
+    flex: 1,
     maxWidth: 1000,
     justifyContent: 'center',
-    // alignItems: 'center',
+    ...(Platform.OS === 'web' ? {
+      minHeight: '100%' as any,
+    } : {}),
   },
   container: {
-    flex: 1,
     flexDirection: 'row',
-    height: '100%',
+    ...(Platform.OS === 'web' ? {
+      minHeight: '100%' as any,
+      position: 'absolute' as any,
+      left: 0,
+      right: 0,
+      height: '100vh' as any,
+      overflowY: 'scroll',
+    } : {}),
   },
   leftNav: {
     width: 400,
     borderRightWidth: 1,
-    height: '100%',
     alignItems: 'flex-end',
+    ...(Platform.OS === 'web' ? {
+      position: 'sticky' as any,
+      top: 0,
+      height: '100vh' as any,
+    } : {}),
   },
   leftNavCompact: {
     width: 72,
   },
   leftNavContent: {
-    position: 'fixed',
+    position: 'sticky',
     width: 275,
     height: '100%',
     padding: 8,
@@ -315,7 +327,6 @@ const styles = StyleSheet.create<Styles>({
   },
   content: {
     flex: 1,
-    // alignItems: 'center',
   },
   contentInner: {
     flex: 1,
@@ -326,15 +337,18 @@ const styles = StyleSheet.create<Styles>({
   sidebar: {
     width: 320,
     borderLeftWidth: 1,
-    height: '100%',
-    position: 'sticky',
-    top:0,
-    // right: 0,
+    position: 'sticky' as any,
+    top: 0,
+    // height: '100vh' as any,
+    // ...(Platform.OS === 'web' ? {
+    //   position: 'sticky' as any,
+    //   top: 0,
+    //   height: '100vh' as any,
+    // }
+    //  : {})
+    //  ,
   },
   sidebarContent: {
-    // position: 'fixed',
-    // width: 320,
-    height: '100%',
     padding: 16,
   },
   mobileTabBar: {
