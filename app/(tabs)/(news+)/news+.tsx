@@ -1,4 +1,4 @@
-import { Text, Image, View, Pressable } from 'react-native';
+import { Text, Image, View, Pressable, Platform } from 'react-native';
 import { useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
@@ -151,11 +151,13 @@ export default function NewsPlusScreen() {
 
   return (
     <>
+    { Platform.OS === 'web' && (  
       <Head>
         <title>Apple News+ - Premium News & Magazine Content</title>
         <meta name="description" content="Access premium news articles, magazines, and exclusive content with Apple News+" />
         <meta name="keywords" content="apple news plus, premium news, digital magazines, exclusive content" />
       </Head>
+      )}
       <View className="flex-1 bg-gray-100" style={{ paddingTop: insets.top }}>
         <View className="flex-1 bg-gray-100">
           {renderContent()}
