@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { LinearGradient } from 'expo-linear-gradient';
 import { NewsLogo } from '@/components/NewsLogo';
-import * as DropdownMenu from 'zeego/dropdown-menu';
+import * as DropdownMenu from '@/components/StyledDropdownMenu';
 import * as ContextMenu from 'zeego/context-menu';
 // import { verifyInstallation } from 'nativewind';
 

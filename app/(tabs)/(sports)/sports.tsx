@@ -12,7 +12,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { BlurView } from 'expo-blur';
 import { ListRenderItemInfo } from 'react-native';
-import * as DropdownMenu from 'zeego/dropdown-menu';
+import * as DropdownMenu from '@/components/StyledDropdownMenu';
 import Head from 'expo-router/head';
 
 import { news } from '@/data/news.json';
@@ -159,9 +159,7 @@ export default function SportsScreen() {
                     <DropdownMenu.Item
                         key={sport}
                         onSelect={() => {
-                            //if soccer then push to siccer else Alert.alert(`${sport} clicked`)
                             if (sport === 'Soccer') {
-                                // router.push('/topic/soccer');
                                 router.push(`/(tabs)/(sports)/topic/soccer`);
                             } else {
                                 Alert.alert(`${sport} clicked`);
@@ -283,12 +281,9 @@ export default function SportsScreen() {
                                                     >
                                                         <DropdownMenu.ItemIcon ios={{ 
                                                             name: 'hand.raised.slash.fill',
-                                                            hierarchicalColor: {
-                                                                dark: '#FF3B30',
-                                                                light: '#FF3B30'
-                                                            }
+                                                            hierarchicalColor: '#FF3B30'
                                                         }} />
-                                                        <DropdownMenu.ItemTitle>Block Sports Top Stories</DropdownMenu.ItemTitle>
+                                                        <DropdownMenu.ItemTitle destructive>Block Sports Top Stories</DropdownMenu.ItemTitle>
                                                     </DropdownMenu.Item>
                                                 </DropdownMenu.Content>
                                             </DropdownMenu.Root>
