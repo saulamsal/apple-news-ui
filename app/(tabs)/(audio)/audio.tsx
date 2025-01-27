@@ -27,7 +27,7 @@ import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
 import { TabMenu } from '@/components/TabMenu';
 import { Colors } from '@/constants/Colors';
 import { PodcastItem } from '@/components/PodcastItem';
-import { PodcastEpisode } from '@/types/podcast';
+import { PodcastEpisode } from '@/src/types/podcast';
 import podcasts from '@/data/podcasts.json';
 import type { ListRenderItemInfo } from '@shopify/flash-list';
 import { useAudio } from '@/contexts/AudioContext';

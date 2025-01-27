@@ -3,7 +3,7 @@ import { View, TextInput, Text, TouchableOpacity, StyleSheet, ViewStyle, TextSty
 import { Ionicons } from '@expo/vector-icons';
 import { CategoryCard } from './CategoryCard';
 import entities from '@/app/data/entities.json';
-import { getAllCategories, getAllEntitiesForSection } from '@/app/utils/entityUtils';
+import { getAllCategories, getAllEntitiesForSection } from '@/src/utils/entityUtils';
 import searchEntities from '@/app/data/search_entities.json';
 
 interface Entity {

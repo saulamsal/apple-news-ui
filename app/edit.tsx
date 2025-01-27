@@ -6,7 +6,7 @@ import { BlurView } from 'expo-blur';
 import Animated, { SharedValue } from 'react-native-reanimated';
 import { CategoryCard } from '@/components/CategoryCard';
 import searchEntities from '@/app/data/search_entities.json';
-import { getAllEntitiesForSection } from '@/app/utils/entityUtils';
+import { getAllEntitiesForSection } from '@/src/utils/entityUtils';
 import { Link, router } from 'expo-router';
 import { NestableScrollContainer, NestableDraggableFlatList, ScaleDecorator, RenderItemParams } from "react-native-draggable-flatlist";
 import * as Haptics from 'expo-haptics';
