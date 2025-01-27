@@ -13,6 +13,7 @@ import { BlurView } from 'expo-blur';
 import Animated, { SharedValue } from 'react-native-reanimated';
 import { getAllCategories, getAllEntitiesForSection, lookupEntity } from '@/app/utils/entityUtils';
 import { Link } from 'expo-router';
+import Head from 'expo-router/head';
 
 interface Entity {
     id: string;
@@ -162,77 +163,84 @@ export default function SearchScreen() {
     }
 
     return (
-        <View className="flex-1 bg-white">
-            <ScrollViewWithHeaders
-                contentContainerStyle={[{ paddingBottom: bottom }]}
-                className="flex-1 bg-white"
-                stickyHeaderIndices={[0]}
-                maintainVisibleContentPosition={{
-                    minIndexForVisible: 0,
-                    autoscrollToTopThreshold: 0
-                }}
-                removeClippedSubviews={false}
-                LargeHeaderComponent={LargeHeaderComponent}
-                absoluteHeader={true}
-                HeaderComponent={HeaderComponent}
-                headerFadeInThreshold={0.5}
-                disableLargeHeaderFadeAnim={false}
-                largeHeaderContainerStyle={{ paddingTop: top + 4 }}
-            >
-                {searchQuery ? (
-                    <View className="p-4">
-                        {searchResults.length > 0 ? (
-                            <View className="gap-3">
-                                {searchResults.map((entity) => (
-                                    <CategoryCard
-                                        key={entity.id}
-                                        id={entity.id}
-                                        title={<HighlightedText text={entity.title} highlight={searchQuery} />}
-                                        logo={entity.logo}
-                                        icon={entity.icon}
-                                        entity_type={entity.entity_type}
-                                        description={entity.description && (
-                                            <HighlightedText text={entity.description} highlight={searchQuery} />
-                                        )}
-                                    />
-                                ))}
-                            </View>
-                        ) : (
-                            <Text className="text-center text-gray-500">No results found</Text>
-                        )}
-                    </View>
-                ) : (
-                    <>
-                        <View className="p-4 flex-col gap-4">
-                            {getAllCategories().map((entity: Entity) => (
-                                <CategoryCard
-                                    key={entity.id}
-                                    id={entity.id}
-                                    title={entity.title}
-                                    icon={entity.icon}
-                                    entity_type={entity.entity_type}
-                                />
-                            ))}
-                        </View>
-
-                        {searchEntities.sections.map((section) => (
-                            <AnimatedAccordion key={section.id} title={section.title}>
-                                <View className="p-4 gap-3">
-                                    {getAllEntitiesForSection(section.id).map((entity: Entity) => (
+        <>
+            <Head>
+                <title>Apple News Search - Find News & Topics</title>
+                <meta name="description" content="Search through millions of articles, topics, and trusted sources to find the news that matters to you." />
+                <meta name="keywords" content="apple news search, news search, article search, topic search" />
+            </Head>
+            <View className="flex-1 bg-white">
+                <ScrollViewWithHeaders
+                    contentContainerStyle={[{ paddingBottom: bottom }]}
+                    className="flex-1 bg-white"
+                    stickyHeaderIndices={[0]}
+                    maintainVisibleContentPosition={{
+                        minIndexForVisible: 0,
+                        autoscrollToTopThreshold: 0
+                    }}
+                    removeClippedSubviews={false}
+                    LargeHeaderComponent={LargeHeaderComponent}
+                    absoluteHeader={true}
+                    HeaderComponent={HeaderComponent}
+                    headerFadeInThreshold={0.5}
+                    disableLargeHeaderFadeAnim={false}
+                    largeHeaderContainerStyle={{ paddingTop: top + 4 }}
+                >
+                    {searchQuery ? (
+                        <View className="p-4">
+                            {searchResults.length > 0 ? (
+                                <View className="gap-3">
+                                    {searchResults.map((entity) => (
                                         <CategoryCard
                                             key={entity.id}
                                             id={entity.id}
-                                            title={entity.title}
+                                            title={<HighlightedText text={entity.title} highlight={searchQuery} />}
                                             logo={entity.logo}
+                                            icon={entity.icon}
                                             entity_type={entity.entity_type}
+                                            description={entity.description && (
+                                                <HighlightedText text={entity.description} highlight={searchQuery} />
+                                            )}
                                         />
                                     ))}
                                 </View>
-                            </AnimatedAccordion>
-                        ))}
-                    </>
-                )}
-            </ScrollViewWithHeaders>
-        </View>
+                            ) : (
+                                <Text className="text-center text-gray-500">No results found</Text>
+                            )}
+                        </View>
+                    ) : (
+                        <>
+                            <View className="p-4 flex-col gap-4">
+                                {getAllCategories().map((entity: Entity) => (
+                                    <CategoryCard
+                                        key={entity.id}
+                                        id={entity.id}
+                                        title={entity.title}
+                                        icon={entity.icon}
+                                        entity_type={entity.entity_type}
+                                    />
+                                ))}
+                            </View>
+
+                            {searchEntities.sections.map((section) => (
+                                <AnimatedAccordion key={section.id} title={section.title}>
+                                    <View className="p-4 gap-3">
+                                        {getAllEntitiesForSection(section.id).map((entity: Entity) => (
+                                            <CategoryCard
+                                                key={entity.id}
+                                                id={entity.id}
+                                                title={entity.title}
+                                                logo={entity.logo}
+                                                entity_type={entity.entity_type}
+                                            />
+                                        ))}
+                                    </View>
+                                </AnimatedAccordion>
+                            ))}
+                        </>
+                    )}
+                </ScrollViewWithHeaders>
+            </View>
+        </>
     );
 } 
