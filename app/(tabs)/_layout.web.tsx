@@ -175,12 +175,14 @@ export default function WebLayout() {
   }
 
   return (
-    <View className="flex-row sticky left-0 right-0 min-h-full h-screen overflow-y-auto  bg-white justify-center" 
+    <View className="flex-row relative left-0 right-0 min-h-full h-screen overflow-y-auto  bg-white justify-center" 
       // style={{backgroundColor}}
       >
       <View className={`${isCompact ? 'w-[72px]' : 'w-[400px]'}  items-end sticky top-0 h-screen border-r border-gray-500`}
-        style={{borderRightColor: borderColor, backgroundColor: backgroundColor}}>
-        <View className={`sticky ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full`}>
+        style={{borderRightColor: borderColor}}>
+        <View className={`sticky ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full` }
+        //  style={{backgroundColor: backgroundColor}}
+         >
 
           <View className="mb-8 pl-3 pt-3">
 
@@ -201,8 +203,7 @@ export default function WebLayout() {
         </View>
       </View>
 
-      <View className="flex-1 flex-row max-w-[1000px] justify-center min-h-full">
-        <View className="flex-1">
+       
           <View className="flex-1 w-full max-w-[611px] bg-transparent">
             <Stack
               screenOptions={{
@@ -210,8 +211,7 @@ export default function WebLayout() {
               }}
             />
           </View>
-        </View>
-
+       
         {showSidebar && (
           <View className="w-[350px] border-l sticky top-0"
             style={{borderLeftColor: borderColor}}>
@@ -220,7 +220,8 @@ export default function WebLayout() {
             </View>
           </View>
         )}
-      </View>
+
+      
     </View>
   );
 }
