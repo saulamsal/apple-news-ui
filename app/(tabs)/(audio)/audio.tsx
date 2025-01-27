@@ -1,4 +1,4 @@
-import { Text, Image, View, StyleSheet, Pressable, TouchableOpacity, Alert, RefreshControl, ActivityIndicator, Platform } from 'react-native';
+import { Text, Image, View, StyleSheet, Pressable, TouchableOpacity, Alert, RefreshControl, ActivityIndicator, Platform, FlatList } from 'react-native';
 import { useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
@@ -196,7 +196,7 @@ export default function AudioScreen() {
       case 'best':
         const remainingEpisodes = episodes.slice(5);
         return (
-          <FlashList
+          <FlatList
             data={remainingEpisodes}
             renderItem={renderPodcastItem}
             estimatedItemSize={84}
@@ -293,7 +293,7 @@ export default function AudioScreen() {
         <meta name="keywords" content="apple news audio, news podcasts, audio stories, news narration" />
       </Head>
     )}  
-      <View style={[styles.container, { backgroundColor: '#F2F2F6', paddingTop: insets.top }]}>
+      <View style={[styles.container, { backgroundColor: '#F2F2F6', paddingTop: insets.top + 10 }]}>
         {renderContent()}
       </View>
     </>
