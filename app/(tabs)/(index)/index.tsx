@@ -15,6 +15,7 @@ import * as WebBrowser from 'expo-web-browser';
 import { SlidingBanner } from '@/components/SlidingBanner';
 import { ExtensionStorage } from "@bacons/apple-targets";
 import DefaultPreference from '@/helper/defaultpreferences';
+import Head from 'expo-router/head';
 
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -169,52 +170,59 @@ export default function HomeScreen() {
   );
 
   return (
-    <View className="flex-1 bg-gray-100" style={{ paddingTop: insets.top }}>
-      <Animated.View 
-        className="absolute -top-4 left-0 right-0 z-50 bg-gray-100 px-5"
-        style={[headerAnimatedStyle, { paddingTop: insets.top + 10, paddingBottom: 14 }]}
-      >
-        <NewsHeaderLeftItem size="sm" />
-      </Animated.View>
-      
-      <View className="flex-1 bg-gray-100" >
-        <AnimatedSwipeListView
-          onScroll={scrollHandler}
-          scrollEventThrottle={16}
-          data={news as NewsItemType[]}
-          renderItem={renderNewsItem}
-          renderHiddenItem={renderHiddenItem}
-          leftOpenValue={120}
-          rightOpenValue={-120}
-          previewRowKey={'0'}
-          previewOpenValue={-40}
-          previewOpenDelay={3000}
-          keyExtractor={(item: any) => item.id}
-          className="LOL_CLASS"
-          style={{
-            flexShrink: 0  //SUPER IMPORTANT TO DISABLE CHILD SCROLL ON RNW
-          }}
-      
-          ListHeaderComponent={
-            <View className="flex-1">
-              <View className="flex-row items-center justify-between mb-6 px-5">
-                <NewsHeaderLeftItem size="md" />
-                <View>
-                  <Image 
-                    source={{ uri: 'https://i.imgur.com/EfImlCx.png' }} 
-                    className="w-16 h-16"
-                  />
+    <>
+      <Head>
+        <title>Apple News UI - Latest News & Updates</title>
+        <meta name="description" content="Stay updated with the latest news, trending stories, and personalized content from trusted sources." />
+        <meta name="keywords" content="apple news, news app, latest news, trending stories" />
+      </Head>
+      <View className="flex-1 bg-gray-100" style={{ paddingTop: insets.top }}>
+        <Animated.View 
+          className="absolute -top-4 left-0 right-0 z-50 bg-gray-100 px-5"
+          style={[headerAnimatedStyle, { paddingTop: insets.top + 10, paddingBottom: 14 }]}
+        >
+          <NewsHeaderLeftItem size="sm" />
+        </Animated.View>
+        
+        <View className="flex-1 bg-gray-100" >
+          <AnimatedSwipeListView
+            onScroll={scrollHandler}
+            scrollEventThrottle={16}
+            data={news as NewsItemType[]}
+            renderItem={renderNewsItem}
+            renderHiddenItem={renderHiddenItem}
+            leftOpenValue={120}
+            rightOpenValue={-120}
+            previewRowKey={'0'}
+            previewOpenValue={-40}
+            previewOpenDelay={3000}
+            keyExtractor={(item: any) => item.id}
+            className="LOL_CLASS"
+            style={{
+              flexShrink: 0  //SUPER IMPORTANT TO DISABLE CHILD SCROLL ON RNW
+            }}
+        
+            ListHeaderComponent={
+              <View className="flex-1">
+                <View className="flex-row items-center justify-between mb-6 px-5">
+                  <NewsHeaderLeftItem size="md" />
+                  <View>
+                    <Image 
+                      source={{ uri: 'https://i.imgur.com/EfImlCx.png' }} 
+                      className="w-16 h-16"
+                    />
+                  </View>
+                </View>
+                <DonateButton />
+                <View className="mb-4 px-5">
+                  <Text className="text-4xl font-extrabold text-apple-news tracking-tighter ">Top Stories</Text>
                 </View>
               </View>
-              <DonateButton />
-              <View className="mb-4 px-5">
-                <Text className="text-4xl font-extrabold text-apple-news tracking-tighter ">Top Stories</Text>
-              </View>
-            </View>
-          }
-        />
+            }
+          />
+        </View>
       </View>
-    </View>
+    </>
   );
 }
 

@@ -12,6 +12,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { SlidingBanner } from '@/components/SlidingBanner';
 import { MotiView } from 'moti';
+import Head from 'expo-router/head';
 
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -284,10 +285,16 @@ export default function AudioScreen() {
   };
 
   return (
+    <>
+      <Head>
+        <title>Apple News Audio - News Stories & Podcasts</title>
+        <meta name="description" content="Listen to your favorite news stories and podcasts, professionally narrated and curated for the best audio experience." />
+        <meta name="keywords" content="apple news audio, news podcasts, audio stories, news narration" />
+      </Head>
       <View style={[styles.container, { backgroundColor: '#F2F2F6', paddingTop: insets.top }]}>
         {renderContent()}
       </View>
-
+    </>
   );
 }
 

@@ -11,6 +11,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { ListRenderItemInfo } from 'react-native';
+import Head from 'expo-router/head';
 
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -149,11 +150,18 @@ export default function NewsPlusScreen() {
   };
 
   return (
-    <View className="flex-1 bg-gray-100" style={{ paddingTop: insets.top }}>
-      <View className="flex-1 bg-gray-100">
-        {renderContent()}
+    <>
+      <Head>
+        <title>Apple News+ - Premium News & Magazine Content</title>
+        <meta name="description" content="Access premium news articles, magazines, and exclusive content with Apple News+" />
+        <meta name="keywords" content="apple news plus, premium news, digital magazines, exclusive content" />
+      </Head>
+      <View className="flex-1 bg-gray-100" style={{ paddingTop: insets.top }}>
+        <View className="flex-1 bg-gray-100">
+          {renderContent()}
+        </View>
       </View>
-    </View>
+    </>
   );
 }
 
