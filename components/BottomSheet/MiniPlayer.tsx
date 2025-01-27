@@ -113,7 +113,7 @@ function MiniPlayerContent({
             <View style={styles.leftSection}>
 
                 <Text numberOfLines={1} 
-                className='text-white font-bold text-base tracking-tighter opacity-60'>
+                className='text-gray-300 font-bold text-base tracking-tighter '>
                     {episode.showTitle}</Text>
                 <View style={{ overflow: 'hidden' }}>
                     <Animated.Text 
@@ -127,7 +127,8 @@ function MiniPlayerContent({
                                 })
                             }]
                             ,
-                            flexShrink: 0
+                            flexShrink: 0,
+                            color: '#fff'
                         }}
                     >
                         {episode.title}

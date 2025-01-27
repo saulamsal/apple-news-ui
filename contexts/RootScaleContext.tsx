@@ -20,6 +20,7 @@ export function RootScaleProvider({ children }: { children: React.ReactNode }) {
                 velocity: 16,
                 overshootClamping: false,
             });
+
         } catch (error) {
             console.warn('Scale animation error:', error);
             scale.value = value;
