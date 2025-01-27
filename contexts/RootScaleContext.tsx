@@ -14,9 +14,11 @@ export function RootScaleProvider({ children }: { children: React.ReactNode }) {
         'worklet';
         try {
             scale.value = withSpring(value, {
-                damping: 15,
-                stiffness: 150,
-                mass: 0.5, // Added for smoother animation
+                damping: 20,
+                stiffness: 200,
+                mass: 0.4,
+                velocity: 16,
+                overshootClamping: false,
             });
         } catch (error) {
             console.warn('Scale animation error:', error);

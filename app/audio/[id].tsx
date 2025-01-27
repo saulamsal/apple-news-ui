@@ -10,6 +10,7 @@ import Animated, {
     withSpring,
     withTiming,
     runOnJS,
+    interpolate,
 } from 'react-native-reanimated';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import { podcasts } from '@/data/podcasts.json';
@@ -86,7 +87,6 @@ export default function AudioScreen() {
             const dy = event.translationY;
             const angle = calculateGestureAngle(dx, dy);
 
-            // Only check for horizontal gesture if enabled
             if (ENABLE_HORIZONTAL_DRAG_CLOSE && !isHorizontalGesture.value && !isScrolling.value) {
                 if (Math.abs(dx) > 10) {
                     if (angle < DIRECTION_LOCK_ANGLE) {
@@ -95,15 +95,17 @@ export default function AudioScreen() {
                 }
             }
 
-            // Handle horizontal gesture only if enabled
             if (ENABLE_HORIZONTAL_DRAG_CLOSE && isHorizontalGesture.value) {
                 translateX.value = dx;
                 translateY.value = dy;
 
                 const totalDistance = Math.sqrt(dx * dx + dy * dy);
                 const progress = Math.min(totalDistance / 300, 1);
-
-                const newScale = SCALE_FACTOR + (progress * (1 - SCALE_FACTOR));
+                const newScale = interpolate(
+                    progress,
+                    [0, 1],
+                    [SCALE_FACTOR, 1]
+                );
                 runOnJS(handleScale)(newScale);
 
                 if (progress > 0.2) {
@@ -111,15 +113,17 @@ export default function AudioScreen() {
                 } else {
                     statusBarStyle.value = 'light';
                 }
-            }
-            // Handle vertical-only gesture
-            else if (scrollOffset.value <= 0 && isDragging.value) {
+            } else if (scrollOffset.value <= 0 && isDragging.value) {
                 translateY.value = Math.max(0, dy);
-                const progress = Math.min(dy / 600, 1);
-                const newScale = SCALE_FACTOR + (progress * (1 - SCALE_FACTOR));
+                const progress = Math.min(dy / 300, 1);
+                const newScale = interpolate(
+                    progress,
+                    [0, 1],
+                    [SCALE_FACTOR, 1]
+                );
                 runOnJS(handleScale)(newScale);
 
-                if (progress > 0.5) {
+                if (progress > 0.2) {
                     statusBarStyle.value = 'dark';
                 } else {
                     statusBarStyle.value = 'light';
@@ -130,7 +134,6 @@ export default function AudioScreen() {
             'worklet';
             isDragging.value = false;
 
-            // Handle horizontal gesture end only if enabled
             if (ENABLE_HORIZONTAL_DRAG_CLOSE && isHorizontalGesture.value) {
                 const dx = event.translationX;
                 const dy = event.translationY;
@@ -138,7 +141,6 @@ export default function AudioScreen() {
                 const shouldClose = totalDistance > HORIZONTAL_DRAG_THRESHOLD;
 
                 if (shouldClose) {
-                    // Calculate the exit direction based on the gesture
                     const exitX = dx * 2;
                     const exitY = dy * 2;
 
@@ -149,7 +151,6 @@ export default function AudioScreen() {
                     runOnJS(handleHapticFeedback)();
                     runOnJS(goBack)();
                 } else {
-                    // Spring back to original position
                     translateX.value = withSpring(0, {
                         damping: 15,
                         stiffness: 150,
@@ -160,9 +161,7 @@ export default function AudioScreen() {
                     });
                     runOnJS(handleScale)(SCALE_FACTOR);
                 }
-            }
-            // Handle vertical gesture end
-            else if (scrollOffset.value <= 0) {
+            } else if (scrollOffset.value <= 0) {
                 const shouldClose = event.translationY > DRAG_THRESHOLD;
 
                 if (shouldClose) {

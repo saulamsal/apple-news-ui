@@ -44,10 +44,10 @@ function AnimatedStack() {
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [
+        { translateY: (1 - scale.value) * -200 },
         { scale: scale.value },
-        { translateY: (1 - scale.value) * -150 },
       ],
-      borderRadius: scale.value >= 1 ? 0 : scale.value * 50,
+      borderRadius: scale.value >= 1 ? 0 : scale.value * 40,
     };
   });
 
