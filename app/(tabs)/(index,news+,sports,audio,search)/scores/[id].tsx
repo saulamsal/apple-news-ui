@@ -17,6 +17,7 @@ import * as DropdownMenu from 'zeego/dropdown-menu';
 import * as Sharing from 'expo-sharing';
 // import * as Clipboard from 'expo-clipboard';
 
+
 import LiveActivities from "@/modules/expo-live-activity";
 
 type GameEvent = {
@@ -430,13 +431,13 @@ export default function ScoreDetailsScreen() {
             </View>
           )}
 
-          <View style={styles.adContainer}>
+          {/* <View style={styles.adContainer}>
             <Image
               source={{ uri: 'https://photos5.appleinsider.com/gallery/36562-68112-Screen-Shot-2020-07-06-at-82042-PM-xl.jpg' }}
               style={styles.appleTVad}
               resizeMode="cover"
             />
-          </View>
+          </View> */}
 
           {score.is_live && (
             <View style={styles.liveActivityContainer}>

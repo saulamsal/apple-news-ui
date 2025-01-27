@@ -31,7 +31,7 @@
     },
     "splash": {
       "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
+      "1sizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
@@ -57,7 +57,6 @@
     },
     "web": {
       "bundler": "metro",
-      "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
@@ -75,7 +74,9 @@
       "@bacons/apple-targets"
     ],
     "experiments": {
-      "typedRoutes": true
+      "typedRoutes": true,
+      "reactServerFunctions": true,
+      "reactCompiler": true
     },
     "newArchEnabled": true,
     "owner": "qlur"

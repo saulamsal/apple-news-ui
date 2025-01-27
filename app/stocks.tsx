@@ -10,7 +10,7 @@ import { news } from '@/data/news.json';
 import { Ionicons } from '@expo/vector-icons';
 import * as DropdownMenu from 'zeego/dropdown-menu';
 import * as ContextMenu from 'zeego/context-menu';
-import {Appearance} from 'react-native';
+// import {Appearance} from 'react-native';
 import { MMKV } from 'react-native-mmkv';
 
 interface StockData {
