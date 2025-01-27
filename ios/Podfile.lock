@@ -1923,7 +1923,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNGestureHandler (2.20.2):
+  - RNGestureHandler (2.22.1):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1944,7 +1944,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNReanimated (4.0.0-nightly-20250126-bfc3cfbf5):
+  - RNReanimated (4.0.0-nightly-20250121-4c66cb237):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1964,10 +1964,10 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNReanimated/reanimated (= 4.0.0-nightly-20250126-bfc3cfbf5)
-    - RNReanimated/worklets (= 4.0.0-nightly-20250126-bfc3cfbf5)
+    - RNReanimated/reanimated (= 4.0.0-nightly-20250121-4c66cb237)
+    - RNReanimated/worklets (= 4.0.0-nightly-20250121-4c66cb237)
     - Yoga
-  - RNReanimated/reanimated (4.0.0-nightly-20250126-bfc3cfbf5):
+  - RNReanimated/reanimated (4.0.0-nightly-20250121-4c66cb237):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -1987,9 +1987,9 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNReanimated/reanimated/apple (= 4.0.0-nightly-20250126-bfc3cfbf5)
+    - RNReanimated/reanimated/apple (= 4.0.0-nightly-20250121-4c66cb237)
     - Yoga
-  - RNReanimated/reanimated/apple (4.0.0-nightly-20250126-bfc3cfbf5):
+  - RNReanimated/reanimated/apple (4.0.0-nightly-20250121-4c66cb237):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2010,7 +2010,7 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
-  - RNReanimated/worklets (4.0.0-nightly-20250126-bfc3cfbf5):
+  - RNReanimated/worklets (4.0.0-nightly-20250121-4c66cb237):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2030,9 +2030,9 @@ PODS:
     - ReactCodegen
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
-    - RNReanimated/worklets/apple (= 4.0.0-nightly-20250126-bfc3cfbf5)
+    - RNReanimated/worklets/apple (= 4.0.0-nightly-20250121-4c66cb237)
     - Yoga
-  - RNReanimated/worklets/apple (4.0.0-nightly-20250126-bfc3cfbf5):
+  - RNReanimated/worklets/apple (4.0.0-nightly-20250121-4c66cb237):
     - DoubleConversion
     - glog
     - hermes-engine
@@ -2608,8 +2608,8 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: 722620dc87fb48ad321505fcfccd1782455c7448
   RNDefaultPreference: 08bdb06cfa9188d5da97d4642dac745218d7fb31
   RNFlashList: b85e7b9e77c3b6d9169f88d60ed6dca0a479a822
-  RNGestureHandler: 598e45cedb905b157e9764acbef0b5e365693451
-  RNReanimated: 522a6bbb437bb1bf93d837ad01559c818c7d19d7
+  RNGestureHandler: 7843b2a5cef477136a3c1f2ffae7c0b7f6b3255a
+  RNReanimated: 45b3cd54e72fa73fa4d023ba3cff6e080396da73
   RNScreens: 8ae716a7e26b9ecee7f2856e6ff47b8e7e253ee8
   RNSVG: 3cd6669b7ad658c8b482db630dccf364c3b59cfb
   SDWebImage: 8a6b7b160b4d710e2a22b6900e25301075c34cb3
