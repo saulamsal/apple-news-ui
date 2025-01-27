@@ -343,10 +343,18 @@ export default function ScoreDetailsScreen() {
       headerStyle={{
         backgroundColor: 'transparent',
         zIndex: 100,
-        position: 'absolute',
+       
         top: 0,
         left: 0,
         right: 0,
+
+        ...(Platform.OS !== 'web' ? {
+          position: 'absolute',
+         
+        } : {
+          backgroundColor: '#fff',
+          
+        }),
       }}
     />
   );
