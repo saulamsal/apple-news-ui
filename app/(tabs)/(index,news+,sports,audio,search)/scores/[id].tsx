@@ -13,7 +13,7 @@ import { SlidingBanner } from '@/components/SlidingBanner';
 import { ScrollViewWithHeaders, Header } from '@codeherence/react-native-header';
 import Animated, { SharedValue, useSharedValue } from 'react-native-reanimated';
 import { useFonts, Orbitron_700Bold, Orbitron_900Black } from '@expo-google-fonts/orbitron';
-import * as DropdownMenu from 'zeego/dropdown-menu';
+import * as DropdownMenu from '@/components/StyledDropdownMenu';
 import * as Sharing from 'expo-sharing';
 // import * as Clipboard from 'expo-clipboard';
 
