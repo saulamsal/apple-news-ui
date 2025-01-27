@@ -173,15 +173,20 @@ export default function SearchScreen() {
                 <meta name="keywords" content="apple news search, news search, article search, topic search" />
             </Head>
             )}
-            <View className="flex-1 bg-white">
+            <View className="flex-1 bg-red-300 relative p-4">
                 <ScrollViewWithHeaders
-                    contentContainerStyle={[{ paddingBottom: bottom }]}
+              
                     className="flex-1 bg-white"
                     stickyHeaderIndices={[0]}
                     maintainVisibleContentPosition={{
                         minIndexForVisible: 0,
                         autoscrollToTopThreshold: 0
                     }}
+                    style={{
+                      flexShrink: 0,
+
+                    }}
+                    contentContainerStyle={[{ paddingBottom: bottom,      flexShrink: 0 }]}
                     removeClippedSubviews={false}
                     LargeHeaderComponent={LargeHeaderComponent}
                     absoluteHeader={true}

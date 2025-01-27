@@ -98,6 +98,9 @@ export default function NewsPlusScreen() {
             previewOpenValue={-40}
             previewOpenDelay={3000}
             keyExtractor={(item: any) => item.id}
+            style = {{
+              flexShrink: 0
+            }}
             // contentContainerStyle={{ padding: 16 }}
             ListHeaderComponent={
               <View className="space-y-4">
@@ -158,10 +161,8 @@ export default function NewsPlusScreen() {
         <meta name="keywords" content="apple news plus, premium news, digital magazines, exclusive content" />
       </Head>
       )}
-      <View className="flex-1 bg-gray-100" style={{ paddingTop: insets.top }}>
-        <View className="flex-1 bg-gray-100">
+      <View className="flex-1 bg-white" style={{ paddingTop: insets.top+10 }}>
           {renderContent()}
-        </View>
       </View>
     </>
   );
