@@ -190,6 +190,11 @@ export default function HomeScreen() {
           previewOpenValue={-40}
           previewOpenDelay={3000}
           keyExtractor={(item: any) => item.id}
+          className="LOL_CLASS"
+          style={{
+            flexShrink: 0  //SUPER IMPORTANT TO DISABLE CHILD SCROLL ON RNW
+          }}
+      
           ListHeaderComponent={
             <View className="flex-1">
               <View className="flex-row items-center justify-between mb-6 px-5">

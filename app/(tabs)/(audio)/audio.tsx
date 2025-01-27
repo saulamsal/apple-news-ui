@@ -208,6 +208,13 @@ export default function AudioScreen() {
                 tintColor='#000'
               />
             }
+       
+            style={{
+              flexShrink: 0  //SUPER IMPORTANT TO DISABLE CHILD SCROLL ON RNW
+            }}
+        
+      
+            
             ListHeaderComponent={
               <View style={styles.headerContainer}>
                 <View style={styles.header}>
