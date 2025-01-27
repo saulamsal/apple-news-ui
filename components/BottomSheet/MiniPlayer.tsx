@@ -2,7 +2,7 @@ import { StyleSheet, Pressable, Image, Platform, ImageBackground, View, Text, An
 import { Ionicons } from '@expo/vector-icons';
 import { useState, useEffect, useRef } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { BlurView } from 'expo-blur';
+import BlurView from '@/components/BlurView';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useAudio } from '@/contexts/AudioContext';
 import FontAwesome from '@expo/vector-icons/FontAwesome';

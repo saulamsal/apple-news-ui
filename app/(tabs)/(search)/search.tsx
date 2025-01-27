@@ -9,7 +9,7 @@ import entities from '@/app/data/entities.json';
 import { CategoryCard } from '@/components/CategoryCard';
 import { SearchData } from '@/src/types/search';
 import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
-import { BlurView } from 'expo-blur';
+import BlurView from '@/components/BlurView';
 import Animated, { SharedValue } from 'react-native-reanimated';
 import { getAllCategories, getAllEntitiesForSection, lookupEntity } from '@/src/utils/entityUtils';
 import { Link } from 'expo-router';

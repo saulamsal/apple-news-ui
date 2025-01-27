@@ -10,7 +10,7 @@ import Animated, {
     useSharedValue,
     withTiming,
 } from 'react-native-reanimated';
-import { BlurView } from 'expo-blur';
+import BlurView from '@/components/BlurView';
 import { ListRenderItemInfo } from 'react-native';
 import * as DropdownMenu from '@/components/StyledDropdownMenu';
 import Head from 'expo-router/head';

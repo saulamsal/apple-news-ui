@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { ScrollViewWithHeaders, Header } from '@codeherence/react-native-header';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { BlurView } from 'expo-blur';
+import BlurView from '@/components/BlurView';
 import Animated, { SharedValue } from 'react-native-reanimated';
 import { CategoryCard } from '@/components/CategoryCard';
 import searchEntities from '@/app/data/search_entities.json';

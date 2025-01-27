@@ -1,42 +1,71 @@
-import { View, Text, StyleSheet, Image, Pressable, Dimensions, Platform, ImageBackground, Animated } from 'react-native';
+import { View as ThemedView, Text as ThemedText, StyleSheet, Image, Pressable, Dimensions, ScrollView, Platform } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+// import { ThemedText } from '@/components/ThemedText';
+// import { ThemedView } from '@/components/ThemedView';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
-import { useEffect } from 'react';
+import { Audio } from 'expo-av';
+import { useEffect, useState, useCallback } from 'react';
 import { useAudio } from '@/contexts/AudioContext';
+import BlurView from '@/components/BlurView';
 const { width } = Dimensions.get('window');
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { BlurView } from 'expo-blur';
-import Foundation from '@expo/vector-icons/Foundation';
-import { router } from 'expo-router';
+import {
+    useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 
+function shadeColor(color: string, percent: number): string {
+    const R = parseInt(color.substring(1, 3), 16);
+    const G = parseInt(color.substring(3, 5), 16);
+    const B = parseInt(color.substring(5, 7), 16);
+
+    let newR = Math.round((R * (100 + percent)) / 100);
+    let newG = Math.round((G * (100 + percent)) / 100);
+    let newB = Math.round((B * (100 + percent)) / 100);
+
+    newR = newR < 255 ? newR : 255;
+    newG = newG < 255 ? newG : 255;
+    newB = newB < 255 ? newB : 255;
+
+    const RR = ((newR.toString(16).length === 1) ? "0" + newR.toString(16) : newR.toString(16));
+    const GG = ((newG.toString(16).length === 1) ? "0" + newG.toString(16) : newG.toString(16));
+    const BB = ((newB.toString(16).length === 1) ? "0" + newB.toString(16) : newB.toString(16));
+
+    return "#" + RR + GG + BB;
+}
 
 interface ExpandedPlayerProps {
     scrollComponent?: (props: any) => React.ReactElement;
 }
 
 export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
-    const ScrollComponentToUse = scrollComponent || View;
-    const { isPlaying, position, duration, togglePlayPause, seek, currentEpisode } = useAudio();
+    const ScrollComponentToUse = scrollComponent || ScrollView;
+
+    const {
+        isPlaying,
+        position,
+        duration,
+        togglePlayPause,
+        sound,
+        currentSong,
+        playNext,
+        playPreviousSong
+    } = useAudio();
     const insets = useSafeAreaInsets();
-    const scrollAnim = new Animated.Value(0);
 
-    useEffect(() => {
-        if (!currentEpisode) return;
+    const colorToUse = currentSong?.artwork_bg_color || "#000000";
+    const colors = [colorToUse, shadeColor(colorToUse, -50)];
 
-        const startAnimation = () => {
-            scrollAnim.setValue(0);
-            Animated.sequence([
-                Animated.timing(scrollAnim, {
-                    toValue: 1,
-                    duration: 8000,
-                    useNativeDriver: true,
-                }),
-                Animated.delay(2000),
-            ]).start(() => startAnimation());
-        };
+    const handleSkipForward = async () => {
+        if (sound) {
+            await sound.setPositionAsync(Math.min(duration, position + 10000));
+        }
+    };
 
-        startAnimation();
-    }, [currentEpisode]);
+    const handleSkipBackward = async () => {
+        if (sound) {
+            await sound.setPositionAsync(Math.max(0, position - 10000));
+        }
+    };
 
     const formatTime = (millis: number) => {
         const minutes = Math.floor(millis / 60000);
@@ -45,303 +74,372 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
     };
 
     const progress = duration > 0 ? (position / duration) * 100 : 0;
-    const rewind15Seconds = () => seek(-15);
 
-    if (!currentEpisode) return null;
+    // Add sample lyrics (you should get this from your song data)
+    const lyrics = [
+        "Verse 1",
+        "First line of the song",
+        "Second line of the song",
+        "Third line goes here",
+        "",
+        "Chorus",
+        "This is the chorus",
+        "Another chorus line",
+        "Final chorus line",
+        "",
+        "Verse 2",
+        "Back to the verses",
+        "More lyrics here",
+        "And here as well",
+        // Add more lyrics as needed
+    ];
 
     return (
-        <ImageBackground
-            source={{ uri: currentEpisode.artwork.url }}
-            style={[styles.rootContainer, {
-                // paddingTop: insets.top + (Platform.OS === 'android' ? 30 : 0),
-                // marginTop: Platform.OS === 'android' ? -30 : 0,
-                borderRadius: Platform.OS === 'ios' ? 40 : 0
-            }]}
-            blurRadius={20}
+        <LinearGradient
+            colors={colors}
+            style={[styles.rootContainer, { 
+                paddingTop: insets.top+ (Platform.OS === 'android' ? 30 : 0),
+                marginTop: Platform.OS === 'android' ? -30 : 0,
+                maxWidth: 767,
+                marginHorizontal: 'auto'
+             }]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
         >
-          
+            <ThemedView style={styles.dragHandleContainer}>
+                <ThemedView style={styles.dragHandle} />
+            </ThemedView>
 
-            {Platform.OS === 'ios' ? (
-                <BlurView
-                    tint="dark"
-                    intensity={80}
-                    style={styles.blurContainer}
-                >
-                    <ScrollComponentToUse style={styles.scrollView}>
-                        <View style={{
-                            width: 50,
-                            height: 6,
-                            backgroundColor: '#fff',
-                            alignSelf: 'center',
-                            borderRadius: 20,
-                            marginVertical: 8,
-                            opacity: 0.5,
-                            marginBottom: 40,
-                        }}>
-                        </View>
-                        <View style={styles.container} className="mx-5 gap-8">
-                            <Image
-                                source={{ uri: currentEpisode.artwork.url }}
-                                style={styles.artwork}
-                            />
+            <ScrollComponentToUse
+                style={styles.scrollView}
+                showsVerticalScrollIndicator={false}
+            >
+                <ThemedView style={styles.container}>
+                    <ThemedView style={styles.artworkContainer}>
+                        <Image
+                            source={{ uri: currentSong?.artwork }}
+                            style={styles.artwork}
+                        />
+                    </ThemedView>
 
-                            <View style={styles.contentContainer}>
-                                <View style={styles.textContainer}>
-                                    <Text style={styles.source}>{currentEpisode.showTitle}</Text>
-                                    <View style={styles.titleWrapper}>
-                                        <Animated.Text 
-                                            numberOfLines={1} 
-                                            style={[
-                                                styles.title,
-                                                {
-                                                    transform: [{
-                                                        translateX: scrollAnim.interpolate({
-                                                            inputRange: [0, 1],
-                                                            outputRange: [0, -width/2]
-                                                        })
-                                                    }]
-                                                }
-                                            ]}
-                                        >
-                                            {currentEpisode.title}
-                                        </Animated.Text>
-                                    </View>
-                                </View>
+                    <ThemedView style={styles.controls}>
 
-                                <View style={styles.progressContainer}>
-                                    <View style={styles.progressBar}>
-                                        <View style={[styles.progress, { width: `${progress}%` }]} />
-                                    </View>
-                                    <View style={styles.timeContainer}>
-                                        <Text style={styles.timeText}>{formatTime(position)}</Text>
-                                        <Text style={styles.timeText}>-{formatTime(Math.max(0, duration - position))}</Text>
-                                    </View>
-                                </View>
-
-                                <View style={styles.controls}>
-                                    <Pressable onPress={rewind15Seconds} style={styles.controlButton}>
-                                        <View style={{ alignItems: 'center', position: 'relative' }}>
-                                            <Ionicons name="refresh-sharp" size={60} color="#fff" style={{ transform: [{ scaleX: -1 }] }} />
-                                            <Text style={{ color: '#fff', fontSize: 14, marginTop: 4, position: 'absolute', top: 26, left: 22 }}>15</Text>
-                                        </View>
+                        <ThemedView style={styles.titleContainer}>
+                            <ThemedView style={styles.titleRow}>
+                                <ThemedView style={styles.titleMain}>
+                                    <ThemedText type="title" style={styles.title}>
+                                        {currentSong?.title}
+                                    </ThemedText>
+                                    <ThemedText style={styles.artist}>
+                                        {currentSong?.artist}
+                                    </ThemedText>
+                                </ThemedView>
+                                <ThemedView style={styles.titleIcons}>
+                                    <Pressable style={styles.iconButton}>
+                                        <Ionicons name="star-outline" size={18} color="#fff" />
                                     </Pressable>
-
-                                    <Pressable onPress={togglePlayPause} style={[styles.controlButton, styles.playButton]}>
-                                            <Ionicons name={isPlaying ? "pause" : "play"} size={60} color="#fff" />
-                                       
+                                    <Pressable style={styles.iconButton}>
+                                        <Ionicons name="ellipsis-horizontal" size={18} color="#fff" />
                                     </Pressable>
+                                </ThemedView>
+                            </ThemedView>
 
-                                    <Pressable style={styles.controlButton}>
-                                    <Foundation name="fast-forward" size={60} color="#fff" />
-                                      
-                                    </Pressable>
-                                </View>
-                            </View>
-                        </View>
-                    </ScrollComponentToUse>
-                </BlurView>
-            ) : (
-                <View className="max-w-[400px] m-auto">
-                    {Platform.OS === 'web' && (
-                        <Pressable 
-                            onPress={() => router.back()}
-                            style={{
-                                position: 'absolute',
-                                left: -80,
-                                top: -80,
-                                zIndex: 10,
-                                backgroundColor: 'rgba(0,0,0,0.5)',
-                                padding: 8,
-                                borderRadius: 20,
-                            }}
-                        >
-                            <Ionicons name="close" size={24} color="#fff" />
-                        </Pressable>
-                    )}
-                    <ScrollComponentToUse style={styles.scrollView}>
+                            <ThemedView style={styles.progressBar}>
+                                <ThemedView
+                                    style={[
+                                        styles.progress,
+                                        { width: `${progress}%` }
+                                    ]}
+                                />
+                            </ThemedView>
+
+                            <ThemedView style={styles.timeContainer}>
+                                <ThemedText style={styles.timeText}>
+                                    {formatTime(position)}
+                                </ThemedText>
+                                <ThemedText style={styles.timeText}>
+                                    -{formatTime(Math.max(0, duration - position))}
+                                </ThemedText>
+                            </ThemedView>
 
 
-                        <View style={styles.container}>
-                            <Image
-                                source={{ uri: currentEpisode.artwork.url }}
-                                style={styles.artwork}
-                            />
 
-                            <View style={styles.contentContainer}>
-                                <View style={styles.textContainer}>
-                                    <Text style={styles.source}>{currentEpisode.showTitle}</Text>
-                                    <View style={styles.titleWrapper}>
-                                        <Animated.Text 
-                                            numberOfLines={1} 
-                                            style={[
-                                                styles.title,
-                                                {
-                                                    transform: [{
-                                                        translateX: scrollAnim.interpolate({
-                                                            inputRange: [0, 1],
-                                                            outputRange: [0, -width/2]
-                                                        })
-                                                    }]
-                                                }
-                                            ]}
-                                        >
-                                            {currentEpisode.title}
-                                        </Animated.Text>
-                                    </View>
-                                </View>
+                            <ThemedView style={styles.buttonContainer}>
+                                <Pressable style={styles.button} onPress={playPreviousSong}>
+                                    <Ionicons name="play-skip-back" size={35} color="#fff" />
+                                </Pressable>
+                                <Pressable style={[styles.button, styles.playButton]} onPress={togglePlayPause}>
+                                    <Ionicons name={isPlaying ? "pause" : "play"} size={45} color="#fff" />
+                                </Pressable>
+                                <Pressable style={styles.button} onPress={playNext}>
+                                    <Ionicons name="play-skip-forward" size={35} color="#fff" />
+                                </Pressable>
+                            </ThemedView>
 
-                                <View style={styles.progressContainer}>
-                                    <View style={styles.progressBar}>
-                                        <View style={[styles.progress, { width: `${progress}%` }]} />
-                                    </View>
-                                    <View style={styles.timeContainer}>
-                                        <Text style={styles.timeText}>{formatTime(position)}</Text>
-                                        <Text style={styles.timeText}>-{formatTime(Math.max(0, duration - position))}</Text>
-                                    </View>
-                                </View>
 
-                                <View style={styles.controls}>
-                                    <Pressable onPress={rewind15Seconds} style={styles.controlButton}>
-                                        <BlurView intensity={80} tint="dark" style={styles.buttonBlur}>
-                                            <Ionicons name="play-back" size={24} color="#fff" />
-                                        </BlurView>
-                                    </Pressable>
+                        </ThemedView>
 
-                                    <Pressable onPress={togglePlayPause} style={[styles.controlButton, styles.playButton]}>
-                                        <BlurView intensity={80} tint="dark" style={styles.buttonBlur}>
-                                            <Ionicons name={isPlaying ? "pause" : "play"} size={30} color="#fff" />
-                                        </BlurView>
-                                    </Pressable>
 
-                                    <Pressable style={styles.controlButton}>
-                                        <BlurView intensity={80} tint="dark" style={styles.buttonBlur}>
-                                            <Ionicons name="close" size={24} color="#fff" />
-                                        </BlurView>
-                                    </Pressable>
-                                </View>
-                            </View>
-                        </View>
-                    </ScrollComponentToUse>
-                    </View>
-            )}
-       
 
-        </ImageBackground>
+
+
+
+                        <ThemedView>
+                            <ThemedView style={styles.volumeControl}>
+                                <Ionicons name="volume-off" size={24} color="#fff" />
+                                <ThemedView style={styles.volumeBar}>
+                                    <ThemedView style={styles.volumeProgress} />
+                                </ThemedView>
+                                <Ionicons name="volume-high" size={24} color="#fff" />
+                            </ThemedView>
+
+
+
+
+
+                            <ThemedView style={styles.extraControls}>
+                                <Pressable style={styles.extraControlButton}>
+                                    <Ionicons name="chatbubble-outline" size={24} color="#fff" />
+                                </Pressable>
+
+                                <Pressable style={styles.extraControlButton}>
+                                    <ThemedView style={styles.extraControlIcons}>
+                                        <Ionicons name="volume-off" size={26} color="#fff" marginRight={-6} />
+                                        <Ionicons name="bluetooth" size={24} color="#fff" />
+                                    </ThemedView>
+                                    <ThemedText style={styles.extraControlText}>Px8</ThemedText>
+                                </Pressable>
+
+                                <Pressable style={styles.extraControlButton}>
+                                    <Ionicons name="list-outline" size={24} color="#fff" />
+                                </Pressable>
+                            </ThemedView>
+                        </ThemedView>
+
+
+
+                    </ThemedView>
+
+                    {/* Add lyrics section after the controls */}
+                    <ThemedView style={styles.lyricsContainer}>
+                        {lyrics.map((line, index) => (
+                            <ThemedText
+                                key={index}
+                                style={[
+                                    styles.lyricsText,
+                                    line === "" && styles.lyricsSpacing
+                                ]}
+                            >
+                                {line}
+                            </ThemedText>
+                        ))}
+                    </ThemedView>
+                </ThemedView>
+            </ScrollComponentToUse>
+        </LinearGradient>
     );
 }
 
 const styles = StyleSheet.create({
     rootContainer: {
         flex: 1,
-  
-        // borderRadius: 40,
-        overflow: 'hidden',
-        backgroundColor: 'black',
-
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        top: 0,
-        zIndex: 1000,
         height: '100%',
         width: '100%',
-        
+        borderTopLeftRadius: 40,
+        borderTopRightRadius: 40,
+        zIndex: 1000,
+     
     },
-    blurContainer: {
-        flex: 1,
-        paddingTop: 60,
-        borderRadius: 40,
-        overflow: 'hidden',
-        
-    },
-    scrollView: {
-        flex: 1,
+    dragHandle: {
+        width: 40,
+        height: 5,
+        backgroundColor: 'rgba(255, 255, 255, 0.445)',
+        borderRadius: 5,
+        alignSelf: 'center',
+        marginTop: 10,
     },
     container: {
         flex: 1,
         alignItems: 'center',
+        padding: 20,
+        paddingTop: 30,
+
+        backgroundColor: 'transparent',
+        justifyContent: 'space-between',
+    },
+
+
+    artworkContainer: {
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 8,
+        },
+        shadowOpacity: 0.4,
+        shadowRadius: 12,
+        elevation: 12,
+        backgroundColor: 'transparent', // Required for Android shadows
+        marginBottom: 34,
     },
     artwork: {
-        width: '100%',
-        height: 400,
-        resizeMode: 'cover',
-        borderRadius: 12,
-
+        width: width - 52,
+        height: width - 52,
+        borderRadius: 8,
     },
-    contentContainer: {
+    controls: {
         width: '100%',
-        // padding: 20,
+        backgroundColor: 'transparent',
+        flex: 1,
+        justifyContent: 'space-between',
+    },
+    titleContainer: {
+        // marginBottom: -30,
+        backgroundColor: 'transparent',
+        width: '100%',
+        marginTop: 12
+    },
+    titleRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '100%',
+    },
+    titleMain: {
         flex: 1,
     },
-    textContainer: {
-        marginBottom: 30,
-    },
-    source: {
-        fontSize: 18,
-        color: 'rgba(255,255,255,0.7)',
-        marginBottom: 8,
-        fontWeight: '600',
-        marginTop: 20,
-    },
-    titleWrapper: {
-        overflow: 'hidden',
+    titleIcons: {
+        flexDirection: 'row',
+        gap: 15,
     },
     title: {
-        fontSize: 24,
+        fontSize: 21,
+        // marginBottom: 8,
+        marginBottom: -4,
         color: '#fff',
-        fontWeight: '600',
-        lineHeight: 32,
-        width: 'auto',
     },
-    progressContainer: {
-        marginBottom: 30,
+    artist: {
+        fontSize: 19,
+        opacity: 0.7,
+        color: '#fff',
     },
     progressBar: {
-        height: 4,
-        backgroundColor: 'rgba(255,255,255,0.2)',
-        borderRadius: 2,
-        marginBottom: 8,
+        height: 6,
+        backgroundColor: 'rgba(255, 255, 255, 0.3)',
+        borderRadius: 5,
+        marginBottom: 10,
+        marginTop: 30,
     },
     progress: {
+        width: '30%',
         height: '100%',
-        backgroundColor: '#fff',
-        borderRadius: 2,
+        backgroundColor: '#ffffff6a',
+        borderRadius: 5,
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
     },
     timeContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        marginBottom: 20,
+        backgroundColor: 'transparent',
     },
     timeText: {
-        fontSize: 13,
-        color: 'rgba(255,255,255,0.6)',
+        fontSize: 12,
+        opacity: 0.6,
+        color: '#fff',
     },
-    controls: {
+    buttonContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        gap: 20,
-        marginHorizontal: 20,
-        marginTop: 20,
-        height: 60,
-    },
-    controlButton: {
-        borderRadius: 25,
-        overflow: 'hidden',
         justifyContent: 'center',
         alignItems: 'center',
-        
+        gap: 50,
+        backgroundColor: 'transparent',
+        marginTop: 10,
     },
-    buttonBlur: {
-        width: 50,
-        height: 50,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'rgba(0,0,0,0.3)',
-        borderRadius: 50,
-        overflow: 'hidden',
+    button: {
+        padding: 10,
     },
     playButton: {
         transform: [{ scale: 1.2 }],
+    },
+    volumeControl: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10,
+        paddingHorizontal: 10,
+
+    },
+    volumeBar: {
+        flex: 1,
+        height: 6,
+        backgroundColor: 'rgba(255, 255, 255, 0.3)',
+        borderRadius: 20,
+    },
+    volumeProgress: {
+        width: '70%',
+        height: '100%',
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
+    },
+    iconButton: {
+        width: 32,
+        height: 32,
+        borderRadius: 20,
+        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    extraControls: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        width: '100%',
+        paddingHorizontal: 20,
+        marginTop: 26,
+        backgroundColor: 'transparent',
+
+    },
+    extraControlButton: {
+        alignItems: 'center',
+        // justifyContent: 'center',
+        opacity: 0.8,
+        height: 60,
+    },
+    extraControlText: {
+        color: '#fff',
+        fontSize: 13,
+        marginTop: 6,
+        opacity: 0.7,
+        fontWeight: '600',
+    },
+    extraControlIcons: {
+        flexDirection: 'row',
+
+    },
+    scrollView: {
+        flex: 1,
+        width: '100%',
+    },
+    lyricsContainer: {
+        paddingHorizontal: 20,
+        paddingVertical: 30,
+        width: '100%',
+        alignItems: 'center',
+    },
+    lyricsText: {
+        color: '#fff',
+        fontSize: 16,
+        lineHeight: 24,
+        textAlign: 'center',
+        opacity: 0.8,
+        marginVertical: 2,
+    },
+    lyricsSpacing: {
+        marginVertical: 10,
+    },
+    dragHandleContainer: {
+        paddingBottom: 14,
     },
 });

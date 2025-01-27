@@ -3,7 +3,7 @@ import React from 'react';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 // import { useColorScheme } from '@/hooks/useColorScheme';
-import { BlurView } from 'expo-blur';
+import BlurView from '@/components/BlurView';
 import { Platform, StyleSheet, StatusBar, View, useColorScheme } from 'react-native';
 import { AppleNewsLogo } from '@/components/icons/AppleNewsLogo';
 import { MiniPlayer } from '@/components/BottomSheet/MiniPlayer';
