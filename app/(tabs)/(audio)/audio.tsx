@@ -247,17 +247,20 @@ export default function AudioScreen() {
                 </View>
 
                 {isRefreshing && (
-                  <MotiView
-                    from={{ translateY: -20, opacity: 0 }}
-                    animate={{ translateY: 0, opacity: 1 }}
-                    transition={{ type: 'timing', duration: 300 }}
-                    exitTransition={{ type: 'timing', duration: 300 }}
-                    style={{ marginBottom: 0 , marginTop: 10}}
+                  <Animated.View
+                    style={[{
+                      animationName: {
+                        from: { transform: [{ translateY: -20 }], opacity: 0 },
+                        to: { transform: [{ translateY: 0 }], opacity: 1 }
+                      },
+                      animationDuration: '300ms',
+                      animationTimingFunction: 'easeOut',
+                    } as any]}
                   >
                     <Text style={{ fontSize: 24, color: '#000' }}>
                       Checking new podcasts...
                     </Text>
-                  </MotiView>
+                  </Animated.View>
                 )}
 
                 <PodcastEditorsPickItem episodes={episodes} />
