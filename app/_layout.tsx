@@ -58,7 +58,7 @@ function AnimatedStack() {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1 , backgroundColor: 'transparent'}}>
       <Animated.View 
         style={[
           styles.stackContainer, 

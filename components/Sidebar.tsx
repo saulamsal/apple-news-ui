@@ -7,6 +7,7 @@ import { getAllCategories, getAllEntitiesForSection } from '@/src/utils/entityUt
 import searchEntities from '@/app/data/search_entities.json';
 import { Ionicons } from '@expo/vector-icons';
 import { TextInput, TouchableOpacity } from 'react-native';
+import { useSegments } from 'expo-router';
 
 interface Entity {
   id: string;
@@ -44,6 +45,11 @@ const HighlightedText = ({ text, highlight }: HighlightedTextProps) => {
 export function Sidebar() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
+  const segments = useSegments();
+
+  if (segments[1] === '(search)') {
+    return null;
+  }
 
   const searchResults = React.useMemo(() => {
     if (!searchQuery.trim()) return [];
@@ -74,6 +80,8 @@ export function Sidebar() {
 
     return results;
   }, [searchQuery]);
+
+
 
   return (
     <View style={styles.container}>

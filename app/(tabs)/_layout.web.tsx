@@ -86,7 +86,9 @@ export default function WebLayout() {
 
   const isCompact = width < 1024;
   const isMobile = width < 768;
-  const showSidebar = width >= 1024 && segments[1] !== '(search)';
+  // const showSidebar = width >= 1024 && segments[1] !== '(search)';
+  const showSidebar = width >= 1024 ;
+
 
   if (isMobile) {
     return (

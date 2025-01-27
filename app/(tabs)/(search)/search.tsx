@@ -165,7 +165,7 @@ export default function SearchScreen() {
     }
 
     return (
-        <>
+        <View className="flex-1 relative">
         { Platform.OS === 'web' && (
             <Head>
                 <title>Apple News Search - Find News & Topics</title>
@@ -173,10 +173,10 @@ export default function SearchScreen() {
                 <meta name="keywords" content="apple news search, news search, article search, topic search" />
             </Head>
             )}
-            <View className="flex-1 bg-red-300 relative p-4">
+
                 <ScrollViewWithHeaders
               
-                    className="flex-1 bg-white"
+                    className="flex-1 bg-white "
                     stickyHeaderIndices={[0]}
                     maintainVisibleContentPosition={{
                         minIndexForVisible: 0,
@@ -184,9 +184,9 @@ export default function SearchScreen() {
                     }}
                     style={{
                       flexShrink: 0,
-
+                 
                     }}
-                    contentContainerStyle={[{ paddingBottom: bottom,      flexShrink: 0 }]}
+                    contentContainerStyle={{ paddingBottom: bottom,      flexShrink: 0 }}
                     removeClippedSubviews={false}
                     LargeHeaderComponent={LargeHeaderComponent}
                     absoluteHeader={true}
@@ -254,6 +254,6 @@ export default function SearchScreen() {
                 </Link>
                 </ScrollViewWithHeaders>
             </View>
-        </>
+      
     );
 } 
