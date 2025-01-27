@@ -356,12 +356,20 @@ export default function ScoreDetailsScreen() {
         HeaderComponent={HeaderComponent}
         // contentContainerStyle={styles.container}
         bounces={false}
+        contentContainerStyle={{
+          backgroundColor: '#fff',
+        }}
       >
          <LinearGradient
         colors={[score.team1.bg_color, score.team2.bg_color]}
+        // start={{ x: -0.3, y: 0.3 }}
+        // end={{ x: 1, y: 0.7 }}
+        // locations={[0.65, 0.65]}
+
         start={{ x: -0.3, y: 0.3 }}
         end={{ x: 1, y: 0.7 }}
-        locations={[0.65, 0.65]}
+        locations={[0.5, 0.5]}
+
         style={{
           position: 'absolute',
           top: -100,
