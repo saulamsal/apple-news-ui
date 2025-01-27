@@ -86,7 +86,7 @@ export default function ContentScreen() {
       if (targetId) {
         navigationTimeout.current = setTimeout(() => {
           //Hack for Web
-          window.history.pushState({}, '', `/content/${targetId}`);
+          window?.history?.pushState({}, '', `/content/${targetId}`);
           setIsNavigating(false);
         }, 250);
       }
