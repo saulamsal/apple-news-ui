@@ -32,6 +32,10 @@ export interface NewsItemType {
   card_type: 'full' | 'medium';
   is_news_plus: boolean;
   description?: string;
+  author?: {
+    name: string;
+  };
+  created_at: string;
   related_news?: {
     id: string;
     title: string;
@@ -130,7 +134,7 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
             {item.title}
           </Animated.Text>
 
-          {item.description && <Text className="text-xl text-gray-500 mt-2 tracking-tighter ">{item.description}</Text>}
+          {item.description && <Text className="text-base text-gray-500 mt-2 tracking-tighter ">{item.description}</Text>}
 
           {item.related_news && item.related_news.length > 0 && (
             <View className="mt-4">
@@ -151,7 +155,7 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
                       </View>
                     )} */}
                   </View>
-                  <Text className="text-xl font-semibold mb-1 -tracking-[0.5px]">{news.title}</Text>
+                  <Text className="text-base font-semibold mb-1 -tracking-[0.5px]">{news.title}</Text>
                 </Pressable>
               ))}
             </View>
@@ -197,7 +201,34 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
   );
 };
 
+const getRelativeTime = (timeString: string) => {
+  // If it's already in relative format, return as is
+  if (timeString.includes('ago') || timeString.includes('min') || timeString.includes('hr') || timeString.includes('day')) {
+    return timeString;
+  }
+  
+  // Fallback for actual dates if we ever get them
+  try {
+    const now = new Date();
+    const date = new Date(timeString);
+    const diff = now.getTime() - date.getTime();
+    
+    const minutes = Math.floor(diff / 60000);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
 
+    if (minutes < 1) return 'Just now';
+    if (minutes === 1) return '1min ago';
+    if (minutes < 60) return `${minutes}min ago`;
+    if (hours === 1) return '1hr ago';
+    if (hours < 24) return `${hours}hr ago`;
+    if (days === 1) return '1d ago';
+    if (days < 7) return `${days}d ago`;
+    return date.toLocaleDateString();
+  } catch {
+    return timeString;
+  }
+};
 
 export const NewsItem = ({ item }: NewsItemProps) => {
   const colorScheme = useColorScheme();
@@ -410,24 +441,23 @@ const NewsItemActions = ({ item }: { item: NewsItemType }) => {
   
   return (
     <View className="px-2">
-      {item.card_type === 'full' ? (
-        item.show_topic && (
+      <View className="flex-row items-center justify-between mt-2 mb-4 ml-2">
+        <Text className="text-xs text-gray-500">
+          {getRelativeTime(item.created_at)}{item.author?.name ? ` · ${item.author.name}` : ''}
+        </Text>
+        {item.card_type === 'full' && item.show_topic && (
           <Pressable 
-            className="bg-[#F2F2F6] px-4 py-1 rounded-2xl self-start mt-2 mb-4 ml-2" 
+            className="bg-[#F2F2F6] px-4 py-1 rounded-2xl" 
             onPress={(e) => {
               e.stopPropagation();
             }}
           >
             <Text className="text-xs text-black -tracking-[0.3px] font-bold">
-              More {item.topic.name} coverage
+              {item.topic.name}
             </Text>
           </Pressable>
-        )
-      ) : (
-        <View className="flex-row items-center mt-2 mb-4 ml-2">
-          <Text className="text-xs text-gray-500">23m ago · Author Name</Text>
-        </View>
-      )}
+        )}
+      </View>
       <View className="absolute right-2 top-2">
         <DropdownMenuComponent />
       </View>

@@ -117,7 +117,7 @@ export function ContentView({ content }: ContentViewProps) {
 
           <View style={styles.authorContainer}>
             <Text style={styles.author}>
-              By {content.author.name}
+              By {content?.author?.name}
             </Text>
             {/* <Text style={styles.date}>
               {new Date(content.created_at).toLocaleDateString()}

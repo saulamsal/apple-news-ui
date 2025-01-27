@@ -191,7 +191,7 @@ export default function HomeScreen() {
 
       </Head>
       )}
-      <View className="flex-1 bg-gray-100" style={{ paddingTop: insets.top }}>
+      <View className="flex-1 bg-white" style={{ paddingTop: insets.top }}>
         <Animated.View 
           className="absolute -top-4 left-0 right-0 z-50 bg-gray-100 px-5"
           style={[headerAnimatedStyle, { paddingTop: insets.top + 10, paddingBottom: 14 }]}
@@ -199,7 +199,7 @@ export default function HomeScreen() {
           <NewsHeaderLeftItem size="sm" />
         </Animated.View>
         
-        <View className="flex-1 bg-gray-100" >
+        <View className="flex-1 " >
           <AnimatedSwipeListView
             onScroll={scrollHandler}
             scrollEventThrottle={16}
@@ -224,7 +224,7 @@ export default function HomeScreen() {
                   <View>
                     <Image 
                       source={{ uri: 'https://i.imgur.com/EfImlCx.png' }} 
-                      className="w-16 h-16"
+                      className="w-16 h-16 mt-2"
                     />
                   </View>
                 </View>

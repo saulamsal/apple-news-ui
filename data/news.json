@@ -2,6 +2,151 @@
     "news": [
         {
             "id": "1",
+            "title": "DeepSeek AI App Overtakes ChatGPT, Spooks Tech Market",
+            "source": {
+                "id": "washington-post",
+                "name": "The Washington Post",
+                "logo_transparent_light": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/The_Logo_of_The_Washington_Post_Newspaper.svg/2560px-The_Logo_of_The_Washington_Post_Newspaper.svg.png",
+                "logo_transparent_dark": "https://cdn.freebiesupply.com/images/large/2x/washington-post-logo-white.png",
+                "dark_bg": "#000000",
+                "light_bg": "#ffffff",
+                "dark_text": "#ffffff",
+                "light_text": "#000000"
+            },
+            "created_at": "2 hours ago",
+            "topic": {
+                "id": "technology",
+                "name": "Technology"
+            },
+            "author": {
+                "name": "Drew Harwell"
+            },
+            "show_topic": true,
+            "description": "Chinese AI startup DeepSeek becomes most downloaded free app in US, causing tech stocks to plunge.",
+            "featured_image": "https://www.washingtonpost.com/wp-apps/imrs.php?src=https://arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/EYXT27QC4M62VXI3NXUG4WVCQU.JPG&w=1200",
+            "card_type": "full",
+            "has_next": true,
+            "is_news_plus": true,
+            "related_news": [
+                {
+                    "id": "r1",
+                    "title": "China's DeepSeek AI dethrones ChatGPT on App Store: Here's what you should know",
+                    "description": "The buzz around Chinese AI startup DeepSeek began picking up steam earlier this month, when the startup released R1, its model that rivals...",
+                    "source": {
+                        "id": "cnbc",
+                        "name": "CNBC",
+                        "logo_transparent_light": "https://logodix.com/logo/986904.png"
+                    },
+                    "time_ago": "7 hours ago",
+                    "is_live": false
+                },
+                {
+                    "id": "r2",
+                    "title": "Global tech shares fall as China AI chatbot DeepSeek spooks investors",
+                    "description": "",
+                    "source": {
+                        "id": "guardian",
+                        "name": "The Guardian",
+                        "logo_transparent_light": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/The_Guardian_2018.svg/1024px-The_Guardian_2018.svg.png"
+                    },
+                    "time_ago": "12 hours ago",
+                    "is_live": false
+                },
+                {
+                    "id": "r3",
+                    "title": "What is Chinese AI startup DeepSeek?",
+                    "description": "",
+                    "source": {
+                        "id": "fox-business",
+                        "name": "Fox Business",
+                        "logo_transparent_light": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/93ee227e-38bf-4f0f-9be4-bce0cbbd07b5/dfktd9n-eb17da0f-03b3-47e8-b9df-ae9d077825a3.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzkzZWUyMjdlLTM4YmYtNGYwZi05YmU0LWJjZTBjYmJkMDdiNVwvZGZrdGQ5bi1lYjE3ZGEwZi0wM2IzLTQ3ZTgtYjlkZi1hZTlkMDc3ODI1YTMucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.6pf7mXPJdWAFoLo7F-hddGQe-nDDAIGLF_52EkBkp0k"
+                    },
+                    "time_ago": "7 hours ago",
+                    "is_live": false
+                }
+            ]
+        },
+        {
+            "id": "2",
+            "title": "Chiefs Defeat Bills 32-29 in AFC Championship",
+            "source": {
+                "id": "the-athletic",
+                "name": "The Athletic",
+                "logo_transparent_light": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/The_Athletic_wordmark_black_2020.svg/2560px-The_Athletic_wordmark_black_2020.svg.png",
+                "logo_transparent_dark": "https://cdn.prod.website-files.com/63785e0df3d6aa8bc3fafb26/65171e385365e027c411e0a7_The_Athletic_wordmark_black_2020.svg%20(1).png",
+                "dark_bg": "#191919",
+                "light_bg": "#ffffff",
+                "dark_text": "#ffffff",
+                "light_text": "#000000"
+            },
+            "created_at": "4 hours ago",
+            "topic": {
+                "id": "sports",
+                "name": "Sports"
+            },
+            "show_topic": true,
+            "description": "Kansas City Chiefs advance to Super Bowl LIX after defeating Buffalo Bills, maintaining their shot at historic third consecutive title. Set to face Philadelphia Eagles on February 9 in New Orleans.",
+            "featured_image": "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-1000w,f_auto,q_auto:best/rockcms/2025-01/250124-Chiefs-Bills-aa-1256-8f6ff0.jpg",
+            "card_type": "medium",
+            "has_next": true,
+            "is_news_plus": true
+        },
+        {
+            "id": "2.5",
+            "title": "Hundreds of US visa appointments canceled in Colombia",
+            "source": {
+                "id": "bbc",
+                "name": "BBC News",
+                "logo_transparent_light": "https://e7.pngegg.com/pngimages/820/447/png-clipart-bbc-news-logo-others-television-text.png",
+                "logo_transparent_dark": "https://e7.pngegg.com/pngimages/820/447/png-clipart-bbc-news-logo-others-television-text.png",
+                "dark_bg": "#C80000",
+                "light_bg": "#ffffff",
+                "dark_text": "#ffffff",
+                "light_text": "#000000"
+            },
+            "created_at": "1 day ago",
+            "topic": {
+                "id": "world",
+                "name": "World"
+            },
+            "show_topic": true,
+            "description": "Visa appointments at the U.S. Embassy in Colombia were canceled Monday following a dispute between President Donald Trump and his Colombian counterpart Gustavo Petro over deportation flights from the U.S. that nearly turned into a costly trade war between the two countries.",
+            "featured_image": "https://www.aljazeera.com/wp-content/uploads/2025/01/AFP__20250126__36W39WB__v1__HighRes__ComboUsColombiaDiplomacyImmigration-1737943446.jpg?resize=770%2C513&quality=80",
+            "card_type": "medium",
+            "has_next": true,
+            "is_news_plus": true
+        },
+    
+        {
+            "id": "5",
+            "title": "Bill Gates admits 'foolish' mistake that led to divorce from Melinda",
+            "source": {
+                "id": "nypost",
+                "name": "New York Post",
+                "logo_transparent_light": "https://upload.wikimedia.org/wikipedia/commons/1/13/New_York_Post_logo.png",
+                "logo_transparent_dark": "https://upload.wikimedia.org/wikipedia/commons/1/13/New_York_Post_logo.png", 
+                "dark_bg": "#EF232B",
+                "light_bg": "#ffffff",
+                "dark_text": "#ffffff",
+                "light_text": "#000000"
+            },
+            "created_at": "3 hours ago",
+            "topic": {
+                "id": "business",
+                "name": "Business"
+            },
+            "show_topic": true,
+            "description": "Bill Gates has openly admitted that his past connection with Jeffrey Epstein, the convicted sex offender, was a major error in judgment.",
+            "featured_image": "https://i.dailymail.co.uk/1s/2025/01/18/06/94235161-0-image-m-195_1737181966632.jpg",
+            "card_type": "full",
+            "has_next": true,
+            "is_news_plus": true,
+            "author": {
+                "name": "Ariel Zilber"
+            }
+        },
+        {
+            "id": "6",
             "title": "Trump signs executive actions on Jan. 6, TikTok, immigration and more",
             "description": "President Trump on Monday signed a flurry of executive orders, reversing many of his predecessors' policies from his first term in office.",
             "content": "President Donald Trump rescinded 78 Biden-era executive actions, executive orders, and presidential memoranda as part of a slew of more than 200 executive actions on the first night of his second presidency.\n\nThere were 42 executive orders and 115 personnel actions on Trump's \"historic first day,\" White House officials said.\n\nTrump began by rescinding nearly 80 Biden-era actions following remarks Monday evening at an inauguration celebration at Washington's Capital One Arena.\n\nHe then signed a regulatory freeze to prevent the issuance of any more federal regulations pending their review, and a freeze on all federal government hiring.\n\nTrump signed a memo that requires all federal workers to return to in-person work, as well as a directive to every department and agency in the federal government to address the cost-of-living crisis.\n\nHe then signed a letter to be delivered to the United Nations indicating the United States' withdrawal from the Paris climate treaty.\n\nHe next signed an executive order intended to restore \"freedom of speech\" to federal employees and end what he called \"federal censorship.\"",
@@ -15,14 +160,14 @@
                 "dark_text": "#ffffff",
                 "light_text": "#ffffff"
             },
-            "created_at": "2024-03-19T15:00:00Z",
+            "created_at": "6 hours ago",
             "topic": {
                 "id": "politics",
                 "name": "Politics"
             },
             "show_topic": true,
             "author": {
-                "name": "Yahoo Finance Staff"
+                "name": "Jennifer Schonberger"
             },
             "featured_image": "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/4477x2984+0+0/resize/1100/quality/85/format/webp/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2Fd0%2Fef%2F9b556f744f428622f04dff087855%2Fgettyimages-2194440770.jpg",
             "card_type": "full",
@@ -68,7 +213,7 @@
             ]
         },
         {
-            "id": "2",
+            "id": "7",
             "title": "Mike Tyson is bigger than boxing. His fight with Jake Paul is proof.",
             "source": {
                 "id": "sports-illustrated",
@@ -80,10 +225,11 @@
                 "dark_text": "#fff",
                 "light_text": "#000"
             },
-            "created_at": "2024-03-19T14:45:00Z",
+            "created_at": "7 hours ago",
             "topic": {
-                "id": "boxing",
-                "name": "Boxing"
+                "id": "sports",
+                "name": "Sports",
+                "sport": "boxing"
             },
             "show_topic": true,
             "author": {
@@ -95,26 +241,26 @@
             "is_news_plus": true
         },
         {
-            "id": "3",
+            "id": "8",
             "title": "Trump's family circle has a different look as he returns to the White House",
             "source": {
-                "id": "ap",
-                "name": "AP",
-                "logo_transparent_light": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Associated_Press_logo_2012.svg/2560px-Associated_Press_logo_2012.svg.png",
-                "logo_transparent_dark": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Associated_Press_logo_2012.svg/2560px-Associated_Press_logo_2012.svg.png",
-                "dark_bg": "#000000",
+                "id": "bloomberg",
+                "name": "Bloomberg",
+                "logo_transparent_light": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/New_Bloomberg_Logo.svg/512px-New_Bloomberg_Logo.svg.png",
+                "logo_transparent_dark": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/New_Bloomberg_Logo.svg/512px-New_Bloomberg_Logo.svg.png",
+                "dark_bg": "#3208F7",
                 "light_bg": "#ffffff",
                 "dark_text": "#ffffff",
                 "light_text": "#000000"
             },
-            "created_at": "2024-03-19T14:30:00Z",
+            "created_at": "8 hours ago",
             "topic": {
                 "id": "politics",
                 "name": "Politics"
             },
             "show_topic": true,
             "author": {
-                "name": "AP Staff"
+                "name": "Mario Parker"
             },
             "featured_image": "https://s.yimg.com/ny/api/res/1.2/TMni9_X6IlPj3l5Hv8zcjQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTY0MA--/https://media.zenfs.com/en/ap.org/24c93ab1b4b4259db0817866f8c821a3",
             "card_type": "medium",
@@ -122,7 +268,7 @@
             "is_news_plus": false
         },
         {
-            "id": "4",
+            "id": "9",
             "title": "The NBA is reportedly considering dropping the All-Star Game for a four-team tournament",
             "source": {
                 "id": "espn",
@@ -134,10 +280,11 @@
                 "dark_text": "#fff",
                 "light_text": "#000"
             },
-            "created_at": "2024-03-19T14:00:00Z",
+            "created_at": "9 hours ago",
             "topic": {
-                "id": "nba",
-                "name": "NBA"
+                "id": "sports",
+                "name": "Sports",
+                "sport": "nba"
             },
             "show_topic": true,
             "author": {
@@ -149,7 +296,7 @@
             "is_news_plus": true
         },
         {
-            "id": "5",
+            "id": "10",
             "title": "Amazon's Zoox Plans To Launch Robotaxi Service This Year",
             "source": {
                 "id": "benzinga",
@@ -161,14 +308,14 @@
                 "dark_text": "#ffffff",
                 "light_text": "#1e293b"
             },
-            "created_at": "2024-03-19T13:45:00Z",
+            "created_at": "10 hours ago",
             "topic": {
                 "id": "technology",
                 "name": "Technology"
             },
             "show_topic": true,
             "author": {
-                "name": "Benzinga Staff"
+                "name": "Shrey Dua"
             },
             "featured_image": "https://fortune.com/img-assets/wp-content/uploads/2024/09/GettyImages-2154179524-e1726086410920.jpg",
             "card_type": "full",
@@ -176,7 +323,7 @@
             "is_news_plus": true
         },
         {
-            "id": "6",
+            "id": "11",
             "title": "Travis Kelce Doubles Down on His Swiftie Status",
             "source": {
                 "id": "people",
@@ -188,14 +335,14 @@
                 "dark_text": "#ffffff",
                 "light_text": "#e4002b"
             },
-            "created_at": "2024-03-19T12:30:00Z",
+            "created_at": "12 hours ago",
             "topic": {
                 "id": "entertainment",
                 "name": "Entertainment"
             },
             "show_topic": true,
             "author": {
-                "name": "People Staff"
+                "name": "Kirsty Hatcher"
             },
             "featured_image": "https://s.yimg.com/ny/api/res/1.2/QgJzMWFSS9q9wIQ61vQnyg--/YXBwaWQ9aGlnaGxhbmRlcjt3PTI0MDA7aD0xNjAw/https://media.zenfs.com/en/people_218/aaed1f424e58b73c1a2dc6d6a400e8f2",
             "card_type": "medium",

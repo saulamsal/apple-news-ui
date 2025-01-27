@@ -173,6 +173,9 @@ export default function SportsScreen() {
         </DropdownMenu.Root>
     );
 
+
+const filteredNews = news.filter((item) => item.topic.id === 'sports');
+
     return (
         <>
         { Platform.OS === 'web' && (
@@ -220,7 +223,7 @@ export default function SportsScreen() {
 
                         onScroll={scrollHandler}
                         scrollEventThrottle={16}
-                        data={news as NewsItem[]}
+                        data={filteredNews as NewsItem[]}
                         renderItem={renderNewsItem}
                         renderHiddenItem={renderHiddenItem}
                         leftOpenValue={120}
