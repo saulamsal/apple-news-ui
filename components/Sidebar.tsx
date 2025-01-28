@@ -10,6 +10,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { TextInput } from 'react-native';
 import { useSegments, useRouter } from 'expo-router';
 import { Animated } from 'react-native';
+import { useFonts, Orbitron_700Bold, Orbitron_900Black } from '@expo-google-fonts/orbitron';
 
 interface Entity {
   id: string;
@@ -28,11 +29,13 @@ interface Game {
   };
   team1: {
     name: string;
+    nickname: string;
     score?: number;
     logo?: string;
   };
   team2: {
     name: string;
+    nickname: string;
     score?: number;
     logo?: string;
   };
@@ -102,6 +105,10 @@ const LiveDot = () => {
 };
 
 export function Sidebar() {
+  const [fontsLoaded] = useFonts({
+    Orbitron_700Bold,
+    Orbitron_900Black,
+  });
   const [searchQuery, setSearchQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const segments = useSegments();
@@ -196,12 +203,12 @@ export function Sidebar() {
                 source={{ uri: game.team1.logo }} 
                 style={[styles.teamLogo, { opacity: 0.7 }]} 
               />
-              <Text style={[styles.teamName, { color: game.team1.score > game.team2.score ? '#000000' : '#6B7280'  }]}>
+              <Text style={[styles.teamName, { color: (game.team1.score ?? 0) > (game.team2.score ?? 0) ? '#000000' : '#6B7280'  }]}>
                 {game.team1.nickname}
               </Text>
             </View>
-            <Text style={[styles.score, { color: game.team1.score > game.team2.score ? '#000000' : '#6B7280' }]}>
-              {game.team1.score}
+            <Text style={[styles.score, { color: (game.team1.score ?? 0) > (game.team2.score ?? 0) ? '#000000' : '#6B7280' }]}>
+              {game.team1.score ?? '-'}
             </Text>
           </View>
           <View style={styles.scoreRow}>
@@ -210,12 +217,12 @@ export function Sidebar() {
                 source={{ uri: game.team2.logo }} 
                 style={[styles.teamLogo, { opacity: 0.7 }]} 
               />
-              <Text style={[styles.teamName, { color: game.team1.score < game.team2.score ? '#000000' : '#6B7280' }]}>
+              <Text style={[styles.teamName, { color: (game.team1.score ?? 0) < (game.team2.score ?? 0) ? '#000000' : '#6B7280' }]}>
                 {game.team2.nickname}
               </Text>
             </View>
-            <Text style={[styles.score, { color: game.team1.score < game.team2.score ? '#000000' : '#6B7280' }]}>
-              {game.team2.score}
+            <Text style={[styles.score, { color: (game.team1.score ?? 0) < (game.team2.score ?? 0) ? '#000000' : '#6B7280' }]}>
+              {game.team2.score ?? '-'}
             </Text>
           </View>
         </TouchableOpacity>
@@ -385,11 +392,12 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   teamName: {
-    fontSize: 16,
-    fontWeight: '500',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   score: {
-    fontSize: 15,
+    fontSize: 18,
     fontWeight: '600',
+    fontFamily: 'Orbitron_900Black',
   },
 }); 

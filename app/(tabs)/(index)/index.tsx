@@ -108,7 +108,7 @@ const DonateButton = () => {
         }}
         title="Southern California wildfires"
         subtitle="Donate to the American Red Cross"
-        backgroundColor="#E31837"
+        backgroundColor="#F58A1F"
       />
     </View>
   );
@@ -232,7 +232,7 @@ export default function HomeScreen() {
                 </View>
                 <DonateButton />
                 <View className="mb-4 px-5">
-                  <Text className="text-4xl font-extrabold text-apple-news tracking-tighter ">Top Stories</Text>
+                  <Text className="text-3xl font-extrabold text-apple-news tracking-tighter  mt-4">Top Stories</Text>
                 </View>
               </View>
             }
