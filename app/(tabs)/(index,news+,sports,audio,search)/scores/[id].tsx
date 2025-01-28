@@ -22,7 +22,7 @@ import Animated, {
   AnimateStyle,
 } from 'react-native-reanimated';
 import { useFonts, Orbitron_700Bold, Orbitron_900Black } from '@expo-google-fonts/orbitron';
-import * as DropdownMenu from 'zeego/dropdown-menu';
+import {DropdownMenu} from '@/components/DropdownMenu';
 import * as Sharing from 'expo-sharing';
 import React, { useReducer, useEffect } from 'react';
 // import * as Clipboard from 'expo-clipboard';

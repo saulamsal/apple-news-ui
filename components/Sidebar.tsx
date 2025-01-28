@@ -174,6 +174,7 @@ export function Sidebar() {
           onChangeText={setSearchQuery}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
+          className="outline-none active:outline-none focus:outline-none"
         />
         {searchQuery ? (
           <TouchableOpacity onPress={() => setSearchQuery('')}>
@@ -305,6 +306,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     height: '100%',
     letterSpacing: -0.4,
+    outline: 'none',
   },
   content: {
     flex: 1,

@@ -14,7 +14,7 @@ import entities from '@/app/data/entities.json';
 import { scores } from '@/data/scores.json';
 import { NewsItem, NewsItemType } from '@/components/NewsItem';
 import { SwipeableNewsItem } from '@/components/SwipeableNewsItem';
-import * as DropdownMenu from 'zeego/dropdown-menu';
+import {DropdownMenu} from '@/components/DropdownMenu';
 import { MaterialIcons } from '@expo/vector-icons';
 import { SegmentedControl } from '@/components/SegmentedControl';
 import { SportScoreCarousel } from '@/components/SportScoreCarousel';

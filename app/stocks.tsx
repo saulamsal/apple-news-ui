@@ -8,8 +8,8 @@ import { NewsItem } from '@/components/NewsItem';
 import stocksData from '@/app/data/stocks.json';
 import { news } from '@/data/news.json';
 import { Ionicons } from '@expo/vector-icons';
-import * as DropdownMenu from 'zeego/dropdown-menu';
-import * as ContextMenu from 'zeego/context-menu';
+import {DropdownMenu} from '@/components/DropdownMenu';
+import {ContextMenu} from '@/components/ContextMenu'
 // import {Appearance} from 'react-native';
 import { MMKV } from 'react-native-mmkv';
 

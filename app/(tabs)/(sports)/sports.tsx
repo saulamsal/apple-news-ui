@@ -12,8 +12,8 @@ import Animated, {
 } from 'react-native-reanimated';
 import BlurView from '@/components/BlurView';
 import { ListRenderItemInfo } from 'react-native';
-// import * as DropdownMenu from 'zeego/dropdown-menu';
-import * as DropdownMenu from 'zeego/dropdown-menu';
+// import {DropdownMenu} from '@/components/DropdownMenu';
+import {DropdownMenu} from '@/components/DropdownMenu';
 
 import Head from 'expo-router/head';
 
