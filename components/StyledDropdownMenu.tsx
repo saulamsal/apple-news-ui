@@ -29,32 +29,31 @@ export const {
 export const Content = (props: any) => (
   <DropdownMenu.Content 
     {...props} 
-    className={mergeStyles(defaultStyles.content, props.className)}
+    // className={mergeStyles(defaultStyles.content, props.className)}
   />
 );
 
 export const Item = (props: any) => (
   <DropdownMenu.Item 
     {...props} 
-    className={mergeStyles(defaultStyles.item, props.className)}
+    // className={mergeStyles(defaultStyles.item, props.className)}
   />
 );
 
 export const ItemTitle = (props: any) => (
   <DropdownMenu.ItemTitle 
     {...props} 
-    className={mergeStyles(
-      props.destructive ? defaultStyles.itemTitleDestructive : defaultStyles.itemTitle, 
-      props.className
-    )}
+    // className={mergeStyles(
+    //   props.destructive ? defaultStyles.itemTitleDestructive : defaultStyles.itemTitle, 
+    //   props.className
+    // )}
   />
 );
 
 export const ItemIcon = (props: any) => (
   <DropdownMenu.ItemIcon 
-    {...props} 
-    className={mergeStyles(defaultStyles.itemIcon, props.className)}
-  />
+    // className={mergeStyles(defaultStyles.itemIcon, props.className)}
+    {...props}  />
 );
 
 export const Sub = DropdownMenu.Sub;
@@ -62,13 +61,13 @@ export const Sub = DropdownMenu.Sub;
 export const SubTrigger = (props: any) => (
   <DropdownMenu.SubTrigger 
     {...props} 
-    className={mergeStyles(defaultStyles.subTrigger, props.className)}
+    // className={mergeStyles(defaultStyles.subTrigger, props.className)}
   />
 );
 
 export const SubContent = (props: any) => (
   <DropdownMenu.SubContent 
     {...props} 
-    className={mergeStyles(defaultStyles.subContent, props.className)}
+    // className={mergeStyles(defaultStyles.subContent, props.className)}
   />
 ); 

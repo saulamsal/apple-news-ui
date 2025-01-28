@@ -126,11 +126,11 @@ export default function SportsScreen() {
     });
 
     const renderNewsItem = ({ item }: ListRenderItemInfo<NewsItem>) => (
-        <NewsItem item={item} />
+        <NewsItem item={item} is_news_plus={item.is_news_plus} />
     );
 
     const renderHiddenItem = ({ item }: ListRenderItemInfo<NewsItem>) => (
-        <SwipeableNewsItem item={item} />
+        <SwipeableNewsItem item={item} is_news_plus={item.is_news_plus} />
     );
 
     const sportsList = [
@@ -240,7 +240,7 @@ const filteredNews = news.filter((item) => item.topic.id === 'sports');
                             <View style={SportsStyles.listHeaderContainer}>
                                 <Image
                                     source={require('@/assets/images/temp/sports-light-bg.png')}
-                                    style={{ width: '100%', height: Platform.OS === 'ios' ? insets.top + 140 :  70, position: 'absolute', left: 0, right: 0, top: -insets.top  }}
+                                    style={{ width: '100%', height: Platform.OS === 'ios' ? insets.top + 140 :  (Platform.OS === 'android' ? insets.top + 110 : 70), position: 'absolute', left: 0, right: 0, top: -insets.top  }}
                                 />
 
                                 <View style={{ paddingHorizontal: 16, paddingTop:insets.top+ (Platform.OS === 'web' ? 24 : 0)   }}>

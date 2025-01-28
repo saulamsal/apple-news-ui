@@ -1,15 +1,15 @@
 import { View, ViewProps } from 'react-native';
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 interface BlurViewProps extends ViewProps {
   intensity?: number;
   tint?: 'light' | 'dark' | 'default' | 'prominent' | 'extraLight' | 'ultraLight' | 'regular' | 'systemUltraThinMaterial' | 'systemThinMaterial' | 'systemMaterial' | 'systemThickMaterial' | 'systemChromeMaterial' | 'systemUltraThinMaterialLight' | 'systemThinMaterialLight' | 'systemMaterialLight' | 'systemThickMaterialLight' | 'systemChromeMaterialLight' | 'systemUltraThinMaterialDark' | 'systemThinMaterialDark' | 'systemMaterialDark' | 'systemThickMaterialDark' | 'systemChromeMaterialDark';
 }
 
-export default function BlurView({ style, children, ...props }: BlurViewProps) {
+export default forwardRef<View, BlurViewProps>(({ style, children, ...props }, ref) => {
   return (
-    <View style={[{ backgroundColor: 'rgba(0,0,0,0.1)' }, style]} {...props}>
+    <View ref={ref} style={[{ backgroundColor: 'rgba(255,255,255,1)' }, style]} {...props}>
       {children}
     </View>
   );
-} 
+}); 

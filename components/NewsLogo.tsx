@@ -12,19 +12,20 @@ interface NewsLogoProps {
 export const NewsLogo = ({ size = 24, color = '#000', forceShow = false }: NewsLogoProps) => {
     const { width } = useWindowDimensions();
     const showSidebar = width >= 1024;
+    const isMobile = width < 768;
 
-    if(!showSidebar && !forceShow) {
+    if(!showSidebar && !forceShow && !isMobile) {
         return null;
     }
 
-    if(showSidebar && !forceShow) {
+    if(showSidebar && !forceShow && !isMobile) {
         return null;
     }
 
     return (
         <View style={styles.container}>
             <Ionicons name="logo-apple" size={size * 0.8} color={color} />
-            {showSidebar && <Text style={[styles.text, { fontSize: size * 0.8, color }]}>News</Text>}
+            {(showSidebar || isMobile) && <Text style={[styles.text, { fontSize: size * 0.8, color }]}>News</Text>}
         </View>
     );
 };

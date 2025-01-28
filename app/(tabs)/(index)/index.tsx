@@ -172,7 +172,7 @@ export default function HomeScreen() {
 
   return (
     <>
-      <WelcomeModal />
+      {Platform.OS !== 'android' && <WelcomeModal />}
       { Platform.OS === 'web' && (
         <Head>
           <title>Apple News UI - Latest News & Updates</title>
