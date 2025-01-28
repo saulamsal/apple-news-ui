@@ -58,9 +58,9 @@ interface NewsItem {
 }
 
 // Initialize DefaultPreference with app group
-DefaultPreference.setName("group.com.sportapp.apple-news-ui");
+DefaultPreference.setName("group.com.sportapp.anews-ui");
 
-const storage = new ExtensionStorage("group.com.sportapp.apple-news-ui");
+const storage = new ExtensionStorage("group.com.sportapp.anews-ui");
 
 const updateWidget = (newsItem: NewsItemType) => {
   if (process.env.EXPO_PUBLIC_OS === "ios") {

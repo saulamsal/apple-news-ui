@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Apple News by Saúl",
-    "slug": "apple-news-ui",
+    "name": "Apple News UI",
+    "slug": "anews-ui",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -15,11 +15,11 @@
             "ios": {
               "appExtensions": [
                 {
-                  "bundleIdentifier": "com.sportapp.apple-news-ui.widget",
+                  "bundleIdentifier": "com.sportapp.anews-ui.widget",
                   "targetName": "widget",
                   "entitlements": {
                     "com.apple.security.application-groups": [
-                      "group.com.sportapp.apple-news-ui"
+                      "group.com.sportapp.anews-ui"
                     ]
                   }
                 }
@@ -37,14 +37,14 @@
     "ios": {
       "appleTeamId": "F7P5RH5CTP",
       "supportsTablet": true,
-      "bundleIdentifier": "com.sportapp.apple-news-ui",
+      "bundleIdentifier": "com.sportapp.anews-ui",
       "deploymentTarget": "15.1",
       "infoPlist": {
         "NSSupportsLiveActivities": true
       },
       "entitlements": {
         "com.apple.security.application-groups": [
-          "group.com.sportapp.apple-news-ui"
+          "group.com.sportapp.anews-ui"
         ]
       }
     },
@@ -53,7 +53,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.sportapp.applenewsui"
+      "package": "com.sportapp.anews-ui"
     },
     "web": {
       "bundler": "metro",

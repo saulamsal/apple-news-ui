@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "AppleNewsbySal.app"
-               BlueprintName = "AppleNewsbySal"
-               ReferencedContainer = "container:AppleNewsbySal.xcodeproj">
+               BuildableName = "AppleNewsUI.app"
+               BlueprintName = "AppleNewsUI"
+               ReferencedContainer = "container:AppleNewsUI.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "AppleNewsbySalTests.xctest"
-               BlueprintName = "AppleNewsbySalTests"
-               ReferencedContainer = "container:AppleNewsbySal.xcodeproj">
+               BuildableName = "AppleNewsUITests.xctest"
+               BlueprintName = "AppleNewsUITests"
+               ReferencedContainer = "container:AppleNewsUI.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "AppleNewsbySal.app"
-            BlueprintName = "AppleNewsbySal"
-            ReferencedContainer = "container:AppleNewsbySal.xcodeproj">
+            BuildableName = "AppleNewsUI.app"
+            BlueprintName = "AppleNewsUI"
+            ReferencedContainer = "container:AppleNewsUI.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "AppleNewsbySal.app"
-            BlueprintName = "AppleNewsbySal"
-            ReferencedContainer = "container:AppleNewsbySal.xcodeproj">
+            BuildableName = "AppleNewsUI.app"
+            BlueprintName = "AppleNewsUI"
+            ReferencedContainer = "container:AppleNewsUI.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

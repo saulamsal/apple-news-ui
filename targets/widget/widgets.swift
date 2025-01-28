@@ -1,7 +1,7 @@
 import WidgetKit
 import SwiftUI
 
-let APP_GROUP_NAME = "group.com.sportapp.apple-news-ui"
+let APP_GROUP_NAME = "group.com.sportapp.anews-ui"
 
 struct NewsArticle: Codable {
     let title: String

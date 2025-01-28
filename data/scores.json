@@ -8,7 +8,7 @@
         "full_name": "Premier League",
         "matchweek": 21
       },
-      "sports_type": "soccer",
+      "sports_type": "soccer", 
       "team1": {
         "id": "mun",
         "name": "MUN",
@@ -20,27 +20,54 @@
         "position_suffix": "th",
         "bg_color": "#DA020E",
         "logo": "https://api.sofascore.app/api/v1/team/35/image",
-        "score": 2,
-        "events": []
+        "score": 3,
+        "events": [
+          {
+            "time": "45'",
+            "event": "Goal by Rashford!",
+            "situation": "GOAL"
+          },
+          {
+            "time": "67'",
+            "event": "Goal by Bruno Fernandes!",
+            "situation": "GOAL"
+          },
+          {
+            "time": "89'",
+            "event": "Goal by Garnacho!",
+            "situation": "GOAL"
+          }
+        ]
       },
       "team2": {
-        "id": "sou",
-        "name": "SOU",
-        "full_name": "Southampton",
-        "nickname": "Saints",
-        "current_form": "2-5-4",
-        "points": 15,
-        "position": 20,
-        "position_suffix": "th",
-        "bg_color": "#D71920",
-        "logo": "https://api.sofascore.app/api/v1/team/40/image",
-        "score": 1,
-        "events": []
+        "id": "mci",
+        "name": "MCI",
+        "full_name": "Manchester City", 
+        "nickname": "Man City",
+        "current_form": "8-2-2",
+        "points": 43,
+        "position": 2,
+        "position_suffix": "nd",
+        "bg_color": "#6CABDD",
+        "logo": "https://api.sofascore.app/api/v1/team/17/image",
+        "score": 2,
+        "events": [
+          {
+            "time": "12'",
+            "event": "Goal by Haaland!",
+            "situation": "GOAL"
+          },
+          {
+            "time": "34'",
+            "event": "Goal by De Bruyne!",
+            "situation": "GOAL"
+          }
+        ]
       },
-      "startTime": "2024-01-16T20:00:00Z",
-      "status": "completed",
-      "is_finished": true,
-      "is_live": false
+      "startTime": "2024-01-27T17:30:00Z",
+      "status": "in_progress",
+      "is_finished": false,
+      "is_live": true
     },
     {
       "id": "2",

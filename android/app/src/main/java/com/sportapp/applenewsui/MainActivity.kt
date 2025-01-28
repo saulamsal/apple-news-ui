@@ -1,4 +1,4 @@
-package com.sportapp.applenewsui
+package com.sportapp.anews-ui
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build
