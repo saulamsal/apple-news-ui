@@ -12,14 +12,19 @@ PODS:
     - DGSwiftUtilities (~> 0.29)
   - DGSwiftUtilities (0.46.3)
   - DoubleConversion (1.1.6)
+  - EASClient (0.13.2):
+    - ExpoModulesCore
   - EXApplication (6.0.2):
     - ExpoModulesCore
   - EXAV (15.0.2):
     - ExpoModulesCore
     - ReactCommon/turbomodule/core
-  - EXConstants (17.0.4):
+  - EXConstants (17.0.5):
     - ExpoModulesCore
-  - EXNotifications (0.29.12):
+  - EXJSONUtils (0.14.0)
+  - EXManifests (0.15.5):
+    - ExpoModulesCore
+  - EXNotifications (0.29.13):
     - ExpoModulesCore
   - Expo (52.0.25):
     - ExpoModulesCore
@@ -27,7 +32,7 @@ PODS:
     - ExpoModulesCore
   - ExpoAudio (0.3.4):
     - ExpoModulesCore
-  - ExpoBlur (14.0.2):
+  - ExpoBlur (14.0.3):
     - ExpoModulesCore
   - ExpoClipboard (7.0.1):
     - ExpoModulesCore
@@ -49,7 +54,7 @@ PODS:
     - ExpoModulesCore
   - ExpoLinearGradient (14.0.2):
     - ExpoModulesCore
-  - ExpoLinking (7.0.4):
+  - ExpoLinking (7.0.5):
     - ExpoModulesCore
   - ExpoLiveActivity (1.0.0):
     - ExpoModulesCore
@@ -86,7 +91,37 @@ PODS:
     - ExpoModulesCore
   - ExpoWebBrowser (14.0.2):
     - ExpoModulesCore
+  - EXStructuredHeaders (4.0.0)
   - ExtensionStorage (1.0.0):
+    - ExpoModulesCore
+  - EXUpdates (0.26.13):
+    - DoubleConversion
+    - EASClient
+    - EXManifests
+    - ExpoModulesCore
+    - EXStructuredHeaders
+    - EXUpdatesInterface
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - ReachabilitySwift
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
+  - EXUpdatesInterface (1.0.0):
     - ExpoModulesCore
   - FBLazyVector (0.76.3)
   - fmt (9.1.0)
@@ -121,6 +156,7 @@ PODS:
     - FBLazyVector (= 0.76.3)
     - RCTRequired (= 0.76.3)
     - React-Core (= 0.76.3)
+  - ReachabilitySwift (5.2.4)
   - React (0.76.3):
     - React-Core (= 0.76.3)
     - React-Core/DevSupport (= 0.76.3)
@@ -1603,6 +1639,27 @@ PODS:
   - react-native-track-player (4.1.1):
     - React-Core
     - SwiftAudioEx (= 1.1.0)
+  - react-native-webview (13.12.5):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.01.01.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-ImageManager
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - React-nativeconfig (0.76.3)
   - React-NativeModulesApple (0.76.3):
     - glog
@@ -2161,9 +2218,12 @@ DEPENDENCIES:
   - Burnt (from `../node_modules/burnt/ios`)
   - BVLinearGradient (from `../node_modules/react-native-linear-gradient`)
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
+  - EASClient (from `../node_modules/expo-eas-client/ios`)
   - EXApplication (from `../node_modules/expo-application/ios`)
   - EXAV (from `../node_modules/expo-av/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
+  - EXJSONUtils (from `../node_modules/expo-json-utils/ios`)
+  - EXManifests (from `../node_modules/expo-manifests/ios`)
   - EXNotifications (from `../node_modules/expo-notifications/ios`)
   - Expo (from `../node_modules/expo`)
   - ExpoAsset (from `../node_modules/expo-asset/ios`)
@@ -2185,7 +2245,10 @@ DEPENDENCIES:
   - ExpoSymbols (from `../node_modules/expo-symbols/ios`)
   - ExpoSystemUI (from `../node_modules/expo-system-ui/ios`)
   - ExpoWebBrowser (from `../node_modules/expo-web-browser/ios`)
+  - EXStructuredHeaders (from `../node_modules/expo-structured-headers/ios`)
   - "ExtensionStorage (from `../node_modules/@bacons/apple-targets/ios`)"
+  - EXUpdates (from `../node_modules/expo-updates/ios`)
+  - EXUpdatesInterface (from `../node_modules/expo-updates-interface/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - fmt (from `../node_modules/react-native/third-party-podspecs/fmt.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
@@ -2229,6 +2292,7 @@ DEPENDENCIES:
   - "react-native-skia (from `../node_modules/@shopify/react-native-skia`)"
   - "react-native-slider (from `../node_modules/@react-native-community/slider`)"
   - react-native-track-player (from `../node_modules/react-native-track-player`)
+  - react-native-webview (from `../node_modules/react-native-webview`)
   - React-nativeconfig (from `../node_modules/react-native/ReactCommon`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -2274,6 +2338,7 @@ SPEC REPOS:
     - DGSwiftUtilities
     - libavif
     - libdav1d
+    - ReachabilitySwift
     - SDWebImage
     - SDWebImageAVIFCoder
     - SDWebImageSVGCoder
@@ -2292,12 +2357,18 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-linear-gradient"
   DoubleConversion:
     :podspec: "../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec"
+  EASClient:
+    :path: "../node_modules/expo-eas-client/ios"
   EXApplication:
     :path: "../node_modules/expo-application/ios"
   EXAV:
     :path: "../node_modules/expo-av/ios"
   EXConstants:
     :path: "../node_modules/expo-constants/ios"
+  EXJSONUtils:
+    :path: "../node_modules/expo-json-utils/ios"
+  EXManifests:
+    :path: "../node_modules/expo-manifests/ios"
   EXNotifications:
     :path: "../node_modules/expo-notifications/ios"
   Expo:
@@ -2340,8 +2411,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-system-ui/ios"
   ExpoWebBrowser:
     :path: "../node_modules/expo-web-browser/ios"
+  EXStructuredHeaders:
+    :path: "../node_modules/expo-structured-headers/ios"
   ExtensionStorage:
     :path: "../node_modules/@bacons/apple-targets/ios"
+  EXUpdates:
+    :path: "../node_modules/expo-updates/ios"
+  EXUpdatesInterface:
+    :path: "../node_modules/expo-updates-interface/ios"
   FBLazyVector:
     :path: "../node_modules/react-native/Libraries/FBLazyVector"
   fmt:
@@ -2425,6 +2502,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/slider"
   react-native-track-player:
     :path: "../node_modules/react-native-track-player"
+  react-native-webview:
+    :path: "../node_modules/react-native-webview"
   React-nativeconfig:
     :path: "../node_modules/react-native/ReactCommon"
   React-NativeModulesApple:
@@ -2508,14 +2587,17 @@ SPEC CHECKSUMS:
   ContextMenuAuxiliaryPreview: 20be0be795b783b68f8792732eed4bed9f202c1c
   DGSwiftUtilities: 2f0d35d5ff3d57bd70ccc42f15971460db202c41
   DoubleConversion: f16ae600a246532c4020132d54af21d0ddb2a385
+  EASClient: d7420d607795707821b8bcd30ab7444159e802e0
   EXApplication: 27a524f5c3e671c6218220fba04752629466a1a9
   EXAV: 57ea461614a714b8b8fcc72c6fbc298b8f1ec78b
-  EXConstants: cc788e18fb962b77999c16f6b90e551542b1bcf4
-  EXNotifications: 17db1ed04f515dabe11aeb2768bd353b4c005385
+  EXConstants: aa93a3e70f8b37c81a80931cfd23f860b1819167
+  EXJSONUtils: 01fc7492b66c234e395dcffdd5f53439c5c29c93
+  EXManifests: 81324537a654111964f6e7994dbc351a4233dcfa
+  EXNotifications: 08cc7c5a100c2edc3a01227cfdfcaf17746189d7
   Expo: 377cc60ce8c9030cf52e36987ab3ce099ab9006e
   ExpoAsset: 6cc988c426b5fc997859cc0f8f6728d1376bf53f
   ExpoAudio: 4e15220669743c6b5abf6ca64fd8f3a1935cc5af
-  ExpoBlur: 5327b09a58e04e4066dd95fe994d8ef5539a1f26
+  ExpoBlur: 567af66164e3043a9a30069594aed1ddf0a88d97
   ExpoClipboard: 5250b207b6d545f4e9aac5ea3c6e61c4f16d0aed
   ExpoFileSystem: a0a5c44d3d3e8a2aa54fe7c70c7690df03cf4dd8
   ExpoFont: 8b14db1afebf62e9774613a082e402985f4e747c
@@ -2524,7 +2606,7 @@ SPEC CHECKSUMS:
   ExpoImage: 3099001359e4414d60addd7c3e00a5d949df41e0
   ExpoKeepAwake: 1f74cdf53ab3b3aeb7110f18eb053c92e7c3e710
   ExpoLinearGradient: ee9efc5acb988b911320e964fab9b4cbdeb198c4
-  ExpoLinking: a9e64f08d2bb4fc42e7441174f15cc535bb390ba
+  ExpoLinking: 0381341519ca7180a3a057d20edb1cf6a908aaf4
   ExpoLiveActivity: 3ffd8b4dbf238e2a54fe47e1104ff2cb3e49f649
   ExpoModulesCore: b8cf31b6555210d2455ba77d8812bfa6508a6119
   ExpoSharing: c4540ef2e6615a92e05d2bddf019e1f58f27119e
@@ -2532,7 +2614,10 @@ SPEC CHECKSUMS:
   ExpoSymbols: 54fa089478e1bc00f4d1d66ffb5c8bc64dc71ada
   ExpoSystemUI: 7296f92af7c30ec0fc4305bbeb5c396d7fc9e86c
   ExpoWebBrowser: 6890a769e6c9d83da938dceb9a03e764afc3ec9c
+  EXStructuredHeaders: 09c70347b282e3d2507e25fb4c747b1b885f87f6
   ExtensionStorage: 158434def6cd14146ecacf5ac2db6345f8644c2d
+  EXUpdates: 511cc16659c2af9432617368f1878cf333cffeae
+  EXUpdatesInterface: 1dcebac98ac5dad4289e6ff2bd5616822e894397
   FBLazyVector: be7314029d6ec6b90f0f75ce1195b8130ed9ac4f
   fmt: 10c6e61f4be25dc963c36bd73fc7b1705fe975be
   glog: 08b301085f15bcbb6ff8632a8ebaf239aae04e6a
@@ -2543,6 +2628,7 @@ SPEC CHECKSUMS:
   RCTDeprecation: 2c5e1000b04ab70b53956aa498bf7442c3c6e497
   RCTRequired: 5f785a001cf68a551c5f5040fb4c415672dbb481
   RCTTypeSafety: 6b98db8965005d32449605c0d005ecb4fee8a0f7
+  ReachabilitySwift: 32793e867593cfc1177f5d16491e3a197d2fccda
   React: 8077bf7c185afb515be82518507e16f71a247a5e
   React-callinvoker: 519eee9520727805e2867a6d8dad4ebbeed543db
   React-Core: e364ceda7d086c7d14adeec0eb880a90073e3dde
@@ -2576,6 +2662,7 @@ SPEC CHECKSUMS:
   react-native-skia: e63b4764dd20becf6ba46a05e509b85cb3ccf8c5
   react-native-slider: da7c05c52827d597bb7824c5b1acb35741d41f89
   react-native-track-player: 82ef1756ffeea61140fea17519ecd6d64ec3cf3e
+  react-native-webview: 47c9d892756ec3930810f2b539e732c01858e1c9
   React-nativeconfig: f2bddc1e6c2eb793c065b37e12c513fdea88afef
   React-NativeModulesApple: 3d43a432a7fdc0938af4fb1b09e1bc6952049f24
   React-perflogger: 6afb7eebf7d9521cc70481688ccddf212970e9d3

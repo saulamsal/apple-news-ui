@@ -11,6 +11,7 @@ import { getAllEntitiesForSection } from "@/src/utils/entityUtils";
 import searchEntities from "@/app/data/search_entities.json";
 import entities from '@/app/data/entities.json';
 import { NewsLogo } from "@/components/NewsLogo";
+import SocialButtons from '@/components/SocialButtons';
 
 type Entity = typeof entities[keyof typeof entities];
 
@@ -228,6 +229,9 @@ export default function WebLayout() {
               </View>
             );
           })}
+
+          {!isCompact && <SocialButtons />}
+          
         </View>
       </View>
 

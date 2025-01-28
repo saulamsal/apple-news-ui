@@ -10,7 +10,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { SlidingBanner } from '@/components/SlidingBanner';
+import SlidingBanner from '@/components/SlidingBanner';
 import { MotiView } from 'moti';
 import Head from 'expo-router/head';
 

@@ -82,6 +82,7 @@
     "react-native-tab-view": "^3.5.2",
     "react-native-track-player": "^4.1.1",
     "react-native-web": "~0.19.13",
+    "react-native-webview": "13.12.5",
     "react-server-dom-webpack": "19.0.0-rc-6230622a1a-20240610",
     "tailwindcss": "^3.4.17",
     "victory-core": "^37.3.6",

@@ -12,7 +12,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import * as WebBrowser from 'expo-web-browser';
-import { SlidingBanner } from '@/components/SlidingBanner';
+import SlidingBanner from '@/components/SlidingBanner';
 import { ExtensionStorage } from "@bacons/apple-targets";
 import DefaultPreference from '@/helper/defaultpreferences';
 import Head from 'expo-router/head';

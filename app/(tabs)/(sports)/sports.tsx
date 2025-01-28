@@ -32,7 +32,7 @@ import { SportsStyles } from '@/styles/screens/sports'
 import { Platform } from 'react-native';
 import { SportScoreCarousel } from '@/components/SportScoreCarousel';
 import { scores } from '@/data/scores.json';
-import { SlidingBanner } from '@/components/SlidingBanner';
+import SlidingBanner from '@/components/SlidingBanner';
 
 interface Source {
     id: string;

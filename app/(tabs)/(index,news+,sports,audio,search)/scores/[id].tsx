@@ -8,7 +8,7 @@ import { scores } from '@/data/scores.json';
 import { format } from 'date-fns';
 import { news } from '@/data/news.json';
 import { NewsItem, NewsItemType } from '@/components/NewsItem';
-import { SlidingBanner } from '@/components/SlidingBanner';
+import SlidingBanner from '@/components/SlidingBanner';
 import { ScrollViewWithHeaders, Header } from '@codeherence/react-native-header';
 import Animated, { 
   SharedValue,

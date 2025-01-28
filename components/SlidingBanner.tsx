@@ -18,7 +18,7 @@ interface SlidingBannerProps {
     backgroundColor: string;
 }
 
-export const SlidingBanner = ({ 
+ const SlidingBanner = ({ 
     onPress, 
     icon, 
     image, 
@@ -27,7 +27,7 @@ export const SlidingBanner = ({
     backgroundColor 
 }: SlidingBannerProps) => {
     return (
-        <View className="my-2">
+        <View className="my">
             <Animated.View
                 style={[
                     styles.container,
@@ -155,3 +155,5 @@ const styles = StyleSheet.create({
         opacity: 0.1,
     },
 }); 
+
+export default SlidingBanner;
