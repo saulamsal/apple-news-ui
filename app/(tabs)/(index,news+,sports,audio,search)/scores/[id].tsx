@@ -66,6 +66,10 @@ type Score = {
   status: string;
   is_finished: boolean;
   is_live: boolean;
+  current_clock?: {
+    time: string;
+    period: string;
+  };
 };
 
 const getImageSource = (path: string) => {
@@ -430,7 +434,7 @@ export default function ScoreDetailsScreen() {
         locations={Platform.OS === 'web' ? [0.5, 0.5] : [0.65, 0.65]}
         style={Platform.OS === 'web' ? {
           position: 'absolute',
-          width: 'calc(100% - 40px)',
+          width: '90%',
           borderRadius: 20,
           top: 10,
           height: 240,
@@ -468,18 +472,25 @@ export default function ScoreDetailsScreen() {
           {isCompleted ? (
             <Text style={styles.finalText}>FINAL</Text>
           ) : score.is_live ? (
-            <View style={styles.liveContainer}>
-              <Text style={styles.liveText}>LIVE</Text>
-              <LiveDot />
-            </View>
+            <>
+              <View style={styles.liveContainer}>
+                <Text style={styles.liveText}>LIVE</Text>
+                <LiveDot />
+              </View>
+              <Text style={styles.dateText}>
+                {score.current_clock?.time} • {score.current_clock?.period}
+              </Text>
+            </>
           ) : (
             <Text style={styles.timeText}>
               {format(new Date(score.startTime), 'h:mm a')}
             </Text>
           )}
-          <Text style={styles.dateText}>
-            {format(new Date(score.startTime), 'EEEE M/d')}
-          </Text>
+          {!score.is_live && (
+            <Text style={styles.dateText}>
+              {format(new Date(score.startTime), 'EEEE M/d')}
+            </Text>
+          )}
 
           <Text style={styles.teamsText}>
             {score.team1.nickname} vs {score.team2.nickname}

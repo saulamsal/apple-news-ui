@@ -6,7 +6,7 @@
         "id": "epl",
         "name": "EPL",
         "full_name": "Premier League",
-        "matchweek": 21
+        "matchweek": "Matchweek 21"
       },
       "sports_type": "soccer", 
       "team1": {
@@ -66,6 +66,10 @@
       },
       "startTime": "2024-01-27T17:30:00Z",
       "status": "in_progress",
+      "current_clock": {
+        "time": "32'",
+        "period": "1st Half"
+      },
       "is_finished": false,
       "is_live": true
     },
@@ -189,6 +193,10 @@
       },
       "startTime": "2024-01-28T23:30:00Z",
       "status": "upcoming",
+      "current_clock": {
+        "time": "7:33",
+        "period": "4th Quarter"
+      },
       "is_finished": false,
       "is_live": true
     },
@@ -283,6 +291,10 @@
       },
       "startTime": "2024-01-27T03:30:00Z",
       "status": "upcoming",
+      "current_clock": {
+        "time": "7:33",
+        "period": "4th Quarter"
+      },
       "is_finished": false,
       "is_live": true
     },
@@ -414,6 +426,10 @@
       },
       "startTime": "2024-01-27T17:30:00Z",
       "status": "upcoming",
+      "current_clock": {
+        "time": "67'",
+        "period": "2nd Half"
+      },
       "is_finished": false,
       "is_live": true
     }

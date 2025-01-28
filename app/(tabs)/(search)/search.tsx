@@ -214,7 +214,8 @@ export default function SearchScreen() {
                  
                     }}
                     contentContainerStyle=
-                    {{ paddingBottom: bottom,     
+                    {{ 
+                        paddingBottom: bottom+20,     
                          flexShrink: 0,
                          flexWrap: 'wrap',
                         //  width: '100%',

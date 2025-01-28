@@ -160,7 +160,7 @@ export default function NewsPlusScreen() {
         <meta name="keywords" content="apple news plus, premium news, digital magazines, exclusive content" />
       </Head>
       )}
-      <View className="flex-1 bg-white" style={{ paddingTop: insets.top+10 }}>
+      <View className="flex-1 bg-white" style={{ paddingTop: insets.top+10, paddingBottom: insets.bottom + 60 }}>
           {renderContent()}
       </View>
     </>

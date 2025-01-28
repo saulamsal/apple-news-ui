@@ -187,7 +187,7 @@ const filteredNews = news.filter((item) => item.topic.id === 'sports');
                 <meta name="keywords" content="sports news, live scores, sports updates, apple news sports" />
             </Head>
             )}
-            <View className="flex-1 bg-white">
+            <View className="flex-1 bg-white" style={{ paddingBottom: insets.bottom + 60 }}>
 
 
 
@@ -199,7 +199,7 @@ const filteredNews = news.filter((item) => item.topic.id === 'sports');
                         styles.todayContainer,
                         {
                             // backgroundColor: '#F2F2F6',
-                            paddingTop: insets.top
+                            paddingTop: insets.top,
                         },
                         headerAnimatedStyle
                     ]}

@@ -266,7 +266,7 @@ export default function AudioScreen() {
         <meta name="keywords" content="apple news audio, news podcasts, audio stories, news narration" />
       </Head>
     )}  
-      <View style={[styles.container, { backgroundColor: '#F2F2F6', paddingTop: insets.top + 10 }]}>
+      <View style={[styles.container, { backgroundColor: '#F2F2F6', paddingTop: insets.top + 10, paddingBottom: insets.bottom + 40 }]}>
         {renderContent()}
       </View>
     </>
