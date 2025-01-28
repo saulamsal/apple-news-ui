@@ -182,7 +182,7 @@ export function Sidebar() {
           onPress={() => router.push(`/scores/${game.id}`)}
         >
           <View style={styles.scoreHeader}>
-            <Text style={[styles.leagueText, { color: isDark ? '#999999' : '#666666' }]}>
+            <Text style={[styles.leagueText, { color:'black' }]}>
               {game.competition.name}
             </Text>
             <View style={styles.liveIndicator}>
@@ -196,11 +196,11 @@ export function Sidebar() {
                 source={{ uri: game.team1.logo }} 
                 style={[styles.teamLogo, { opacity: 0.7 }]} 
               />
-              <Text style={[styles.teamName, { color: isDark ? '#999999' : '#666666' }]}>
-                {game.team1.name}
+              <Text style={[styles.teamName, { color: game.team1.score > game.team2.score ? '#000000' : '#6B7280'  }]}>
+                {game.team1.nickname}
               </Text>
             </View>
-            <Text style={[styles.score, { color: isDark ? '#FFFFFF' : '#000000' }]}>
+            <Text style={[styles.score, { color: game.team1.score > game.team2.score ? '#000000' : '#6B7280' }]}>
               {game.team1.score}
             </Text>
           </View>
@@ -210,11 +210,11 @@ export function Sidebar() {
                 source={{ uri: game.team2.logo }} 
                 style={[styles.teamLogo, { opacity: 0.7 }]} 
               />
-              <Text style={[styles.teamName, { color: isDark ? '#999999' : '#666666' }]}>
-                {game.team2.name}
+              <Text style={[styles.teamName, { color: game.team1.score < game.team2.score ? '#000000' : '#6B7280' }]}>
+                {game.team2.nickname}
               </Text>
             </View>
-            <Text style={[styles.score, { color: isDark ? '#FFFFFF' : '#000000' }]}>
+            <Text style={[styles.score, { color: game.team1.score < game.team2.score ? '#000000' : '#6B7280' }]}>
               {game.team2.score}
             </Text>
           </View>
@@ -251,7 +251,7 @@ export function Sidebar() {
                 />
               ))}
             </View>
-            
+
             {searchEntities.sections.map((section) => {
               if (section.id === 'my_following') return null;
               return (
@@ -385,7 +385,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   teamName: {
-    fontSize: 13,
+    fontSize: 16,
     fontWeight: '500',
   },
   score: {
