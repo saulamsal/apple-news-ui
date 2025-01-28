@@ -13,6 +13,10 @@ export const NewsLogo = ({ size = 24, color = '#000', forceShow = false }: NewsL
     const { width } = useWindowDimensions();
     const showSidebar = width >= 1024;
 
+    if(!showSidebar && !forceShow) {
+        return null;
+    }
+
     if(showSidebar && !forceShow) {
         return null;
     }
@@ -20,7 +24,7 @@ export const NewsLogo = ({ size = 24, color = '#000', forceShow = false }: NewsL
     return (
         <View style={styles.container}>
             <Ionicons name="logo-apple" size={size * 0.8} color={color} />
-            <Text style={[styles.text, { fontSize: size * 0.8, color }]}>News</Text>
+           {showSidebar && <Text style={[styles.text, { fontSize: size * 0.8, color }]}>News</Text>}
         </View>
     );
 };

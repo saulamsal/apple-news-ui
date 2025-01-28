@@ -10,6 +10,7 @@ import { styles } from "@/styles/components/newsItem";
 import { getAllEntitiesForSection } from "@/src/utils/entityUtils";
 import searchEntities from "@/app/data/search_entities.json";
 import entities from '@/app/data/entities.json';
+import { NewsLogo } from "@/components/NewsLogo";
 
 type Entity = typeof entities[keyof typeof entities];
 
@@ -185,8 +186,9 @@ export default function WebLayout() {
         <View className={`sticky ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full`}>
           <View className="mb-8 pl-3 pt-3">
             <View className="flex-row items-center gap-[2px] mt-2">
-              <Ionicons name="logo-apple" size={32} color="#000" />
-              <Text className="font-extrabold text-[30px] tracking-tighter">News</Text>
+              {/* <Ionicons name="logo-apple" size={32} color="#000" />
+              <Text className="font-extrabold text-[30px] tracking-tighter">News</Text> */}
+              <NewsLogo size={40} forceShow={true} />
             </View>
           </View>
 
