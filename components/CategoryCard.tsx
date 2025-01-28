@@ -11,6 +11,7 @@ export interface CategoryCardProps {
   entity_type?: string;
   description?: string;
   minimal?: boolean;
+  disable_name?: boolean;
 }
 
 export const CategoryCard = ({ 
@@ -19,7 +20,8 @@ export const CategoryCard = ({
   icon,
   entity_type,
   description, 
-  minimal = false
+  minimal = false,
+  disable_name = false
 }: CategoryCardProps) => {
   const router = useRouter();
   const colorScheme = useColorScheme();
@@ -43,20 +45,22 @@ export const CategoryCard = ({
         ) : icon ? (
           <Ionicons name={icon as any} size={minimal ? 20 : 24} color="#666" />
         ) : null}
-        <View>
-          <Text 
-            className={minimal ? "text-sm font-medium" : "text-base font-medium"}
-            style={{ color: isDark ? '#FFFFFF' : '#000000' }}
-            numberOfLines={1}
-          >
-            {title}
-          </Text>
-          {description && (
-            <Text className="text-sm text-[#666666] mt-1" numberOfLines={2}>
-              {description}
+        {!disable_name && (
+          <View>
+            <Text 
+              className={minimal ? "text-sm font-medium" : "text-base font-medium"}
+              style={{ color: isDark ? '#FFFFFF' : '#000000' }}
+              numberOfLines={1}
+            >
+              {title}
             </Text>
-          )}
-        </View>
+            {description && (
+              <Text className="text-sm text-[#666666] mt-1" numberOfLines={2}>
+                {description}
+              </Text>
+            )}
+          </View>
+        )}
       </View>
     </TouchableOpacity>
   );

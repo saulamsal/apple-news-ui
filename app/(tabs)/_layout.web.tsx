@@ -43,27 +43,31 @@ function SidebarItem({
   const textColor = colorScheme === 'dark' ? '#e7e9ea' : '#000000';
 
   const iconColor = isActive ? '#FD325A' : '#8E8E8F';
+
+  const size = compact ? 28 : 24;
   
   const getIcon = () => {
     switch (icon) {
       case 'home':
-        return <Home width={24} height={24} color={iconColor} />;
+        return <Home width={size} height={size} color={iconColor} />;
       case 'news':
-        return <NewsPlus width={24} height={24} color={iconColor} />;
+        return <NewsPlus width={size} height={size} color={iconColor} />;
       case 'sports':
-        return <Sports width={30} height={30} color={iconColor} />;
+        return <Sports width={size} height={size} color={iconColor} />;
       case 'search':
-        return <Search width={24} height={24} color={iconColor} />;
+        return <Search width={size} height={size} color={iconColor} />;
+      case 'headset':
+        return <Ionicons name="headset" size={size} color={iconColor} />;
       default:
-        return <Ionicons name={icon as keyof typeof Ionicons.glyphMap} size={24} color={iconColor} />;
+        return <Ionicons name={icon as keyof typeof Ionicons.glyphMap} size={size} color={iconColor} />;
     }
   };
 
   return (
     <Pressable
       onPress={() => router.push(href as any)}
-      className={`flex flex-row items-center p-1 rounded-lg gap-3 mb-0.5 cursor-pointer transition-all duration-200 mr-8 ${
-        compact ? 'justify-center p-3 gap-0' : 'pl-2 pr-6'
+      className={`flex flex-row items-center p-1 rounded-lg gap-3 mb-0.5 cursor-pointer transition-all duration-200  ${
+        compact ? 'justify-center' : 'pl-2 pr-6 mr-8'
       } ${isActive ? 'bg-[#e6e6e7]' : ''}`}
       style={({ pressed, hovered }) => [
         (pressed || hovered) && { backgroundColor: hoverBg }
@@ -186,9 +190,7 @@ export default function WebLayout() {
         <View className={`sticky ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full`}>
           <View className="mb-8 pl-3 pt-3">
             <View className="flex-row items-center gap-[2px] mt-2">
-              {/* <Ionicons name="logo-apple" size={32} color="#000" />
-              <Text className="font-extrabold text-[30px] tracking-tighter">News</Text> */}
-              <NewsLogo size={40} forceShow={true} />
+              <NewsLogo size={isCompact ? 32 : 40} forceShow={true} />
             </View>
           </View>
 
@@ -200,7 +202,7 @@ export default function WebLayout() {
           </View>
 
           <View className="mt-8 gap-2">
-            <Text className="text-sm font-medium text-gray-500 px-3">Discover</Text>
+            {!isCompact && <Text className="text-sm font-medium text-gray-500 px-3">Discover</Text>}
             <SidebarItem icon="search" label="Following" href="/(tabs)/(search)" compact={isCompact} isActive={segments[1] === '(search)'} />
           </View>
 
@@ -208,7 +210,7 @@ export default function WebLayout() {
             if (section.id !== 'my_following') return null;
             return (
               <View key={section.id} className="gap-3 rounded-2xl p-3 mt-4" style={{ backgroundColor: '#00000008' }}>
-                <Text className="text-sm text-gray-500">{section.title}</Text>
+                {!isCompact && <Text className="text-sm text-gray-500">{section.title}</Text>}
                 <View className="gap-3">
                   {getAllEntitiesForSection(section.id).map((entity: Entity) => (
                     <CategoryCard
@@ -218,6 +220,7 @@ export default function WebLayout() {
                       icon={entity.icon}
                       entity_type={entity.type}
                       minimal={true}
+                      disable_name={isCompact}
                     />
                   ))}
                 </View>
