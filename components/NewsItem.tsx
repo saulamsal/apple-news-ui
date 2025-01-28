@@ -1,6 +1,6 @@
 import React from 'react';
-import { Pressable, View, Image, Text, ColorSchemeName, Button, Platform } from 'react-native';
-import { Link } from 'expo-router';
+import { Pressable, View, Image, Text, ColorSchemeName, Button, Platform, useWindowDimensions } from 'react-native';
+import { Link, router } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -264,6 +264,7 @@ const getRelativeTime = (timeString: string) => {
 
 export const NewsItem = ({ item }: NewsItemProps) => {
   const colorScheme = useColorScheme();
+  const { width } = useWindowDimensions();
   
   // verifyInstallation();
   
@@ -272,25 +273,56 @@ export const NewsItem = ({ item }: NewsItemProps) => {
     params: { id: item.id }
   };
 
-  const StoryPreview = () => (
-    <View className="bg-white">
-      <Image 
-        source={{ uri: item.featured_image }} 
-        className="w-full h-[200]"
-        resizeMode="cover"
-      />
-      <View className="p-4">
-        <View className="h-[20px] w-[150px] -ml-2.5 mb-2">
-          <Image
-            source={{ uri: item.source.logo_transparent_light }}
-            className="w-full h-full"
-            resizeMode="contain"
-          />
-        </View>
-        <Text className="text-xl font-bold text-black">{item.title}</Text>
+  // const StoryPreview = () => {
+  //   return (
+  //     <View className="bg-white rounded-xl overflow-hidden">
+  //       <Image 
+  //         source={{ uri: item.featured_image }} 
+  //         style={{
+  //           width: width * 0.9, // 90% of screen width
+  //           height: width * 0.6, // Maintain aspect ratio
+  //         }}
+  //         resizeMode="cover"
+  //       />
+  //       <View className="p-4">
+  //         <View className="h-[20px] w-[150px] -ml-2.5 mb-2">
+  //           <Image
+  //             source={{ uri: item.source.logo_transparent_light }}
+  //             className="w-full h-full"
+  //             resizeMode="contain"
+  //           />
+  //         </View>
+  //         <Text className="text-xl font-bold text-black" numberOfLines={2}>
+  //           {item.title}
+  //         </Text>
+  //       </View>
+  //     </View>
+  //   );
+  // };
+
+
+  function StoryPreview() {
+    const { width } = useWindowDimensions()
+    return (
+      <View style={{ 
+        width: width * 0.9,
+        height: width * 0.6,
+        backgroundColor: 'white',
+        borderRadius: 12,
+        overflow: 'hidden'
+      }}>
+        <Image
+          source={{ uri: item.featured_image }} 
+          style={{
+            width: '100%',
+            height: '100%',
+          }}
+          resizeMode="cover"
+        />
       </View>
-    </View>
-  );
+    )
+  }
+
 
   return (
     <View
@@ -307,12 +339,23 @@ export const NewsItem = ({ item }: NewsItemProps) => {
           <NewsItemActions item={item} />
         </ContextMenu.Trigger>
         <ContextMenu.Content>
-          <ContextMenu.Preview
-            backgroundColor="white"
-            borderRadius={12}
+          <ContextMenu.Auxiliary
+            width={width * 0.9}
+            height={width * 0.6}
+            backgroundColor="#ffffff"
+            // alignmentHorizontal="center"
+            // anchorPosition="top"
+            marginWithScreenEdge={16}
+            transitionConfigEntrance={{
+              duration: 0.2,
+              damping: 0.9,
+              mass: 0.9,
+            }}
+            onPress={() => router.push(href)}
           >
-            {() => <StoryPreview />}
-          </ContextMenu.Preview>
+            <StoryPreview />
+          </ContextMenu.Auxiliary>
+          
           <ContextMenu.Item key="share" onSelect={() => {}} textValue="Share Story">
             <ContextMenu.ItemIcon ios={{ name: "square.and.arrow.up" }}>
               <MaterialIcons name="share" size={18} />
@@ -390,6 +433,7 @@ export const NewsItem = ({ item }: NewsItemProps) => {
 
 const NewsItemActions = ({ item }: { item: NewsItemType }) => {
   const colorScheme = useColorScheme();
+  const { width } = useWindowDimensions();
   
   const DropdownMenuComponent = () => (
     <DropdownMenu.Root>

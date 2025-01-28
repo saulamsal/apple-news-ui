@@ -71,6 +71,10 @@ const ItemIndicator = ContextMenuOG.create((props: any) => {
   return <ContextMenuOG.ItemIndicator className={defaultDropdownStyle.ItemIndicator} {...props} />;
 }, 'ItemIndicator');
 
+const Auxiliary = ContextMenuOG.create((props: any) => {
+  return <ContextMenuOG.Auxiliary className={defaultDropdownStyle.Auxiliary} {...props} />;
+}, 'Auxiliary');
+
 export const ContextMenu = {
   Root,
   Trigger,
@@ -89,5 +93,6 @@ export const ContextMenu = {
   Arrow,
   Preview,
   CheckboxItem,
-  ItemIndicator
+  ItemIndicator,
+  Auxiliary
 }; 

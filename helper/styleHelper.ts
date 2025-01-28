@@ -11,5 +11,6 @@ export const defaultDropdownStyle = {
     SubTrigger: "px-3 py-2 hover:bg-gray-100/50 active:bg-gray-200/50 flex items-center  cursor-pointer select-none outline-none",
     SubContent: "bg-white/80 backdrop-blur-xl rounded-xl shadow-lg border border-gray-200/20 py-1 min-w-[200px]",
     Arrow: "fill-white/80",
-    Sub: "px-3 py-2 hover:bg-gray-100/50 active:bg-gray-200/50 flex items-center justify-between cursor-pointer select-none outline-none"
+    Sub: "px-3 py-2 hover:bg-gray-100/50 active:bg-gray-200/50 flex items-center justify-between cursor-pointer select-none outline-none",
+    Auxiliary: "bg-white/80 backdrop-blur-xl rounded-xl shadow-lg border border-gray-200/20 py-1 min-w-[200px]"
 };
