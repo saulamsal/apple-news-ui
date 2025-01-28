@@ -203,7 +203,7 @@ export default function HomeScreen() {
         
         <View className="flex-1 " >
           <AnimatedSwipeListView
-            onScroll={scrollHandler}
+            onScroll={Platform.OS === 'web' ? undefined : scrollHandler}
             scrollEventThrottle={16}
             data={news as NewsItemType[]}
             renderItem={renderNewsItem}
@@ -214,11 +214,14 @@ export default function HomeScreen() {
             previewOpenValue={-40}
             previewOpenDelay={3000}
             keyExtractor={(item: any) => item.id}
-            className="LOL_CLASS"
-            style={{
-              flexShrink: 0  //SUPER IMPORTANT TO DISABLE CHILD SCROLL ON RNW
-            }}
-        
+            style={Platform.OS === 'web' ? {
+              height: undefined,
+              overflow: 'visible'
+            } : undefined}
+            scrollEnabled={Platform.OS !== 'web'}
+            contentContainerStyle={Platform.OS === 'web' ? {
+              height: undefined
+            } : undefined}
             ListHeaderComponent={
               <View className="flex-1">
                 <View className="flex-row items-center justify-between mb-6 px-5">

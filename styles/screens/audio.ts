@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 0,
     paddingBottom: 16,
-    flexShrink: 0
+    // flexShrink: 0
   },
   headerContainer: {
     marginBottom: 16,

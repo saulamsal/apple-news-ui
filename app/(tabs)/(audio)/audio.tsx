@@ -175,7 +175,9 @@ export default function AudioScreen() {
             data={remainingEpisodes}
             renderItem={renderPodcastItem}
             keyExtractor={(item) => item.id}
-            contentContainerStyle={styles.listContent}
+            contentContainerStyle={Platform.OS === 'web' ? {
+              height: undefined
+            } : styles.listContent}
             refreshControl={
               <RefreshControl
                 refreshing={isRefreshing}
@@ -183,9 +185,13 @@ export default function AudioScreen() {
                 tintColor='#000'
               />
             }
-            style={{
-              flexShrink: 0
+            style={Platform.OS === 'web' ? {
+              height: undefined,
+              overflow: 'visible'
+            } : {
+              // flexShrink: 0
             }}
+            scrollEnabled={Platform.OS !== 'web'}
             ListHeaderComponent={
               <View style={styles.headerContainer}>
                 <View style={styles.header}>

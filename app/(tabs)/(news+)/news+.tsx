@@ -98,10 +98,16 @@ export default function NewsPlusScreen() {
             previewOpenValue={-40}
             previewOpenDelay={3000}
             keyExtractor={(item: any) => item.id}
-            style = {{
-              flexShrink: 0
+            style={Platform.OS === 'web' ? {
+              height: undefined,
+              overflow: 'visible'
+            } : {
+              // flexShrink: 0
             }}
-            // contentContainerStyle={{ padding: 16 }}
+            scrollEnabled={Platform.OS !== 'web'}
+            contentContainerStyle={Platform.OS === 'web' ? {
+              height: undefined
+            } : undefined}
             ListHeaderComponent={
               <View className="space-y-4">
                 <View className="flex-row items-center justify-between  px-5">

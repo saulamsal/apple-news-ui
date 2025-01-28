@@ -339,6 +339,7 @@ export const NewsItem = ({ item }: NewsItemProps) => {
           <NewsItemActions item={item} />
         </ContextMenu.Trigger>
         <ContextMenu.Content>
+          {/* disabled ContextMenu.Preview for now  */}
           <ContextMenu.Auxiliary
             width={width * 0.9}
             height={width * 0.6}

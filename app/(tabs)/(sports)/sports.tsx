@@ -222,23 +222,26 @@ const filteredNews = news.filter((item) => item.topic.id === 'sports');
                           alwaysBounceHorizontal={false}
                           alwaysBounceVertical={false}
                           bounces={false}
-
-                        onScroll={scrollHandler}
-                        scrollEventThrottle={16}
-                        data={filteredNews as NewsItem[]}
-                        renderItem={renderNewsItem}
-                        renderHiddenItem={renderHiddenItem}
-                        leftOpenValue={120}
-                        rightOpenValue={-120}
-                        previewRowKey={'0'}
-                        previewOpenValue={-40}
-                        previewOpenDelay={3000}
-                        keyExtractor={item => item.id}
-                        contentContainerStyle={styles.listContent}
-                        style={{
-                            flexShrink: 0  //SUPER IMPORTANT TO DISABLE CHILD SCROLL ON RNW
-                          }}
-                        ListHeaderComponent={
+                          onScroll={Platform.OS === 'web' ? undefined : scrollHandler}
+                          scrollEventThrottle={16}
+                          data={filteredNews as NewsItem[]}
+                          renderItem={renderNewsItem}
+                          renderHiddenItem={renderHiddenItem}
+                          leftOpenValue={120}
+                          rightOpenValue={-120}
+                          previewRowKey={'0'}
+                          previewOpenValue={-40}
+                          previewOpenDelay={3000}
+                          keyExtractor={item => item.id}
+                          style={Platform.OS === 'web' ? {
+                            height: undefined,
+                            overflow: 'visible'
+                          } : undefined}
+                          scrollEnabled={Platform.OS !== 'web'}
+                          contentContainerStyle={Platform.OS === 'web' ? {
+                            height: undefined
+                          } : styles.listContent}
+                          ListHeaderComponent={
                             <View style={SportsStyles.listHeaderContainer}>
                                 <Image
                                     source={require('@/assets/images/temp/sports-light-bg.png')}
@@ -258,7 +261,7 @@ const filteredNews = news.filter((item) => item.topic.id === 'sports');
 
                                     <View style={SportsStyles.listHeader}>
 
-                                        <View>
+                                        <View className="mb-6">
                                             <Text style={[styles.listHeaderText, { color: '#000000', marginTop: 30 }]}>Top Stories</Text>
                                             <Text style={SportsStyles.listHeaderSubText}>Selected by the Apple News editors.</Text>
                                         </View>

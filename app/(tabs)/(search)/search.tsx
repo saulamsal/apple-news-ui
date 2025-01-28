@@ -10,6 +10,7 @@ import { CategoryCard } from '@/components/CategoryCard';
 import { SearchData } from '@/src/types/search';
 import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
 import BlurView from '@/components/BlurView';
+// import {BlurView} from 'expo-blur';
 import Animated, { SharedValue } from 'react-native-reanimated';
 import { getAllCategories, getAllEntitiesForSection, lookupEntity } from '@/src/utils/entityUtils';
 import { Link } from 'expo-router';
@@ -32,21 +33,14 @@ interface HighlightedTextProps {
 }
 
 const HighlightedText = ({ text, highlight }: HighlightedTextProps) => {
-    if (!highlight.trim()) return <Text>{text}</Text>;
+    if (!highlight.trim()) return text;
     
     const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
     
-    return (
-        <Text>
-            {parts.map((part, i) => 
-                part.toLowerCase() === highlight.toLowerCase() ? (
-                    <Text key={i} className="font-bold">{part}</Text>
-                ) : (
-                    <Text key={i}>{part}</Text>
-                )
-            )}
-        </Text>
-    );
+    return parts.map((part, i) => 
+        part.toLowerCase() === highlight.toLowerCase() ? 
+            `**${part}**` : part
+    ).join('');
 };
 
 const FadingView = ({ opacity, children, style }: { 
@@ -150,6 +144,12 @@ export default function SearchScreen() {
                     </Link>
                 </View>
             }
+
+            // headerRightFadesIn
+
+
+            headerStyle={{
+            }}
         
             
             headerCenterStyle={{
@@ -199,28 +199,22 @@ export default function SearchScreen() {
             )}
 
                 <ScrollViewWithHeaders
-              
                     className="flex-1 bg-white"
                     stickyHeaderIndices={[0]}
                     maintainVisibleContentPosition={{
                         minIndexForVisible: 0,
                         autoscrollToTopThreshold: 0
                     }}
-                    style={{
-                      flexShrink: 0,
-                      flexWrap: 'wrap',
-                      backgroundColor: '#ffffff',
-                      width: '100%',
-                 
+                    style={Platform.OS === 'web' ? {
+                        height: undefined,
+                        overflow: 'visible' as const
+                    } : undefined}
+                    contentContainerStyle={Platform.OS === 'web' ? {
+                        height: undefined
+                    } : {
+                        paddingBottom: bottom + 20
                     }}
-                    contentContainerStyle=
-                    {{ 
-                        paddingBottom: bottom+20,     
-                         flexShrink: 0,
-                         flexWrap: 'wrap',
-                        //  width: '100%',
-                        //  backgroundColor: 'green'
-                         }}
+                    scrollEnabled={Platform.OS !== 'web'} //this makes sure no inner scroll for web
                     removeClippedSubviews={false}
                     LargeHeaderComponent={LargeHeaderComponent}
                     absoluteHeader={true}
@@ -228,7 +222,6 @@ export default function SearchScreen() {
                     headerFadeInThreshold={0.5}
                     disableLargeHeaderFadeAnim={false}
                     largeHeaderContainerStyle={{ paddingTop: top + 4 }}
-
                 >
                     
                     {searchQuery ? (
@@ -238,7 +231,6 @@ export default function SearchScreen() {
                                     {searchResults.map((entity) => (
                                         <CategoryCard
                                             key={entity.id}
-                                            id={entity.id}
                                             title={<HighlightedText text={entity.title} highlight={searchQuery} />}
                                             logo={entity.logo}
                                             icon={entity.icon}
@@ -259,7 +251,6 @@ export default function SearchScreen() {
                                 {getAllCategories().map((entity: Entity) => (
                                     <CategoryCard
                                         key={entity.id}
-                                        id={entity.id}
                                         title={entity.title}
                                         icon={entity.icon}
                                         entity_type={entity.entity_type}
@@ -273,7 +264,6 @@ export default function SearchScreen() {
                                         {getAllEntitiesForSection(section.id).map((entity: Entity) => (
                                             <CategoryCard
                                                 key={entity.id}
-                                                id={entity.id}
                                                 title={entity.title}
                                                 logo={entity.logo}
                                                 entity_type={entity.entity_type}
