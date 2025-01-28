@@ -188,6 +188,7 @@ export function Sidebar() {
           key={game.id}
           style={styles.scoreCard}
           onPress={() => router.push(`/scores/${game.id}`)}
+          className="hover:bg-gray-200 transition-all duration-500"
         >
           <View style={styles.scoreHeader}>
             <Text style={[styles.leagueText, { color:'black' }]}>

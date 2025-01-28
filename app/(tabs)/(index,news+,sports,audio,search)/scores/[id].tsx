@@ -382,7 +382,34 @@ export default function ScoreDetailsScreen() {
           backgroundColor: '#fff',
           
         }),
+
+        height: 55,
+        // paddingHorizontal: 10,
       }}
+
+      
+      headerCenterStyle={{
+        width: 'auto',
+        minWidth: 'auto',
+        maxWidth: 'auto',
+      }}
+
+      headerRightStyle={{ 
+        width: 'auto',
+        minWidth: 'auto',
+        maxWidth: 'auto',
+      }}
+
+      headerLeftStyle={{
+        width: 'auto',
+        minWidth: 'auto',
+        maxWidth: 'auto',
+      }}
+
+
+
+
+
     />
   );
 
@@ -403,10 +430,11 @@ export default function ScoreDetailsScreen() {
         locations={Platform.OS === 'web' ? [0.5, 0.5] : [0.65, 0.65]}
         style={Platform.OS === 'web' ? {
           position: 'absolute',
-          width: '95%',
+          width: 'calc(100% - 40px)',
           borderRadius: 20,
           top: 10,
           height: 240,
+          marginHorizontal: 20,
         } : {
           position: 'absolute',
           top: -100,

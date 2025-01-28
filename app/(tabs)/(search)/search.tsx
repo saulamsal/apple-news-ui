@@ -74,11 +74,12 @@ const SearchComponent = React.memo(({ value, onChangeText }: SearchComponentProp
             <Ionicons name="search" size={20} color="#666" />
             <TextInput
                 placeholder="Channels, Topics, & Stories"
-                className="flex-1 pl-2 text-[17px]"
+                className="flex-1 pl-2 text-[17px] focus:outline-none"
                 placeholderTextColor="#666"
                 value={value}
                 onChangeText={onChangeText}
                 autoCapitalize="none"
+                
             />
             {value ? (
                 <TouchableOpacity onPress={handleClear}>
@@ -149,6 +150,29 @@ export default function SearchScreen() {
                     </Link>
                 </View>
             }
+        
+            
+            headerCenterStyle={{
+                width: 'auto',
+                minWidth: 'auto',
+                maxWidth: 'auto',
+              }}
+        
+              headerRightStyle={{ 
+                width: 'auto',
+                minWidth: 'auto',
+                maxWidth: 'auto',
+              }}
+        
+              headerLeftStyle={{
+                width: 'auto',
+                minWidth: 'auto',
+                maxWidth: 'auto',
+              }}
+        
+
+              
+
         />
     );
 
@@ -176,7 +200,7 @@ export default function SearchScreen() {
 
                 <ScrollViewWithHeaders
               
-                    className="flex-1 bg-white "
+                    className="flex-1 bg-white"
                     stickyHeaderIndices={[0]}
                     maintainVisibleContentPosition={{
                         minIndexForVisible: 0,
@@ -184,9 +208,18 @@ export default function SearchScreen() {
                     }}
                     style={{
                       flexShrink: 0,
+                      flexWrap: 'wrap',
+                      backgroundColor: '#ffffff',
+                      width: '100%',
                  
                     }}
-                    contentContainerStyle={{ paddingBottom: bottom,      flexShrink: 0 }}
+                    contentContainerStyle=
+                    {{ paddingBottom: bottom,     
+                         flexShrink: 0,
+                         flexWrap: 'wrap',
+                        //  width: '100%',
+                        //  backgroundColor: 'green'
+                         }}
                     removeClippedSubviews={false}
                     LargeHeaderComponent={LargeHeaderComponent}
                     absoluteHeader={true}
@@ -194,7 +227,9 @@ export default function SearchScreen() {
                     headerFadeInThreshold={0.5}
                     disableLargeHeaderFadeAnim={false}
                     largeHeaderContainerStyle={{ paddingTop: top + 4 }}
+
                 >
+                    
                     {searchQuery ? (
                         <View className="p-4">
                             {searchResults.length > 0 ? (
@@ -249,9 +284,9 @@ export default function SearchScreen() {
                         </>
                     )}
 
-                <Link href="/settings" className="p-4 mb-10">
+                {/* <Link href="/settings" className="p-4 mb-10">
                     <Text className="text-gray-500 text-center">Settings</Text>
-                </Link>
+                </Link> */}
                 </ScrollViewWithHeaders>
             </View>
       

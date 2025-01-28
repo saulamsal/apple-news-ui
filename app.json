@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Apple News UI",
-    "slug": "anews-ui",
+    "slug": "apple-news-ui",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -44,6 +44,7 @@
       },
       "entitlements": {
         "com.apple.security.application-groups": [
+          "group.com.sportapp.anews-ui",
           "group.com.sportapp.anews-ui"
         ]
       }
@@ -79,6 +80,10 @@
       "reactCompiler": true
     },
     "newArchEnabled": true,
-    "owner": "qlur"
+    "owner": "qlur",
+    "runtimeVersion": "1.0.0",
+    "updates": {
+      "url": "https://u.expo.dev/52ab6a77-bd0c-4c40-9952-d272a4e0781a"
+    }
   }
 }

@@ -66,7 +66,8 @@ function SidebarItem({
   return (
     <Pressable
       onPress={() => router.push(href as any)}
-      className={`flex flex-row items-center p-1 rounded-lg gap-3 mb-0.5 cursor-pointer transition-all duration-200  ${
+      className={`flex flex-row items-center p-2 rounded-lg gap-3 mb-0.5 
+        hover:bg-gray-200 transition-all duration-200  ${
         compact ? 'justify-center' : 'pl-2 pr-6 mr-8'
       } ${isActive ? 'bg-[#e6e6e7]' : ''}`}
       style={({ pressed, hovered }) => [
@@ -194,7 +195,7 @@ export default function WebLayout() {
             </View>
           </View>
 
-          <View className="gap-2">
+          <View className="">
             <SidebarItem icon="home" label="Home" href="/(tabs)/(index)" compact={isCompact} isActive={segments[1] === '(index)'} />
             <SidebarItem icon="news" label="News+" href="/(tabs)/(news+)" compact={isCompact} isActive={segments[1] === '(news+)'} />
             <SidebarItem icon="sports" label="Sports" href="/(tabs)/(sports)" compact={isCompact} isActive={segments[1] === '(sports)'} />
@@ -203,7 +204,7 @@ export default function WebLayout() {
 
           <View className="mt-8 gap-2">
             {!isCompact && <Text className="text-sm font-medium text-gray-500 px-3">Discover</Text>}
-            <SidebarItem icon="search" label="Following" href="/(tabs)/(search)" compact={isCompact} isActive={segments[1] === '(search)'} />
+            <SidebarItem icon="search" label="Following" href="/(tabs)/(search)/search" compact={isCompact} isActive={segments[1] === '(search)'} />
           </View>
 
           {searchEntities.sections.map((section) => {

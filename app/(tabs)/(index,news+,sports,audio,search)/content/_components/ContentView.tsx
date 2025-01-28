@@ -75,16 +75,46 @@ export function ContentView({ content }: ContentViewProps) {
         }
 
 
-        headerStyle={{
-          backgroundColor: content.source.dark_bg,
-          paddingBottom: 4,
-        }}
+
+      headerStyle={{ 
+        backgroundColor: content.source.dark_bg,
+        paddingBottom: 4,
+        paddingVertical: 10,
+        height: 55,
+          overflow: 'hidden',
+          flexWrap: 'wrap',
+          flexDirection: 'row',
+          width: '100%',
+          minWidth: '100%',
+          maxWidth: '100%',
+      }}
+
+
+      headerCenterStyle={{
+        width: 'auto',
+        minWidth: 'auto',
+        maxWidth: 'auto',
+      }}
+
+      headerRightStyle={{ 
+        width: 'auto',
+        minWidth: 'auto',
+        maxWidth: 'auto',
+      }}
+
+      headerLeftStyle={{
+        width: 'auto',
+        minWidth: 'auto',
+        maxWidth: 'auto',
+      }}
+
         borderWidth={0}
       />
     );
   };
 
   return (
+    <View className="flex-1">
     <ScrollViewWithHeaders
       HeaderComponent={HeaderComponent}
       contentContainerStyle={styles.container}
@@ -140,6 +170,7 @@ export function ContentView({ content }: ContentViewProps) {
         </View>
       </View>
     </ScrollViewWithHeaders>
+    </View>
   );
 }
 
@@ -149,6 +180,7 @@ const styles = StyleSheet.create({
     // backgroundColor: '#fff',
     position: 'relative',
     width: '100%',
+    overflow: 'hidden',
   },
   featuredImage: {
     width: '100%',

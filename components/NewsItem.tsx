@@ -293,7 +293,10 @@ export const NewsItem = ({ item }: NewsItemProps) => {
   );
 
   return (
-    <View className={`mb-3 rounded-xl overflow-hidden mx-5 relative ${Platform.OS === 'web' ? 'bg-gray-100' : 'bg-white'}`}>
+    <View
+     className={`mb-3 rounded-xl overflow-hidden mx-5 relative ${Platform.OS === 'web' ? 'bg-gray-100' : 'bg-white'}
+     hover:bg-gray-200 transition-all duration-300
+     `}>
       <ContextMenu.Root>
         <ContextMenu.Trigger>
           <Link href={href} asChild>
