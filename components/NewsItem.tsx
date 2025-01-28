@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, View, Image, Text, ColorSchemeName, Button } from 'react-native';
+import { Pressable, View, Image, Text, ColorSchemeName, Button, Platform } from 'react-native';
 import { Link } from 'expo-router';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -182,15 +182,15 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
   }
 
   return (
-    <>
+    <View className="relative flex">
      {item.is_news_plus && (
           <LinearGradient
             colors={['rgba(0,0,0,0.1)', 'transparent']}
             start={{ x: 0.2, y: 0 }}
             end={{ x: 0.5, y: 0 }}
-            className="flex-row py-1  absolute top-0 left-0 w-full "
+            className="flex-row py-1   top-0 left-0 w-full  z-50 "
           >
-            <View className="pl-3 py-1 flex-row items-center gap-1">
+            <View className="pl-3 flex-row items-center gap-1  h-[24px] ">
               <NewsLogo size={16} color="#F92B53" forceShow={true} /><Text className="text-sm font-bold text-apple-news">+</Text>
             </View>
           </LinearGradient>
@@ -199,7 +199,7 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
 
 
 
-      <View className="flex-1 p-4 pr-[120px] mt-2.5">
+      <View className="flex-1 p-4 pr-[120px] -mt-4 pt-2  overflow-hidden">
      
 
 
@@ -229,7 +229,7 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
           resizeMode="cover"
         />
       </View>
-    </>
+    </View>
   );
 };
 
@@ -293,7 +293,7 @@ export const NewsItem = ({ item }: NewsItemProps) => {
   );
 
   return (
-    <View className="mb-2 rounded-xl overflow-hidden shadow-sm bg-white mx-5 relative">
+    <View className={`mb-3 rounded-xl overflow-hidden mx-5 relative ${Platform.OS === 'web' ? 'bg-gray-100' : 'bg-white'}`}>
       <ContextMenu.Root>
         <ContextMenu.Trigger>
           <Link href={href} asChild>
