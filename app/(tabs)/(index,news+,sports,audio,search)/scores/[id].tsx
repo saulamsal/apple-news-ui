@@ -1,6 +1,7 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity, Platform, Alert, ScrollView, Switch, ViewStyle } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import BlurView from '@/components/BlurView';
+// import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -477,7 +478,7 @@ export default function ScoreDetailsScreen() {
                 <Text style={styles.liveText}>LIVE</Text>
                 <LiveDot />
               </View>
-              <Text style={styles.dateText}>
+              <Text className="mb-4 text-sm text-gray-500" >
                 {score.current_clock?.time} • {score.current_clock?.period}
               </Text>
             </>
@@ -486,6 +487,7 @@ export default function ScoreDetailsScreen() {
               {format(new Date(score.startTime), 'h:mm a')}
             </Text>
           )}
+          
           {!score.is_live && (
             <Text style={styles.dateText}>
               {format(new Date(score.startTime), 'EEEE M/d')}
@@ -496,7 +498,7 @@ export default function ScoreDetailsScreen() {
             {score.team1.nickname} vs {score.team2.nickname}
           </Text>
 
-          <Text style={styles.competitionText}>
+          <Text style={styles.competitionText} className="mb-4">
             {score.competition.full_name} • {score.competition.matchweek}
           </Text>
 

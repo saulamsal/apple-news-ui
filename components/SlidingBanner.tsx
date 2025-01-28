@@ -107,11 +107,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 4,
-        paddingVertical: 2,
+        paddingVertical: 4,
         justifyContent: 'space-between',
         borderRadius: 12,
         overflow: 'hidden',
         width: '100%',
+        
    
     },
     contentContainer: {
