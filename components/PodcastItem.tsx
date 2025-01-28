@@ -16,15 +16,13 @@ interface PodcastItemProps {
 export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps) {
   const { playEpisode, currentEpisode, progress } = useAudio();
   
-  const durationInMinutes = episode.duration ? Math.floor(episode.duration / 60) : null;
+  const durationInMinutes = episode.attributes?.durationInMilliseconds ? Math.floor(episode.attributes.durationInMilliseconds / 60000) : null;
   
-  const imageUrl = episode.episodeArtwork?.template?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') ||
-                  episode.icon?.template?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') ||
-                  'https://via.placeholder.com/300';
+  const imageUrl = episode.attributes?.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || 'https://via.placeholder.com/300';
 
   const handlePress = () => {
     if (playEpisode) {
-      const streamUrl = episode.playAction?.episodeOffer?.streamUrl;
+      const streamUrl = episode.attributes?.assetUrl;
       
       if (!streamUrl) {
         console.error('No stream URL found for episode:', episode.id);
@@ -33,13 +31,13 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
 
       const podcastEpisode: PodcastEpisode = {
         id: episode.id,
-        title: episode.title,
+        title: episode.attributes.name,
         streamUrl: streamUrl,
         artwork: { url: imageUrl },
-        showTitle: episode.showTitle,
-        duration: episode.duration,
-        releaseDate: episode.releaseDate,
-        summary: episode.summary
+        showTitle: episode.attributes.artistName,
+        duration: episode.attributes.durationInMilliseconds,
+        releaseDate: episode.attributes.releaseDateTime,
+        summary: episode.attributes.description?.standard
       };
 
       playEpisode(podcastEpisode);
@@ -47,13 +45,13 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
   };
 
   const handleSeeDetails = () => {
-    Alert.alert('Details', episode.summary || 'No details available');
+    Alert.alert('Details', episode.attributes?.description?.standard || 'No details available');
   };
 
   const isCurrentlyPlaying = currentEpisode?.id === episode.id;
 
-  const remainingTime = isCurrentlyPlaying && episode.duration && progress.value ? 
-    Math.floor((episode.duration - progress.value * episode.duration) / 60) : null;
+  const remainingTime = isCurrentlyPlaying && episode.attributes?.durationInMilliseconds && progress.value ? 
+    Math.floor((episode.attributes.durationInMilliseconds - progress.value * episode.attributes.durationInMilliseconds) / 60000) : null;
 
   const progressBarStyle = useAnimatedStyle(() => {
     return {
@@ -68,47 +66,36 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
     >
       <Image source={{ uri: imageUrl }} style={styles.artwork} />
       <View style={styles.content}>
-        <Text style={styles.title} numberOfLines={2}>{episode.title}</Text>
+        <Text style={styles.title} numberOfLines={2}>{episode.attributes?.name}</Text>
         <View style={styles.subtitleContainer}>
-          <Text style={styles.showTitle} numberOfLines={1}>{episode.showTitle}</Text>
+          <Text style={styles.showTitle} numberOfLines={1}>{episode.attributes?.artistName}</Text>
           
           <View style={styles.metadataContainer}>
             <View style={styles.metadataLeft}>
               <TouchableOpacity onPress={handleSeeDetails}>
                 <Text style={styles.seeDetails}>See Details</Text>
-            </TouchableOpacity>
+              </TouchableOpacity>
             
-           
-           {isCurrentlyPlaying ? (
-          <View style={styles.progressContainer}>
-            <Animated.View style={[styles.progressBar, progressBarStyle]} />
-            <Text style={styles.progressText}>{remainingTime}</Text>
-          </View>
-        ) : (
-         <View style={styles.durationContainer}>
-              <Ionicons name="headset-outline" size={16} color="#8E8E93" />
-              <Text style={styles.duration}>
-                {isCurrentlyPlaying && remainingTime != null ? 
-                  `-${remainingTime}` : 
-                  durationInMinutes ? `${durationInMinutes}` : '--'} min
-              </Text>
-            </View>
-        )}
-
-
+              {isCurrentlyPlaying ? (
+                <View style={styles.progressContainer}>
+                  <Animated.View style={[styles.progressBar, progressBarStyle]} />
+                  <Text style={styles.progressText}>{remainingTime}</Text>
+                </View>
+              ) : (
+                <View style={styles.durationContainer}>
+                  <Ionicons name="headset-outline" size={16} color="#8E8E93" />
+                  <Text style={styles.duration}>
+                    {isCurrentlyPlaying && remainingTime != null ? 
+                      `-${remainingTime}` : 
+                      durationInMinutes ? `${durationInMinutes}` : '--'} min
+                  </Text>
+                </View>
+              )}
             </View>
             <Ionicons name="ellipsis-horizontal" size={24} color="#8E8E93" style={styles.menuTrigger} />
-
           </View>
-          
         </View>
-        
-    
-
-        
       </View>
-
-
     </TouchableOpacity>
   );
 }

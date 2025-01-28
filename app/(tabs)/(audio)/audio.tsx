@@ -18,7 +18,6 @@ import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { NewsLogo } from '@/components/NewsLogo';
 import { styles } from '@/styles/screens/audio';
-import { FlashList } from '@shopify/flash-list';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { NewsItem, NewsItemType } from '@/components/NewsItem';
@@ -27,9 +26,8 @@ import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
 import { TabMenu } from '@/components/TabMenu';
 import { Colors } from '@/constants/Colors';
 import { PodcastItem } from '@/components/PodcastItem';
-import { PodcastEpisode } from '@/src/types/podcast';
+import { PodcastEpisode, PodcastEpisodeData } from '@/types/podcast';
 import podcasts from '@/data/podcasts.json';
-import type { ListRenderItemInfo } from '@shopify/flash-list';
 import { useAudio } from '@/contexts/AudioContext';
 import { AudioVisualizer } from '@/components/AudioVisualizer';
 import { PodcastEditorsPickItem } from '@/components/PodcastEditorsPickItem';
@@ -60,29 +58,6 @@ interface NewsItem {
   author: Author;
   featured_image: string;
   card_type: 'full' | 'medium';
-}
-
-interface PodcastEpisodeData {
-  id: string;
-  type: string;
-  attributes: {
-    name: string;
-    itunesTitle: string;
-    kind: string;
-    description: {
-      standard: string;
-      short: string;
-    };
-    artwork: {
-      url: string;
-      width: number;
-      height: number;
-    };
-    durationInMilliseconds: number;
-    releaseDateTime: string;
-    assetUrl: string;
-    artistName: string;
-  };
 }
 
 const TABS = [
@@ -184,7 +159,7 @@ export default function AudioScreen() {
     setIsRefreshing(false);
   };
 
-  const renderPodcastItem = ({ item, index }: ListRenderItemInfo<PodcastEpisodeData>) => (
+  const renderPodcastItem = ({ item, index }: { item: PodcastEpisodeData; index: number }) => (
     <PodcastItem 
       episode={item} 
       index={index}
@@ -199,7 +174,6 @@ export default function AudioScreen() {
           <FlatList
             data={remainingEpisodes}
             renderItem={renderPodcastItem}
-            estimatedItemSize={84}
             keyExtractor={(item) => item.id}
             contentContainerStyle={styles.listContent}
             refreshControl={
@@ -209,13 +183,9 @@ export default function AudioScreen() {
                 tintColor='#000'
               />
             }
-       
             style={{
-              flexShrink: 0  //SUPER IMPORTANT TO DISABLE CHILD SCROLL ON RNW
+              flexShrink: 0
             }}
-        
-      
-            
             ListHeaderComponent={
               <View style={styles.headerContainer}>
                 <View style={styles.header}>

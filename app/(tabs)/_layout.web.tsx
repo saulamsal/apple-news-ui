@@ -204,7 +204,7 @@ export default function WebLayout() {
 
           <View className="mt-8 gap-2">
             {!isCompact && <Text className="text-sm font-medium text-gray-500 px-3">Discover</Text>}
-            <SidebarItem icon="search" label="Following" href="/(tabs)/(search)/search" compact={isCompact} isActive={segments[1] === '(search)'} />
+            <SidebarItem icon="search" label="Following" href="/(tabs)/(search)" compact={isCompact} isActive={segments[1] === '(search)'} />
           </View>
 
           {searchEntities.sections.map((section) => {

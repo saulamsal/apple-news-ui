@@ -13,6 +13,27 @@ export interface PodcastEpisode {
   summary: string;
 }
 
+export interface PodcastEpisodeData {
+  id: string;
+  type: string;
+  attributes: {
+    name: string;
+    description: {
+      standard: string;
+      short: string;
+    };
+    artwork: {
+      url: string;
+      width: number;
+      height: number;
+    };
+    durationInMilliseconds: number;
+    releaseDateTime: string;
+    assetUrl: string;
+    artistName: string;
+  };
+}
+
 export interface PodcastData {
   intent: {
     storefront: string;
