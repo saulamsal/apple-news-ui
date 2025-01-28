@@ -125,10 +125,9 @@ export default function NewsPlusScreen() {
                 />
 
                 <View className="py-6 px-5">
-                  <Text className="text-sm font-semibold text-gray-500">FOR YOU</Text>
-                  <Text className="mt-2 text-xs text-gray-400">
-                    NEWS+ RECOMMENDATIONS{'\n'}
-                    BASED ON WHAT YOU READ.
+                  <Text className="text-2xl font-extrabold text-black">For You</Text>
+                  <Text className="text-md text-gray-500">
+                    News+ recommends based on what you read.
                   </Text>
                 </View>
               </View>
