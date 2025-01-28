@@ -439,7 +439,7 @@ const NewsItemActions = ({ item }: { item: NewsItemType }) => {
         <DropdownMenu.Sub>
           <DropdownMenu.SubTrigger key="source" textValue={`Go to ${item.source.name}`}>
             <DropdownMenu.ItemIcon>
-              <MaterialIcons name="open-in-new" size={18} />
+              <MaterialIcons name="arrow-forward" size={18} />
             </DropdownMenu.ItemIcon>
             <DropdownMenu.ItemTitle>{item.source.name}</DropdownMenu.ItemTitle>
           </DropdownMenu.SubTrigger>
@@ -475,25 +475,30 @@ const NewsItemActions = ({ item }: { item: NewsItemType }) => {
   );
   
   return (
-    <View className="px-2">
+    <View className="px-2 flex-row items-center justify-between">
       <View className="flex-row items-center justify-between mt-2 mb-4 ml-2">
         <Text className="text-xs text-gray-500">
           {getRelativeTime(item.created_at)}{item.author?.name ? ` · ${item.author.name}` : ''}
         </Text>
-        {item.card_type === 'full' && item.show_topic && (
+ 
+      </View>
+
+      <View className=" flex-row items-center justify-between gap-2">
+
+      {item.card_type === 'full' &&  item.related_news && item.related_news.length > 0 && item.show_topic && (
           <Pressable 
-            className="bg-[#F2F2F6] px-4 py-1 rounded-2xl" 
+            className="bg-[#ffffff] px-4 py-1 rounded-2xl " 
             onPress={(e) => {
               e.stopPropagation();
             }}
           >
-            <Text className="text-xs text-black -tracking-[0.3px] font-bold">
-              {item.topic.name}
+            <Text className="text-xs text-black -tracking-[0.3px] font-bold  ">
+              More on {item.topic.name}
             </Text>
           </Pressable>
         )}
-      </View>
-      <View className="absolute right-2 top-2">
+
+
         <DropdownMenuComponent />
       </View>
     </View>

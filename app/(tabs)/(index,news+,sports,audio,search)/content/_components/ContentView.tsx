@@ -87,6 +87,7 @@ export function ContentView({ content }: ContentViewProps) {
           width: '100%',
           minWidth: '100%',
           maxWidth: '100%',
+    
       }}
 
 
@@ -114,7 +115,7 @@ export function ContentView({ content }: ContentViewProps) {
   };
 
   return (
-    <View className="flex-1">
+    <View className="flex-1 bg-white">
     <ScrollViewWithHeaders
       HeaderComponent={HeaderComponent}
       contentContainerStyle={styles.container}

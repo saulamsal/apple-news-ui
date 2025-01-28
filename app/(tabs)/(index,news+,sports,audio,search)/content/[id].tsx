@@ -116,7 +116,7 @@ export default function ContentScreen() {
       renderTabBar={() => null}
       onIndexChange={handleIndexChange}
 
-      style={{ backgroundColor: 'transparent' }}
+      style={{ backgroundColor: 'transparent', position: 'relative' }}
       swipeEnabled={canSwipe}
     />
   );
