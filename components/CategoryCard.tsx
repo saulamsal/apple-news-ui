@@ -1,75 +1,63 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ViewStyle, TextStyle, ImageStyle } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
-interface CategoryCardProps {
-  id: string;
-  title: React.ReactNode;
+export interface CategoryCardProps {
+  title: string;
   logo?: string;
   icon?: string;
   entity_type?: string;
-  description?: React.ReactNode;
+  description?: string;
+  minimal?: boolean;
 }
 
-interface Styles {
-  container: ViewStyle;
-  content: ViewStyle;
-  logo: ImageStyle;
-  title: TextStyle;
-  description: TextStyle;
-}
+export const CategoryCard = ({ 
+  title, 
+  logo, 
+  icon,
+  entity_type,
+  description, 
+  minimal = false
+}: CategoryCardProps) => {
+  const router = useRouter();
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
 
-export function CategoryCard({ id, title, logo, icon, description }: CategoryCardProps) {
+  const handlePress = () => {
+    if (entity_type === 'topic' && typeof title === 'string') {
+      router.push(`/topic/${title.toLowerCase()}`);
+    }
+  };
+
   return (
-    <Link href={`/content/${id}`} asChild>
-      <TouchableOpacity>
-        <View style={styles.container}>
-          <View style={styles.content}>
-            {logo ? (
-              <Image source={{ uri: logo }} style={styles.logo} />
-            ) : icon ? (
-              <Ionicons name={icon as any} size={24} color="#666" />
-            ) : null}
-            <View>
-              <Text style={styles.title}>{title}</Text>
-              {description && (
-                <Text style={styles.description} numberOfLines={2}>
-                  {description}
-                </Text>
-              )}
-            </View>
-          </View>
+    <TouchableOpacity 
+      className="flex-row items-center gap-2 px-2"
+      onPress={handlePress}
+      activeOpacity={0.7}
+    >
+      <View className="flex-row items-center gap-3">
+        {logo ? (
+          <Image source={{ uri: logo }} className={minimal ? "w-5 h-5 rounded-[16px]" : "w-7 h-7 rounded-[20px]"} />
+        ) : icon ? (
+          <Ionicons name={icon as any} size={minimal ? 20 : 24} color="#666" />
+        ) : null}
+        <View>
+          <Text 
+            className={minimal ? "text-sm font-medium" : "text-base font-medium"}
+            style={{ color: isDark ? '#FFFFFF' : '#000000' }}
+            numberOfLines={1}
+          >
+            {title}
+          </Text>
+          {description && (
+            <Text className="text-sm text-[#666666] mt-1" numberOfLines={2}>
+              {description}
+            </Text>
+          )}
         </View>
-      </TouchableOpacity>
-    </Link>
+      </View>
+    </TouchableOpacity>
   );
-}
-
-const styles = StyleSheet.create<Styles>({
-  container: {
-    // backgroundColor: '#fff',
-    borderRadius: 10,
-    // padding: 4,
-    paddingHorizontal: 8,
-  },
-  content: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-  },
-  logo: {
-    width: 36,
-    height: 36,
-    borderRadius: 20,
-  },
-  title: {
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  description: {
-    fontSize: 14,
-    color: '#666',
-    marginTop: 4,
-  },
-}); 
+};

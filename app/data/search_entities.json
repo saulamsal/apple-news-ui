@@ -31,7 +31,7 @@
         {
             "id": "my_following",
             "title": "My Following",
-            "items": ["man_utd", "premier_league", "nba", "nfl", "mlb", "f1", "ufc", "cricket", "indian_premier_league"]
+            "items": ["man_utd", "premier_league", "nba", "nfl", "soccer"]
         }
     ]
 }

@@ -5,13 +5,21 @@ import { Ionicons } from '@expo/vector-icons';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Sidebar } from '@/components/Sidebar';
 import { Home, NewsPlus, Sports, Search } from '@/assets/svg/tab-icons'
+import { CategoryCard } from "@/components/CategoryCard";
+import { styles } from "@/styles/components/newsItem";
+import { getAllEntitiesForSection } from "@/src/utils/entityUtils";
+import searchEntities from "@/app/data/search_entities.json";
+import entities from '@/app/data/entities.json';
+
+type Entity = typeof entities[keyof typeof entities];
 
 type AppRoutes =
   | "/(tabs)/(index)"
   | "/(tabs)/(news+)"
   | "/(tabs)/(sports)"
   | "/(tabs)/(audio)"
-  | "/(tabs)/(search)";
+  | "/(tabs)/(search)"
+  | { pathname: string; params?: Record<string, string> };
 
 // Helper component for sidebar items
 function SidebarItem({
@@ -23,7 +31,7 @@ function SidebarItem({
 }: {
   icon: keyof typeof Ionicons.glyphMap | 'home' | 'news' | 'sports' | 'search';
   label: string;
-  href: AppRoutes;
+  href: string;
   isActive?: boolean;
   compact?: boolean;
 }) {
@@ -52,7 +60,7 @@ function SidebarItem({
 
   return (
     <Pressable
-      onPress={() => router.push(href)}
+      onPress={() => router.push(href as any)}
       className={`flex flex-row items-center p-1 rounded-lg gap-3 mb-0.5 cursor-pointer transition-all duration-200 mr-8 ${
         compact ? 'justify-center p-3 gap-0' : 'pl-2 pr-6'
       } ${isActive ? 'bg-[#e6e6e7]' : ''}`}
@@ -74,20 +82,15 @@ function SidebarItem({
 export default function WebLayout() {
   const colorScheme = useColorScheme();
   const { width } = useWindowDimensions();
-
-
   const router = useRouter();
   const segments = useSegments();
 
-
-  // const backgroundColor = colorScheme === 'dark' ? '#000' : '#fff';
   const backgroundColor = '#f9f9f9';
   const borderColor = colorScheme === 'dark' ? '#2f3336' : '#eee';
 
   const isCompact = width < 1024;
   const isMobile = width < 768;
-  // const showSidebar = width >= 1024 && segments[1] !== '(search)';
-  const showSidebar = width >= 1024 ;
+  const showSidebar = width >= 1024;
 
 
   if (isMobile) {
@@ -102,8 +105,7 @@ export default function WebLayout() {
           style={{
             borderTopColor: borderColor,
             backgroundColor: colorScheme === 'dark' ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.7)',
-            backdropFilter: 'blur(12px)',
-            WebkitBackdropFilter: 'blur(12px)'
+            backdropFilter: Platform.OS === 'web' ? 'blur(12px)' : undefined,
           }}>
           <Pressable
             onPress={() => router.push("/(tabs)/(index)")}
@@ -177,22 +179,15 @@ export default function WebLayout() {
   }
 
   return (
-    <View className="flex-row relative left-0 right-0 min-h-full h-screen overflow-y-auto  bg-white justify-center" 
-      // style={{backgroundColor}}
-      >
-      <View className={`${isCompact ? 'w-[72px]' : 'w-[400px]'}  items-end sticky top-0 h-screen border-r border-gray-500`}
+    <View className="flex-row relative left-0 right-0 min-h-full h-screen overflow-y-auto bg-white justify-center">
+      <View className={`${isCompact ? 'w-[72px]' : 'w-[400px]'} items-end sticky top-0 h-screen border-r border-gray-500`}
         style={{borderRightColor: borderColor}}>
-        <View className={`sticky ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full` }
-        //  style={{backgroundColor: backgroundColor}}
-         >
-
+        <View className={`sticky ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full`}>
           <View className="mb-8 pl-3 pt-3">
-
-          <View className="flex-row items-center gap-[2px] mt-2">
-            <Ionicons name="logo-apple" size={32} color="#000" />
-            <Text className="font-extrabold text-[30px] tracking-tighter">News</Text>
-          </View>
-        
+            <View className="flex-row items-center gap-[2px] mt-2">
+              <Ionicons name="logo-apple" size={32} color="#000" />
+              <Text className="font-extrabold text-[30px] tracking-tighter">News</Text>
+            </View>
           </View>
 
           <View className="gap-2">
@@ -200,30 +195,52 @@ export default function WebLayout() {
             <SidebarItem icon="news" label="News+" href="/(tabs)/(news+)" compact={isCompact} isActive={segments[1] === '(news+)'} />
             <SidebarItem icon="sports" label="Sports" href="/(tabs)/(sports)" compact={isCompact} isActive={segments[1] === '(sports)'} />
             <SidebarItem icon="headset" label="Audio" href="/(tabs)/(audio)" compact={isCompact} isActive={segments[1] === '(audio)'} />
+          </View>
+
+          <View className="mt-8 gap-2">
+            <Text className="text-sm font-medium text-gray-500 px-3">Discover</Text>
             <SidebarItem icon="search" label="Following" href="/(tabs)/(search)" compact={isCompact} isActive={segments[1] === '(search)'} />
           </View>
+
+          {searchEntities.sections.map((section) => {
+            if (section.id !== 'my_following') return null;
+            return (
+              <View key={section.id} className="gap-3 rounded-2xl p-3 mt-4" style={{ backgroundColor: '#00000008' }}>
+                <Text className="text-sm text-gray-500">{section.title}</Text>
+                <View className="gap-3">
+                  {getAllEntitiesForSection(section.id).map((entity: Entity) => (
+                    <CategoryCard
+                      key={entity.id}
+                      title={entity.title}
+                      logo={entity.logo}
+                      icon={entity.icon}
+                      entity_type={entity.type}
+                      minimal={true}
+                    />
+                  ))}
+                </View>
+              </View>
+            );
+          })}
         </View>
       </View>
 
-       
-          <View className="flex-1 w-full max-w-[611px] bg-transparent">
-            <Stack
-              screenOptions={{
-                headerShown: false,
-              }}
-            />
-          </View>
-       
-        {showSidebar && (
-          <View className="w-[350px] border-l sticky top-0"
-            style={{borderLeftColor: borderColor}}>
-            <View className="p-4">
-              <Sidebar />
-            </View>
-          </View>
-        )}
+      <View className="flex-1 w-full max-w-[611px] bg-transparent">
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}
+        />
+      </View>
 
-      
+      {showSidebar && (
+        <View className="w-[350px] border-l sticky top-0"
+          style={{borderLeftColor: borderColor}}>
+          <View className="p-4">
+            <Sidebar />
+          </View>
+        </View>
+      )}
     </View>
   );
 }

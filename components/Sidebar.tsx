@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ViewStyle } from 'react-native';
+import { View, Text, StyleSheet, ViewStyle, TouchableOpacity, Image } from 'react-native';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { CategoryCard } from './CategoryCard';
 import entities from '@/app/data/entities.json';
+import { scores } from '@/data/scores.json';
 import { getAllCategories, getAllEntitiesForSection } from '@/src/utils/entityUtils';
 import searchEntities from '@/app/data/search_entities.json';
 import { Ionicons } from '@expo/vector-icons';
-import { TextInput, TouchableOpacity } from 'react-native';
-import { useSegments } from 'expo-router';
+import { TextInput } from 'react-native';
+import { useSegments, useRouter } from 'expo-router';
+import { Animated } from 'react-native';
 
 interface Entity {
   id: string;
@@ -17,6 +19,24 @@ interface Entity {
   type: string;
   description?: string;
   entity_type?: string;
+}
+
+interface Game {
+  id: string;
+  competition: {
+    name: string;
+  };
+  team1: {
+    name: string;
+    score?: number;
+    logo?: string;
+  };
+  team2: {
+    name: string;
+    score?: number;
+    logo?: string;
+  };
+  is_live: boolean;
 }
 
 interface HighlightedTextProps {
@@ -42,14 +62,58 @@ const HighlightedText = ({ text, highlight }: HighlightedTextProps) => {
   );
 };
 
+interface CategoryCardProps {
+  title: string;
+  logo?: string;
+  icon?: string;
+  entity_type?: string;
+}
+
+const LiveDot = () => {
+  const pulseAnim = React.useRef(new Animated.Value(0.4)).current;
+
+  React.useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(pulseAnim, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(pulseAnim, {
+          toValue: 0.4,
+          duration: 1000,
+          useNativeDriver: true,
+        })
+      ])
+    ).start();
+  }, []);
+
+  return (
+    <Animated.View
+      style={[
+        styles.liveDot,
+        {
+          opacity: pulseAnim,
+        }
+      ]}
+    />
+  );
+};
+
 export function Sidebar() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const segments = useSegments();
+  const router = useRouter();
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
 
   if (segments[1] === '(search)') {
     return null;
   }
+
+  const liveGames = scores.filter((game: Game) => game.is_live);
 
   const searchResults = React.useMemo(() => {
     if (!searchQuery.trim()) return [];
@@ -81,8 +145,6 @@ export function Sidebar() {
     return results;
   }, [searchQuery]);
 
-
-
   return (
     <View style={styles.container}>
       <View style={[
@@ -99,7 +161,7 @@ export function Sidebar() {
         <Ionicons name="search" size={20} color={isFocused ? "#FA2E46" : "#666"} />
         <TextInput
           placeholder="Search Apple News"
-          style={styles.input}
+          style={[styles.input, { WebkitAppearance: 'none' }] as any}
           placeholderTextColor="#666"
           value={searchQuery}
           onChangeText={setSearchQuery}
@@ -113,6 +175,52 @@ export function Sidebar() {
         ) : null}
       </View>
 
+      {!isFocused && !searchQuery && liveGames.slice(0, 2).map((game: Game) => (
+        <TouchableOpacity 
+          key={game.id}
+          style={styles.scoreCard}
+          onPress={() => router.push(`/scores/${game.id}`)}
+        >
+          <View style={styles.scoreHeader}>
+            <Text style={[styles.leagueText, { color: isDark ? '#999999' : '#666666' }]}>
+              {game.competition.name}
+            </Text>
+            <View style={styles.liveIndicator}>
+              <LiveDot />
+              <Text style={styles.liveText}>LIVE</Text>
+            </View>
+          </View>
+          <View style={styles.scoreRow}>
+            <View style={styles.teamInfo}>
+              <Image 
+                source={{ uri: game.team1.logo }} 
+                style={[styles.teamLogo, { opacity: 0.7 }]} 
+              />
+              <Text style={[styles.teamName, { color: isDark ? '#999999' : '#666666' }]}>
+                {game.team1.name}
+              </Text>
+            </View>
+            <Text style={[styles.score, { color: isDark ? '#FFFFFF' : '#000000' }]}>
+              {game.team1.score}
+            </Text>
+          </View>
+          <View style={styles.scoreRow}>
+            <View style={styles.teamInfo}>
+              <Image 
+                source={{ uri: game.team2.logo }} 
+                style={[styles.teamLogo, { opacity: 0.7 }]} 
+              />
+              <Text style={[styles.teamName, { color: isDark ? '#999999' : '#666666' }]}>
+                {game.team2.name}
+              </Text>
+            </View>
+            <Text style={[styles.score, { color: isDark ? '#FFFFFF' : '#000000' }]}>
+              {game.team2.score}
+            </Text>
+          </View>
+        </TouchableOpacity>
+      ))}
+
       <View style={styles.content}>
         {searchQuery ? (
           searchResults.length > 0 ? (
@@ -120,14 +228,11 @@ export function Sidebar() {
               {searchResults.map((entity) => (
                 <CategoryCard
                   key={entity.id}
-                  id={entity.id}
-                  title={<HighlightedText text={entity.title} highlight={searchQuery} />}
+                  title={entity.title}
                   logo={entity.logo}
                   icon={entity.icon}
                   entity_type={entity.entity_type}
-                  description={entity.description && (
-                    <HighlightedText text={entity.description} highlight={searchQuery} />
-                  )}
+                  description={entity.description}
                 />
               ))}
             </View>
@@ -140,30 +245,31 @@ export function Sidebar() {
               {getAllCategories().map((entity: Entity) => (
                 <CategoryCard
                   key={entity.id}
-                  id={entity.id}
                   title={entity.title}
                   icon={entity.icon}
                   entity_type={entity.entity_type}
                 />
               ))}
             </View>
-
-            {searchEntities.sections.map((section) => (
-              <View key={section.id} style={styles.section}>
-                <Text style={styles.sectionTitle}>{section.title}</Text>
-                <View style={styles.sectionContent}>
-                  {getAllEntitiesForSection(section.id).map((entity: Entity) => (
-                    <CategoryCard
-                      key={entity.id}
-                      id={entity.id}
-                      title={entity.title}
-                      logo={entity.logo}
-                      entity_type={entity.entity_type}
-                    />
-                  ))}
+            
+            {searchEntities.sections.map((section) => {
+              if (section.id === 'my_following') return null;
+              return (
+                <View key={section.id} style={styles.section}>
+                  <Text style={styles.sectionTitle}>{section.title}</Text>
+                  <View style={styles.sectionContent}>
+                    {getAllEntitiesForSection(section.id).map((entity: Entity) => (
+                      <CategoryCard
+                        key={entity.id}
+                        title={entity.title}
+                        logo={entity.logo}
+                        entity_type={entity.entity_type}
+                      />
+                    ))}
+                  </View>
                 </View>
-              </View>
-            ))}
+              );
+            })}
           </View>
         )}
       </View>
@@ -190,11 +296,8 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingLeft: 8,
     fontSize: 17,
-    // fontWeight: '500',
     height: '100%',
     letterSpacing: -0.4,
-    outlineStyle: 'none', // Removes default focus outline on web
-    
   },
   content: {
     flex: 1,
@@ -221,7 +324,6 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 14,
-    // fontWeight: '600',
     color: '#666',
   },
   sectionContent: {
@@ -229,5 +331,65 @@ const styles = StyleSheet.create({
   },
   highlight: {
     fontWeight: 'bold',
+  },
+  scoreCard: {
+    backgroundColor: '#00000008',
+    padding: 12,
+    borderRadius: 10,
+    marginBottom: 12,
+  },
+  scoreHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 8,
+  },
+  leagueText: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  liveIndicator: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#FA2E46',
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 4,
+  },
+  liveDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#FFFFFF',
+    marginRight: 4,
+  },
+  liveText: {
+    fontSize: 11,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  scoreRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 4,
+  },
+  teamInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  teamLogo: {
+    width: 20,
+    height: 20,
+    borderRadius: 4,
+  },
+  teamName: {
+    fontSize: 13,
+    fontWeight: '500',
+  },
+  score: {
+    fontSize: 15,
+    fontWeight: '600',
   },
 }); 
