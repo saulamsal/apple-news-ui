@@ -11,6 +11,7 @@ import { TextInput } from 'react-native';
 import { useSegments, useRouter } from 'expo-router';
 import { Animated } from 'react-native';
 import { useFonts, Orbitron_700Bold, Orbitron_900Black } from '@expo-google-fonts/orbitron';
+import SocialButtons from './SocialButtons';
 
 interface Entity {
   id: string;
@@ -230,6 +231,8 @@ export function Sidebar() {
         </TouchableOpacity>
       ))}
 
+
+    
       <View style={styles.content}>
         {searchQuery ? (
           searchResults.length > 0 ? (
@@ -250,19 +253,9 @@ export function Sidebar() {
           )
         ) : (
           <View style={styles.defaultContent}>
-            <View style={styles.categories}>
-              {getAllCategories().map((entity: Entity) => (
-                <CategoryCard
-                  key={entity.id}
-                  title={entity.title}
-                  icon={entity.icon}
-                  entity_type={entity.entity_type}
-                />
-              ))}
-            </View>
 
-            {searchEntities.sections.map((section) => {
-              if (section.id === 'my_following') return null;
+               {searchEntities.sections.map((section) => {
+              if (section.id === 'my_following' || section.id === 'special_coverage') return null;
               return (
                 <View key={section.id} style={styles.section}>
                   <Text style={styles.sectionTitle}>{section.title}</Text>
@@ -279,8 +272,26 @@ export function Sidebar() {
                 </View>
               );
             })}
+
+
+            <View style={styles.categories}>
+              {getAllCategories().map((entity: Entity) => (
+                <CategoryCard
+                  key={entity.id}
+                  title={entity.title}
+                  icon={entity.icon}
+                  entity_type={entity.entity_type}
+                />
+              ))}
+            </View>
+
+         
           </View>
         )}
+
+          {(!isFocused && !searchQuery)  && <SocialButtons />}
+
+
       </View>
     </View>
   );

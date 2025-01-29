@@ -230,7 +230,7 @@ export default function WebLayout() {
             );
           })}
 
-          {!isCompact && <SocialButtons />}
+          {/* {!isCompact && <SocialButtons />} */}
           
         </View>
       </View>
