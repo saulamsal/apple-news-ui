@@ -81,8 +81,8 @@
         "id": "soccer",
         "title": "Soccer",
         "logo": "https://static.vecteezy.com/system/resources/thumbnails/018/927/904/small_2x/soccer-ball-3d-illustration-png.png",
-        "entity_type": "England",
-        "type": "league",
+        "entity_type": "",
+        "type": "",
         "theme": {
             "backgroundColor": "#004527",
             "textColor": "#ffffff"

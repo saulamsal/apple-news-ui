@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ViewStyle, TouchableOpacity, Image } from 'react-native';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { CategoryCard } from './CategoryCard';
@@ -73,7 +73,7 @@ interface CategoryCardProps {
   entity_type?: string;
 }
 
-const LiveDot = () => {
+export const LiveDot = ({color = '#ffffff', children}: {color?: string, children?: React.ReactNode}) => {
   const pulseAnim = React.useRef(new Animated.Value(0.4)).current;
 
   React.useEffect(() => {
@@ -87,7 +87,7 @@ const LiveDot = () => {
         Animated.timing(pulseAnim, {
           toValue: 0.4,
           duration: 1000,
-          useNativeDriver: true,
+          useNativeDriver: true,  
         })
       ])
     ).start();
@@ -99,17 +99,38 @@ const LiveDot = () => {
         styles.liveDot,
         {
           opacity: pulseAnim,
+          backgroundColor: color,
         }
       ]}
-    />
+    >
+      {children}
+    </Animated.View>
   );
 };
 
+const useWindowSize = () => {
+  const [width, setWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  return width;
+};
+
 export function Sidebar() {
-  const [fontsLoaded] = useFonts({
+  const windowWidth = useWindowSize();
+  const shouldUseCustomFont = windowWidth > 768; // Only use custom font on larger screens
+  
+  const [fontsLoaded] = shouldUseCustomFont ? useFonts({
     Orbitron_700Bold,
     Orbitron_900Black,
-  });
+  }) : [true];
+  
   const [searchQuery, setSearchQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const segments = useSegments();
@@ -152,6 +173,12 @@ export function Sidebar() {
 
     return results;
   }, [searchQuery]);
+
+  // Update the score style to use conditional font
+  const scoreStyle = {
+    ...styles.score,
+    fontFamily: shouldUseCustomFont && fontsLoaded ? 'Orbitron_900Black' : undefined
+  };
 
   return (
     <View style={styles.container}>
@@ -210,7 +237,7 @@ export function Sidebar() {
                 {game.team1.nickname}
               </Text>
             </View>
-            <Text style={[styles.score, { color: (game.team1.score ?? 0) > (game.team2.score ?? 0) ? '#000000' : '#6B7280' }]}>
+            <Text style={[scoreStyle, { color: (game.team1.score ?? 0) > (game.team2.score ?? 0) ? '#000000' : '#6B7280' }]}>
               {game.team1.score ?? '-'}
             </Text>
           </View>
@@ -224,7 +251,7 @@ export function Sidebar() {
                 {game.team2.nickname}
               </Text>
             </View>
-            <Text style={[styles.score, { color: (game.team1.score ?? 0) < (game.team2.score ?? 0) ? '#000000' : '#6B7280' }]}>
+            <Text style={[scoreStyle, { color: (game.team1.score ?? 0) < (game.team2.score ?? 0) ? '#000000' : '#6B7280' }]}>
               {game.team2.score ?? '-'}
             </Text>
           </View>
@@ -289,7 +316,7 @@ export function Sidebar() {
           </View>
         )}
 
-          {(!isFocused && !searchQuery)  && <SocialButtons />}
+          {(!isFocused && !searchQuery)  && <SocialButtons  showGithub/>}
 
 
       </View>
@@ -412,6 +439,5 @@ const styles = StyleSheet.create({
   score: {
     fontSize: 18,
     fontWeight: '600',
-    fontFamily: 'Orbitron_900Black',
   },
 }); 

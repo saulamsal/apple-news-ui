@@ -1,4 +1,4 @@
-import { Stack, useSegments, useRouter } from "expo-router";
+import { Stack, useSegments, useRouter, Link } from "expo-router";
 import { Platform, View, Pressable, useWindowDimensions, Text } from 'react-native';
 import { AppleNewsLogo } from '@/components/icons/AppleNewsLogo';
 import { Ionicons } from '@expo/vector-icons';
@@ -12,6 +12,7 @@ import searchEntities from "@/app/data/search_entities.json";
 import entities from '@/app/data/entities.json';
 import { NewsLogo } from "@/components/NewsLogo";
 import SocialButtons from '@/components/SocialButtons';
+import { Image } from 'expo-image';
 
 type Entity = typeof entities[keyof typeof entities];
 
@@ -46,7 +47,7 @@ function SidebarItem({
   const iconColor = isActive ? '#FD325A' : '#8E8E8F';
 
   const size = compact ? 28 : 24;
-  
+
   const getIcon = () => {
     switch (icon) {
       case 'home':
@@ -68,17 +69,16 @@ function SidebarItem({
     <Pressable
       onPress={() => router.push(href as any)}
       className={`flex flex-row items-center p-2 rounded-lg gap-3 mb-0.5 
-        hover:bg-gray-200 transition-all duration-200  ${
-        compact ? 'justify-center' : 'pl-2 pr-6 mr-8'
-      } ${isActive ? 'bg-[#e6e6e7]' : ''}`}
+        hover:bg-gray-200 transition-all duration-200  ${compact ? 'justify-center' : 'pl-2 pr-6 mr-8'
+        } ${isActive ? 'bg-[#e6e6e7]' : ''}`}
       style={({ pressed, hovered }) => [
         (pressed || hovered) && { backgroundColor: hoverBg }
       ]}
     >
       {getIcon()}
       {!compact && (
-        <Text className={`text-[15px] font-semibold ${isActive ? 'font-bold' : ''}`} 
-          style={{color: textColor}}>
+        <Text className={`text-[15px] font-semibold ${isActive ? 'font-bold' : ''}`}
+          style={{ color: textColor }}>
           {label}
         </Text>
       )}
@@ -118,13 +118,13 @@ export default function WebLayout() {
             onPress={() => router.push("/(tabs)/(index)")}
             className="flex-1 items-center justify-center gap-1"
           >
-            <Home 
-              width={24} 
-              height={24} 
-              color={segments[1] === '(index)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'} 
+            <Home
+              width={24}
+              height={24}
+              color={segments[1] === '(index)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
             />
             <Text className="text-xs font-medium"
-              style={{color: segments[1] === '(index)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}}>
+              style={{ color: segments[1] === '(index)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666' }}>
               Home
             </Text>
           </Pressable>
@@ -132,13 +132,13 @@ export default function WebLayout() {
             onPress={() => router.push("/(tabs)/(news+)/news+")}
             className="flex-1 items-center justify-center gap-1"
           >
-            <NewsPlus 
-              width={24} 
-              height={24} 
-              color={segments[1] === '(news+)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'} 
+            <NewsPlus
+              width={24}
+              height={24}
+              color={segments[1] === '(news+)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
             />
             <Text className="text-xs font-medium"
-              style={{color: segments[1] === '(news+)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}}>
+              style={{ color: segments[1] === '(news+)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666' }}>
               News+
             </Text>
           </Pressable>
@@ -146,13 +146,13 @@ export default function WebLayout() {
             onPress={() => router.push("/(tabs)/(sports)/sports")}
             className="flex-1 items-center justify-center gap-1"
           >
-            <Sports 
-              width={30} 
-              height={30} 
-              color={segments[1] === '(sports)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'} 
+            <Sports
+              width={30}
+              height={30}
+              color={segments[1] === '(sports)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
             />
             <Text className="text-xs font-medium"
-              style={{color: segments[1] === '(sports)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}}>
+              style={{ color: segments[1] === '(sports)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666' }}>
               Sports
             </Text>
           </Pressable>
@@ -162,7 +162,7 @@ export default function WebLayout() {
           >
             <Ionicons name="headset" size={24} color={segments[1] === '(audio)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'} />
             <Text className="text-xs font-medium"
-              style={{color: segments[1] === '(audio)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}}>
+              style={{ color: segments[1] === '(audio)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666' }}>
               Audio
             </Text>
           </Pressable>
@@ -170,13 +170,13 @@ export default function WebLayout() {
             onPress={() => router.push("/(tabs)/(search)/search")}
             className="flex-1 items-center justify-center gap-1"
           >
-            <Search 
-              width={24} 
-              height={24} 
-              color={segments[1] === '(search)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'} 
+            <Search
+              width={24}
+              height={24}
+              color={segments[1] === '(search)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
             />
             <Text className="text-xs font-medium"
-              style={{color: segments[1] === '(search)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}}>
+              style={{ color: segments[1] === '(search)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666' }}>
               Following
             </Text>
           </Pressable>
@@ -188,7 +188,7 @@ export default function WebLayout() {
   return (
     <View className="flex-row relative left-0 right-0 min-h-full h-screen overflow-y-auto bg-white justify-center">
       <View className={`${isCompact ? 'w-[72px]' : ''} items-end sticky top-0 h-screen border-r border-gray-500`}
-        style={{borderRightColor: borderColor}}>
+        style={{ borderRightColor: borderColor }}>
         <View className={`sticky ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full`}>
           <View className="mb-8 pl-3 pt-3">
             <View className="flex-row items-center gap-[2px] mt-2">
@@ -198,10 +198,28 @@ export default function WebLayout() {
 
           <View className="">
             <SidebarItem icon="home" label="Home" href="/(tabs)/(index)" compact={isCompact} isActive={segments[1] === '(index)'} />
-            <SidebarItem icon="news" label="News+" href="/(tabs)/(news+)" compact={isCompact} isActive={segments[1] === '(news+)'} />
             <SidebarItem icon="sports" label="Sports" href="/(tabs)/(sports)" compact={isCompact} isActive={segments[1] === '(sports)'} />
+            <SidebarItem icon="news" label="News+" href="/(tabs)/(news+)" compact={isCompact} isActive={segments[1] === '(news+)'} />
             <SidebarItem icon="headset" label="Audio" href="/(tabs)/(audio)" compact={isCompact} isActive={segments[1] === '(audio)'} />
           </View>
+
+
+
+
+
+          {!isCompact &&
+
+            <Link href="https://twitter.com/intent/follow?screen_name=saul_sharma" className="flex-row items-center gap-2" target="_blank">
+              <View className="flex-row items-center gap-3 pl-2 relative">
+                <View className="relative">
+                  <Image source={{ uri: 'https://i.imgur.com/6wdPxeP.jpeg' }} alt="Twitter" className="w-6 h-6 rounded-full" />
+                  <View className="w-2 h-2 bg-red-500 rounded-full absolute -top-0.5 -right-0.5" />
+
+                </View>
+                <Text className="text-sm text-gray-800 font-semibold">Follow Saúl on 𝕏</Text>
+              </View>
+            </Link>
+          }
 
           <View className="mt-8 gap-2">
             {!isCompact && <Text className="text-sm font-medium text-gray-500 px-3">Discover</Text>}
@@ -230,8 +248,8 @@ export default function WebLayout() {
             );
           })}
 
-          {/* {!isCompact && <SocialButtons />} */}
-          
+          {!isCompact && <SocialButtons showTwitter />}
+
         </View>
       </View>
 
@@ -245,7 +263,7 @@ export default function WebLayout() {
 
       {showSidebar && (
         <View className="w-[350px] border-l sticky top-0"
-          style={{borderLeftColor: borderColor}}>
+          style={{ borderLeftColor: borderColor }}>
           <View className="p-4">
             <Sidebar />
           </View>
