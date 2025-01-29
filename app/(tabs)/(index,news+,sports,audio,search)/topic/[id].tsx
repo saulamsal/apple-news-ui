@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Image, ScrollView, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, Image, ScrollView, Modal, Platform } from 'react-native';
 import { ScrollViewWithHeaders, Header } from '@codeherence/react-native-header';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -160,11 +160,13 @@ export default function TopicScreen() {
 
     const HeaderSurface = ({ showNavBar }: { showNavBar: SharedValue<number> }) => (
         <FadingView opacity={showNavBar} style={StyleSheet.absoluteFill}>
+           {Platform.OS === 'web' ? <> </> : 
             <BlurView
                 style={[StyleSheet.absoluteFill, { backgroundColor }]}
                 intensity={80}
                 tint="light"
             />
+            }
         </FadingView>
     );
 
@@ -268,6 +270,7 @@ export default function TopicScreen() {
 
     const ModalData = () => {
         return (
+            <View className="flex-1 bg-white max-w-[600] w-full mx-auto">
                 <View className=" border-b border-gray-200">
                     <View className="flex-row justify-between items-center p-4 gap-4">
                         <Text className="text-2xl font-bold">{entity.title}</Text>
@@ -301,23 +304,19 @@ export default function TopicScreen() {
                     </TouchableOpacity>
                 ))}
               </View>
+              </View>
         )
     }
 
     const SubTopicsModal = () => (
-
-
-        //todo remove bottom view
         <Modal
             animationType="slide"
             presentationStyle="formSheet"
             visible={showSubTopicsModal}
             onRequestClose={() => setShowSubTopicsModal(false)}
+            style={{ maxWidth: 500, alignSelf: 'center', width: '100%', backgroundColor: 'transparent' }}
         >
-
             <ModalData />
-
-
         </Modal>
     );
 
@@ -402,6 +401,17 @@ export default function TopicScreen() {
                             useNativeDriver={false}
                             disableRightSwipe={false}
                             disableLeftSwipe={false}
+
+                            style={Platform.OS === 'web' ? {
+                                height: undefined,
+                                overflow: 'visible' as const
+                            } : undefined}
+                            contentContainerStyle={Platform.OS === 'web' ? {
+                                height: undefined
+                            } : {
+                                paddingBottom: bottom + 20
+                            }}
+                            scrollEnabled={Platform.OS !== 'web'}
                         />
                     </>
                 );
@@ -409,7 +419,7 @@ export default function TopicScreen() {
     };
 
     return (
-        <View className="flex-1 bg-gray-100">
+        <View className={`flex-1 ${Platform.OS !== 'web' ? 'bg-[#F2F2F7]' : 'bg-white'}`}>
             
         
 
@@ -419,7 +429,6 @@ export default function TopicScreen() {
                 alwaysBounceVertical={false}
                 bounces={false}
                 ref={scrollRef}
-                contentContainerStyle={[{ paddingBottom: bottom }]}
                 className="flex-1"
                 HeaderComponent={HeaderComponent}
                 LargeHeaderComponent={LargeHeaderComponent}
@@ -427,6 +436,16 @@ export default function TopicScreen() {
                 headerFadeInThreshold={0.5}
                 initialAbsoluteHeaderHeight={110}
             
+              style={Platform.OS === 'web' ? {
+                        height: undefined,
+                        overflow: 'visible' as const
+                    } : undefined}
+                    contentContainerStyle={Platform.OS === 'web' ? {
+                        height: undefined
+                    } : {
+                        paddingBottom: bottom + 20
+                    }}
+                    
             >
                 <StatusBar style={showSubTopicsModal ? 'light' : 'dark'} />
 
