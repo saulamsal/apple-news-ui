@@ -431,12 +431,25 @@ export default function ScoreDetailsScreen() {
         HeaderComponent={HeaderComponent}
         // contentContainerStyle={styles.container}
         bounces={false}
-        contentContainerStyle={{
-          backgroundColor: '#fff',
+     
+        
+  
+        contentContainerStyle={
+          Platform.OS === 'web' ? {
+            height: undefined
+        } : {
+            paddingBottom: bottom + 20
         }}
+  
         style={{
           backgroundColor: '#fff',
+          ...(Platform.OS === 'web' ? {
+            height: undefined,
+            overflow: 'visible' as const
+          } : {})
         }}
+        scrollEnabled={Platform.OS !== 'web'} //this makes sure no inner scroll for web
+  
 
      
       >
@@ -784,10 +797,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   viewMoreTitle: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 16,
+    marginBottom: 4,
     letterSpacing: -1,
+    color: 'gray',
   },
   topicItem: {
     flexDirection: 'row',
