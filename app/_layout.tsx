@@ -14,7 +14,7 @@ import { useAudio } from '@/contexts/AudioContext';
 import { StatusBar } from 'expo-status-bar';
 import { MiniPlayer } from '@/components/BottomSheet/MiniPlayer';
 import '../global.css';
-
+import {Appearance} from 'react-native';
 
 function AnimatedStack() {
   const segments = useSegments();
@@ -22,6 +22,8 @@ function AnimatedStack() {
   const { scale } = useRootScale();
   const { currentEpisode } = useAudio();
   const contentAnim = useRef(new Animated.Value(0)).current;
+
+  Appearance.setColorScheme('light');
 
   useEffect(() => {
     if (currentEpisode) {
@@ -111,7 +113,7 @@ export default function RootLayout() {
   return (
       <View style={{ flex: 1 }}>
         <StatusBar 
-          style={colorScheme === 'dark' ? 'light' : 'dark'} 
+          style={'dark'} 
           backgroundColor="transparent" 
           translucent={true} 
         />

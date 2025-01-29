@@ -64,7 +64,8 @@
                     "time_ago": "7 hours ago",
                     "is_live": false
                 }
-            ]
+            ],
+            "content": "Chinese AI startup DeepSeek has taken the US app market by storm, becoming the most downloaded free app and sending shockwaves through the tech sector. The company's sudden rise has sparked concerns among investors about US tech companies' competitive edge in artificial intelligence.\n\nDeepSeek's flagship app, which offers advanced AI capabilities including image generation and natural language processing, has garnered over 10 million downloads in just three days. The app's popularity has led to significant drops in the stock prices of major US tech companies, with some seeing declines of up to 8%.\n\nAnalysts point to DeepSeek's superior performance in certain AI tasks and its more permissive content policies as key factors driving its adoption. The company's R1 language model has demonstrated capabilities that some experts say exceed those of OpenAI's GPT-4.\n\nHowever, the app's rapid rise has also raised security concerns among US officials, who are scrutinizing its data collection practices and potential ties to Chinese authorities. DeepSeek has maintained that it operates independently and adheres to strict data privacy standards."
         },
         {
             "id": "2",
@@ -89,7 +90,8 @@
             "featured_image": "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-1000w,f_auto,q_auto:best/rockcms/2025-01/250124-Chiefs-Bills-aa-1256-8f6ff0.jpg",
             "card_type": "medium",
             "has_next": true,
-            "is_news_plus": true
+            "is_news_plus": true,
+            "content": "In a thrilling AFC Championship game that came down to the wire, the Kansas City Chiefs emerged victorious over the Buffalo Bills with a score of 32-29. The win secures the Chiefs' spot in Super Bowl LIX, where they'll face the Philadelphia Eagles.\n\nPatrick Mahomes led the Chiefs with 328 passing yards and three touchdowns, while Travis Kelce caught eight passes for 112 yards and two scores. The Bills' Josh Allen threw for 295 yards and ran for two touchdowns in the losing effort.\n\nThe game featured multiple lead changes and dramatic moments, including a crucial fourth-quarter drive by the Chiefs that consumed over seven minutes of clock time. Harrison Butker sealed the victory with a 45-yard field goal with just 22 seconds remaining.\n\nThis victory puts the Chiefs in position to become the first team in NFL history to win three consecutive Super Bowls. They'll face the Eagles in New Orleans on February 9th in what promises to be a historic matchup."
         },
         {
             "id": "2.5",
@@ -114,7 +116,8 @@
             "featured_image": "https://www.aljazeera.com/wp-content/uploads/2025/01/AFP__20250126__36W39WB__v1__HighRes__ComboUsColombiaDiplomacyImmigration-1737943446.jpg?resize=770%2C513&quality=80",
             "card_type": "medium",
             "has_next": true,
-            "is_news_plus": true
+            "is_news_plus": true,
+            "content": "The U.S. Embassy in Colombia has canceled hundreds of visa appointments following a diplomatic dispute between the two nations over deportation policies. The cancellations came after Colombian President Gustavo Petro threatened to reject U.S. deportation flights carrying Colombian nationals.\n\nThe dispute began when President Trump announced plans to increase deportation flights to Colombia as part of his broader immigration enforcement strategy. President Petro responded by threatening to refuse landing rights for these flights, citing concerns about the treatment of Colombian citizens in U.S. detention facilities.\n\nThe situation escalated when both countries threatened trade restrictions, potentially affecting billions of dollars in bilateral trade. The U.S. State Department described the visa cancellations as a 'temporary measure' while diplomatic channels work to resolve the situation.\n\nThe cancellations have affected both tourist and business visa appointments, causing significant disruption for Colombian citizens planning travel to the United States. Local business leaders have expressed concern about the impact on commercial relations between the two countries."
         },
     
         {
@@ -143,7 +146,8 @@
             "is_news_plus": true,
             "author": {
                 "name": "Ariel Zilber"
-            }
+            },
+            "content": "Microsoft co-founder Bill Gates has publicly acknowledged that his association with Jeffrey Epstein was a significant factor in his divorce from Melinda French Gates, calling it a 'foolish mistake' in a recent interview.\n\nGates revealed that his meetings with Epstein, which occurred several times between 2011 and 2019, were aimed at discussing philanthropic opportunities. However, he now admits that these interactions showed poor judgment and contributed to the breakdown of his 27-year marriage.\n\n'I made a mistake in judgment in thinking those discussions would go to global health,' Gates stated. 'That money never appeared. And I shouldn't have given him the credibility of being there.'\n\nMelinda French Gates had previously expressed her disapproval of the relationship, describing Epstein as 'evil personified' in a 2021 interview. The couple announced their divorce in May 2021, ending one of the world's most prominent philanthropic partnerships."
         },
         {
             "id": "6",
@@ -238,7 +242,8 @@
             "featured_image": "https://www.aljazeera.com/wp-content/uploads/2024/11/AFP__20241115__36MH9YH__v2__HighRes__BoxHeavyUsaTysonPaulWeighIn-1731720368.jpg?resize=570%2C380&quality=80",
             "card_type": "full",
             "has_next": true,
-            "is_news_plus": true
+            "is_news_plus": true,
+            "content": "Mike Tyson's upcoming fight with Jake Paul has transcended traditional boxing boundaries, becoming a cultural phenomenon that highlights Tyson's enduring impact on sports and entertainment.\n\nThe 57-year-old former heavyweight champion will face the 27-year-old YouTuber-turned-boxer on July 20 at AT&T Stadium in Arlington, Texas. The event has already generated unprecedented interest, with preliminary pay-per-view projections exceeding 2 million buys.\n\nDespite criticism from boxing purists who view the match as a publicity stunt, the fight has captured mainstream attention. Tyson's training videos have gone viral, showing glimpses of the power and speed that made him the youngest heavyweight champion in history.\n\nThe event will be streamed exclusively on Netflix, marking the streaming giant's first venture into live boxing. Industry experts suggest this could revolutionize how combat sports are broadcast and consumed."
         },
         {
             "id": "8",
@@ -265,7 +270,8 @@
             "featured_image": "https://s.yimg.com/ny/api/res/1.2/TMni9_X6IlPj3l5Hv8zcjQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTY0MA--/https://media.zenfs.com/en/ap.org/24c93ab1b4b4259db0817866f8c821a3",
             "card_type": "medium",
             "has_next": true,
-            "is_news_plus": false
+            "is_news_plus": false,
+            "content": "As Donald Trump returns to the White House, his inner circle reflects significant changes from his first term, with several family members taking reduced roles in his administration.\n\nNotably absent are Ivanka Trump and Jared Kushner, who served as senior advisers during his first term but have publicly stated their intention to remain in the private sector. The couple's decision marks a departure from the family-centric approach that characterized Trump's previous presidency.\n\nDonald Trump Jr. and Eric Trump will continue managing the Trump Organization, maintaining separation between the family business and the administration. Melania Trump has indicated she will take a more traditional role as First Lady, focusing on specific initiatives rather than day-to-day policy matters.\n\nThe restructured family dynamic reflects lessons learned from Trump's first term and responds to criticism about nepotism in his previous administration."
         },
         {
             "id": "9",
@@ -293,7 +299,8 @@
             "featured_image": "https://cdn.prod.website-files.com/66fd72ac6f0cd08e0277f262/67187f9e548681aef3643dbb_AS25%20Banners%20-%20728x485.png",
             "card_type": "medium",
             "has_next": true,
-            "is_news_plus": true
+            "is_news_plus": true,
+            "content": "The NBA is considering a major overhaul of its All-Star weekend format, potentially replacing the traditional All-Star Game with an innovative four-team tournament. The proposed change could take effect as early as the 2025-26 season.\n\nUnder the new format, 48 top players would be divided into four teams, competing in a single-elimination tournament with significant prize money at stake. Each game would be played with heightened competitive intensity, addressing long-standing criticism about the lack of defense and effort in traditional All-Star Games.\n\nThe tournament would feature 10-minute quarters and other rule modifications designed to increase pace and scoring. Teams would be selected through a combination of fan voting and a draft system similar to the current format.\n\nLeague officials believe this change could reinvigorate interest in the mid-season showcase, which has seen declining viewership in recent years."
         },
         {
             "id": "10",
@@ -320,7 +327,8 @@
             "featured_image": "https://fortune.com/img-assets/wp-content/uploads/2024/09/GettyImages-2154179524-e1726086410920.jpg",
             "card_type": "full",
             "has_next": true,
-            "is_news_plus": true
+            "is_news_plus": true,
+            "content": "Amazon's autonomous vehicle company Zoox has announced plans to launch its robotaxi service in Las Vegas by the end of 2024, marking a significant milestone in the commercialization of self-driving technology.\n\nThe company's purpose-built electric vehicles, which feature bidirectional driving capabilities and no steering wheel, have completed extensive testing on public roads. Initial service will be limited to specific routes in Las Vegas, with plans for gradual expansion to other cities.\n\nZoox's vehicles can accommodate four passengers and operate at speeds up to 75 mph. The company has emphasized its focus on safety, with each vehicle equipped with more than 100 safety innovations not found in conventional cars.\n\nThe launch represents a major step forward in Amazon's autonomous vehicle strategy and could position the company as a leader in the emerging robotaxi market, which is projected to reach $2.5 trillion by 2040."
         },
         {
             "id": "11",
@@ -347,7 +355,8 @@
             "featured_image": "https://s.yimg.com/ny/api/res/1.2/QgJzMWFSS9q9wIQ61vQnyg--/YXBwaWQ9aGlnaGxhbmRlcjt3PTI0MDA7aD0xNjAw/https://media.zenfs.com/en/people_218/aaed1f424e58b73c1a2dc6d6a400e8f2",
             "card_type": "medium",
             "has_next": false,
-            "is_news_plus": false
+            "is_news_plus": false,
+            "content": "Kansas City Chiefs tight end Travis Kelce has embraced his connection to Taylor Swift's fanbase, openly discussing his appreciation for her music and the positive impact she's had on NFL viewership.\n\nIn a recent podcast appearance, Kelce shared his favorite Swift songs and discussed attending multiple Eras Tour concerts. He praised Swift's songwriting abilities and performance skills, noting how her presence at Chiefs games has brought new fans to football.\n\n'The way she's brought her fanbase into the NFL world has been incredible to watch,' Kelce said. 'It's been fun seeing two different fan cultures come together.'\n\nThe NFL has reported significant increases in female viewership and merchandise sales since Swift began attending Chiefs games. Kelce's jersey sales have reportedly increased by over 400% since their relationship became public."
         }
     ]
 }

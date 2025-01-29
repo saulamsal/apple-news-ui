@@ -6,8 +6,8 @@
     <string>development</string>
     <key>com.apple.security.application-groups</key>
     <array>
-      <string>group.com.sportapp.anews-ui</string>
-      <string>group.com.sportapp.anews-ui</string>
+      <string>group.com.sportapp.anewsui</string>
+      <string>group.com.sportapp.anewsui</string>
     </array>
   </dict>
 </plist>

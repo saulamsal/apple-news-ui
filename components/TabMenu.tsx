@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, Pressable, StyleSheet } from 'react-native';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Ionicons } from '@expo/vector-icons';
+import { Platform } from 'react-native';
 
 interface Tab {
   id: string;
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderRadius: 8,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Platform.OS === 'web' ? '#F7F7F7' : '#FFFFFF',
     marginRight: 8,
     flexDirection: 'row',
     alignItems: 'center',

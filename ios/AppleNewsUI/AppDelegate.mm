@@ -24,7 +24,8 @@
 - (NSURL *)bundleURL
 {
 #if DEBUG
-  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@".expo/.virtual-metro-entry"];
+  // Using your local network IP so iPhone can connect
+  return [NSURL URLWithString:@"http://172.24.41.178:8081/.expo/.virtual-metro-entry.bundle?platform=ios&dev=true"];
 #else
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif

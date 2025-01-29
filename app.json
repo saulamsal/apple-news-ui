@@ -15,11 +15,11 @@
             "ios": {
               "appExtensions": [
                 {
-                  "bundleIdentifier": "com.sportapp.anews-ui.widget",
+                  "bundleIdentifier": "com.sportapp.anewsui.widget",
                   "targetName": "widget",
                   "entitlements": {
                     "com.apple.security.application-groups": [
-                      "group.com.sportapp.anews-ui"
+                      "group.com.sportapp.anewsui"
                     ]
                   }
                 }
@@ -37,15 +37,15 @@
     "ios": {
       "appleTeamId": "F7P5RH5CTP",
       "supportsTablet": true,
-      "bundleIdentifier": "com.sportapp.anews-ui",
+      "bundleIdentifier": "com.sportapp.anewsui",
       "deploymentTarget": "15.1",
       "infoPlist": {
         "NSSupportsLiveActivities": true
       },
       "entitlements": {
         "com.apple.security.application-groups": [
-          "group.com.sportapp.anews-ui",
-          "group.com.sportapp.anews-ui"
+          "group.com.sportapp.anewsui",
+          "group.com.sportapp.anewsui"
         ]
       }
     },
@@ -54,7 +54,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.sportapp.anews-ui"
+      "package": "com.sportapp.anewsui"
     },
     "web": {
       "bundler": "metro",

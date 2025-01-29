@@ -86,9 +86,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.sportapp.anews-ui'
+    namespace 'com.sportapp.anewsui'
     defaultConfig {
-        applicationId 'com.sportapp.anews-ui'
+        applicationId 'com.sportapp.anewsui'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

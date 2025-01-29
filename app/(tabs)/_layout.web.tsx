@@ -249,7 +249,7 @@ export default function WebLayout() {
             );
           })}
 
-          {!isCompact && <SocialButtons showTwitter />}
+          {/* {!isCompact && <SocialButtons showTwitter />} */}
 
         </View>
       </View>
@@ -258,6 +258,8 @@ export default function WebLayout() {
         <Stack
           screenOptions={{
             headerShown: false,
+            scrollBehavior: 'smooth-scroll',
+            initialRouteName: '/(tabs)/(index)',
           }}
         />
       </View>

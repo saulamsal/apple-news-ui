@@ -5,6 +5,7 @@ export default function DynamicLayout() {
     <Stack
       screenOptions={{
         headerShown: false,
+        scrollBehavior: 'smooth-scroll',
       }}
     >
    

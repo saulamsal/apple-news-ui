@@ -28,7 +28,7 @@
         <key>CFBundleURLSchemes</key>
         <array>
           <string>myapp</string>
-          <string>com.sportapp.anews-ui</string>
+          <string>com.sportapp.anewsui</string>
         </array>
       </dict>
     </array>

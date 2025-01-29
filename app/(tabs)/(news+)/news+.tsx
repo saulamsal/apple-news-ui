@@ -114,12 +114,8 @@ export default function NewsPlusScreen() {
                   <NewsHeaderLeftItem size="md" secondaryTitle="Discover" />
                   <View>
                     <Image 
-                      source={{ 
-                        uri: colorScheme === 'light' 
-                          ? 'https://i.imgur.com/EfImlCx.png' 
-                          : 'https://i.imgur.com/bMJtV6x.png' 
-                      }} 
-                      className="w-8 h-8"
+                      source={{uri: 'https://i.imgur.com/EfImlCx.png' }} 
+                      className="w-12 h-12"
                     />
                   </View>
                 </View>

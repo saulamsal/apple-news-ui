@@ -330,7 +330,10 @@ export const NewsItem = ({ item }: NewsItemProps) => {
      className={`mb-3 rounded-xl overflow-hidden mx-5 relative ${Platform.OS === 'web' ? 'bg-gray-100' : 'bg-white'}
      hover:bg-gray-200 transition-all duration-300
      `}>
-      <ContextMenu.Root>
+      <ContextMenu.Root 
+      style={{backgroundColor: Platform.OS === 'web' ? 'transparent': "white",
+      }}
+      >
         <ContextMenu.Trigger>
           <Link href={href} asChild>
             <Pressable className="flex-1">
@@ -354,6 +357,7 @@ export const NewsItem = ({ item }: NewsItemProps) => {
               mass: 0.9,
             }}
             onPress={() => router.push(href)}
+         
           >
             <StoryPreview />
           </ContextMenu.Auxiliary>
