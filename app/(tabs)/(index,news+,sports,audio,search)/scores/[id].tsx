@@ -390,13 +390,15 @@ export default function ScoreDetailsScreen() {
 
         ...(Platform.OS !== 'web' ? {
           position: 'absolute',
+          
          
         } : {
           backgroundColor: '#fff',
+          height: 55,
           
         }),
 
-        height: 55,
+
         // paddingHorizontal: 10,
       }}
 
@@ -438,7 +440,7 @@ export default function ScoreDetailsScreen() {
           Platform.OS === 'web' ? {
             height: undefined
         } : {
-            paddingBottom: bottom + 20
+            paddingBottom: insets.bottom + 20
         }}
   
         style={{
@@ -479,14 +481,14 @@ export default function ScoreDetailsScreen() {
           <View style={[styles.teamsContainer, { marginTop: insets.top + 20 }]}>
             <View style={styles.teamSection}>
               {/* <BlurView intensity={40} tint="light" style={styles.scoreGradient}> */}
-                <Text style={styles.scoreText}>{score.team1.score || ' '}</Text>
+                <Text style={[styles.scoreText, (score.team1.score || 0) <=  (score.team2.score || 0) && { opacity: 0.5 }]}>{score.team1.score || ' '}</Text>
               {/* </BlurView> */}
               <Image source={getImageSource(score.team1.logo)} style={styles.teamLogo} />
             </View>
 
             <View style={styles.teamSection}>
               {/* <BlurView intensity={40} tint="light" style={styles.scoreGradient}> */}
-                <Text style={styles.scoreText}>{score.team2.score || ' '}</Text>
+                <Text style={[styles.scoreText, (score.team2.score || 0) <=  (score.team1.score || 0) && { opacity: 0.5 }]}>{score.team2.score || ' '}</Text>
               {/* </BlurView> */}
               <Image source={getImageSource(score.team2.logo)} style={styles.teamLogo} />
             </View>
@@ -706,8 +708,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   teamLogo: {
-    width: 120,
-    height: 120,
+    width: 100,
+    height: 100,
     marginBottom: 40,
   },
   teamsText: {
@@ -731,6 +733,7 @@ const styles = StyleSheet.create({
     fontSize: 60,
     color: '#fff',
     letterSpacing: 2,
+    marginBottom: 10,
   },
   matchInfo: {
     alignItems: 'center',
