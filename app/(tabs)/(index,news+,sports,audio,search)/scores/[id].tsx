@@ -426,6 +426,10 @@ export default function ScoreDetailsScreen() {
         contentContainerStyle={{
           backgroundColor: '#fff',
         }}
+        style={{
+          backgroundColor: '#fff',
+        }}
+
      
       >
          <LinearGradient

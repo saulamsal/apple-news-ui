@@ -77,7 +77,7 @@ project-root/
 ## Features in Development
 
 - [ ] Android widget support
-- [ ] Background audio playback
+- [ ] Background audio lock controls
 - [ ] Push notifications
 - [ ] React Server Components integration
 - [ ] Enhanced Live Activities
