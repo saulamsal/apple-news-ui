@@ -225,7 +225,9 @@ export default function HomeScreen() {
             ListHeaderComponent={
               <View className="flex-1">
                 <View className="flex-row items-center justify-between mb-6 px-5">
-                  <NewsHeaderLeftItem size="md" />
+                  <NewsHeaderLeftItem size="md" 
+                  // secondaryTitle
+                   />
                   <View>
                     <Image 
                       source={{ uri: 'https://i.imgur.com/EfImlCx.png' }} 

@@ -272,7 +272,7 @@ export default function AudioScreen() {
         <meta name="keywords" content="apple news audio, news podcasts, audio stories, news narration" />
       </Head>
     )}  
-      <View className={`${Platform.OS !== 'web' ? 'bg-[#F2F2F7]' : 'bg-white'} px-4`} style={{ paddingTop: insets.top + 10, paddingBottom: insets.bottom + 40 }}>
+      <View className={`${Platform.OS !== 'web' ? 'bg-[#F2F2F7]' : 'bg-white'} `} style={{ paddingTop: insets.top + 10, paddingBottom: insets.bottom + 40 }}>
         {renderContent()}
       </View>
     </>

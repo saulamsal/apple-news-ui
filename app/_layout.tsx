@@ -14,7 +14,7 @@ import { useAudio } from '@/contexts/AudioContext';
 import { StatusBar } from 'expo-status-bar';
 import { MiniPlayer } from '@/components/BottomSheet/MiniPlayer';
 import '../global.css';
-import {Appearance} from 'react-native';
+import {Appearance} from '@/helper/appearance';
 
 function AnimatedStack() {
   const segments = useSegments();
@@ -23,7 +23,9 @@ function AnimatedStack() {
   const { currentEpisode } = useAudio();
   const contentAnim = useRef(new Animated.Value(0)).current;
 
+
   Appearance.setColorScheme('light');
+
 
   useEffect(() => {
     if (currentEpisode) {
