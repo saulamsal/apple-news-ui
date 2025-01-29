@@ -3,7 +3,7 @@ export default function SocialButtons() {
   return (
     <div className="flex flex-col gap-2 p-2 mt-4">
       <a
-        href="https://github.com/saul-atomrigs/apple-news-ui"
+        href="https://github.com/saulamsal/apple-news-ui"
         target="_blank"
         rel="noopener noreferrer"
         className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"

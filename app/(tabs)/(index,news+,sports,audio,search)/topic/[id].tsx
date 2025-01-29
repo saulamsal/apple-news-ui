@@ -198,6 +198,28 @@ export default function TopicScreen() {
                 // backgroundColor,
                 paddingBottom: 10
             }}
+
+            headerCenterStyle={{
+                width: 'auto',
+                minWidth: 'auto',
+                maxWidth: 'auto',
+              }}
+        
+              headerRightStyle={{ 
+                width: 'auto',
+                minWidth: 'auto',
+                maxWidth: 'auto',
+              }}
+        
+              headerLeftStyle={{
+                width: 'auto',
+                minWidth: 'auto',
+                maxWidth: 'auto',
+              }}
+        
+
+
+              
         >
         </Header>
     );
