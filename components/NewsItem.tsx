@@ -234,8 +234,9 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
 };
 
 const getRelativeTime = (timeString: string) => {
+  if(!timeString) return '';
   // If it's already in relative format, return as is
-  if (timeString.includes('ago') || timeString.includes('min') || timeString.includes('hr') || timeString.includes('day')) {
+  if (timeString?.includes('ago') || timeString?.includes('min') || timeString?.includes('hr') || timeString?.includes('day')) {
     return timeString;
   }
   

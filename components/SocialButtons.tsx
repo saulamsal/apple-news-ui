@@ -1,8 +1,7 @@
 'use dom';
-
 export default function SocialButtons() {
   return (
-    <div className="flex flex-col gap-2 p-2">
+    <div className="flex flex-col gap-2 p-2 mt-4">
       <a
         href="https://github.com/saul-atomrigs/apple-news-ui"
         target="_blank"
@@ -15,15 +14,13 @@ export default function SocialButtons() {
         Star on GitHub
       </a>
       <a
-        href="https://twitter.com/intent/follow?screen_name=saul_atomrigs"
+        href="https://twitter.com/intent/follow?screen_name=saul_sharma"
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-[#1DA1F2] rounded-lg hover:bg-[#1a8cd8] transition-colors"
+        className="flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-white bg-black rounded-lg hover:bg-gray-800 transition-colors"
       >
-        <svg height="16" viewBox="0 0 24 24" width="16" fill="currentColor">
-          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-        </svg>
-        Follow on X
+        <img src="https://i.imgur.com/6wdPxeP.jpeg" alt="Twitter" className="w-4 h-4 rounded-full" />
+        Follow Saúl on 𝕏
       </a>
     </div>
   );
