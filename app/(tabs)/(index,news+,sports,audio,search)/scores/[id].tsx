@@ -71,6 +71,14 @@ type Score = {
     time: string;
     period: string;
   };
+  period_scores: {
+    team1: number[];
+    team2: number[];
+  };
+  venue: {
+    name: string;
+    location: string;
+  };
 };
 
 const getImageSource = (path: string) => {
@@ -506,6 +514,96 @@ export default function ScoreDetailsScreen() {
             {score.competition.full_name} • {score.competition.matchweek}
           </Text>
 
+ 
+          {/* Period Scores */}
+          <View style={styles.periodScoresContainer}>
+            {score.sports_type === 'american_football' && (
+              <View style={styles.periodScoresTable}>
+                <View style={styles.periodScoresHeader}>
+                  <Text style={[styles.periodScoreCell, styles.headerCell]}>Team</Text>
+                  <Text style={[styles.periodScoreCell, styles.headerCell]}>Q1</Text>
+                  <Text style={[styles.periodScoreCell, styles.headerCell]}>Q2</Text>
+                  <Text style={[styles.periodScoreCell, styles.headerCell]}>Q3</Text>
+                  <Text style={[styles.periodScoreCell, styles.headerCell]}>Q4</Text>
+                  <Text style={[styles.periodScoreCell, styles.headerCell]}>T</Text>
+                </View>
+                <View style={styles.periodScoresRow}>
+                  <Text style={[styles.periodScoreCell, styles.teamCell]}>{score.team1.name}</Text>
+                  {score.period_scores.team1.map((periodScore, index) => (
+                    <Text key={index} style={styles.periodScoreCell}>{periodScore}</Text>
+                  ))}
+                  <Text style={styles.periodScoreCell}>{score.team1.score}</Text>
+                </View>
+                <View style={styles.periodScoresRow}>
+                  <Text style={[styles.periodScoreCell, styles.teamCell]}>{score.team2.name}</Text>
+                  {score.period_scores.team2.map((periodScore, index) => (
+                    <Text key={index} style={styles.periodScoreCell}>{periodScore}</Text>
+                  ))}
+                  <Text style={styles.periodScoreCell}>{score.team2.score}</Text>
+                </View>
+              </View>
+            )}
+
+            {score.sports_type === 'soccer' && (
+              <View style={styles.periodScoresTable}>
+                <View style={styles.periodScoresHeader}>
+                  <Text style={[styles.periodScoreCell, styles.headerCell]}>Team</Text>
+                  <Text style={[styles.periodScoreCell, styles.headerCell]}>1st</Text>
+                  <Text style={[styles.periodScoreCell, styles.headerCell]}>2nd</Text>
+                  <Text style={[styles.periodScoreCell, styles.headerCell]}>Total</Text>
+                </View>
+                <View style={styles.periodScoresRow}>
+                  <Text style={[styles.periodScoreCell, styles.teamCell]}>{score.team1.name}</Text>
+                  {score.period_scores.team1.map((periodScore, index) => (
+                    <Text key={index} style={styles.periodScoreCell}>{periodScore}</Text>
+                  ))}
+                  <Text style={styles.periodScoreCell}>{score.team1.score}</Text>
+                </View>
+                <View style={styles.periodScoresRow}>
+                  <Text style={[styles.periodScoreCell, styles.teamCell]}>{score.team2.name}</Text>
+                  {score.period_scores.team2.map((periodScore, index) => (
+                    <Text key={index} style={styles.periodScoreCell}>{periodScore}</Text>
+                  ))}
+                  <Text style={styles.periodScoreCell}>{score.team2.score}</Text>
+                </View>
+              </View>
+            )}
+
+            {score.sports_type === 'basketball' && (
+              <View style={styles.periodScoresTable}>
+                <View style={styles.periodScoresHeader}>
+                  <Text style={[styles.periodScoreCell, styles.headerCell]}>Team</Text>
+                  <Text style={[styles.periodScoreCell, styles.headerCell]}>Q1</Text>
+                  <Text style={[styles.periodScoreCell, styles.headerCell]}>Q2</Text>
+                  <Text style={[styles.periodScoreCell, styles.headerCell]}>Q3</Text>
+                  <Text style={[styles.periodScoreCell, styles.headerCell]}>Q4</Text>
+                  <Text style={[styles.periodScoreCell, styles.headerCell]}>T</Text>
+                </View>
+                <View style={styles.periodScoresRow}>
+                  <Text style={[styles.periodScoreCell, styles.teamCell]}>{score.team1.name}</Text>
+                  {score.period_scores.team1.map((periodScore, index) => (
+                    <Text key={index} style={styles.periodScoreCell}>{periodScore}</Text>
+                  ))}
+                  <Text style={styles.periodScoreCell}>{score.team1.score}</Text>
+                </View>
+                <View style={styles.periodScoresRow}>
+                  <Text style={[styles.periodScoreCell, styles.teamCell]}>{score.team2.name}</Text>
+                  {score.period_scores.team2.map((periodScore, index) => (
+                    <Text key={index} style={styles.periodScoreCell}>{periodScore}</Text>
+                  ))}
+                  <Text style={styles.periodScoreCell}>{score.team2.score}</Text>
+                </View>
+              </View>
+            )}
+
+            {/* Venue Information */}
+            <View style={styles.venueContainer}>
+              <Text style={styles.venueName}>{score.venue.name}</Text>
+              <Text style={styles.venueLocation}>{score.venue.location}</Text>
+            </View>
+          </View>
+
+
           {score.is_live && (
             <View className="px-4 w-full">
               <SlidingBanner
@@ -520,14 +618,6 @@ export default function ScoreDetailsScreen() {
               />
             </View>
           )}
-
-          {/* <View style={styles.adContainer}>
-            <Image
-              source={{ uri: 'https://photos5.appleinsider.com/gallery/36562-68112-Screen-Shot-2020-07-06-at-82042-PM-xl.jpg' }}
-              style={styles.appleTVad}
-              resizeMode="cover"
-            />
-          </View> */}
 
 
 
@@ -714,5 +804,46 @@ const styles = StyleSheet.create({
   topicName: {
     fontSize: 17,
     fontWeight: '500',
+  },
+  periodScoresContainer: {
+    width: '100%',
+    padding: 20,
+  },
+  periodScoresTable: {
+    width: '100%',
+    marginBottom: 20,
+  },
+  periodScoresHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    backgroundColor: '#E5E5EA',
+  },
+  periodScoreCell: {
+    flex: 1,
+    padding: 10,
+  },
+  headerCell: {
+    fontWeight: 'bold',
+    fontSize: 12,
+  },
+  teamCell: {
+    fontWeight: 'bold',
+  },
+  periodScoresRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  venueContainer: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  venueName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  venueLocation: {
+    fontSize: 14,
+    color: 'gray',
   },
 });

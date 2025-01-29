@@ -161,12 +161,12 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   container: {
-    paddingHorizontal: 16,
+    // paddingHorizontal: 16,
   },
   scoreCard: {
     paddingVertical: 12,
-    paddingHorizontal: 16,
-    width: 140,
+    paddingHorizontal: 14,
+    width: 145,
  
   },
   seeMoreCard: {

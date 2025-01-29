@@ -8,7 +8,15 @@
         "full_name": "Premier League",
         "matchweek": "Matchweek 21"
       },
-      "sports_type": "soccer", 
+      "sports_type": "soccer",
+      "venue": {
+        "name": "Old Trafford",
+        "location": "Manchester, England"
+      },
+      "period_scores": {
+        "team1": [0, 3],
+        "team2": [2, 0]
+      },
       "team1": {
         "id": "mun",
         "name": "MUN",
@@ -67,8 +75,8 @@
       "startTime": "2024-01-27T17:30:00Z",
       "status": "in_progress",
       "current_clock": {
-        "time": "32'",
-        "period": "1st Half"
+        "time": "32:00",
+        "period": "1H"
       },
       "is_finished": false,
       "is_live": true
@@ -82,6 +90,14 @@
         "matchweek": "Round of 16"
       },
       "sports_type": "soccer",
+      "venue": {
+        "name": "Stade Francis-Le Blé",
+        "location": "Brest, France"
+      },
+      "period_scores": {
+        "team1": [0, 0],
+        "team2": [0, 0]
+      },
       "team1": {
         "id": "brest",
         "name": "BRE",
@@ -116,6 +132,14 @@
         "matchweek": "Divisional Round"
       },
       "sports_type": "american_football",
+      "venue": {
+        "name": "GEHA Field at Arrowhead Stadium",
+        "location": "Kansas City, MO"
+      },
+      "period_scores": {
+        "team1": [7, 14, 0, 6],
+        "team2": [3, 14, 7, 0]
+      },
       "team1": {
         "id": "kc",
         "name": "KC",
@@ -152,6 +176,14 @@
         "matchweek": "Conference Championship"
       },
       "sports_type": "american_football",
+      "venue": {
+        "name": "Levi's Stadium",
+        "location": "Santa Clara, CA"
+      },
+      "period_scores": {
+        "team1": [7, 10, 10, 7],
+        "team2": [7, 17, 0, 7]
+      },
       "team1": {
         "id": "sf",
         "name": "SF",
@@ -194,8 +226,8 @@
       "startTime": "2024-01-28T23:30:00Z",
       "status": "upcoming",
       "current_clock": {
-        "time": "7:33",
-        "period": "4th Quarter"
+        "time": "07:33",
+        "period": "Q4"
       },
       "is_finished": false,
       "is_live": true
@@ -209,6 +241,14 @@
         "matchweek": "Regular Season"
       },
       "sports_type": "basketball",
+      "venue": {
+        "name": "TD Garden",
+        "location": "Boston, MA"
+      },
+      "period_scores": {
+        "team1": [28, 31, 29, 27],
+        "team2": [25, 28, 30, 25]
+      },
       "team1": {
         "id": "bos",
         "name": "BOS",
@@ -245,6 +285,14 @@
         "matchweek": "Regular Season"
       },
       "sports_type": "basketball",
+      "venue": {
+        "name": "Crypto.com Arena",
+        "location": "Los Angeles, CA"
+      },
+      "period_scores": {
+        "team1": [25, 32, 28, 27],
+        "team2": [30, 28, 35, 26]
+      },
       "team1": {
         "id": "lal",
         "name": "LAL",
@@ -292,8 +340,8 @@
       "startTime": "2024-01-27T03:30:00Z",
       "status": "upcoming",
       "current_clock": {
-        "time": "7:33",
-        "period": "4th Quarter"
+        "time": "07:33",
+        "period": "Q4"
       },
       "is_finished": false,
       "is_live": true
@@ -307,6 +355,14 @@
         "matchweek": 22
       },
       "sports_type": "soccer",
+      "venue": {
+        "name": "Spotify Camp Nou",
+        "location": "Barcelona, Spain"
+      },
+      "period_scores": {
+        "team1": [1, 1],
+        "team2": [0, 1]
+      },
       "team1": {
         "id": "bar",
         "name": "BAR",
@@ -370,6 +426,14 @@
         "matchweek": "Round 19"
       },
       "sports_type": "soccer",
+      "venue": {
+        "name": "Allianz Arena",
+        "location": "Munich, Germany"
+      },
+      "period_scores": {
+        "team1": [1, 1],
+        "team2": [1, 1]
+      },
       "team1": {
         "id": "bay",
         "name": "BAY",
@@ -427,8 +491,8 @@
       "startTime": "2024-01-27T17:30:00Z",
       "status": "upcoming",
       "current_clock": {
-        "time": "67'",
-        "period": "2nd Half"
+        "time": "67:00",
+        "period": "2H"
       },
       "is_finished": false,
       "is_live": true
