@@ -238,6 +238,7 @@ export default function WebLayout() {
                       title={entity.title}
                       logo={entity.logo}
                       icon={entity.icon}
+                      id={entity.id}
                       entity_type={entity.type}
                       minimal={true}
                       disable_name={isCompact}

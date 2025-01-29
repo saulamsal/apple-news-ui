@@ -5,6 +5,7 @@ import { Link, useRouter } from 'expo-router';
 import { useColorScheme } from '@/hooks/useColorScheme';
 
 export interface CategoryCardProps {
+  id: string;
   title: string;
   logo?: string;
   icon?: string;
@@ -15,6 +16,7 @@ export interface CategoryCardProps {
 }
 
 export const CategoryCard = ({ 
+  id,
   title, 
   logo, 
   icon,
@@ -27,16 +29,19 @@ export const CategoryCard = ({
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
-  const handlePress = () => {
-    if (entity_type === 'topic' && typeof title === 'string') {
-      router.push(`/topic/${title.toLowerCase()}`);
-    }
-  };
+  const href = `/topic/${id.toLowerCase()}` ;
+
+  // const handlePress = () => {
+  //   if (entity_type === 'topic' && typeof title === 'string') {
+  //     router.push(`/topic/${title.toLowerCase()}`);
+  //   }
+  // };
 
   return (
+    <Link href={href} asChild>
     <TouchableOpacity 
       className="flex-row items-center gap-2 px-2"
-      onPress={handlePress}
+      // onPress={handlePress}
       activeOpacity={0.7}
     >
       <View className="flex-row items-center gap-3">
@@ -63,5 +68,6 @@ export const CategoryCard = ({
         )}
       </View>
     </TouchableOpacity>
+    </Link>
   );
 };

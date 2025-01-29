@@ -142,6 +142,7 @@ export function SearchableDropdown() {
                     key={entity.id}
                     id={entity.id}
                     title={entity.title}
+                    id={entity.id}
                     icon={entity.icon}
                     entity_type={entity.entity_type}
                   />
@@ -155,6 +156,7 @@ export function SearchableDropdown() {
                     {getAllEntitiesForSection(section.id).map((entity: Entity) => (
                       <CategoryCard
                         key={entity.id}
+                        id={entity.id}
                         id={entity.id}
                         title={entity.title}
                         logo={entity.logo}

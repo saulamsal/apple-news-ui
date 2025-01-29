@@ -267,6 +267,7 @@ export function Sidebar() {
               {searchResults.map((entity) => (
                 <CategoryCard
                   key={entity.id}
+                  id={entity.id}
                   title={entity.title}
                   logo={entity.logo}
                   icon={entity.icon}
@@ -290,6 +291,7 @@ export function Sidebar() {
                     {getAllEntitiesForSection(section.id).map((entity: Entity) => (
                       <CategoryCard
                         key={entity.id}
+                        id={entity.id}
                         title={entity.title}
                         logo={entity.logo}
                         entity_type={entity.entity_type}
@@ -305,6 +307,7 @@ export function Sidebar() {
               {getAllCategories().map((entity: Entity) => (
                 <CategoryCard
                   key={entity.id}
+                  id={entity.id}
                   title={entity.title}
                   icon={entity.icon}
                   entity_type={entity.entity_type}

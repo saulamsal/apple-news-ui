@@ -230,6 +230,7 @@ export default function SearchScreen() {
                                 <View className="gap-3">
                                     {searchResults.map((entity) => (
                                         <CategoryCard
+                                        id={entity.id}
                                             key={entity.id}
                                             title={<HighlightedText text={entity.title} highlight={searchQuery} />}
                                             logo={entity.logo}
@@ -250,6 +251,7 @@ export default function SearchScreen() {
                             <View className="p-4 flex-col gap-4">
                                 {getAllCategories().map((entity: Entity) => (
                                     <CategoryCard
+                                    id={entity.id}
                                         key={entity.id}
                                         title={entity.title}
                                         icon={entity.icon}
@@ -263,6 +265,7 @@ export default function SearchScreen() {
                                     <View className="p-4 gap-3">
                                         {getAllEntitiesForSection(section.id).map((entity: Entity) => (
                                             <CategoryCard
+                                            id={entity.id}
                                                 key={entity.id}
                                                 title={entity.title}
                                                 logo={entity.logo}
