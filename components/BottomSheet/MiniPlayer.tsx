@@ -6,12 +6,17 @@ import { BlurView } from 'expo-blur';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useAudio } from '@/contexts/AudioContext';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { useWindowDimensions } from 'react-native';
 
 export function MiniPlayer({ onPress }: { onPress: () => void }) {
     const insets = useSafeAreaInsets();
     const colorScheme = useColorScheme();
     const { currentEpisode, isPlaying, togglePlayPause, seek, closePlayer } = useAudio();
     const slideAnim = useRef(new Animated.Value(100)).current;
+
+    const { width } = useWindowDimensions();
+
+    const isMobile = width < 768;
 
     useEffect(() => {
         if (currentEpisode) {
@@ -35,7 +40,16 @@ export function MiniPlayer({ onPress }: { onPress: () => void }) {
         <Animated.View style={{ transform: [{ translateY: slideAnim }] }}>
             <Pressable 
                 onPress={onPress} 
-                style={[styles.container, { bottom: 0 }]}
+                style={[styles.container, 
+                    { bottom: 0 },
+                    Platform.OS === "web" && { 
+                        bottom: isMobile ? 70 : 10,
+                        marginLeft: 10,
+                        marginRight: 10,
+                        borderRadius: 10,
+                        height: 68
+                     }
+                ]}
             >
          
                 <ImageBackground
