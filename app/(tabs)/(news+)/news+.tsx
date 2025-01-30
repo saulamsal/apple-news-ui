@@ -97,6 +97,7 @@ export default function NewsPlusScreen() {
             previewRowKey={'0'}
             previewOpenValue={-40}
             previewOpenDelay={3000}
+            bounces={false}
             keyExtractor={(item: any) => item.id}
      
                 style={

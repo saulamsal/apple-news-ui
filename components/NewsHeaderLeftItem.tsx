@@ -4,7 +4,7 @@ import { NewsLogo } from '@/components/NewsLogo';
 import { formatSimpleDate } from '@/utils/dateFormatters';
 
 interface NewsHeaderLeftItemProps {
-    size: 'sm' | 'md';
+    size: 'sm' | 'md ';
     secondaryTitle?: string;
     theme?: 'light' | 'dark';
     showNewsLogo?: boolean;
@@ -15,13 +15,13 @@ export const NewsHeaderLeftItem = ({ showNewsLogo = true, size, secondaryTitle, 
         <View style={styles.headerLeft}>
             {showNewsLogo && <NewsLogo
                 color={theme === 'light' ? '#000' : '#fff'}
-                size={size === 'sm' ? 24 : 36}
+                size={size === 'sm' ? 28 : 36}
             />}
             <Text
                 style={[
                     styles.secondaryTitleContainer,
                     {
-                        fontSize: size === 'sm' ? 16 : 28,
+                        fontSize: size === 'sm' ? 20 : 28,
                         paddingTop: size === 'sm' ? 0 : 4
                     }
                 ]}

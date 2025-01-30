@@ -28,6 +28,9 @@ import { NewsItem, NewsItemType } from '@/components/NewsItem';
 import { SwipeableNewsItem } from '@/components/SwipeableNewsItem';
 import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
 import { WelcomeModal } from '@/components/WelcomeModal';
+// import Constants from 'expo-constants';
+
+// import {  StatusBar } from 'react-native';
 
 interface Source {
   id: string;
@@ -194,7 +197,7 @@ export default function HomeScreen() {
         </Head>
       )}
         <Animated.View 
-          className="absolute -top-4 left-0 right-0 z-50 bg-gray-100 px-5"
+          className="absolute -top-8 left-0 right-0 z-50 bg-gray-100 px-5"
           style={[headerAnimatedStyle, { paddingTop: insets.top + 10, paddingBottom: 14 }]}
         >
           <NewsHeaderLeftItem size="sm" />
@@ -213,12 +216,14 @@ export default function HomeScreen() {
             previewOpenValue={-40}
             previewOpenDelay={3000}
             keyExtractor={(item: any) => item.id}
+            bounces={false}
             style={
+            
                
               Platform.OS === 'web' ? {
               height: undefined,
               overflow: 'visible'
-            } : undefined}
+            } :  {}}
             scrollEnabled={Platform.OS !== 'web'}
             contentContainerStyle={{
                 paddingTop: insets.top,

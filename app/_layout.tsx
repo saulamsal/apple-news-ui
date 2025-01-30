@@ -18,6 +18,7 @@ import '../global.css';
 import {Appearance} from '@/helper/appearance';
 import { interpolate, interpolateColor } from 'react-native-reanimated';
 
+
 function AnimatedStack() {
   const segments = useSegments();
   const router = useRouter();
@@ -117,12 +118,15 @@ function AnimatedStack() {
 export default function RootLayout() {
   const colorScheme = useColorScheme();
 
+
+  Appearance.setColorScheme('light');
+
   useEffect(() => {
     SplashScreen.hideAsync();
   }, []);
 
   return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1}}>
         <StatusBar 
           style={'dark'} 
           backgroundColor="transparent" 

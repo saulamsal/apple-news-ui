@@ -148,7 +148,7 @@ export default function SportsScreen() {
             <DropdownMenu.Trigger>
                 <BlurView
                     intensity={70}
-                    tint={colorScheme === 'dark' ? 'systemChromeMaterialDark' : 'systemChromeMaterialLight'}
+                    tint={ 'systemChromeMaterialLight'}
                     style={SportsStyles.headerIconRight}
                 >
                     <Ionicons name="menu" size={24} color={'#1E1E1F'} />
@@ -193,7 +193,7 @@ const filteredNews = news.filter((item) => item.topic.id === 'sports');
 
                 <AnimatedBlurView
                     intensity={70}
-                    tint={colorScheme === 'dark' ? 'systemChromeMaterialDark' : 'systemChromeMaterialLight'}
+                    tint={ 'systemChromeMaterialLight'}
                     style={[
                         styles.todayContainer,
                         {
@@ -259,11 +259,12 @@ const filteredNews = news.filter((item) => item.topic.id === 'sports');
 
                                 <View style={{ paddingHorizontal: 16, paddingTop:insets.top+ (Platform.OS === 'web' ? 24 : 0)   }}>
                                     <View style={styles.header}>
-                                        <NewsHeaderLeftItem size="md" showNewsLogo={false} secondaryTitle='Sports' />
+                                        <NewsHeaderLeftItem size="md" showNewsLogo={Platform.OS !== 'web'} secondaryTitle='Sports' />
                                         <View style={styles.headerRight}>
                                             {renderSportsMenu()}
                                         </View>
                                     </View>
+                                    
                                     <SportScoreCarousel scores={scores} />
 
                                     <NFLPortalButton />

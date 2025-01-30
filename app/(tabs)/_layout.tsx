@@ -36,6 +36,7 @@ export default function TabLayout() {
      
 
       <Tabs
+      
         screenOptions={{
           animation: 'shift',
           tabBarActiveTintColor: '#FA2D48',
@@ -47,7 +48,7 @@ export default function TabLayout() {
               android: 'rgba(255, 255, 255, 1)',
             }),
             borderTopWidth: StyleSheet.hairlineWidth,
-            borderTopColor: colorScheme === 'dark' ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)',
+            borderTopColor:  'rgba(0,0,0,0.2)',
             elevation: 0,
             marginBottom: currentSong ? 86 : 0,
           },

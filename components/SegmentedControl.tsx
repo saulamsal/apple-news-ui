@@ -9,7 +9,7 @@ interface Props {
 
 export const SegmentedControl = ({ values, selectedIndex, onChange }: Props) => {
     return (
-        <View className="h-9 bg-[#E3E2EA] rounded-lg p-1 flex-row">
+        <View className="h-9 bg-[#E3E2EA] rounded-lg p-1 flex-row mb-4">
             {values.map((value, index) => (
                 <TouchableOpacity
                     key={value}
