@@ -37,7 +37,19 @@ export function MiniPlayer({ onPress }: { onPress: () => void }) {
     const bottomPosition = Platform.OS === 'ios' ? insets.bottom + 57 : 60;
 
     return (
-        <Animated.View style={{ transform: [{ translateY: slideAnim }] }}>
+        <Animated.View 
+        style={[
+          { transform: [{ translateY: slideAnim }] },
+          Platform.OS === 'web' && { 
+            position: 'fixed', bottom: 0,
+            width: '100%',
+            maxWidth: 700,
+            marginHorizontal: 'auto',
+            left: 0,
+            right: 0,
+            zIndex: 1000,
+         }
+        ]}>
             <Pressable 
                 onPress={onPress} 
                 style={[styles.container, 

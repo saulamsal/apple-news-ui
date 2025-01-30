@@ -3,6 +3,8 @@ import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import Animated, { FadeInUp, FadeIn } from 'react-native-reanimated';
+import { useAudio } from '@/contexts/AudioContext';
+import { PodcastEpisode } from '@/types/podcast';
 
 interface EditorPickItemProps {
   episode: {
@@ -14,6 +16,11 @@ interface EditorPickItemProps {
       };
       artistName: string;
       durationInMilliseconds: number;
+      assetUrl: string;
+      releaseDateTime: string;
+      description?: {
+        standard: string;
+      };
     };
   };
 }
@@ -21,9 +28,36 @@ interface EditorPickItemProps {
 const EditorPickItem = ({ episode, index }: EditorPickItemProps & { index: number }) => {
   const router = useRouter();
   const colorScheme = useColorScheme();
+  const { playEpisode, currentEpisode } = useAudio();
 
   const imageUrl = episode.attributes.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || 'https://via.placeholder.com/300';
   const durationInMinutes = Math.floor(episode.attributes.durationInMilliseconds / 60000);
+
+  const handlePress = () => {
+    if (playEpisode) {
+      const streamUrl = episode.attributes?.assetUrl;
+      
+      if (!streamUrl) {
+        console.error('No stream URL found for episode:', episode.id);
+        return;
+      }
+
+      const podcastEpisode: PodcastEpisode = {
+        id: episode.id,
+        title: episode.attributes.name,
+        streamUrl: streamUrl as string,
+        artwork: { url: imageUrl },
+        showTitle: episode.attributes.artistName,
+        duration: episode.attributes.durationInMilliseconds,
+        releaseDate: episode.attributes.releaseDateTime,
+        summary: episode.attributes.description?.standard
+      };
+
+      playEpisode(podcastEpisode);
+    }
+  };
+
+  const isCurrentlyPlaying = currentEpisode?.id === episode.id;
 
   return (
     <Animated.View 
@@ -31,7 +65,7 @@ const EditorPickItem = ({ episode, index }: EditorPickItemProps & { index: numbe
     >
       <TouchableOpacity 
         className="w-[300px] ml-4"
-        onPress={() => router.push(`/audio/${episode.id}`)}
+        onPress={handlePress}
       >
         <Image 
           source={{ uri: imageUrl }}
@@ -40,7 +74,7 @@ const EditorPickItem = ({ episode, index }: EditorPickItemProps & { index: numbe
         <View className="mt-2">
           <Text 
             className="text-xl font-bold" 
-            style={{ color: '#000' }}
+            style={{ color: isCurrentlyPlaying ? '#007AFF' : '#000' }}
             numberOfLines={2}
           >
             {episode.attributes.name}
