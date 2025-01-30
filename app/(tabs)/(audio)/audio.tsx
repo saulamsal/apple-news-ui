@@ -184,12 +184,6 @@ export default function AudioScreen() {
         </Head>
       )}
 
-{/* 
-<RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={onRefresh}
-            tintColor='#000'
-          /> */}
 
       <FlatList
         data={remainingEpisodes}
@@ -197,10 +191,15 @@ export default function AudioScreen() {
         keyExtractor={(item) => item.id}
 
 
-        // refreshControl={
-         
-         
-        // }
+        refreshControl={
+          <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={onRefresh}
+            tintColor='#000'
+            progressViewOffset={insets.top}
+          />
+          
+        }
         progressViewOffset={200}
 
         // contentContainerStyle={Platform.OS === 'web' ? {
@@ -242,13 +241,12 @@ export default function AudioScreen() {
                   disabled={isLoading}
                 >
                   {isLoading ? (
-                    <ActivityIndicator size="small" color="red" />
+                    <ActivityIndicator size="small" color="#fff" />
                   ) : isPlaying ? (
                     <AudioVisualizer isPlaying={true} />
                   ) : (
                     <Ionicons name="headset" size={14} color={'#fff'} />
                   )}
-                  
                   <Text style={styles.headerRightText}>
                     {isLoading ? 'Loading...' : currentEpisode ? (isPlaying ? 'Playing' : 'Paused') : 'Play'}
                   </Text>
@@ -267,9 +265,9 @@ export default function AudioScreen() {
                   animationTimingFunction: 'easeOut',
                 } as any]}
               >
-                <Text style={{ fontSize: 24, color: '#000' }}>
+                <Animated.Text style={{ fontSize: 22, marginTop: 10, color: '#FD325A' }}>
                   Checking new podcasts...
-                </Text>
+                </Animated.Text>
               </Animated.View>
             )}
 
