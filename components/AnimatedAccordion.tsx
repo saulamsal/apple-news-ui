@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Pressable, LayoutChangeEvent } from 'react-native';
+import { StyleSheet, Text, View, Pressable, LayoutChangeEvent, Platform } from 'react-native';
 import Animated, {
     useAnimatedStyle,
     withTiming,
@@ -37,7 +37,7 @@ export function AnimatedAccordion({ title, children }: Props) {
     };
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white' }]}>
             <Pressable onPress={() => setIsOpen(!isOpen)} style={styles.header}>
                 <Text style={styles.title}>{title}</Text>
                 <Animated.View style={iconStyle}>
@@ -56,7 +56,7 @@ export function AnimatedAccordion({ title, children }: Props) {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
+        // backgroundColor: '#fff',
         // borderTopWidth: StyleSheet.hairlineWidth,
         // borderBottomWidth: StyleSheet.hairlineWidth,
         // borderColor: '#E5E5EA',
@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '600',
         color: '#8D8C91',
+
     },
     contentContainer: {
         overflow: 'hidden',

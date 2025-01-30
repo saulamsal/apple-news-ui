@@ -25,7 +25,7 @@
 {
 #if DEBUG
   // Using your local network IP so iPhone can connect
-  return [NSURL URLWithString:@"http://172.24.41.178:8081/.expo/.virtual-metro-entry.bundle?platform=ios&dev=true"];
+  return [NSURL URLWithString:@"http://192.168.1.112:8081/.expo/.virtual-metro-entry.bundle?platform=ios&dev=true"];
 #else
   return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 #endif

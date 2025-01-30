@@ -34,19 +34,19 @@ interface HighlightedTextProps {
 
 const HighlightedText = ({ text, highlight }: HighlightedTextProps) => {
     if (!highlight.trim()) return text;
-    
+
     const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
-    
-    return parts.map((part, i) => 
-        part.toLowerCase() === highlight.toLowerCase() ? 
+
+    return parts.map((part, i) =>
+        part.toLowerCase() === highlight.toLowerCase() ?
             `**${part}**` : part
     ).join('');
 };
 
-const FadingView = ({ opacity, children, style }: { 
-    opacity: SharedValue<number>, 
+const FadingView = ({ opacity, children, style }: {
+    opacity: SharedValue<number>,
     children?: React.ReactNode,
-    style?: any 
+    style?: any
 }) => (
     <Animated.View style={[{ opacity }, style]}>
         {children}
@@ -73,7 +73,7 @@ const SearchComponent = React.memo(({ value, onChangeText }: SearchComponentProp
                 value={value}
                 onChangeText={onChangeText}
                 autoCapitalize="none"
-                
+
             />
             {value ? (
                 <TouchableOpacity onPress={handleClear}>
@@ -95,12 +95,12 @@ export default function SearchScreen() {
         const query = searchQuery.toLowerCase();
         const results: Entity[] = [];
         const addedIds = new Set<string>();
-        
+
         Object.values(entities).forEach((entity: any) => {
             const matchesTitle = entity.title?.toLowerCase().includes(query);
             const matchesDescription = entity.description?.toLowerCase().includes(query);
             const matchesType = entity.type?.toLowerCase().includes(query);
-            
+
             if ((matchesTitle || matchesDescription || matchesType) && !addedIds.has(entity.id)) {
                 results.push(entity);
                 addedIds.add(entity.id);
@@ -122,9 +122,9 @@ export default function SearchScreen() {
 
     const HeaderSurface = ({ showNavBar }: { showNavBar: SharedValue<number> }) => (
         <FadingView opacity={showNavBar} style={StyleSheet.absoluteFill}>
-            <BlurView 
-                style={StyleSheet.absoluteFill} 
-                intensity={80} 
+            <BlurView
+                style={StyleSheet.absoluteFill}
+                intensity={80}
                 tint="light"
             />
         </FadingView>
@@ -151,28 +151,34 @@ export default function SearchScreen() {
 
             headerStyle={{
             }}
-        
-            
-            headerCenterStyle={{
-                width: 'auto',
-                minWidth: 'auto',
-                maxWidth: 'auto',
-              }}
-        
-              headerRightStyle={{ 
-                width: 'auto',
-                minWidth: 'auto',
-                maxWidth: 'auto',
-              }}
-        
-              headerLeftStyle={{
-                width: 'auto',
-                minWidth: 'auto',
-                maxWidth: 'auto',
-              }}
-        
 
-              
+
+            headerCenterStyle={{
+                ...(Platform.OS === 'web' ? {
+                    width: 'auto',
+                    minWidth: 'auto', 
+                    maxWidth: 'auto',
+                } : {})
+            }}
+
+            headerRightStyle={{
+                ...(Platform.OS === 'web' ? {
+                    width: 'auto',
+                    minWidth: 'auto',
+                    maxWidth: 'auto',
+                } : {})
+            }}
+
+            headerLeftStyle={{
+                ...(Platform.OS === 'web' ? {
+                    width: 'auto',
+                    minWidth: 'auto',
+                    maxWidth: 'auto',
+                } : {})
+            }}
+
+
+
 
         />
     );
@@ -180,7 +186,7 @@ export default function SearchScreen() {
     const LargeHeaderComponent = () => {
         const insets = useSafeAreaInsets();
         return (
-            <View className={`px-4 pt-2 pb-3 bg-white gap-3`} style={{ marginTop: -insets.top }}>
+            <View className={`px-4 pt-2 pb-3  gap-3 ${Platform.OS !== 'web' ? '#F2F2F7' : 'white'}`} style={{ marginTop: -insets.top }}>
                 <View className="flex-row justify-between items-start">
                     <NewsHeaderLeftItem size={'md'} secondaryTitle='Following' />
                 </View>
@@ -191,109 +197,110 @@ export default function SearchScreen() {
 
     return (
         <>
-        { Platform.OS === 'web' && (
-            <Head>
-                <title>Apple News Search - Find News & Topics</title>
-                <meta name="description" content="Search through millions of articles, topics, and trusted sources to find the news that matters to you." />
-                <meta name="keywords" content="apple news search, news search, article search, topic search" />
-            </Head>
+            {Platform.OS === 'web' && (
+                <Head>
+                    <title>Apple News Search - Find News & Topics</title>
+                    <meta name="description" content="Search through millions of articles, topics, and trusted sources to find the news that matters to you." />
+                    <meta name="keywords" content="apple news search, news search, article search, topic search" />
+                </Head>
             )}
 
-                <ScrollViewWithHeaders
-                    className="flex-1 bg-white"
-                    stickyHeaderIndices={[0]}
-                    maintainVisibleContentPosition={{
-                        minIndexForVisible: 0,
-                        autoscrollToTopThreshold: 0
-                    }}
+            <ScrollViewWithHeaders
+                className="flex-1 bg-white"
+                stickyHeaderIndices={[0]}
+                maintainVisibleContentPosition={{
+                    minIndexForVisible: 0,
+                    autoscrollToTopThreshold: 0
+                }}
 
-                    style={
-                        {
-                            backgroundColor:  'white',
-                            ...(Platform.OS === 'web' ? {
-                                height: undefined,
-                                overflow: 'visible'
-                              } : {})
-                        }
+                style={
+                    {
+                        backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white',
+                        ...(Platform.OS === 'web' ? {
+                            height: undefined,
+                            overflow: 'visible'
+                        } : {})
                     }
-                      scrollEnabled={Platform.OS !== 'web'}
-                      contentContainerStyle={{
-                          paddingTop: insets.top,
-                          paddingBottom: insets.bottom + 60,
-                          backgroundColor:'white',
-                          ...(Platform.OS === 'web' ? {
-                              height: undefined
-                          } : {})
-                      }}
-                      
-                      removeClippedSubviews={false}
-                    LargeHeaderComponent={LargeHeaderComponent}
-                    absoluteHeader={true}
-                    HeaderComponent={HeaderComponent}
-                    headerFadeInThreshold={0.5}
-                    disableLargeHeaderFadeAnim={false}
-                    largeHeaderContainerStyle={{ paddingTop: insets.top + 4 }}
-                >
-                    
-                    {searchQuery ? (
-                        <View className="p-4">
-                            {searchResults.length > 0 ? (
-                                <View className="gap-3">
-                                    {searchResults.map((entity) => (
-                                        <CategoryCard
-                                        id={entity.id}
-                                            key={entity.id}
-                                            title={<HighlightedText text={entity.title} highlight={searchQuery} />}
-                                            logo={entity.logo}
-                                            icon={entity.icon}
-                                            entity_type={entity.entity_type}
-                                            description={entity.description && (
-                                                <HighlightedText text={entity.description} highlight={searchQuery} />
-                                            )}
-                                        />
-                                    ))}
-                                </View>
-                            ) : (
-                                <Text className="text-center text-gray-500">No results found</Text>
-                            )}
-                        </View>
-                    ) : (
-                        <>
-                            <View className="p-4 flex-col gap-4">
-                                {getAllCategories().map((entity: Entity) => (
+                }
+                scrollEnabled={Platform.OS !== 'web'}
+                contentContainerStyle={{
+                    paddingTop: insets.top,
+                    paddingBottom: insets.bottom + 60,
+                    backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white',
+                    ...(Platform.OS === 'web' ? {
+                        height: undefined
+                    } : {})
+                }}
+
+                removeClippedSubviews={false}
+                LargeHeaderComponent={LargeHeaderComponent}
+                absoluteHeader={true}
+                HeaderComponent={HeaderComponent}
+                headerFadeInThreshold={0.5}
+                disableLargeHeaderFadeAnim={false}
+                largeHeaderContainerStyle={{ paddingTop: insets.top + 4 }}
+            >
+
+                {searchQuery ? (
+                    <View className="p-4 ">
+                        {searchResults.length > 0 ? (
+                            <View className="gap-3">
+                                {searchResults.map((entity) => (
                                     <CategoryCard
-                                    id={entity.id}
+                                        id={entity.id}
                                         key={entity.id}
-                                        title={entity.title}
+                                        title={<HighlightedText text={entity.title} highlight={searchQuery} />}
+                                        logo={entity.logo}
                                         icon={entity.icon}
                                         entity_type={entity.entity_type}
+                                        description={entity.description && (
+                                            <HighlightedText text={entity.description} highlight={searchQuery} />
+                                        )}
                                     />
                                 ))}
                             </View>
-
-                            {searchEntities.sections.map((section) => (
-                                <AnimatedAccordion key={section.id} title={section.title}>
-                                    <View className="p-4 gap-3">
-                                        {getAllEntitiesForSection(section.id).map((entity: Entity) => (
-                                            <CategoryCard
-                                            id={entity.id}
-                                                key={entity.id}
-                                                title={entity.title}
-                                                logo={entity.logo}
-                                                entity_type={entity.entity_type}
-                                            />
-                                        ))}
-                                    </View>
-                                </AnimatedAccordion>
+                        ) : (
+                            <Text className="text-center text-gray-500">No results found</Text>
+                        )}
+                    </View>
+                ) : (
+                    <>
+                        <View className="p-4 flex-col gap-4 ">
+                            {getAllCategories().map((entity: Entity) => (
+                                <CategoryCard
+                                    id={entity.id}
+                                    iconColor={"#FA2E49"}
+                                    key={entity.id}
+                                    title={entity.title}
+                                    icon={entity.icon}
+                                    entity_type={entity.entity_type}
+                                />
                             ))}
-                        </>
-                    )}
+                        </View>
+
+                        {searchEntities.sections.map((section) => (
+                            <AnimatedAccordion key={section.id} title={section.title}>
+                                <View className="p-4 gap-4">
+                                    {getAllEntitiesForSection(section.id).map((entity: Entity) => (
+                                        <CategoryCard
+                                            id={entity.id}
+                                            key={entity.id}
+                                            title={entity.title}
+                                            logo={entity.logo}
+                                            entity_type={entity.entity_type}
+                                        />
+                                    ))}
+                                </View>
+                            </AnimatedAccordion>
+                        ))}
+                    </>
+                )}
 
                 {/* <Link href="/settings" className="p-4 mb-10">
                     <Text className="text-gray-500 text-center">Settings</Text>
                 </Link> */}
-                </ScrollViewWithHeaders>
-            </>
-      
+            </ScrollViewWithHeaders>
+        </>
+
     );
 } 

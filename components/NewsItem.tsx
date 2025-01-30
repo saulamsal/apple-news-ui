@@ -150,7 +150,7 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
             {item.title}
           </Animated.Text>
 
-          {item.description && <Text className="text-base text-gray-500 mt-2 tracking-tighter ">{item.description}</Text>}
+          {(item.description && Platform.OS === 'web') && <Text className="text-base text-gray-500 mt-2 tracking-tighter ">{item.description}</Text>}
 
           {item.related_news && item.related_news.length > 0 && (
             <View className="mt-4">
@@ -171,7 +171,7 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
                       </View>
                     )} */}
                   </View>
-                  <Text className="text-base font-semibold mb-1 -tracking-[0.5px]">{news.title}</Text>
+                  <Text className="text-lg font-semibold mb-1 -tracking-[0.5px]">{news.title}</Text>
                 </Pressable>
               ))}
             </View>
@@ -199,7 +199,7 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
 
 
 
-      <View className="flex-1 p-4 pr-[120px] -mt-4 pt-2  overflow-hidden">
+      <View className="flex-1 p-4 -mt-4 pt-2  overflow-hidden">
      
 
 
@@ -219,15 +219,21 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
   />
 </View>
   
+<View className="flex-row justify-between w-full">
+  <View className="flex-1 pr-4">
+    <Text className="text-xl  font-bold -tracking-[0.8px]">
+      {item.title}
+    </Text>
+  </View>
 
-        <Text className="text-lg leading-[22px] font-bold -tracking-[0.8px]">
-          {item.title}
-        </Text>
-        <Image 
-          source={{ uri: item.featured_image }} 
-          className="w-[100px] h-[100px] rounded-lg absolute right-4 top-4"
-          resizeMode="cover"
-        />
+  <View className="w-[100px] h-[100px] flex-shrink-0">
+    <Image 
+      source={{ uri: item.featured_image }} 
+      className="w-full h-full rounded-lg"
+      resizeMode="cover"
+    />
+  </View>
+</View>
       </View>
     </View>
   );
@@ -525,7 +531,7 @@ const NewsItemActions = ({ item }: { item: NewsItemType }) => {
   );
   
   return (
-    <View className="px-2 flex-row items-center justify-between">
+    <View className="px-2 flex-row items-center justify-between -mt-3">
       <View className="flex-row items-center justify-between mt-2 mb-4 ml-2">
         <Text className="text-xs text-gray-500">
           {getRelativeTime(item.created_at)}{item.author?.name ? ` · ${item.author.name}` : ''}
@@ -533,17 +539,17 @@ const NewsItemActions = ({ item }: { item: NewsItemType }) => {
  
       </View>
 
-      <View className=" flex-row items-center justify-between gap-2">
+      <View className=" flex-row items-center justify-between gap-3">
 
       {item.card_type === 'full' &&  item.related_news && item.related_news.length > 0 && item.show_topic && (
           <Pressable 
-            className="bg-[#ffffff] px-4 py-1 rounded-2xl " 
+            className="bg-[#f7f7f7] px-4 py-1.5 rounded-2xl " 
             onPress={(e) => {
               e.stopPropagation();
             }}
           >
             <Text className="text-xs text-black -tracking-[0.3px] font-bold  ">
-              More on {item.topic.name}
+              More {item.topic.name} Coverage
             </Text>
           </Pressable>
         )}

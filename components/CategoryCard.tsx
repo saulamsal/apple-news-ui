@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Link, useRouter } from 'expo-router';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -13,6 +13,7 @@ export interface CategoryCardProps {
   description?: string;
   minimal?: boolean;
   disable_name?: boolean;
+  iconColor?: string;
 }
 
 export const CategoryCard = ({ 
@@ -22,6 +23,7 @@ export const CategoryCard = ({
   icon,
   entity_type,
   description, 
+  iconColor ,
   minimal = false,
   disable_name = false
 }: CategoryCardProps) => {
@@ -30,6 +32,8 @@ export const CategoryCard = ({
   const isDark = colorScheme === 'dark';
 
   const href = `/topic/${id.toLowerCase()}` ;
+  const { width } = useWindowDimensions()
+  const isMobile = width < 768;
 
   // const handlePress = () => {
   //   if (entity_type === 'topic' && typeof title === 'string') {
@@ -48,12 +52,12 @@ export const CategoryCard = ({
         {logo ? (
           <Image source={{ uri: logo }} className={minimal ? "w-5 h-5 rounded-[16px]" : "w-7 h-7 rounded-[20px]"} />
         ) : icon ? (
-          <Ionicons name={icon as any} size={minimal ? 20 : 24} color="#666" />
+          <Ionicons name={icon as any} size={minimal ? 20 : 24} color={iconColor ? iconColor : '#666'} />
         ) : null}
         {!disable_name && (
           <View>
             <Text 
-              className={minimal ? "text-sm font-medium" : "text-base font-medium"}
+              className={minimal ? "text-sm font-medium" : isMobile ? "text-xl" : "text-base "}
               style={{ color: isDark ? '#FFFFFF' : '#000000' }}
               numberOfLines={1}
             >
