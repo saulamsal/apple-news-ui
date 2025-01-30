@@ -114,9 +114,11 @@ export default function ContentScreen() {
 
 
   if(Platform.OS === 'web') {
+           window?.scrollTo({ top: 0, behavior: 'smooth' });
     return  <ContentView content={currentContent} />;
   }
 
+  
 
   return (
     <TabView

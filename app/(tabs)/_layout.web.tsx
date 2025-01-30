@@ -71,7 +71,8 @@ function SidebarItem({
     <Pressable
       onPress={
         () => {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          
+          window?.scrollTo({ top: 0, behavior: 'smooth' });
 
           router.push(href as any)
          
@@ -194,19 +195,20 @@ export default function WebLayout() {
     );
   }
 
+  //TODO; add scroll y auto to enable sticky
   return (
-    <View className="flex-row relative left-0 right-0 bg-white justify-center overflow-y-auto">
+    <View className="flex-row left-0 right-0 bg-white justify-center relative">
       <View className={`${isCompact ? 'w-[72px]' : ''} items-end sticky top-0 h-screen border-r border-gray-500`}
         style={{ borderRightColor: borderColor }}>
-        <View className={`sticky ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full`}>
+
+
+<View className={`sticky ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full`}>
+        <View className={`fixed ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full`}>
           <View className="mb-8 pl-3 pt-3">
             <View className="flex-row items-center gap-[2px] mt-2">
               <NewsLogo size={isCompact ? 32 : 40} forceShow={true} />
             </View>
           </View>
-
-
-
 
 
           <View className="">
@@ -270,7 +272,7 @@ export default function WebLayout() {
           </View>
 
         </View>
-
+</View>
 
         
       </View>
@@ -289,11 +291,14 @@ export default function WebLayout() {
       
 
       {showSidebar && (
-        <View className="w-[350px] border-l sticky top-0"
+        <View className="w-[350px] sticky top-0"
+          style={{ borderLeftColor: borderColor }}>
+                   <View className="w-[350px] border-l fixed top-0 "
           style={{ borderLeftColor: borderColor }}>
           <View className="p-4">
             <Sidebar />
           </View>
+        </View>
         </View>
       )}
 

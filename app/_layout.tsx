@@ -86,7 +86,8 @@ function AnimatedStack() {
             backgroundColor: '#fff'
            },
            (Platform.OS === 'web') && {
-            overflow: 'unset!important'
+            overflow: 'unset!important', 
+            position: 'relative'
            }
         ]}  
       >
