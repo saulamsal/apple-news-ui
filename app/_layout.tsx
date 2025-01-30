@@ -81,8 +81,14 @@ function AnimatedStack() {
         style={[
           styles.stackContainer,
           animatedStyle,
-          !isIOS && { backgroundColor: '#fff' }
-        ]}
+
+          !isIOS && { 
+            backgroundColor: '#fff'
+           },
+           (Platform.OS === 'web') && {
+            overflow: 'unset!important'
+           }
+        ]}  
       >
         <Stack screenOptions={{headerShown: false}}>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />

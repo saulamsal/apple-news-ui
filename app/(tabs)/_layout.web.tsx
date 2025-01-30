@@ -14,6 +14,8 @@ import { NewsLogo } from "@/components/NewsLogo";
 import SocialButtons from '@/components/SocialButtons';
 import { Image } from 'expo-image';
 
+import '../../global.css';
+
 type Entity = typeof entities[keyof typeof entities];
 
 type AppRoutes =
@@ -67,7 +69,14 @@ function SidebarItem({
 
   return (
     <Pressable
-      onPress={() => router.push(href as any)}
+      onPress={
+        () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+
+          router.push(href as any)
+         
+        }
+      }
       className={`flex flex-row items-center p-2 rounded-lg gap-3 mb-0.5 
         hover:bg-gray-200 transition-all duration-200  ${compact ? 'justify-center' : 'pl-2 pr-6 mr-8'
         } ${isActive ? 'bg-[#e6e6e7]' : ''}`}
@@ -102,7 +111,7 @@ export default function WebLayout() {
 
   if (isMobile) {
     return (
-      <View className="flex-1 overflow-scroll">
+      <View className="flex-1">
         <Stack
           screenOptions={{
             headerShown: false,
@@ -186,7 +195,7 @@ export default function WebLayout() {
   }
 
   return (
-    <View className="flex-row relative left-0 right-0 min-h-full h-screen overflow-y-auto bg-white justify-center">
+    <View className="flex-row relative left-0 right-0 bg-white justify-center overflow-y-auto">
       <View className={`${isCompact ? 'w-[72px]' : ''} items-end sticky top-0 h-screen border-r border-gray-500`}
         style={{ borderRightColor: borderColor }}>
         <View className={`sticky ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full`}>

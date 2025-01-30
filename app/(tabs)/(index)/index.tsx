@@ -225,7 +225,9 @@ export default function HomeScreen() {
                 paddingBottom: insets.bottom + 60,
                 backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white',
                 ...(Platform.OS === 'web' ? {
-                    height: undefined
+                    height: undefined,
+                    flex: 'unset!important',
+                    overflow: 'unset!important',
                 } : {})
             }}
             ListHeaderComponent={
