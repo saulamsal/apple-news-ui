@@ -1,4 +1,4 @@
-'use client';
+'use dom';
 
 const AnimatedButton = ({ href, children, animate = true }: { href: string; children: React.ReactNode; animate?: boolean }) => (
   <a href={href} target="_blank" rel="noopener noreferrer" className="animated-button">
