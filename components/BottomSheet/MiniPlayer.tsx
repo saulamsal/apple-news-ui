@@ -1,4 +1,4 @@
-import { StyleSheet, Pressable, Image, Platform, ImageBackground, View, Text, Animated, Dimensions } from 'react-native';
+import { StyleSheet, Pressable, Image, Platform, ImageBackground, View, Text, Animated, Dimensions, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useState, useEffect, useRef } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -85,7 +85,7 @@ function MiniPlayerContent({
 }) {
     const colorScheme = useColorScheme();
     const scrollAnim = useRef(new Animated.Value(0)).current;
-    const { seek } = useAudio();
+    const { seek, isLoading } = useAudio();
     const { width } = Dimensions.get('window');
     
     useEffect(() => {
@@ -111,7 +111,6 @@ function MiniPlayerContent({
     return (
         <View style={styles.miniPlayerContent}>
             <View style={styles.leftSection}>
-
                 <Text numberOfLines={1} 
                 className='text-gray-300 font-bold text-base tracking-tighter '>
                     {episode.showTitle}</Text>
@@ -153,13 +152,15 @@ function MiniPlayerContent({
                     </BlurView>
                 </Pressable>
                 <Pressable style={styles.controlButton} onPress={onPlayPause}>
-                  
+                    {isLoading ? (
+                        <ActivityIndicator size="small" color="#fff" />
+                    ) : (
                         <FontAwesome 
                             name={isPlaying ? "pause" : "play"} 
                             size={20} 
                             color={'#fff'} 
                         />
-                   
+                    )}
                 </Pressable>
                 <Pressable style={styles.controlButton} onPress={onClose}>
                     <BlurView

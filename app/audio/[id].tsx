@@ -13,7 +13,7 @@ import Animated, {
     interpolate,
 } from 'react-native-reanimated';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
-import { podcasts } from '@/data/podcasts.json';
+import podcastsData from '@/data/podcasts.json';
 import { haptics } from '@/helper/haptics';
 
 const SCALE_FACTOR = 0.83;
@@ -38,8 +38,8 @@ export default function AudioScreen() {
     const isScrolling = useSharedValue(false);
 
     const numericId = typeof id === 'string' ? id : Array.isArray(id) ? id[0] : '0';
-    const episode = podcasts?.data?.shelves?.[0]?.items?.find(ep => ep.id === numericId) || 
-                   podcasts?.data?.shelves?.[0]?.items?.[0];
+    const episode = podcastsData?.results?.['podcast-episodes']?.[0]?.data?.find(ep => ep.id === numericId) || 
+                   podcastsData?.results?.['podcast-episodes']?.[0]?.data?.[0];
 
     const handleHapticFeedback = useCallback(() => {
         haptics.impact();
