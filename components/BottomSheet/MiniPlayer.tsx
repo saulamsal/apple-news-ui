@@ -120,7 +120,7 @@ function MiniPlayerContent({
             Animated.sequence([
                 Animated.timing(scrollAnim, {
                     toValue: 1,
-                    duration: 8000,
+                    duration: Platform.OS === 'web' ? 24000 : 8000,
                     useNativeDriver: true,
                 }),
                 Animated.delay(2000),
@@ -196,7 +196,7 @@ function MiniPlayerContent({
                     >
                         <Ionicons 
                             name="close" 
-                            size={18} 
+                            size={Platform.OS === 'web' ? 24 : 18} 
                             color={'#fff'} 
                         />
                     </BlurView>
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
         zIndex: 1000,
         flex: 1,
         paddingVertical: 0,
-        backgroundColor: 'rgba(0,0,0,0.8)',
+        backgroundColor: 'rgba(0,0,0,0.6)',
         
     },
 });

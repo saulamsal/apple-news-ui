@@ -13,6 +13,10 @@ import entities from '@/app/data/entities.json';
 import { NewsLogo } from "@/components/NewsLogo";
 import SocialButtons from '@/components/SocialButtons';
 import { Image } from 'expo-image';
+import { useEffect } from 'react';
+import { useAudio } from '@/contexts/AudioContext';
+import podcasts from '@/data/podcasts.json';
+import { Audio } from 'expo-av';
 
 import '../../global.css';
 
@@ -101,6 +105,7 @@ export default function WebLayout() {
   const { width } = useWindowDimensions();
   const router = useRouter();
   const segments = useSegments();
+  const { playEpisode, closePlayer } = useAudio();
 
   const backgroundColor = '#f9f9f9';
   const borderColor = colorScheme === 'dark' ? '#2f3336' : '#eee';
@@ -109,6 +114,42 @@ export default function WebLayout() {
   const isMobile = width < 768;
   const showSidebar = width >= 1024;
 
+  useEffect(() => {
+    const autoPlayFirstPodcast = async () => {
+      if (Platform.OS === 'web') {
+        // Wait 3 seconds before starting
+        await new Promise(resolve => setTimeout(resolve, 3000));
+
+        const episodes = podcasts.results['podcast-episodes'][0].data;
+        const randomIndex = Math.floor(Math.random() * episodes.length);
+        const randomEpisode = episodes[randomIndex];
+
+        if (randomEpisode && randomEpisode.attributes.assetUrl) {
+          const imageUrl = randomEpisode.attributes.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || 'https://via.placeholder.com/300';
+          
+          const podcast = {
+            id: randomEpisode.id,
+            title: randomEpisode.attributes.name,
+            streamUrl: randomEpisode.attributes.assetUrl,
+            artwork: { url: imageUrl },
+            showTitle: randomEpisode.attributes.artistName,
+            duration: randomEpisode.attributes.durationInMilliseconds || 0,
+            releaseDate: randomEpisode.attributes.releaseDateTime,
+            summary: randomEpisode.attributes.description?.standard || ''
+          };
+
+          try {
+            await closePlayer();
+            await playEpisode(podcast);
+          } catch (error) {
+            console.error('Error auto-playing podcast:', error);
+          }
+        }
+      }
+    };
+
+    autoPlayFirstPodcast();
+  }, []); // Only run once on mount
 
   if (isMobile) {
     return (
