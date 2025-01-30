@@ -4,7 +4,7 @@ import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import { SwipeListView } from 'react-native-swipe-list-view';
 import { useState, useRef } from 'react';
-import Animated, { 
+import Animated, {
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
@@ -109,10 +109,10 @@ export default function AudioScreen() {
   };
 
   const { currentEpisode, playEpisode, isPlaying, togglePlayPause, closePlayer } = useAudio();
-  
+
   const handlePlayAll = async () => {
     const firstEpisode = podcasts.results['podcast-episodes'][0].data[0] as PodcastEpisodeData;
-    
+
     if (firstEpisode) {
       setIsLoading(true);
       const imageUrl = firstEpisode.attributes.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || 'https://via.placeholder.com/300';
@@ -160,131 +160,125 @@ export default function AudioScreen() {
   };
 
   const renderPodcastItem = ({ item, index }: { item: PodcastEpisodeData; index: number }) => (
-    <PodcastItem 
-      episode={item} 
+    <PodcastItem
+      episode={item}
       index={index}
     />
   );
 
-  const renderContent = () => {
-    switch (activeTab) {
-      case 'best':
-        const remainingEpisodes = episodes.slice(5);
-        return (
-          <FlatList
-            data={remainingEpisodes}
-            renderItem={renderPodcastItem}
-            keyExtractor={(item) => item.id}
-            contentContainerStyle={Platform.OS === 'web' ? {
-              height: undefined
-            } : styles.listContent}
-            refreshControl={
-              <RefreshControl
-                refreshing={isRefreshing}
-                onRefresh={onRefresh}
-                tintColor='#000'
-              />
-            }
-      
-            style={
-               
-              Platform.OS === 'web' ? {
-              height: undefined,
-              overflow: 'visible'
-            } : undefined}
-            scrollEnabled={Platform.OS !== 'web'}
-            contentContainerStyle={{
-              paddingHorizontal: 16,
-                paddingTop: insets.top,
-                paddingBottom: insets.bottom + 60,
-                backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white',
-                ...(Platform.OS === 'web' ? {
-                    height: undefined
-                } : {})
-            }}
 
 
-            ListHeaderComponent={
-              <View style={styles.headerContainer}>
-                <View style={styles.header}>
-                  <NewsHeaderLeftItem size="md" secondaryTitle="Audio" />
-                  <View style={styles.headerRight}>
-                    <TouchableOpacity 
-                      style={[
-                        styles.headerRightButton, 
-                        { 
-                          backgroundColor: currentEpisode ? '#86858D' : Colors.light.tint,
-                          opacity: isLoading ? 0.7 : 1 
-                        }
-                      ]}
-                      onPress={currentEpisode ? togglePlayPause : handlePlayAll}
-                      disabled={isLoading}
-                    >
-                      {isLoading ? (
-                        <ActivityIndicator size="small" color="#fff" />
-                      ) : isPlaying ? (
-                        <AudioVisualizer isPlaying={true} />
-                      ) : (
-                        <Ionicons name="headset" size={14} color={'#fff'} />
-                      )}
-                      <Text style={styles.headerRightText}>
-                        {isLoading ? 'Loading...' : currentEpisode ? (isPlaying ? 'Playing' : 'Paused') : 'Play'}
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
+  const remainingEpisodes = episodes.slice(5);
 
-                {isRefreshing && (
-                  <Animated.View
-                    style={[{
-                      animationName: {
-                        from: { transform: [{ translateY: -20 }], opacity: 0 },
-                        to: { transform: [{ translateY: 0 }], opacity: 1 }
-                      },
-                      animationDuration: '300ms',
-                      animationTimingFunction: 'easeOut',
-                    } as any]}
-                  >
-                    <Text style={{ fontSize: 24, color: '#000' }}>
-                      Checking new podcasts...
-                    </Text>
-                  </Animated.View>
-                )}
 
-                <PodcastEditorsPickItem episodes={episodes} />
-                <DiscoverNewsButton />
-                <Text style={styles.sectionTitle}>For You</Text>
-              </View>
-            }
-          />
-        );
-      case 'magazines':
-        return (
-          <View style={styles.emptyContent}>
-            <Text style={styles.emptyText}>My Magazines Content</Text>
-          </View>
-        );
-      case 'downloaded':
-        return (
-          <View style={styles.emptyContent}>
-            <Text style={styles.emptyText}>Downloaded Content</Text>
-          </View>
-        );
-      default:
-        return null;
-    }
-  };
+
+
 
   return (
     <>
-    { Platform.OS === 'web' && (
-      <Head>
-        <title>Apple News Audio - News Stories & Podcasts</title>
-        <meta name="description" content="Listen to your favorite news stories and podcasts, professionally narrated and curated for the best audio experience." />
-        <meta name="keywords" content="apple news audio, news podcasts, audio stories, news narration" />
-      </Head>
-    )}  
-        {renderContent()}
+      {Platform.OS === 'web' && (
+        <Head>
+          <title>Apple News Audio - News Stories & Podcasts</title>
+          <meta name="description" content="Listen to your favorite news stories and podcasts, professionally narrated and curated for the best audio experience." />
+          <meta name="keywords" content="apple news audio, news podcasts, audio stories, news narration" />
+        </Head>
+      )}
+
+{/* 
+<RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={onRefresh}
+            tintColor='#000'
+          /> */}
+
+      <FlatList
+        data={remainingEpisodes}
+        renderItem={renderPodcastItem}
+        keyExtractor={(item) => item.id}
+
+
+        // refreshControl={
+         
+         
+        // }
+        progressViewOffset={200}
+
+        // contentContainerStyle={Platform.OS === 'web' ? {
+        //   height: undefined
+        // } : styles.listContent}
+
+        style={
+
+          Platform.OS === 'web' ? {
+            height: undefined,
+            overflow: 'visible'
+          } : undefined}
+        scrollEnabled={Platform.OS !== 'web'}
+        contentContainerStyle={{
+          paddingHorizontal: 16,
+          paddingTop: insets.top,
+          paddingBottom: insets.bottom + 60,
+          backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white',
+          ...(Platform.OS === 'web' ? {
+            height: undefined
+          } : {})
+        }}
+
+
+        ListHeaderComponent={
+          <View style={styles.headerContainer}>
+            <View style={styles.header}>
+              <NewsHeaderLeftItem size="md" secondaryTitle="Audio" />
+              <View style={styles.headerRight}>
+                <TouchableOpacity
+                  style={[
+                    styles.headerRightButton,
+                    {
+                      backgroundColor: currentEpisode ? '#86858D' : Colors.light.tint,
+                      opacity: isLoading ? 0.7 : 1
+                    }
+                  ]}
+                  onPress={currentEpisode ? togglePlayPause : handlePlayAll}
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <ActivityIndicator size="small" color="red" />
+                  ) : isPlaying ? (
+                    <AudioVisualizer isPlaying={true} />
+                  ) : (
+                    <Ionicons name="headset" size={14} color={'#fff'} />
+                  )}
+                  
+                  <Text style={styles.headerRightText}>
+                    {isLoading ? 'Loading...' : currentEpisode ? (isPlaying ? 'Playing' : 'Paused') : 'Play'}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {isRefreshing && (
+              <Animated.View
+                style={[{
+                  animationName: {
+                    from: { transform: [{ translateY: -20 }], opacity: 0 },
+                    to: { transform: [{ translateY: 0 }], opacity: 1 }
+                  },
+                  animationDuration: '300ms',
+                  animationTimingFunction: 'easeOut',
+                } as any]}
+              >
+                <Text style={{ fontSize: 24, color: '#000' }}>
+                  Checking new podcasts...
+                </Text>
+              </Animated.View>
+            )}
+
+            <PodcastEditorsPickItem episodes={episodes} />
+            <DiscoverNewsButton />
+            <Text style={styles.sectionTitle}>For You</Text>
+          </View>
+        }
+      />
 
     </>
   );
