@@ -18,3 +18,9 @@ web-build/
 
 expo-env.d.ts
 # @end expo-cli
+.aab
+.apk
+.ipa
+
+ios/
+android/
