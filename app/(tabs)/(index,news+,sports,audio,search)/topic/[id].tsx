@@ -21,6 +21,7 @@ import { SportScoreCarousel } from '@/components/SportScoreCarousel';
 import { StatusBar } from 'expo-status-bar';
 import Entypo from '@expo/vector-icons/Entypo';
 import { LinearGradient } from 'expo-linear-gradient';
+import { news } from '@/data/news.json';
 
 interface Entity {
     id: string;
@@ -112,6 +113,14 @@ export default function TopicScreen() {
     // Filter scores based on sports_type if entity has filter
     const filteredScores = entity?.filter ? scores.filter(score => score.sports_type === entity.filter) : [];
 
+    // Replace the dummyNews with filtered news
+    const filteredNews = React.useMemo(() => {
+        return (news as NewsItemType[]).filter(item => 
+            item.topic?.id === id || 
+            item.related_topics?.includes(id as string)
+        );
+    }, [id]);
+
     // Handle case when entity is not found
     if (!entity) {
         return (
@@ -128,28 +137,6 @@ export default function TopicScreen() {
             </View>
         );
     }
-
-    // Dummy news items data
-    const dummyNews: NewsItemType[] = Array(5).fill(null).map((_, i) => ({
-        id: `dummy-${i}`,
-        title: i === 0
-            ? `WATCH: ${entity.title} latest news headline`
-            : `${entity.title} News Item ${i + 1}`,
-        source: {
-            id: 'news-source',
-            name: 'NewsSource.com',
-            logo_transparent_light: 'https://example.com/logo.png',
-            logo_transparent_dark: 'https://example.com/logo-dark.png'
-        },
-        topic: {
-            id: entity.id,
-            name: entity.title
-        },
-        show_topic: false,
-        featured_image: 'https://picsum.photos/400/300',
-        card_type: i === 0 ? 'full' : 'medium',
-        is_news_plus: false
-    }));
 
     const renderNewsItem = ({ item }: { item: NewsItemType }) => (
         <NewsItem item={item} />
@@ -350,28 +337,44 @@ export default function TopicScreen() {
     const renderContent = () => {
         switch (selectedTab) {
             case 'scores':
+                if (!filteredScores.length) {
+                    return (
+                        <View className="p-8 items-center">
+                            <Text className="text-lg text-gray-500 text-center">
+                                No scores available at the moment
+                            </Text>
+                        </View>
+                    );
+                }
                 return (
                     <View className="p-4">
-                        <Text>Scores Content</Text>
+                        <SportScoreCarousel scores={filteredScores} />
                     </View>
                 );
+
             case 'videos':
                 return (
-                    <View className="p-4">
-                        <Text>Videos Content</Text>
+                    <View className="p-8 items-center">
+                        <Text className="text-lg text-gray-500 text-center">
+                            No videos available at the moment
+                        </Text>
                     </View>
                 );
+
             case 'stats':
                 return (
-                    <View className="p-4">
-                        <Text>Stats Content</Text>
+                    <View className="p-8 items-center">
+                        <Text className="text-lg text-gray-500 text-center">
+                            No stats available at the moment
+                        </Text>
                     </View>
                 );
+
             case 'news':
             default:
                 return (
                     <>
-                        {/* Show scores if they exist for this sport */}
+                        {/* Show scores if they exist */}
                         {filteredScores.length > 0 && (
                             <View className="mt-4">
                                 <SportScoreCarousel scores={filteredScores} />
@@ -415,31 +418,45 @@ export default function TopicScreen() {
                             </View>
                         )}
 
-                        <SwipeListView
-                            data={dummyNews}
-                            renderItem={renderNewsItem}
-                            renderHiddenItem={renderHiddenItem}
-                            leftOpenValue={120}
-                            rightOpenValue={-120}
-                            previewRowKey={'0'}
-                            previewOpenValue={-40}
-                            previewOpenDelay={3000}
-                            keyExtractor={item => item.id}
-                            useNativeDriver={false}
-                            disableRightSwipe={false}
-                            disableLeftSwipe={false}
-
-                            style={Platform.OS === 'web' ? {
-                                height: undefined,
-                                overflow: 'visible' as const
-                            } : undefined}
-                            contentContainerStyle={Platform.OS === 'web' ? {
-                                height: undefined
-                            } : {
-                                paddingBottom: bottom + 20
-                            }}
-                            scrollEnabled={Platform.OS !== 'web'}
-                        />
+                        {filteredNews.length > 0 ? (
+                            <SwipeListView
+                                data={filteredNews}
+                                renderItem={renderNewsItem}
+                                renderHiddenItem={renderHiddenItem}
+                                leftOpenValue={120}
+                                rightOpenValue={-120}
+                                previewRowKey={'0'}
+                                previewOpenValue={-40}
+                                previewOpenDelay={3000}
+                                keyExtractor={item => item.id}
+                                useNativeDriver={false}
+                                disableRightSwipe={false}
+                                disableLeftSwipe={false}
+                                ListFooterComponent={() => (
+                                    <View className="p-8 items-center">
+                                        <Text className="text-gray-500">
+                                            You're all caught up!
+                                        </Text>
+                                    </View>
+                                )}
+                                style={Platform.OS === 'web' ? {
+                                    height: undefined,
+                                    overflow: 'visible' as const
+                                } : undefined}
+                                contentContainerStyle={Platform.OS === 'web' ? {
+                                    height: undefined
+                                } : {
+                                    paddingBottom: bottom + 20
+                                }}
+                                scrollEnabled={Platform.OS !== 'web'}
+                            />
+                        ) : (
+                            <View className="p-8 items-center">
+                                <Text className="text-lg text-gray-500 text-center">
+                                    No stories available at the moment
+                                </Text>
+                            </View>
+                        )}
                     </>
                 );
         }

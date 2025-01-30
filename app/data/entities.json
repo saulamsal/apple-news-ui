@@ -205,7 +205,7 @@
         "type": "topic",
         "description": "CEO of Tesla, SpaceX",
         "theme": {
-            "backgroundColor": "darkblue",
+            "backgroundColor": "#E3243E",
             "textColor": "#ffffff"
         }
     },
@@ -218,7 +218,7 @@
         "type": "topic",
         "description": "President of the United States",
         "theme": {
-            "backgroundColor": "#000000",
+            "backgroundColor": "#B07940",
             "textColor": "#ffffff"
         }
     },
@@ -230,8 +230,8 @@
         "type": "topic",
         "description": "Highest court in the United States federal judiciary",
         "theme": {
-            "backgroundColor": "#E8EAF6",
-            "textColor": "#283593"
+            "backgroundColor": "#000000",
+            "textColor": "#3F7565"
         }
     },
     "tiktok": {
@@ -242,8 +242,8 @@
         "type": "topic",
         "description": "Social media platform for short-form videos",
         "theme": {
-            "backgroundColor": "#F3E5F5",
-            "textColor": "#6A1B9A"
+            "backgroundColor": "#FB2A56",
+            "textColor": "#ffffff"
         }
     },
     "cricket": {
