@@ -98,16 +98,24 @@ export default function NewsPlusScreen() {
             previewOpenValue={-40}
             previewOpenDelay={3000}
             keyExtractor={(item: any) => item.id}
-            style={Platform.OS === 'web' ? {
+     
+                style={
+               
+              Platform.OS === 'web' ? {
               height: undefined,
               overflow: 'visible'
-            } : {
-              // flexShrink: 0
-            }}
-            scrollEnabled={Platform.OS !== 'web'}
-            contentContainerStyle={Platform.OS === 'web' ? {
-              height: undefined
             } : undefined}
+            scrollEnabled={Platform.OS !== 'web'}
+            contentContainerStyle={{
+                paddingTop: insets.top,
+                paddingBottom: insets.bottom + 60,
+                backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white',
+                ...(Platform.OS === 'web' ? {
+                    height: undefined
+                } : {})
+            }}
+
+
             ListHeaderComponent={
               <View className="space-y-4">
                 <View className="flex-row items-center justify-between  px-5">
@@ -162,9 +170,8 @@ export default function NewsPlusScreen() {
         <meta name="keywords" content="apple news plus, premium news, digital magazines, exclusive content" />
       </Head>
       )}
-      <View className={`flex-1 ${Platform.OS !== 'web' ? 'bg-[#F2F2F7]' : 'bg-white'}`} style={{ paddingTop: insets.top+10, paddingBottom: insets.bottom + 60,  }}>
           {renderContent()}
-      </View>
+  
     </>
   );
 }

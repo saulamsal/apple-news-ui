@@ -85,8 +85,9 @@ const SearchComponent = React.memo(({ value, onChangeText }: SearchComponentProp
 });
 
 export default function SearchScreen() {
-    const { top, bottom } = useSafeAreaInsets();
+    const insets = useSafeAreaInsets();
     const [searchQuery, setSearchQuery] = useState('');
+
 
     const searchResults = useMemo(() => {
         if (!searchQuery.trim()) return [];
@@ -189,7 +190,7 @@ export default function SearchScreen() {
     }
 
     return (
-        <View className="flex-1 relative">
+        <>
         { Platform.OS === 'web' && (
             <Head>
                 <title>Apple News Search - Find News & Topics</title>
@@ -205,23 +206,33 @@ export default function SearchScreen() {
                         minIndexForVisible: 0,
                         autoscrollToTopThreshold: 0
                     }}
-                    style={Platform.OS === 'web' ? {
-                        height: undefined,
-                        overflow: 'visible' as const
-                    } : undefined}
-                    contentContainerStyle={Platform.OS === 'web' ? {
-                        height: undefined
-                    } : {
-                        paddingBottom: bottom + 20
-                    }}
-                    scrollEnabled={Platform.OS !== 'web'} //this makes sure no inner scroll for web
-                    removeClippedSubviews={false}
+
+                    style={
+                        {
+                            backgroundColor:  'white',
+                            ...(Platform.OS === 'web' ? {
+                                height: undefined,
+                                overflow: 'visible'
+                              } : {})
+                        }
+                    }
+                      scrollEnabled={Platform.OS !== 'web'}
+                      contentContainerStyle={{
+                          paddingTop: insets.top,
+                          paddingBottom: insets.bottom + 60,
+                          backgroundColor:'white',
+                          ...(Platform.OS === 'web' ? {
+                              height: undefined
+                          } : {})
+                      }}
+                      
+                      removeClippedSubviews={false}
                     LargeHeaderComponent={LargeHeaderComponent}
                     absoluteHeader={true}
                     HeaderComponent={HeaderComponent}
                     headerFadeInThreshold={0.5}
                     disableLargeHeaderFadeAnim={false}
-                    largeHeaderContainerStyle={{ paddingTop: top + 4 }}
+                    largeHeaderContainerStyle={{ paddingTop: insets.top + 4 }}
                 >
                     
                     {searchQuery ? (
@@ -282,7 +293,7 @@ export default function SearchScreen() {
                     <Text className="text-gray-500 text-center">Settings</Text>
                 </Link> */}
                 </ScrollViewWithHeaders>
-            </View>
+            </>
       
     );
 } 

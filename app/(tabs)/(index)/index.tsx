@@ -193,7 +193,6 @@ export default function HomeScreen() {
 
         </Head>
       )}
-      <View className={`flex-1 ${Platform.OS !== 'web' ? 'bg-[#F2F2F7]' : 'bg-white'}`} style={{ paddingTop: insets.top, paddingBottom: insets.bottom + 60 }}>
         <Animated.View 
           className="absolute -top-4 left-0 right-0 z-50 bg-gray-100 px-5"
           style={[headerAnimatedStyle, { paddingTop: insets.top + 10, paddingBottom: 14 }]}
@@ -214,14 +213,21 @@ export default function HomeScreen() {
             previewOpenValue={-40}
             previewOpenDelay={3000}
             keyExtractor={(item: any) => item.id}
-            style={Platform.OS === 'web' ? {
+            style={
+               
+              Platform.OS === 'web' ? {
               height: undefined,
               overflow: 'visible'
             } : undefined}
             scrollEnabled={Platform.OS !== 'web'}
-            contentContainerStyle={Platform.OS === 'web' ? {
-              height: undefined
-            } : undefined}
+            contentContainerStyle={{
+                paddingTop: insets.top,
+                paddingBottom: insets.bottom + 60,
+                backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white',
+                ...(Platform.OS === 'web' ? {
+                    height: undefined
+                } : {})
+            }}
             ListHeaderComponent={
               <View className="flex-1">
                 <View className="flex-row items-center justify-between mb-6 px-5">
@@ -243,7 +249,7 @@ export default function HomeScreen() {
             }
           />
         </View>
-      </View>
+
     </>
   );
 }

@@ -187,7 +187,6 @@ const filteredNews = news.filter((item) => item.topic.id === 'sports');
                 <meta name="keywords" content="sports news, live scores, sports updates, apple news sports" />
             </Head>
             )}
-            <View className="flex-1 bg-white" style={{ paddingBottom: insets.bottom + 60 }}>
 
 
 
@@ -233,14 +232,24 @@ const filteredNews = news.filter((item) => item.topic.id === 'sports');
                           previewOpenValue={-40}
                           previewOpenDelay={3000}
                           keyExtractor={item => item.id}
-                          style={Platform.OS === 'web' ? {
+                    
+                          style={
+               
+                            Platform.OS === 'web' ? {
                             height: undefined,
                             overflow: 'visible'
                           } : undefined}
                           scrollEnabled={Platform.OS !== 'web'}
-                          contentContainerStyle={Platform.OS === 'web' ? {
+                          contentContainerStyle={{
+                            //   paddingTop: insets.top,
+                              paddingBottom: insets.bottom + 60,
+                              backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white',
+                              ...(Platform.OS === 'web' ? {
                             height: undefined
-                          } : styles.listContent}
+                              } : {})
+                          }}
+
+                      
                           ListHeaderComponent={
                             <View style={SportsStyles.listHeaderContainer}>
                                 <Image
@@ -305,9 +314,6 @@ const filteredNews = news.filter((item) => item.topic.id === 'sports');
                     />
                 </View>
 
-
-
-            </View>
         </>
     );
 }

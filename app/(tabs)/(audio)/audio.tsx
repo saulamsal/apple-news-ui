@@ -185,13 +185,25 @@ export default function AudioScreen() {
                 tintColor='#000'
               />
             }
-            style={Platform.OS === 'web' ? {
+      
+            style={
+               
+              Platform.OS === 'web' ? {
               height: undefined,
               overflow: 'visible'
-            } : {
-              // flexShrink: 0
-            }}
+            } : undefined}
             scrollEnabled={Platform.OS !== 'web'}
+            contentContainerStyle={{
+              paddingHorizontal: 16,
+                paddingTop: insets.top,
+                paddingBottom: insets.bottom + 60,
+                backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white',
+                ...(Platform.OS === 'web' ? {
+                    height: undefined
+                } : {})
+            }}
+
+
             ListHeaderComponent={
               <View style={styles.headerContainer}>
                 <View style={styles.header}>
@@ -272,9 +284,8 @@ export default function AudioScreen() {
         <meta name="keywords" content="apple news audio, news podcasts, audio stories, news narration" />
       </Head>
     )}  
-      <View className={`${Platform.OS !== 'web' ? 'bg-[#F2F2F7]' : 'bg-white'} `} style={{ paddingTop: insets.top + 10, paddingBottom: insets.bottom + 40 }}>
         {renderContent()}
-      </View>
+
     </>
   );
 }
