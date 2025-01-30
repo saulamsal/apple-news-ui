@@ -1,4 +1,4 @@
-import { View, Image, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, Image, StyleSheet, TouchableOpacity, Text, Platform } from 'react-native';
 import { ScrollViewWithHeaders, Header, ScrollHeaderProps } from '@codeherence/react-native-header';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Ionicons } from '@expo/vector-icons';
@@ -8,6 +8,7 @@ import Animated, { useSharedValue } from 'react-native-reanimated';
 import { useEffect } from 'react'
 // import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useRouter } from 'expo-router'
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type ContentViewProps = {
   content: any; // Replace with proper type from your news data
@@ -16,6 +17,8 @@ type ContentViewProps = {
 export function ContentView({ content }: ContentViewProps) {
   const colorScheme = useColorScheme();
   const router = useRouter()
+
+  const insets = useSafeAreaInsets()
 
   // useEffect(() => {
   //   const checkFirstTime = async () => {
@@ -80,13 +83,16 @@ export function ContentView({ content }: ContentViewProps) {
         backgroundColor: content.source.dark_bg,
         paddingBottom: 4,
         paddingVertical: 10,
-        height: 55,
+       
+          ...(Platform.OS === 'web' ? {
+            width: '100%',
+            minWidth: '100%', 
+            maxWidth: '100%',
+             height: 55,
           overflow: 'hidden',
           flexWrap: 'wrap',
           flexDirection: 'row',
-          width: '100%',
-          minWidth: '100%',
-          maxWidth: '100%',
+          } : {}),
     
       }}
 
@@ -118,7 +124,29 @@ export function ContentView({ content }: ContentViewProps) {
     <View className="flex-1 bg-white">
     <ScrollViewWithHeaders
       HeaderComponent={HeaderComponent}
-      contentContainerStyle={styles.container}
+      // contentContainerStyle={styles.container}
+
+      style={
+        {
+          
+            backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white',
+            ...(Platform.OS === 'web' ? {
+                height: undefined,
+                overflow: 'visible'
+            } : {})
+        }
+    }
+    scrollEnabled={Platform.OS !== 'web'}
+    contentContainerStyle={{
+        // paddingTop: insets.top,
+        paddingBottom: insets.bottom + 60,
+        backgroundColor: 'white',
+        ...(Platform.OS === 'web' ? {
+            height: undefined
+        } : {})
+    }}
+
+
     >
       <View style={styles.container}>
     

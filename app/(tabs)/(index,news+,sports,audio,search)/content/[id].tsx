@@ -1,5 +1,5 @@
 import { useLocalSearchParams, router } from 'expo-router';
-import { View, Text, useWindowDimensions } from 'react-native';
+import { View, Text, useWindowDimensions, Platform } from 'react-native';
 import { TabView, SceneRendererProps, NavigationState } from 'react-native-tab-view';
 import { news } from '@/data/news.json';
 import { ContentView } from './_components/ContentView';
@@ -14,6 +14,9 @@ type Route = {
 export default function ContentScreen() {
   const { id } = useLocalSearchParams();
   const layout = useWindowDimensions();
+
+
+  //TODO: infinite scroll left and right
   
   const [currentIndex, setCurrentIndex] = useState(() => news.findIndex(item => item.id === id));
   const [isNavigating, setIsNavigating] = useState(false);
@@ -108,6 +111,12 @@ export default function ContentScreen() {
     index === 1 || 
     (index === 2 && Boolean(nextContent))
   );
+
+
+  if(Platform.OS === 'web') {
+    return  <ContentView content={currentContent} />;
+  }
+
 
   return (
     <TabView
