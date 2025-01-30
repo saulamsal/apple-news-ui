@@ -26,24 +26,24 @@ struct NewsArticle: Codable {
 // Dummy data for testing
 let dummyArticles = [
     NewsArticle(
-        title: "Trump signs executive actions on Jan. 6, TikTok, immigration and more",
-        source: "Yahoo",
-        sourceLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Yahoo%21_%282019%29.svg/1200px-Yahoo%21_%282019%29.svg.png",
-        imageUrl: "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/4477x2984+0+0/resize/1100/quality/85/format/webp/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2Fd0%2Fef%2F9b556f744f428622f04dff087855%2Fgettyimages-2194440770.jpg",
+        title: "DeepSeek AI App Overtakes ChatGPT, Spooks Tech Market",
+        source: "The Washington Post",
+        sourceLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/The_Logo_of_The_Washington_Post_Newspaper.svg/2560px-The_Logo_of_The_Washington_Post_Newspaper.svg.png",
+        imageUrl: "https://www.washingtonpost.com/wp-apps/imrs.php?src=https://arc-anglerfish-washpost-prod-washpost.s3.amazonaws.com/public/EYXT27QC4M62VXI3NXUG4WVCQU.JPG&w=1200",
         isNewsPlus: 1
     ),
     NewsArticle(
-        title: "Mike Tyson is bigger than boxing. His fight with Jake Paul is proof.",
-        source: "Sports Illustrated", 
-        sourceLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/SportsIllustratedLogo.svg/2560px-SportsIllustratedLogo.svg.png",
-        imageUrl: "https://www.aljazeera.com/wp-content/uploads/2024/11/AFP__20241115__36MH9YH__v2__HighRes__BoxHeavyUsaTysonPaulWeighIn-1731720368.jpg?resize=570%2C380&quality=80",
+        title: "Chiefs Defeat Bills 32-29 in AFC Championship",
+        source: "The Athletic",
+        sourceLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/The_Athletic_wordmark_black_2020.svg/2560px-The_Athletic_wordmark_black_2020.svg.png",
+        imageUrl: "https://media-cldnry.s-nbcnews.com/image/upload/t_fit-1000w,f_auto,q_auto:best/rockcms/2025-01/250124-Chiefs-Bills-aa-1256-8f6ff0.jpg",
         isNewsPlus: 1
     ),
     NewsArticle(
-        title: "Trump's family circle has a different look as he returns to the White House",
-        source: "AP",
-        sourceLogo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Associated_Press_logo_2012.svg/2560px-Associated_Press_logo_2012.svg.png",
-        imageUrl: "https://s.yimg.com/ny/api/res/1.2/TMni9_X6IlPj3l5Hv8zcjQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTY0MA--/https://media.zenfs.com/en/ap.org/24c93ab1b4b4259db0817866f8c821a3",
+        title: "Amazon's Zoox Plans To Launch Robotaxi Service This Year",
+        source: "Benzinga",
+        sourceLogo: "https://www.benzinga.com/next-assets/images/benzinga-logo.png",
+        imageUrl: "https://fortune.com/img-assets/wp-content/uploads/2024/09/GettyImages-2154179524-e1726086410920.jpg",
         isNewsPlus: 0
     )
 ]
@@ -133,26 +133,40 @@ struct SmallWidgetView: View {
     var entry: Provider.Entry
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Text("Top Stories")
-                    .font(.headline)
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 4) {
+                Text("@saul_sharma")
+                .font(.caption2)
+                    .fontWeight(.semibold)
                     .foregroundColor(.red)
                 Spacer()
                 Image(systemName: "apple.news")
+                    .font(.caption2)
                     .foregroundColor(.red)
             }
-            .padding(.horizontal)
-            .padding(.top)
+            .padding(.horizontal, 8)
+            .padding(.top, 0)
             
             Text(entry.article.title)
-                .font(.subheadline)
+            .font(.caption)
+                .fontWeight(.bold)
                 .lineLimit(4)
-                .padding(.horizontal)
-                .padding(.bottom)
+                .padding(.horizontal, 8)
+                .padding(.top, 2)
+            
+            if entry.article.isNewsPlusEnabled {
+                HStack {
+                    Text("News+")
+                        .font(.caption2)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.red)
+                }
+                .padding(.horizontal, 8)
+                .padding(.top, 2)
+                .padding(.bottom, 2)
+            }
         }
-        .background(Color(.systemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 15))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
@@ -161,52 +175,65 @@ struct MediumWidgetView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack {
-                Text("Science")
-                    .font(.headline)
-                    .foregroundColor(.blue)
+            HStack(spacing: 4) {
+                Text("Latest News")
+                    .font(.caption2)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.red)
                 Spacer()
                 Image(systemName: "apple.news")
+                    .font(.caption2)
                     .foregroundColor(.red)
             }
-            .padding(.horizontal)
-            .padding(.top, 8)
+            .padding(.horizontal, 12)
+            .padding(.top, 10)
+            .padding(.bottom, 4)
             
             VStack(alignment: .leading, spacing: 8) {
                 ForEach(0..<2) { index in
-                    if index > 0 {
-                        Divider()
-                    }
-                    
+                    let article = dummyArticles[index]
                     HStack(spacing: 8) {
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(entry.article.source)
-                                .font(.caption)
+                        VStack(alignment: .leading, spacing: 1) {
+                            Text(article.source)
+                                .font(.caption2)
                                 .foregroundColor(.gray)
-                            Text(entry.article.title)
-                                .font(.callout)
+                            Text(article.title)
+                                .font(.caption)
+                                .fontWeight(.bold)
                                 .lineLimit(2)
+                            if article.isNewsPlusEnabled {
+                                HStack(spacing: 2) {
+                                    Text("News+")
+                                        .font(.caption2)
+                                        .fontWeight(.semibold)
+                                }
+                                .foregroundColor(.red)
+                            }
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         
-                        AsyncImage(url: URL(string: entry.article.imageUrl)) { image in
+                        AsyncImage(url: URL(string: article.imageUrl)) { image in
                             image.resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 50, height: 50)
-                                .clipShape(RoundedRectangle(cornerRadius: 6))
+                                .clipShape(RoundedRectangle(cornerRadius: 8))
                         } placeholder: {
-                            Color.gray.opacity(0.3)
+                            Color.gray.opacity(0.2)
                                 .frame(width: 50, height: 50)
-                                .clipShape(RoundedRectangle(cornerRadius: 6))
+                                .clipShape(RoundedRectangle(cornerRadius: 8))
                         }
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, 12)
+                    
+                    if index == 0 {
+                        Divider()
+                            .padding(.horizontal, 12)
+                    }
                 }
             }
-            .padding(.vertical, 8)
+            .padding(.vertical, 4)
         }
-        .background(Color(.systemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 15))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
@@ -215,51 +242,65 @@ struct LargeWidgetView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            HStack {
-                Text("Science")
-                    .font(.headline)
-                    .foregroundColor(.blue)
+            HStack(spacing: 4) {
+                Text("Top Stories")
+                  .font(.title)
+                    .fontWeight(.bold)
+                    .foregroundColor(.red)
                 Spacer()
                 Image(systemName: "apple.news")
+                    .font(.caption2)
                     .foregroundColor(.red)
             }
-            .padding()
+            .padding(.horizontal, 12)
+            .padding(.top, 8)
+            .padding(.bottom, 2)
             
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: 10) {
                 ForEach(0..<3) { index in
-                    if index > 0 {
-                        Divider()
-                    }
-                    
-                    HStack(spacing: 12) {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(entry.article.source)
-                                .font(.subheadline)
+                    let article = dummyArticles[index]
+                    HStack(spacing: 8) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(article.source)
+                                .font(.caption2)
                                 .foregroundColor(.gray)
-                            Text(entry.article.title)
-                                .font(.headline)
-                                .lineLimit(2)
+                            Text(article.title)
+                            .font(.subheadline)
+                                .fontWeight(.bold)
+                                .lineLimit(3)
+                            if article.isNewsPlusEnabled {
+                                HStack(spacing: 2) {
+                                    Text("News+")
+                                        .font(.caption2)
+                                        .fontWeight(.semibold)
+                                }
+                                .foregroundColor(.red)
+                            }
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
                         
-                        AsyncImage(url: URL(string: entry.article.imageUrl)) { image in
+                        AsyncImage(url: URL(string: article.imageUrl)) { image in
                             image.resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 60, height: 60)
                                 .clipShape(RoundedRectangle(cornerRadius: 8))
                         } placeholder: {
-                            Color.gray.opacity(0.3)
+                            Color.gray.opacity(0.2)
                                 .frame(width: 60, height: 60)
                                 .clipShape(RoundedRectangle(cornerRadius: 8))
                         }
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, 12)
+                    
+                    if index < 2 {
+                        Divider()
+                            .padding(.horizontal, 12)
+                    }
                 }
             }
             .padding(.vertical, 8)
         }
-        .background(Color(.systemBackground))
-        .clipShape(RoundedRectangle(cornerRadius: 15))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
@@ -321,3 +362,4 @@ struct NewsWidget: Widget {
         )
     )
 }
+
