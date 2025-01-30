@@ -216,13 +216,11 @@ export default function SearchScreen() {
                 style={
                     {
                         backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white',
-                        ...(Platform.OS === 'web' ? {
-                            height: undefined,
-                            overflow: 'visible'
-                        } : {})
+                 
                     }
                 }
-                scrollEnabled={Platform.OS !== 'web'}
+                // scrollEnabled={Platform.OS !== 'web'}
+
                 contentContainerStyle={{
                     paddingTop: insets.top,
                     paddingBottom: insets.bottom + 60,
