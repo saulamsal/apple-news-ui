@@ -2,10 +2,11 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useRef } from 'react';
-import { StyleSheet, useColorScheme, View, Platform, Animated } from 'react-native';
+import { StyleSheet, useColorScheme, View, Platform } from 'react-native';
 import { RootScaleProvider } from '@/contexts/RootScaleContext';
 import { useRootScale } from '@/contexts/RootScaleContext';
 import { useAnimatedStyle } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { OverlayProvider } from '@/components/Overlay/OverlayProvider';
 import { AudioProvider } from '@/contexts/AudioContext';
@@ -15,59 +16,72 @@ import { StatusBar } from 'expo-status-bar';
 import { MiniPlayer } from '@/components/BottomSheet/MiniPlayer';
 import '../global.css';
 import {Appearance} from '@/helper/appearance';
+import { interpolate, interpolateColor } from 'react-native-reanimated';
 
 function AnimatedStack() {
   const segments = useSegments();
   const router = useRouter();
   const { scale } = useRootScale();
   const { currentEpisode } = useAudio();
-  const contentAnim = useRef(new Animated.Value(0)).current;
-
-
-  Appearance.setColorScheme('light');
-
-
-  useEffect(() => {
-    if (currentEpisode) {
-      Animated.spring(contentAnim, {
-        toValue: -10,
-        useNativeDriver: true,
-        tension: 65,
-        friction: 11
-      }).start();
-    } else {
-      Animated.spring(contentAnim, {
-        toValue: 0,
-        useNativeDriver: true,
-        tension: 65,
-        friction: 11
-      }).start();
-    }
-  }, [currentEpisode]);
+  const isIOS = Platform.OS === 'ios';
 
   const animatedStyle = useAnimatedStyle(() => {
+    'worklet';
+    if (!isIOS) return {
+      backgroundColor: '#fff'
+    };
+
+    const progress = Math.max(0, Math.min(1, (scale.value - 0.83) / 0.17));
+    const borderRadius = interpolate(
+      progress,
+      [0, 1],
+      [20, 50],
+      'clamp'
+    );
+
     return {
       transform: [
-        { translateY: (1 - scale.value) * -200 },
         { scale: scale.value },
+        { translateY: (1 - scale.value) * -150 }
       ],
-      borderRadius: scale.value >= 1 ? 0 : scale.value * 40,
+      borderRadius,
+      backgroundColor: '#fff',
     };
-  });
+  }, [isIOS]);
 
-  const shouldAnimate = Platform.OS === 'ios';
+  const containerStyle = useAnimatedStyle(() => {
+    'worklet';
+    if (!isIOS) {
+      return {
+        flex: 1,
+        backgroundColor: '#000',
+      };
+    }
+
+    const progress = Math.max(0, Math.min(1, (scale.value - 0.83) / 0.17));
+    const backgroundColor = interpolateColor(
+      progress,
+      [0, 1],
+      ['#000', '#000']
+    );
+
+    return {
+      flex: 1,
+      backgroundColor,
+    };
+  }, [isIOS]);
   
   const handleMiniPlayerPress = () => {
     router.push('/audio/current');
   };
 
   return (
-    <View style={{ flex: 1 , backgroundColor: 'transparent'}}>
+    <Animated.View style={containerStyle}>
       <Animated.View 
         style={[
-          styles.stackContainer, 
-          shouldAnimate ? animatedStyle : undefined,
-          { transform: [{ translateY: contentAnim }] }
+          styles.stackContainer,
+          animatedStyle,
+          !isIOS && { backgroundColor: '#fff' }
         ]}
       >
         <Stack screenOptions={{headerShown: false}}>
@@ -79,29 +93,17 @@ function AnimatedStack() {
               animation: 'slide_from_bottom',
               headerShown: false,
               contentStyle: {
-                backgroundColor: Platform.OS === 'android' 
-                  ? 'transparent' 
-                  : 'transparent',
+                backgroundColor: 'transparent',
               },
             }}
           />
-          <Stack.Screen  name="stocks" />
-          <Stack.Screen name="edit" 
-           options={{
-            // presentation: 'formSheet',
-            // gestureDirection: "vertical",
-            // animation: "slide_from_bottom",
-            // headerShown: false,
-            // sheetGrabberVisible: true,
-            // sheetInitialDetentIndex: 0,
-            // sheetAllowedDetents: [0.5],
-  
-          }}  />
+          <Stack.Screen name="stocks" />
+          <Stack.Screen name="edit" />
           <Stack.Screen name="+not-found" />
         </Stack>
       </Animated.View>
       <MiniPlayer onPress={handleMiniPlayerPress} />
-    </View>
+    </Animated.View>
   );
 }
 
@@ -137,13 +139,11 @@ export default function RootLayout() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Platform.OS === 'android' ? 'transparent' : '#000',
-  
+    backgroundColor: 'black',
   },
   stackContainer: {
     flex: 1,
     overflow: 'hidden',
-    
   },
 });
 
