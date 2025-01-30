@@ -33,14 +33,21 @@ interface HighlightedTextProps {
 }
 
 const HighlightedText = ({ text, highlight }: HighlightedTextProps) => {
-    if (!highlight.trim()) return text;
+    if (!highlight.trim()) return <Text>{text}</Text>;
 
     const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
 
-    return parts.map((part, i) =>
-        part.toLowerCase() === highlight.toLowerCase() ?
-            `**${part}**` : part
-    ).join('');
+    return (
+        <Text>
+            {parts.map((part, i) => 
+                part.toLowerCase() === highlight.toLowerCase() ? (
+                    <Text key={i} className="font-bold">{part}</Text>
+                ) : (
+                    part
+                )
+            )}
+        </Text>
+    );
 };
 
 const FadingView = ({ opacity, children, style }: {

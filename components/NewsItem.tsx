@@ -348,6 +348,7 @@ export const NewsItem = ({ item }: NewsItemProps) => {
           </Link>
           <NewsItemActions item={item} />
         </ContextMenu.Trigger>
+        
         <ContextMenu.Content>
           {/* disabled ContextMenu.Preview for now  */}
           <ContextMenu.Auxiliary
@@ -362,7 +363,7 @@ export const NewsItem = ({ item }: NewsItemProps) => {
               damping: 0.9,
               mass: 0.9,
             }}
-            onPress={() => router.push(href)}
+            // onPress={() => router.push(href)}
          
           >
             <StoryPreview />

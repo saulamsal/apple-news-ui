@@ -25,7 +25,7 @@ export function AnimatedAccordion({ title, children }: Props) {
 
     const iconStyle = useAnimatedStyle(() => ({
         transform: [{
-            rotate: withTiming(isOpen ? '180deg' : '0deg', {
+            rotate: withTiming(isOpen ? '0deg' : '-90deg', {
                 duration: 300,
             })
         }]
