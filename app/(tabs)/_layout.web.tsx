@@ -102,7 +102,7 @@ export default function WebLayout() {
 
   if (isMobile) {
     return (
-      <View className="flex-1">
+      <View className="flex-1 overflow-scroll">
         <Stack
           screenOptions={{
             headerShown: false,

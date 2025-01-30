@@ -7,15 +7,16 @@ interface NewsHeaderLeftItemProps {
     size: 'sm' | 'md';
     secondaryTitle?: string;
     theme?: 'light' | 'dark';
+    showNewsLogo?: boolean;
 }
 
-export const NewsHeaderLeftItem = ({ size, secondaryTitle, theme = 'light' }: NewsHeaderLeftItemProps) => {
+export const NewsHeaderLeftItem = ({ showNewsLogo = true, size, secondaryTitle, theme = 'light' }: NewsHeaderLeftItemProps) => {
     return (
         <View style={styles.headerLeft}>
-            <NewsLogo
+            {showNewsLogo && <NewsLogo
                 color={theme === 'light' ? '#000' : '#fff'}
                 size={size === 'sm' ? 24 : 36}
-            />
+            />}
             <Text
                 style={[
                     styles.secondaryTitleContainer,

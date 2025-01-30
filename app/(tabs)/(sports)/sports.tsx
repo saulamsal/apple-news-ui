@@ -259,7 +259,7 @@ const filteredNews = news.filter((item) => item.topic.id === 'sports');
 
                                 <View style={{ paddingHorizontal: 16, paddingTop:insets.top+ (Platform.OS === 'web' ? 24 : 0)   }}>
                                     <View style={styles.header}>
-                                        <NewsHeaderLeftItem size="md" secondaryTitle='Sports' />
+                                        <NewsHeaderLeftItem size="md" showNewsLogo={false} secondaryTitle='Sports' />
                                         <View style={styles.headerRight}>
                                             {renderSportsMenu()}
                                         </View>
