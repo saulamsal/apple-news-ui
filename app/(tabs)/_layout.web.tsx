@@ -196,11 +196,16 @@ export default function WebLayout() {
             </View>
           </View>
 
+
+
+
+
           <View className="">
             <SidebarItem icon="home" label="Home" href="/(tabs)/(index)" compact={isCompact} isActive={segments[1] === '(index)'} />
             <SidebarItem icon="sports" label="Sports" href="/(tabs)/(sports)" compact={isCompact} isActive={segments[1] === '(sports)'} />
-            <SidebarItem icon="news" label="News+" href="/(tabs)/(news+)" compact={isCompact} isActive={segments[1] === '(news+)'} />
             <SidebarItem icon="headset" label="Audio" href="/(tabs)/(audio)" compact={isCompact} isActive={segments[1] === '(audio)'} />
+            <SidebarItem icon="news" label="News+" href="/(tabs)/(news+)" compact={isCompact} isActive={segments[1] === '(news+)'} />
+
           </View>
 
 
@@ -229,7 +234,7 @@ export default function WebLayout() {
           {searchEntities.sections.map((section) => {
             if (section.id !== 'my_following') return null;
             return (
-              <View key={section.id} className="gap-3 rounded-2xl p-3 mt-4" style={{ backgroundColor: '#00000008' }}>
+              <View key={section.id} className="gap-3 rounded-2xl p-3 mt-4 mr-6" style={{ backgroundColor: '#00000008' }}>
                 {!isCompact && <Text className="text-sm text-gray-500">{section.title}</Text>}
                 <View className="gap-3">
                   {getAllEntitiesForSection(section.id).map((entity: Entity) => (
@@ -251,7 +256,14 @@ export default function WebLayout() {
 
           {/* {!isCompact && <SocialButtons showTwitter />} */}
 
+
+          <View className="mr-7 mt-4"> {!isCompact && <SocialButtons showGithub />}
+          </View>
+
         </View>
+
+
+        
       </View>
 
       <View className="flex-1 w-full max-w-[611px] bg-transparent">
@@ -264,6 +276,9 @@ export default function WebLayout() {
         />
       </View>
 
+
+      
+
       {showSidebar && (
         <View className="w-[350px] border-l sticky top-0"
           style={{ borderLeftColor: borderColor }}>
@@ -272,6 +287,9 @@ export default function WebLayout() {
           </View>
         </View>
       )}
+
+
+      
     </View>
   );
 }

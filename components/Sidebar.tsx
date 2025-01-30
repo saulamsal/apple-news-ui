@@ -324,7 +324,7 @@ export function Sidebar() {
           </View>
         )}
 
-          {(!isFocused && !searchQuery)  && <SocialButtons  showGithub/>}
+          {/* {(!isFocused && !searchQuery)  && <SocialButtons  showGithub/>} */}
 
 
       </View>
