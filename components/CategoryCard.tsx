@@ -14,6 +14,7 @@ export interface CategoryCardProps {
   minimal?: boolean;
   disable_name?: boolean;
   iconColor?: string;
+  onPress?: () => void;
 }
 
 export const CategoryCard = ({ 

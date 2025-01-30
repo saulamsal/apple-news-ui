@@ -14,12 +14,13 @@ import entities from '@/app/data/entities.json';
 import { scores } from '@/data/scores.json';
 import { NewsItem, NewsItemType } from '@/components/NewsItem';
 import { SwipeableNewsItem } from '@/components/SwipeableNewsItem';
-import {DropdownMenu} from '@/components/DropdownMenu';
+import { DropdownMenu } from '@/components/DropdownMenu';
 import { MaterialIcons } from '@expo/vector-icons';
 import { SegmentedControl } from '@/components/SegmentedControl';
 import { SportScoreCarousel } from '@/components/SportScoreCarousel';
 import { StatusBar } from 'expo-status-bar';
 import Entypo from '@expo/vector-icons/Entypo';
+import { LinearGradient } from 'expo-linear-gradient';
 
 interface Entity {
     id: string;
@@ -160,12 +161,12 @@ export default function TopicScreen() {
 
     const HeaderSurface = ({ showNavBar }: { showNavBar: SharedValue<number> }) => (
         <FadingView opacity={showNavBar} style={StyleSheet.absoluteFill}>
-           {Platform.OS === 'web' ? <> </> : 
-            <BlurView
-                style={[StyleSheet.absoluteFill, { backgroundColor }]}
-                intensity={80}
-                tint="light"
-            />
+            {Platform.OS === 'web' ? <> </> :
+                <BlurView
+                    style={[StyleSheet.absoluteFill, { backgroundColor }]}
+                    intensity={80}
+                    tint="light"
+                />
             }
         </FadingView>
     );
@@ -198,30 +199,34 @@ export default function TopicScreen() {
             }
             headerStyle={{
                 // backgroundColor,
-                paddingBottom: 10
+                paddingBottom: Platform.OS === 'web' ? 50 : 10
             }}
 
             headerCenterStyle={{
-                width: 'auto',
-                minWidth: 'auto',
-                maxWidth: 'auto',
-              }}
-        
-              headerRightStyle={{ 
-                width: 'auto',
-                minWidth: 'auto',
-                maxWidth: 'auto',
-              }}
-        
-              headerLeftStyle={{
-                width: 'auto',
-                minWidth: 'auto',
-                maxWidth: 'auto',
-              }}
-        
+                ...(Platform.OS === 'web' ? {
+                    width: 'auto',
+                    minWidth: 'auto',
+                    maxWidth: 'auto',
+                } : {})
+            }}
+
+            headerRightStyle={{
+                ...(Platform.OS === 'web' ? {
+                    width: 'auto',
+                    minWidth: 'auto',
+                    maxWidth: 'auto',
+                } : {})
+            }}
+
+            headerLeftStyle={{
+                ...(Platform.OS === 'web' ? {
+                    width: 'auto',
+                    minWidth: 'auto',
+                    maxWidth: 'auto',
+                } : {})
+            }}
 
 
-              
         >
         </Header>
     );
@@ -233,16 +238,38 @@ export default function TopicScreen() {
                 {
                     // backgroundColor,
                     borderBottomWidth: 0,
-                    borderTopWidth: 0
+                    borderTopWidth: 0,
+                    marginBottom: 20
+
                 }
             ]}
         >
-                
-            <Image 
-                source={{ uri: entity.featured_background }}
-                className="absolute -top-[120] -left-0  right-0 h-[200]"
-             
-            />
+
+            <View
+
+                style={{
+                    position: 'absolute', top: -120, left: 0, right: 0, height: 210,
+                    backgroundColor: '#000000',
+                    opacity: 1
+
+                }}
+            // start={{ x: 0, y: 0 }}
+            // end={{ x: 0, y: 1 }}
+            >
+                <Image
+                    source={{ uri: entity.featured_background }}
+                    className="absolute  -left-0  right-0 h-full w-full"
+
+                />
+                <LinearGradient
+                    colors={['#00000000', '#000000']}
+                    style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 210 }}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 0, y: 1 }}
+                />
+
+            </View>
+
 
             <View className="flex-row items-center gap-4">
                 {entity.logo && (
@@ -281,30 +308,30 @@ export default function TopicScreen() {
                             <Text className="font-semibold color-apple-news text-lg">Done</Text>
                         </TouchableOpacity>
                     </View>
-          
-                <Text className="text-xl font-bold px-4 pb-2">{entity.sub_topics?.title}</Text>
 
-                {entity.sub_topics?.items.map((item, index) => (
-                    <TouchableOpacity
-                        key={item.id}
-                        onPress={() => {
-                            setShowSubTopicsModal(false);
-                            router.push(`/topic/${item.id}`);
-                        }}
-                        className=" flex-row items-center px-4 py-3 border-b border-gray-200 border-hairline" 
-                    >
+                    <Text className="text-xl font-bold px-4 pb-2">{entity.sub_topics?.title}</Text>
 
-                        <Image
-                            source={{ uri: item.logo }}
-                            className="w-8 h-8 rounded-full mr-4"
-                        />
+                    {entity.sub_topics?.items.map((item, index) => (
+                        <TouchableOpacity
+                            key={item.id}
+                            onPress={() => {
+                                setShowSubTopicsModal(false);
+                                router.push(`/topic/${item.id}`);
+                            }}
+                            className=" flex-row items-center px-4 py-3 border-b border-gray-200 border-hairline"
+                        >
 
-                        <Text className="text-xl font-semibold tracking-tight flex-1">{item.title}</Text>
-                        <Entypo name="chevron-right" size={20} color="#666" />
-                    </TouchableOpacity>
-                ))}
-              </View>
-              </View>
+                            <Image
+                                source={{ uri: item.logo }}
+                                className="w-8 h-8 rounded-full mr-4"
+                            />
+
+                            <Text className="text-xl font-semibold tracking-tight flex-1">{item.title}</Text>
+                            <Entypo name="chevron-right" size={20} color="#666" />
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            </View>
         )
     }
 
@@ -420,8 +447,8 @@ export default function TopicScreen() {
 
     return (
         <View className={`flex-1 ${Platform.OS !== 'web' ? 'bg-[#F2F2F7]' : 'bg-white'}`}>
-            
-        
+
+
 
 
             <ScrollViewWithHeaders
@@ -435,22 +462,22 @@ export default function TopicScreen() {
                 absoluteHeader={true}
                 headerFadeInThreshold={0.5}
                 initialAbsoluteHeaderHeight={110}
-            
-              style={Platform.OS === 'web' ? {
-                        height: undefined,
-                        overflow: 'visible' as const
-                    } : undefined}
-                    contentContainerStyle={Platform.OS === 'web' ? {
-                        height: undefined
-                    } : {
-                        paddingBottom: bottom + 20
-                    }}
-                    
+
+                style={Platform.OS === 'web' ? {
+                    height: undefined,
+                    overflow: 'visible' as const
+                } : undefined}
+                contentContainerStyle={Platform.OS === 'web' ? {
+                    height: undefined
+                } : {
+                    paddingBottom: bottom + 20
+                }}
+
             >
                 <StatusBar style={showSubTopicsModal ? 'light' : 'dark'} />
 
-              
-                
+
+
 
 
                 {entity.tabs && (
@@ -462,9 +489,9 @@ export default function TopicScreen() {
                         />
                     </View>
                 )}
-                        {/* <ModalData /> */}
+                {/* <ModalData /> */}
                 {renderContent()}
-        
+
                 <SubTopicsModal />
             </ScrollViewWithHeaders>
 

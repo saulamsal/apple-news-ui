@@ -402,24 +402,29 @@ export default function ScoreDetailsScreen() {
         // paddingHorizontal: 10,
       }}
 
-      
       headerCenterStyle={{
-        width: 'auto',
-        minWidth: 'auto',
-        maxWidth: 'auto',
-      }}
+        ...(Platform.OS === 'web' ? {
+            width: 'auto',
+            minWidth: 'auto', 
+            maxWidth: 'auto',
+        } : {})
+    }}
 
-      headerRightStyle={{ 
-        width: 'auto',
-        minWidth: 'auto',
-        maxWidth: 'auto',
-      }}
+    headerRightStyle={{
+        ...(Platform.OS === 'web' ? {
+            width: 'auto',
+            minWidth: 'auto',
+            maxWidth: 'auto',
+        } : {})
+    }}
 
-      headerLeftStyle={{
-        width: 'auto',
-        minWidth: 'auto',
-        maxWidth: 'auto',
-      }}
+    headerLeftStyle={{
+        ...(Platform.OS === 'web' ? {
+            width: 'auto',
+            minWidth: 'auto',
+            maxWidth: 'auto',
+        } : {})
+    }}
 
 
 

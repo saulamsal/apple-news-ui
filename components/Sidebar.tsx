@@ -215,7 +215,11 @@ export function Sidebar() {
         <TouchableOpacity 
           key={game.id}
           style={styles.scoreCard}
-          onPress={() => router.push(`/scores/${game.id}`)}
+          onPress={() => {
+       
+            router.push(`/scores/${game.id}`);
+         
+          }}
           className="hover:bg-gray-200 transition-all duration-500"
         >
           <View style={styles.scoreHeader}>
@@ -273,6 +277,7 @@ export function Sidebar() {
                   icon={entity.icon}
                   entity_type={entity.entity_type}
                   description={entity.description}
+                 
                 />
               ))}
             </View>
