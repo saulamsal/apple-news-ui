@@ -20,9 +20,9 @@ interface ExpoLiveActivityModule {
   startActivity(
     competition: string,
     homeTeam: string,
+    homeTeamNickname: string,
     awayTeam: string,
-    homeLogo: string,
-    awayLogo: string,
+    awayTeamNickname: string,
     initialState: LiveActivityState
   ): Promise<boolean>;
   updateActivity(state: LiveActivityState): void;
@@ -43,17 +43,17 @@ const LiveActivities = {
   startActivity(
     competition: string,
     homeTeam: string,
+    homeTeamNickname: string,
     awayTeam: string,
-    homeLogo: string,
-    awayLogo: string,
+    awayTeamNickname: string,
     initialState: LiveActivityState
   ): Promise<boolean> {
     return nativeModule.startActivity(
       competition,
       homeTeam,
+      homeTeamNickname,
       awayTeam,
-      homeLogo,
-      awayLogo,
+      awayTeamNickname,
       initialState
     );
   },

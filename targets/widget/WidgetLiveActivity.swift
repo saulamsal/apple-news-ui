@@ -15,9 +15,9 @@ struct WidgetAttributes: ActivityAttributes {
     
     var competition: String
     var homeTeam: String
+    var homeTeamNickname: String
     var awayTeam: String
-    var homeLogo: String
-    var awayLogo: String
+    var awayTeamNickname: String
 }
 
 struct WidgetLiveActivity: Widget {
@@ -47,10 +47,14 @@ struct WidgetLiveActivity: Widget {
                     HStack(spacing: 12) {
                         // Home team
                         VStack(spacing: 4) {
-                            Image(context.attributes.homeLogo)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
+                            Circle()
+                                .fill(Color(hex: context.state.homeColor) ?? .blue)
                                 .frame(width: 45, height: 45)
+                                .overlay(
+                                    Text(context.attributes.homeTeamNickname)
+                                        .font(.system(size: 16, weight: .bold))
+                                        .foregroundColor(.white)
+                                )
                             
                             Text(context.attributes.homeTeam)
                                 .font(.caption)
@@ -79,10 +83,14 @@ struct WidgetLiveActivity: Widget {
                         
                         // Away team
                         VStack(spacing: 4) {
-                            Image(context.attributes.awayLogo)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
+                            Circle()
+                                .fill(Color(hex: context.state.awayColor) ?? .red)
                                 .frame(width: 45, height: 45)
+                                .overlay(
+                                    Text(context.attributes.awayTeamNickname)
+                                        .font(.system(size: 16, weight: .bold))
+                                        .foregroundColor(.white)
+                                )
                             
                             Text(context.attributes.awayTeam)
                                 .font(.caption)
@@ -95,13 +103,12 @@ struct WidgetLiveActivity: Widget {
                     if !context.state.currentEvent.isEmpty {
                         HStack(spacing: 8) {
                             Circle()
-                                .fill(Color.white)
+                                .fill(Color(hex: context.state.homeColor) ?? .blue)
                                 .frame(width: 24, height: 24)
                                 .overlay(
-                                    Image(context.attributes.homeLogo)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 20, height: 20)
+                                    Text(context.attributes.homeTeamNickname)
+                                        .font(.system(size: 7, weight: .bold))
+                                        .foregroundColor(.white)
                                 )
                             
                             Text(context.state.currentEvent)
@@ -119,21 +126,37 @@ struct WidgetLiveActivity: Widget {
         } dynamicIsland: { context in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
-                    VStack(alignment: .leading) {
-                        Text(context.attributes.homeTeam)
-                            .foregroundColor(.white)
-                        Text("\(context.state.homeScore)")
-                            .font(.title2.bold())
-                            .foregroundColor(.white)
+                    HStack {
+                        Circle()
+                            .fill(Color(hex: context.state.homeColor) ?? .blue)
+                            .frame(width: 24, height: 24)
+                            .overlay(
+                                Text(context.attributes.homeTeamNickname)
+                                    .font(.system(size: 10, weight: .bold))
+                                    .foregroundColor(.white)
+                            )
+                        VStack(alignment: .leading) {
+                            Text("\(context.state.homeScore)")
+                                .font(.title2.bold())
+                                .foregroundColor(.white)
+                        }
                     }
                 }
                 DynamicIslandExpandedRegion(.trailing) {
-                    VStack(alignment: .trailing) {
-                        Text(context.attributes.awayTeam)
-                            .foregroundColor(.white)
-                        Text("\(context.state.awayScore)")
-                            .font(.title2.bold())
-                            .foregroundColor(.white)
+                    HStack {
+                        VStack(alignment: .trailing) {
+                            Text("\(context.state.awayScore)")
+                                .font(.title2.bold())
+                                .foregroundColor(.white)
+                        }
+                        Circle()
+                            .fill(Color(hex: context.state.awayColor) ?? .red)
+                            .frame(width: 24, height: 24)
+                            .overlay(
+                                Text(context.attributes.awayTeamNickname)
+                                    .font(.system(size: 10, weight: .bold))
+                                    .foregroundColor(.white)
+                            )
                     }
                 }
                 DynamicIslandExpandedRegion(.bottom) {
@@ -187,9 +210,9 @@ extension WidgetAttributes {
         WidgetAttributes(
             competition: "Premier League",
             homeTeam: "Manchester United",
+            homeTeamNickname: "MUN",
             awayTeam: "Manchester City",
-            homeLogo: "mun",
-            awayLogo: "mci"
+            awayTeamNickname: "MCI"
         )
     }
 }
