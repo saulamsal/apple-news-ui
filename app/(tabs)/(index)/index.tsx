@@ -139,7 +139,7 @@ export default function HomeScreen() {
       
       if (currentScrollY > 100) {
         if (scrollDiff < -20) {
-          translationY.value = withTiming(0, {
+          translationY.value = withTiming(20, {
             duration: 300
           });
         } else if (scrollDiff > 10) {
@@ -214,7 +214,7 @@ export default function HomeScreen() {
           <NewsHeaderLeftItem size="sm" />
         </Animated.View>
         
-        <View className="flex-1 " >
+        <SafeAreaView className="flex-1 " >
           <AnimatedSwipeListView
             // refreshControl={
             //   <RefreshControl
@@ -238,15 +238,13 @@ export default function HomeScreen() {
             keyExtractor={(item: any) => item.id}
             bounces={false}
             style={
-            
-               
               Platform.OS === 'web' ? {
               height: undefined,
               overflow: 'visible'
             } :  {}}
             scrollEnabled={Platform.OS !== 'web'}
             contentContainerStyle={{
-                paddingTop: insets.top,
+                // paddingTop: insets.top,
                 paddingBottom: insets.bottom + 60,
                 backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white',
                 ...(Platform.OS === 'web' ? {
@@ -275,7 +273,7 @@ export default function HomeScreen() {
               </View>
             }
           />
-        </View>
+        </SafeAreaView>
 
     </>
   );
