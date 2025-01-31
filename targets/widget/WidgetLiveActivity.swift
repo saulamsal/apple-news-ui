@@ -28,8 +28,8 @@ struct WidgetLiveActivity: Widget {
                 ZStack {
                     LinearGradient(
                         colors: [
-                            Color(hex: context.state.homeColor) ?? .blue,
-                            Color(hex: context.state.awayColor) ?? .red
+                            (Color(hex: context.state.homeColor) ?? .blue).opacity(0.1),
+                            Color(hex: context.state.homeColor) ?? .red
                         ],
                         startPoint: .leading,
                         endPoint: .trailing
@@ -40,7 +40,7 @@ struct WidgetLiveActivity: Widget {
                 VStack(spacing: 8) {
                     // Top row with competition name
                     Text(context.attributes.competition)
-                        .font(.caption)
+                        .font(.system(.caption, design: .rounded))
                         .foregroundColor(.white.opacity(0.9))
                     
                     // Main score section
@@ -48,28 +48,28 @@ struct WidgetLiveActivity: Widget {
                         // Home team
                         VStack(spacing: 4) {
                             Circle()
-                                .fill(Color(hex: context.state.homeColor) ?? .blue)
+                                .fill(.ultraThinMaterial)
                                 .frame(width: 45, height: 45)
                                 .overlay(
                                     Text(context.attributes.homeTeamNickname)
-                                        .font(.system(size: 16, weight: .bold))
+                                        .font(.system(size: 15, weight: .bold, design: .rounded))
                                         .foregroundColor(.white)
                                 )
                             
                             Text(context.attributes.homeTeam)
-                                .font(.caption)
+                                .font(.system(.caption, design: .rounded))
                                 .foregroundColor(.white)
                                 .fontWeight(.medium)
                         }
                         
                         Text("\(context.state.homeScore)")
-                            .font(.system(size: 32, weight: .bold))
+                            .font(.system(size: 32, weight: .bold, design: .rounded))
                             .foregroundColor(.white)
                         
                         // Center section with time/period
                         VStack(spacing: 4) {
                             Text(context.state.timeOrPeriod)
-                                .font(.caption)
+                                .font(.system(.caption, design: .rounded))
                                 .foregroundColor(.white)
                                 .padding(.vertical, 4)
                                 .padding(.horizontal, 10)
@@ -78,22 +78,21 @@ struct WidgetLiveActivity: Widget {
                         }
                         
                         Text("\(context.state.awayScore)")
-                            .font(.system(size: 32, weight: .bold))
+                            .font(.system(size: 32, weight: .bold, design: .rounded))
                             .foregroundColor(.white)
                         
                         // Away team
                         VStack(spacing: 4) {
                             Circle()
-                                .fill(Color(hex: context.state.awayColor) ?? .red)
                                 .frame(width: 45, height: 45)
                                 .overlay(
                                     Text(context.attributes.awayTeamNickname)
-                                        .font(.system(size: 16, weight: .bold))
-                                        .foregroundColor(.white)
+                                        .font(.system(size: 16, weight: .bold, design: .rounded))
+                                        .foregroundColor(.black)
                                 )
                             
                             Text(context.attributes.awayTeam)
-                                .font(.caption)
+                                .font(.system(.caption, design: .rounded))
                                 .foregroundColor(.white)
                                 .fontWeight(.medium)
                         }
@@ -107,12 +106,12 @@ struct WidgetLiveActivity: Widget {
                                 .frame(width: 24, height: 24)
                                 .overlay(
                                     Text(context.attributes.homeTeamNickname)
-                                        .font(.system(size: 7, weight: .bold))
+                                        .font(.system(size: 7, weight: .bold, design: .rounded))
                                         .foregroundColor(.white)
                                 )
                             
                             Text(context.state.currentEvent)
-                                .font(.callout)
+                                .font(.system(.callout, design: .rounded))
                                 .foregroundColor(.white)
                                 .multilineTextAlignment(.leading)
                         }
@@ -132,12 +131,12 @@ struct WidgetLiveActivity: Widget {
                             .frame(width: 24, height: 24)
                             .overlay(
                                 Text(context.attributes.homeTeamNickname)
-                                    .font(.system(size: 10, weight: .bold))
+                                    .font(.system(size: 10, weight: .bold, design: .rounded))
                                     .foregroundColor(.white)
                             )
                         VStack(alignment: .leading) {
                             Text("\(context.state.homeScore)")
-                                .font(.title2.bold())
+                                .font(.system(.title2, design: .rounded).bold())
                                 .foregroundColor(.white)
                         }
                     }
@@ -146,7 +145,7 @@ struct WidgetLiveActivity: Widget {
                     HStack {
                         VStack(alignment: .trailing) {
                             Text("\(context.state.awayScore)")
-                                .font(.title2.bold())
+                                .font(.system(.title2, design: .rounded).bold())
                                 .foregroundColor(.white)
                         }
                         Circle()
@@ -154,7 +153,7 @@ struct WidgetLiveActivity: Widget {
                             .frame(width: 24, height: 24)
                             .overlay(
                                 Text(context.attributes.awayTeamNickname)
-                                    .font(.system(size: 10, weight: .bold))
+                                    .font(.system(size: 10, weight: .bold, design: .rounded))
                                     .foregroundColor(.white)
                             )
                     }
@@ -162,22 +161,26 @@ struct WidgetLiveActivity: Widget {
                 DynamicIslandExpandedRegion(.bottom) {
                     VStack {
                         Text(context.state.timeOrPeriod)
+                            .font(.system(.body, design: .rounded))
                             .foregroundColor(.white)
                         if !context.state.currentEvent.isEmpty {
                             Text(context.state.currentEvent)
-                                .font(.caption)
+                                .font(.system(.caption, design: .rounded))
                                 .foregroundColor(.white)
                         }
                     }
                 }
             } compactLeading: {
                 Text("\(context.state.homeScore)-\(context.state.awayScore)")
+                    .font(.system(.body, design: .rounded))
                     .foregroundColor(.white)
             } compactTrailing: {
                 Text(context.state.timeOrPeriod)
+                    .font(.system(.body, design: .rounded))
                     .foregroundColor(.white)
             } minimal: {
                 Text("\(context.state.homeScore)-\(context.state.awayScore)")
+                    .font(.system(.body, design: .rounded))
                     .foregroundColor(.white)
                 }
             .widgetURL(URL(string: "https://www.apple-news-ui.app/scores"))
