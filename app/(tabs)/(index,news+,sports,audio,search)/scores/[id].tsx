@@ -249,9 +249,7 @@ export default function ScoreDetailsScreen() {
                   // Start the Live Activity
                   const success = await LiveActivities.startActivity(
                     score.competition.full_name,
-                    score.team1.name,
                     score.team1.nickname,
-                    score.team2.name,
                     score.team2.nickname,
                     score.team1.logo,
                     score.team2.logo,

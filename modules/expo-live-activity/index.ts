@@ -21,20 +21,20 @@ const LiveActivities = {
     return false;
   },
 
-  startActivity: (
+  startActivity(
     competition: string,
     homeTeam: string,
-    homeTeamNickname: string,
     awayTeam: string,
-    awayTeamNickname: string,
     homeLogo: string,
     awayLogo: string,
-    initialState: any
-  ) => Promise<boolean>,
+    initialState: LiveActivityState
+  ): Promise<boolean> {
+    return Promise.resolve(false);
+  },
 
-  updateActivity: (state: any) => Promise<boolean>,
+  updateActivity(state: LiveActivityState): void {},
 
-  endActivity: (state: any) => Promise<boolean>,
+  endActivity(state: LiveActivityState): void {},
 };
 
 export default LiveActivities;

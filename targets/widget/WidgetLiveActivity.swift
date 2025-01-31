@@ -15,9 +15,7 @@ struct WidgetAttributes: ActivityAttributes {
     
     var competition: String
     var homeTeam: String
-    var homeTeamNickname: String
     var awayTeam: String
-    var awayTeamNickname: String
     var homeLogo: String
     var awayLogo: String
 }
@@ -26,7 +24,7 @@ struct WidgetLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: WidgetAttributes.self) { context in
             ZStack {
-                // Background gradient with blur and dark overlay
+                // Background gradient with dark overlay
                 ZStack {
                     LinearGradient(
                         colors: [
@@ -36,8 +34,7 @@ struct WidgetLiveActivity: Widget {
                         startPoint: .leading,
                         endPoint: .trailing
                     )
-                    .blur(radius: 20)
-                    Color.black.opacity(0.3) // Dark overlay
+                    Color.black.opacity(0.5) // Dark overlay
                 }
                 
                 VStack(spacing: 8) {
@@ -50,16 +47,12 @@ struct WidgetLiveActivity: Widget {
                     HStack(spacing: 12) {
                         // Home team
                         VStack(spacing: 4) {
-                            Circle()
-                                .fill(Color(hex: context.state.homeColor)?.opacity(0.3) ?? .blue.opacity(0.3))
+                            Image(context.attributes.homeLogo)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
                                 .frame(width: 45, height: 45)
-                                .overlay(
-                                    Text(context.attributes.homeTeam)
-                                        .font(.system(size: 16, weight: .bold))
-                                        .foregroundColor(.white)
-                                )
                             
-                            Text(context.attributes.homeTeamNickname)
+                            Text(context.attributes.homeTeam)
                                 .font(.caption)
                                 .foregroundColor(.white)
                                 .fontWeight(.medium)
@@ -86,16 +79,12 @@ struct WidgetLiveActivity: Widget {
                         
                         // Away team
                         VStack(spacing: 4) {
-                            Circle()
-                                .fill(Color(hex: context.state.awayColor)?.opacity(0.3) ?? .red.opacity(0.3))
+                            Image(context.attributes.awayLogo)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
                                 .frame(width: 45, height: 45)
-                                .overlay(
-                                    Text(context.attributes.awayTeam)
-                                        .font(.system(size: 16, weight: .bold))
-                                        .foregroundColor(.white)
-                                )
                             
-                            Text(context.attributes.awayTeamNickname)
+                            Text(context.attributes.awayTeam)
                                 .font(.caption)
                                 .foregroundColor(.white)
                                 .fontWeight(.medium)
@@ -106,12 +95,13 @@ struct WidgetLiveActivity: Widget {
                     if !context.state.currentEvent.isEmpty {
                         HStack(spacing: 8) {
                             Circle()
-                                .fill(Color(hex: context.state.homeColor)?.opacity(0.3) ?? .blue.opacity(0.3))
+                                .fill(Color.white)
                                 .frame(width: 24, height: 24)
                                 .overlay(
-                                    Text(context.attributes.homeTeam)
-                                        .font(.system(size: 10, weight: .bold))
-                                        .foregroundColor(.white)
+                                    Image(context.attributes.homeLogo)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 20, height: 20)
                                 )
                             
                             Text(context.state.currentEvent)
@@ -129,126 +119,44 @@ struct WidgetLiveActivity: Widget {
         } dynamicIsland: { context in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
-                    ZStack {
-                        LinearGradient(
-                            colors: [Color(hex: context.state.homeColor) ?? .blue, Color(hex: context.state.homeColor)?.opacity(0.7) ?? .blue.opacity(0.7)],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                        .opacity(0.3)
-                        
-                        VStack(alignment: .leading, spacing: 4) {
-                            Circle()
-                                .fill(Color(hex: context.state.homeColor)?.opacity(0.3) ?? .blue.opacity(0.3))
-                                .frame(width: 24, height: 24)
-                                .overlay(
-                                    Text(context.attributes.homeTeam)
-                                        .font(.system(size: 10, weight: .bold))
-                                        .foregroundColor(.white)
-                                )
-                            
-                            Text(context.attributes.homeTeam)
-                                .font(.caption2)
-                                .foregroundColor(.white)
-                            Text("\(context.state.homeScore)")
-                                .font(.title2.bold())
-                                .foregroundColor(.white)
-                        }
-                        .padding(.vertical, 4)
-                    }
-                }
-                
-                DynamicIslandExpandedRegion(.trailing) {
-                    ZStack {
-                        LinearGradient(
-                            colors: [Color(hex: context.state.awayColor)?.opacity(0.7) ?? .red.opacity(0.7), Color(hex: context.state.awayColor) ?? .red],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                        .opacity(0.3)
-                        
-                        VStack(alignment: .trailing, spacing: 4) {
-                            Circle()
-                                .fill(Color(hex: context.state.awayColor)?.opacity(0.3) ?? .red.opacity(0.3))
-                                .frame(width: 24, height: 24)
-                                .overlay(
-                                    Text(context.attributes.awayTeam)
-                                        .font(.system(size: 10, weight: .bold))
-                                        .foregroundColor(.white)
-                                )
-                            
-                            Text(context.attributes.awayTeam)
-                                .font(.caption2)
-                                .foregroundColor(.white)
-                            Text("\(context.state.awayScore)")
-                                .font(.title2.bold())
-                                .foregroundColor(.white)
-                        }
-                        .padding(.vertical, 4)
-                    }
-                }
-                
-                DynamicIslandExpandedRegion(.bottom) {
-                    VStack(spacing: 8) {
-                        Text(context.state.timeOrPeriod)
-                            .font(.system(size: 14, weight: .semibold))
+                    VStack(alignment: .leading) {
+                        Text(context.attributes.homeTeam)
                             .foregroundColor(.white)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 4)
-                            .background(Color.white.opacity(0.2))
-                            .cornerRadius(12)
-                        
+                        Text("\(context.state.homeScore)")
+                            .font(.title2.bold())
+                            .foregroundColor(.white)
+                    }
+                }
+                DynamicIslandExpandedRegion(.trailing) {
+                    VStack(alignment: .trailing) {
+                        Text(context.attributes.awayTeam)
+                            .foregroundColor(.white)
+                        Text("\(context.state.awayScore)")
+                            .font(.title2.bold())
+                            .foregroundColor(.white)
+                    }
+                }
+                DynamicIslandExpandedRegion(.bottom) {
+                    VStack {
+                        Text(context.state.timeOrPeriod)
+                            .foregroundColor(.white)
                         if !context.state.currentEvent.isEmpty {
                             Text(context.state.currentEvent)
                                 .font(.caption)
-                                .foregroundColor(.white.opacity(0.9))
-                                .multilineTextAlignment(.center)
-                                .frame(maxWidth: .infinity)
-                                .padding(.horizontal)
+                                .foregroundColor(.white)
                         }
                     }
-                    .padding(.vertical, 4)
                 }
             } compactLeading: {
-                HStack(spacing: 4) {
-                    Circle()
-                        .fill(Color(hex: context.state.homeColor)?.opacity(0.3) ?? .blue.opacity(0.3))
-                        .frame(width: 16, height: 16)
-                        .overlay(
-                            Text(context.attributes.homeTeam)
-                                .font(.system(size: 8, weight: .bold))
-                                .foregroundColor(.white)
-                        )
-                    Text("\(context.state.homeScore)-\(context.state.awayScore)")
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                }
+                Text("\(context.state.homeScore)-\(context.state.awayScore)")
+                    .foregroundColor(.white)
             } compactTrailing: {
                 Text(context.state.timeOrPeriod)
-                    .font(.caption2)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 2)
-                    .background(Color.white.opacity(0.2))
-                    .cornerRadius(8)
                     .foregroundColor(.white)
             } minimal: {
-                ZStack {
-                    Circle()
-                        .fill(LinearGradient(
-                            colors: [
-                                Color(hex: context.state.homeColor) ?? .blue,
-                                Color(hex: context.state.awayColor) ?? .red
-                            ],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        ))
-                        .frame(width: 24, height: 24)
-                    
-                    Text("\(context.state.homeScore)-\(context.state.awayScore)")
-                        .font(.caption2.bold())
-                        .foregroundColor(.white)
+                Text("\(context.state.homeScore)-\(context.state.awayScore)")
+                    .foregroundColor(.white)
                 }
-            }
             .widgetURL(URL(string: "https://www.apple-news-ui.app/scores"))
             .keylineTint(Color.white)
         }
@@ -279,9 +187,7 @@ extension WidgetAttributes {
         WidgetAttributes(
             competition: "Premier League",
             homeTeam: "Manchester United",
-            homeTeamNickname: "Man Utd",
             awayTeam: "Manchester City",
-            awayTeamNickname: "Man City",
             homeLogo: "mun",
             awayLogo: "mci"
         )
@@ -320,4 +226,3 @@ extension WidgetAttributes.ContentState {
     WidgetAttributes.ContentState.firstHalf
     WidgetAttributes.ContentState.secondHalf
 }
-
