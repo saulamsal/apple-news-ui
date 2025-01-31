@@ -236,6 +236,72 @@ export default function ScoreDetailsScreen() {
             {Platform.OS === 'ios' && score.is_live && (
               <DropdownMenu.Item key="liveactivity" onSelect={async ()=> {
                 try {
+                  // Check if Live Activities are available
+                  const activitiesEnabled = LiveActivities.areActivitiesEnabled();
+                  if (!activitiesEnabled) {
+                    Alert.alert('Error', 'Live Activities are not available on this device');
+                    return;
+                  }
+
+                  // Check if there's already an activity in progress
+                  const activityInProgress = LiveActivities.isActivityInProgress();
+                  if (activityInProgress) {
+                    Alert.alert(
+                      'Live Activity In Progress',
+                      'Would you like to end the current Live Activity and start a new one?',
+                      [
+                        {
+                          text: 'Cancel',
+                          style: 'cancel'
+                        },
+                        {
+                          text: 'End & Start New',
+                          style: 'destructive',
+                          onPress: async () => {
+                            // End the current activity
+                            LiveActivities.endActivity({
+                              homeScore: 0,
+                              awayScore: 0,
+                              timeOrPeriod: "ENDED",
+                              currentEvent: "Activity ended",
+                              situation: "ENDED",
+                              homeColor: "#000000",
+                              awayColor: "#000000"
+                            });
+
+                            // Wait a bit for the activity to end
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+
+                            // Start the new activity
+                            const initialState = {
+                              homeScore: score.team1.score || 0,
+                              awayScore: score.team2.score || 0,
+                              timeOrPeriod: score.team1.events?.[0]?.time || "Q1 0:00",
+                              currentEvent: score.team1.events?.[0]?.event || "Game started!",
+                              situation: score.team1.events?.[0]?.situation || "KICKOFF",
+                              homeColor: score.team1.bg_color,
+                              awayColor: score.team2.bg_color
+                            };
+
+                            const success = await LiveActivities.startActivity(
+                              score.competition.full_name,
+                              score.team1.name,
+                              score.team1.nickname,
+                              score.team2.name,
+                              score.team2.nickname,
+                              initialState
+                            );
+
+                            if (success) {
+                              Alert.alert('Success', 'New Live Activity started!');
+                            }
+                          }
+                        }
+                      ]
+                    );
+                    return;
+                  }
+
                   const initialState = {
                     homeScore: score.team1.score || 0,
                     awayScore: score.team2.score || 0,
@@ -246,18 +312,30 @@ export default function ScoreDetailsScreen() {
                     awayColor: score.team2.bg_color
                   };
 
+                  // Debug logging
+                  console.log('Starting Live Activity with:', {
+                    competition: score.competition.full_name,
+                    homeTeam: score.team1.name,
+                    homeTeamNickname: score.team1.nickname,
+                    awayTeam: score.team2.name,
+                    awayTeamNickname: score.team2.nickname,
+                    initialState
+                  });
+
                   // Start the Live Activity
                   const success = await LiveActivities.startActivity(
                     score.competition.full_name,
-                    score.team1.nickname,
-                    score.team2.nickname,
                     score.team1.name,
+                    score.team1.nickname,
                     score.team2.name,
+                    score.team2.nickname,
                     initialState
                   );
+
+                  
                   
                   if (success) {
-                    // Alert.alert('Success', 'Live Activity started!');
+                    Alert.alert('Success', 'Live Activity started!');
                     
                     let eventIndex = 0;
                     const allEvents = [...(score.team1.events || []), ...(score.team2.events || [])].sort((a: GameEvent, b: GameEvent) => {
@@ -298,7 +376,7 @@ export default function ScoreDetailsScreen() {
                       }
                     }, 5000);
                   } else {
-                    // Alert.alert('Error', 'Failed to start Live Activity');
+                    Alert.alert('Error', 'Failed to start Live Activity');
                   }
                 } catch (error) {
                   console.error('Live Activity error:', error);
