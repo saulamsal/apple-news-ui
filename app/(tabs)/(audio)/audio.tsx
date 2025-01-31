@@ -185,6 +185,8 @@ export default function AudioScreen() {
       )}
 
 
+
+<SafeAreaView className="flex-1">
       <FlatList
         data={remainingEpisodes}
         renderItem={renderPodcastItem}
@@ -202,7 +204,7 @@ export default function AudioScreen() {
         }
 
         
-        progressViewOffset={insets.top-50}
+        // progressViewOffset={insets.top-50}
 
         // contentContainerStyle={Platform.OS === 'web' ? {
         //   height: undefined
@@ -217,7 +219,7 @@ export default function AudioScreen() {
         scrollEnabled={Platform.OS !== 'web'}
         contentContainerStyle={{
           paddingHorizontal: 16,
-          paddingTop: insets.top + 10,
+          // paddingTop: insets.top + 10,
           paddingBottom: insets.bottom + 60,
           backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white',
           ...(Platform.OS === 'web' ? {
@@ -288,6 +290,7 @@ export default function AudioScreen() {
         }
       />
 
+    </SafeAreaView>
     </>
   );
 }
