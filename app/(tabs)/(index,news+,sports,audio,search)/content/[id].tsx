@@ -3,39 +3,94 @@ import { View, Text, useWindowDimensions, Platform } from 'react-native';
 import { TabView, SceneRendererProps, NavigationState } from 'react-native-tab-view';
 import { news } from '@/data/news.json';
 import { ContentView } from './_components/ContentView';
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { StatusBar } from 'react-native';
 
 type Route = {
   key: string;
   title: string;
+  index: number;
 };
 
 export default function ContentScreen() {
   const { id } = useLocalSearchParams();
   const layout = useWindowDimensions();
 
-
-  //TODO: infinite scroll left and right
-  
   const [currentIndex, setCurrentIndex] = useState(() => news.findIndex(item => item.id === id));
   const [isNavigating, setIsNavigating] = useState(false);
   const navigationTimeout = useRef<NodeJS.Timeout>();
-  
-  const [routes] = useState<Route[]>([
-    { key: 'prev', title: 'Previous' },
-    { key: 'current', title: 'Current' },
-    { key: 'next', title: 'Next' },
-  ]);
 
-  const [index, setIndex] = useState(1);
+  const routes = useMemo(() => {
+    const currentNewsIndex = news.findIndex(item => item.id === id);
+    const maxTabs = 5;
+    let tabsToShow: Route[] = [];
+
+    // Calculate how many items we can show before and after
+    const totalItems = news.length;
+    const itemsBeforeCurrent = currentNewsIndex;
+    const itemsAfterCurrent = totalItems - currentNewsIndex - 1;
+
+    // First determine how many items we can show on each side
+    let itemsBefore = Math.min(2, itemsBeforeCurrent);
+    let itemsAfter = Math.min(2, itemsAfterCurrent);
+
+    // If we're at the start, show more items after
+    if (currentNewsIndex === 0) {
+      itemsAfter = Math.min(4, itemsAfterCurrent);
+    } 
+    // If we're at the end, show more items before
+    else if (currentNewsIndex === totalItems - 1) {
+      itemsBefore = Math.min(4, itemsBeforeCurrent);
+    }
+    // Otherwise balance if one side has less than 2 items
+    else {
+      const remainingSlots = maxTabs - itemsBefore - itemsAfter - 1; // -1 for current
+      if (itemsBefore < 2 && itemsAfter > 2) {
+        itemsAfter = Math.min(itemsAfter + remainingSlots, itemsAfterCurrent);
+      } else if (itemsAfter < 2 && itemsBefore > 2) {
+        itemsBefore = Math.min(itemsBefore + remainingSlots, itemsBeforeCurrent);
+      }
+    }
+
+    // Add previous items
+    for (let i = itemsBefore; i > 0; i--) {
+      tabsToShow.push({
+        key: `prev${i}`,
+        title: `Previous ${i}`,
+        index: currentNewsIndex - i
+      });
+    }
+
+    // Add current item
+    tabsToShow.push({
+      key: 'current',
+      title: 'Current',
+      index: currentNewsIndex
+    });
+
+    // Add next items
+    for (let i = 1; i <= itemsAfter; i++) {
+      tabsToShow.push({
+        key: `next${i}`,
+        title: `Next ${i}`,
+        index: currentNewsIndex + i
+      });
+    }
+
+    return tabsToShow;
+  }, [id]);
+
+  const [index, setIndex] = useState(() => {
+    // Find the index of the 'current' route
+    return routes.findIndex(route => route.key === 'current');
+  });
 
   useEffect(() => {
     const newIndex = news.findIndex(item => item.id === id);
     if (newIndex !== currentIndex) {
       setCurrentIndex(newIndex);
       if (!isNavigating) {
-        setIndex(1);
+        setIndex(routes.findIndex(route => route.key === 'current'));
       }
     }
   }, [id]);
@@ -50,55 +105,35 @@ export default function ContentScreen() {
     };
   }, []);
 
-  const hasPrevious = currentIndex > 0;
-  const hasNext = currentIndex < news.length - 1;
-  
-  const prevContent = hasPrevious ? news[currentIndex - 1] : null;
-  const currentContent = news[currentIndex];
-  const nextContent = hasNext ? news[currentIndex + 1] : null;
-
   const renderScene = useCallback(({ route }: { route: Route }) => {
-    switch (route.key) {
-      case 'prev':
-        return prevContent ? <ContentView content={prevContent} /> : <View style={{ flex: 1 }} />;
-      case 'current':
-        return currentContent ? <ContentView content={currentContent} /> : <View style={{ flex: 1 }} />;
-      case 'next':
-        return nextContent ? <ContentView content={nextContent} /> : <View style={{ flex: 1 }} />;
-      default:
-        return <View style={{ flex: 1 }} />;
-    }
-  }, [prevContent, currentContent, nextContent]);
+    const content = news[route.index];
+    return content ? <ContentView content={content} /> : <View style={{ flex: 1 }} />;
+  }, []);
 
-
-
-    const handleIndexChange = useCallback((newIndex: number) => {
-    if ((newIndex === 0 && !prevContent) || (newIndex === 2 && !nextContent)) {
-      setIndex(1);
+  const handleIndexChange = useCallback((newIndex: number) => {
+    const targetRoute = routes[newIndex];
+    if (!targetRoute) {
+      setIndex(routes.findIndex(route => route.key === 'current'));
       return;
     }
 
     setIndex(newIndex);
-    if ((newIndex === 0 && prevContent) || (newIndex === 2 && nextContent)) {
+    const targetContent = news[targetRoute.index];
+    
+    if (targetContent && targetRoute.key !== 'current') {
       setIsNavigating(true);
       if (navigationTimeout.current) {
-        // clearTimeout(navigationTimeout.current);
+        clearTimeout(navigationTimeout.current);
       }
       
-      const targetId = newIndex === 0 && prevContent ? prevContent.id : nextContent?.id;
-      if (targetId) {
-        navigationTimeout.current = setTimeout(() => {
-          //Hack for Web
-          window?.history?.pushState({}, '', `/content/${targetId}`);
-          setIsNavigating(false);
-        }, 250);
-      }
+      navigationTimeout.current = setTimeout(() => {
+        window?.history?.pushState({}, '', `/content/${targetContent.id}`);
+        setIsNavigating(false);
+      }, 250);
     }
-  }, [prevContent, nextContent]);
+  }, [routes]);
 
-  
-
-  if (!currentContent) {
+  if (!news[currentIndex]) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Content not found</Text>
@@ -106,19 +141,12 @@ export default function ContentScreen() {
     );
   }
 
-  const canSwipe = !isNavigating && (
-    (index === 0 && Boolean(prevContent)) || 
-    index === 1 || 
-    (index === 2 && Boolean(nextContent))
-  );
-
+  const canSwipe = !isNavigating;
 
   if(Platform.OS === 'web') {
-           window?.scrollTo({ top: 0, behavior: 'smooth' });
-    return  <ContentView content={currentContent} />;
+    window?.scrollTo({ top: 0, behavior: 'smooth' });
+    return <ContentView content={news[currentIndex]} />;
   }
-
-  
 
   return (
     <TabView
@@ -126,7 +154,6 @@ export default function ContentScreen() {
       renderScene={renderScene}
       renderTabBar={() => null}
       onIndexChange={handleIndexChange}
-
       style={{ backgroundColor: 'transparent', position: 'relative' }}
       swipeEnabled={canSwipe}
     />

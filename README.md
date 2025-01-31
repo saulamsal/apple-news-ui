@@ -111,3 +111,4 @@ ii.
 [] Lock screen control
 [] Push Notifications (APNs credentials left)
 [] Shared transitions [Broken in Expo 52]
+[] BUG: Long press sometimes opens the details and also shows the context menu
