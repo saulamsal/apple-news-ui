@@ -200,7 +200,9 @@ export default function AudioScreen() {
           />
           
         }
-        progressViewOffset={200}
+
+        
+        progressViewOffset={insets.top-50}
 
         // contentContainerStyle={Platform.OS === 'web' ? {
         //   height: undefined
@@ -255,20 +257,28 @@ export default function AudioScreen() {
             </View>
 
             {isRefreshing && (
-              <Animated.View
-                style={[{
-                  animationName: {
-                    from: { transform: [{ translateY: -20 }], opacity: 0 },
-                    to: { transform: [{ translateY: 0 }], opacity: 1 }
-                  },
-                  animationDuration: '300ms',
-                  animationTimingFunction: 'easeOut',
-                } as any]}
+              <MotiView
+                from={{ 
+                  opacity: 0,
+                  translateY: -20 
+                }}
+                animate={{ 
+                  opacity: 1,
+                  translateY: 0 
+                }}
+                exit={{ 
+                  opacity: 0,
+                  translateY: -20 
+                }}
+                transition={{
+                  type: 'timing',
+                  duration: 300,
+                }}
               >
-                <Animated.Text style={{ fontSize: 22, marginTop: 10, color: '#FD325A' }}>
+                <Text style={{ fontSize: 22, marginTop: 10, color: '#FD325A' }}>
                   Checking new podcasts...
-                </Animated.Text>
-              </Animated.View>
+                </Text>
+              </MotiView>
             )}
 
             <PodcastEditorsPickItem episodes={episodes} />

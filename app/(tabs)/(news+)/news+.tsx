@@ -108,7 +108,7 @@ export default function NewsPlusScreen() {
             } : undefined}
             scrollEnabled={Platform.OS !== 'web'}
             contentContainerStyle={{
-                paddingTop: insets.top,
+                // paddingTop: insets.top,
                 paddingBottom: insets.bottom + 60,
                 backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white',
                 ...(Platform.OS === 'web' ? {
@@ -171,7 +171,9 @@ export default function NewsPlusScreen() {
         <meta name="keywords" content="apple news plus, premium news, digital magazines, exclusive content" />
       </Head>
       )}
+      <SafeAreaView className="flex-1">
           {renderContent()}
+      </SafeAreaView>
   
     </>
   );

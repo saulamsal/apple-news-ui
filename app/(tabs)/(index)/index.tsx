@@ -130,6 +130,8 @@ export default function HomeScreen() {
 
   const AnimatedSwipeListView = Animated.createAnimatedComponent(SwipeListView);
 
+  const [refreshing, setRefreshing] = useState(false);
+
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
       const currentScrollY = event.contentOffset.y;
@@ -173,6 +175,15 @@ export default function HomeScreen() {
     <SwipeableNewsItem item={rowData.item} />
   );
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    // Add your data refresh logic here
+    // For example: await refetchNews();
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  };
+
   return (
     <>
       {Platform.OS !== 'android' && <WelcomeModal />}
@@ -205,6 +216,15 @@ export default function HomeScreen() {
         
         <View className="flex-1 " >
           <AnimatedSwipeListView
+            // refreshControl={
+            //   <RefreshControl
+            //     refreshing={refreshing}
+            //     onRefresh={onRefresh}
+            //     tintColor={'#000'}
+            //   />
+            // }
+            // progressViewOffset={insets.top}
+            
             onScroll={Platform.OS === 'web' ? undefined : scrollHandler}
             scrollEventThrottle={16}
             data={news as NewsItemType[]}
