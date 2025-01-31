@@ -31,6 +31,7 @@ import podcasts from '@/data/podcasts.json';
 import { useAudio } from '@/contexts/AudioContext';
 import { AudioVisualizer } from '@/components/AudioVisualizer';
 import { PodcastEditorsPickItem } from '@/components/PodcastEditorsPickItem';
+import { useScrollToTop } from '@react-navigation/native';
 
 interface Source {
   id: string;
@@ -83,6 +84,8 @@ const DiscoverNewsButton = () => {
   );
 };
 
+type AnimatedFlatListType = Animated.FlatList<PodcastEpisodeData>;
+
 export default function AudioScreen() {
   const router = useRouter();
   const colorScheme = useColorScheme();
@@ -98,6 +101,19 @@ export default function AudioScreen() {
   const insets = useSafeAreaInsets();
 
   const AnimatedSwipeListView = Animated.createAnimatedComponent(SwipeListView);
+
+  const scrollRef = useRef<AnimatedFlatListType>(null);
+
+  useScrollToTop(
+    useRef({
+      scrollToTop: () => {
+        if (scrollRef.current) {
+          scrollRef.current.scrollToOffset({ offset: -100, animated: true });
+          onRefresh();
+        }
+      }
+    })
+  );
 
   const [activeTab, setActiveTab] = useState('best');
   const [isRefreshing, setIsRefreshing] = useState(false);
@@ -166,13 +182,7 @@ export default function AudioScreen() {
     />
   );
 
-
-
   const remainingEpisodes = episodes.slice(5);
-
-
-
-
 
   return (
     <>
@@ -184,113 +194,102 @@ export default function AudioScreen() {
         </Head>
       )}
 
-
-
-<SafeAreaView className="flex-1">
-      <FlatList
-        data={remainingEpisodes}
-        renderItem={renderPodcastItem}
-        keyExtractor={(item) => item.id}
-
-
-        refreshControl={
-          <RefreshControl
-            refreshing={isRefreshing}
-            onRefresh={onRefresh}
-            tintColor='#000'
-            progressViewOffset={insets.top}
-          />
-          
-        }
-
-        
-        // progressViewOffset={insets.top-50}
-
-        // contentContainerStyle={Platform.OS === 'web' ? {
-        //   height: undefined
-        // } : styles.listContent}
-
-        style={
-
-          Platform.OS === 'web' ? {
-            height: undefined,
-            overflow: 'visible'
-          } : undefined}
-        scrollEnabled={Platform.OS !== 'web'}
-        contentContainerStyle={{
-          paddingHorizontal: 16,
-          // paddingTop: insets.top + 10,
-          paddingBottom: insets.bottom + 60,
-          backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white',
-          ...(Platform.OS === 'web' ? {
-            height: undefined
-          } : {})
-        }}
-
-
-        ListHeaderComponent={
-          <View style={styles.headerContainer}>
-            <View style={styles.header}>
-              <NewsHeaderLeftItem size="md" secondaryTitle="Audio" />
-              <View style={styles.headerRight}>
-                <TouchableOpacity
-                  style={[
-                    styles.headerRightButton,
-                    {
-                      backgroundColor: currentEpisode ? '#86858D' : Colors.light.tint,
-                      opacity: isLoading ? 0.7 : 1
-                    }
-                  ]}
-                  onPress={currentEpisode ? togglePlayPause : handlePlayAll}
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <ActivityIndicator size="small" color="#fff" />
-                  ) : isPlaying ? (
-                    <AudioVisualizer isPlaying={true} />
-                  ) : (
-                    <Ionicons name="headset" size={14} color={'#fff'} />
-                  )}
-                  <Text style={styles.headerRightText}>
-                    {isLoading ? 'Loading...' : currentEpisode ? (isPlaying ? 'Playing' : 'Paused') : 'Play'}
-                  </Text>
-                </TouchableOpacity>
+      <SafeAreaView className="flex-1">
+        <Animated.FlatList
+          ref={scrollRef}
+          data={remainingEpisodes}
+          renderItem={renderPodcastItem}
+          keyExtractor={(item) => item.id}
+          refreshControl={
+            <RefreshControl
+              refreshing={isRefreshing}
+              onRefresh={onRefresh}
+              tintColor='#000'
+              progressViewOffset={insets.top}
+            />
+          }
+          style={
+            Platform.OS === 'web' ? {
+              height: undefined,
+              overflow: 'visible'
+            } : undefined}
+          scrollEnabled={Platform.OS !== 'web'}
+          contentContainerStyle={{
+            paddingHorizontal: 16,
+            paddingBottom: insets.bottom + 60,
+            backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white',
+            ...(Platform.OS === 'web' ? {
+              height: undefined
+            } : {})
+          }}
+          ListHeaderComponent={
+            <View style={styles.headerContainer}>
+              <View style={styles.header}>
+                <NewsHeaderLeftItem size="md" secondaryTitle="Audio" />
+                <View style={styles.headerRight}>
+                  <TouchableOpacity
+                    style={[
+                      styles.headerRightButton,
+                      {
+                        backgroundColor: currentEpisode ? '#86858D' : Colors.light.tint,
+                        opacity: isLoading ? 0.7 : 1
+                      }
+                    ]}
+                    onPress={currentEpisode ? togglePlayPause : handlePlayAll}
+                    disabled={isLoading}
+                  >
+                    {isLoading ? (
+                      <ActivityIndicator size="small" color="#fff" />
+                    ) : isPlaying ? (
+                      <AudioVisualizer isPlaying={true} />
+                    ) : (
+                      <Ionicons name="headset" size={14} color={'#fff'} />
+                    )}
+                    <Text style={styles.headerRightText}>
+                      {isLoading ? 'Loading...' : currentEpisode ? (isPlaying ? 'Playing' : 'Paused') : 'Play'}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
+
+              {isRefreshing && (
+                <MotiView
+                  from={{ 
+                    opacity: 0,
+                    translateY: -20 
+                  }}
+                  animate={{ 
+                    opacity: 1,
+                    translateY: 0 
+                  }}
+                  transition={{
+                    type: 'spring',
+                    damping: 20,
+                    stiffness: 200
+                  }}
+                  exit={{
+                    opacity: 0,
+                    translateY: -20,
+                    transition: {
+                      type: 'spring',
+                      damping: 20,
+                      stiffness: 200
+                    }
+                  }}
+                >
+                  <Text style={{ fontSize: 22, marginTop: 10, color: '#FD325A' }}>
+                    Checking new podcasts...
+                  </Text>
+                </MotiView>
+              )}
+
+              <PodcastEditorsPickItem episodes={episodes} />
+              <DiscoverNewsButton />
+              <Text style={styles.sectionTitle}>For You</Text>
             </View>
-
-            {isRefreshing && (
-              <MotiView
-                from={{ 
-                  opacity: 0,
-                  translateY: -20 
-                }}
-                animate={{ 
-                  opacity: 1,
-                  translateY: 0 
-                }}
-                exit={{ 
-                  opacity: 0,
-                  translateY: -20 
-                }}
-                transition={{
-                  type: 'timing',
-                  duration: 300,
-                }}
-              >
-                <Text style={{ fontSize: 22, marginTop: 10, color: '#FD325A' }}>
-                  Checking new podcasts...
-                </Text>
-              </MotiView>
-            )}
-
-            <PodcastEditorsPickItem episodes={episodes} />
-            <DiscoverNewsButton />
-            <Text style={styles.sectionTitle}>For You</Text>
-          </View>
-        }
-      />
-
-    </SafeAreaView>
+          }
+        />
+      </SafeAreaView>
     </>
   );
 }
