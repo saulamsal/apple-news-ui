@@ -45,11 +45,18 @@
     },
     "climate_change": {
         "id": "climate_change",
-        "title": "Climate Crisis",
+        "title": "Climate Change",
         "logo": "https://img.freepik.com/premium-vector/climate-crisis-emblem-with-earth-rising-heat-black-icon-globe-with-rays-vector-illustration_118339-6705.jpg",
         "entity_type": "science_topic",
         "type": "topic"
     },
+    "wwe": {
+        "id": "wwe",
+        "title": "WWE",
+        "logo": "https://upload.wikimedia.org/wikipedia/en/b/b4/WWE_Black_HQ_logo.png",
+        "entity_type": "sports_league",
+        "type": "topic"
+    }, 
     "tech_news": {
         "id": "tech_news",
         "title": "Technology",
