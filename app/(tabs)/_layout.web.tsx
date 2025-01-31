@@ -75,11 +75,11 @@ function SidebarItem({
     <Pressable
       onPress={
         () => {
-          
+
           window?.scrollTo({ top: 0, behavior: 'smooth' });
 
           router.push(href as any)
-         
+
         }
       }
       className={`flex flex-row items-center p-2 rounded-lg gap-3 mb-0.5 
@@ -112,7 +112,7 @@ export default function WebLayout() {
 
   const isCompact = width < 1024;
   const isMobile = width < 768;
-  const showSidebar = width >= 1024;
+  const hideSideBar = width >= 1024;
 
   useEffect(() => {
     const autoPlayFirstPodcast = async () => {
@@ -126,7 +126,7 @@ export default function WebLayout() {
 
         if (randomEpisode && randomEpisode.attributes.assetUrl) {
           const imageUrl = randomEpisode.attributes.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || 'https://via.placeholder.com/300';
-          
+
           const podcast = {
             id: randomEpisode.id,
             title: randomEpisode.attributes.name,
@@ -218,7 +218,12 @@ export default function WebLayout() {
             </Text>
           </Pressable>
           <Pressable
-            onPress={() => router.push("/(tabs)/(search)/search")}
+            onPress={
+              () => {
+                router.push("/search")
+                window?.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }
             className="flex-1 items-center justify-center gap-1"
           >
             <Search
@@ -243,79 +248,79 @@ export default function WebLayout() {
         style={{ borderRightColor: borderColor }}>
 
 
-<View className={`sticky ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full`}>
-        <View className={`fixed ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full`}>
-          <View className="mb-8 pl-3 pt-3">
-            <View className="flex-row items-center gap-[2px] mt-2">
-              <NewsLogo size={isCompact ? 32 : 40} forceShow={true} />
+        <View className={`sticky ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full`}>
+          <View className={`fixed ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full`}>
+            <View className="mb-8 pl-3 pt-3">
+              <View className="flex-row items-center gap-[2px] mt-2">
+                <NewsLogo size={isCompact ? 32 : 40} forceShow={true} />
+              </View>
             </View>
-          </View>
 
 
-          <View className="">
-            <SidebarItem icon="home" label="Home" href="/(tabs)/(index)" compact={isCompact} isActive={segments[1] === '(index)'} />
-            <SidebarItem icon="sports" label="Sports" href="/(tabs)/(sports)" compact={isCompact} isActive={segments[1] === '(sports)'} />
-            <SidebarItem icon="headset" label="Audio" href="/(tabs)/(audio)" compact={isCompact} isActive={segments[1] === '(audio)'} />
-            <SidebarItem icon="news" label="News+" href="/(tabs)/(news+)" compact={isCompact} isActive={segments[1] === '(news+)'} />
+            <View className="">
+              <SidebarItem icon="home" label="Home" href="/(tabs)/(index)" compact={isCompact} isActive={segments[1] === '(index)'} />
+              <SidebarItem icon="sports" label="Sports" href="/(tabs)/(sports)" compact={isCompact} isActive={segments[1] === '(sports)'} />
+              <SidebarItem icon="headset" label="Audio" href="/(tabs)/(audio)" compact={isCompact} isActive={segments[1] === '(audio)'} />
+              <SidebarItem icon="news" label="News+" href="/(tabs)/(news+)" compact={isCompact} isActive={segments[1] === '(news+)'} />
 
-          </View>
-
-
+            </View>
 
 
 
-          {!isCompact &&
 
-            <Link href="https://twitter.com/intent/follow?screen_name=saul_sharma" className="flex-row items-center gap-2" target="_blank">
-              <View className="flex-row items-center gap-3 pl-2 relative">
-                <View className="relative">
-                  <Image source={{ uri: 'https://i.imgur.com/6wdPxeP.jpeg' }} alt="Twitter" className="w-6 h-6 rounded-full" />
-                  <View className="w-2 h-2 bg-red-500 rounded-full absolute -top-0.5 -right-0.5" />
 
+            {!isCompact &&
+
+              <Link href="https://twitter.com/intent/follow?screen_name=saul_sharma" className="flex-row items-center gap-2" target="_blank">
+                <View className="flex-row items-center gap-3 pl-2 relative">
+                  <View className="relative">
+                    <Image source={{ uri: 'https://i.imgur.com/6wdPxeP.jpeg' }} alt="Twitter" className="w-6 h-6 rounded-full" />
+                    <View className="w-2 h-2 bg-red-500 rounded-full absolute -top-0.5 -right-0.5" />
+
+                  </View>
+                  <Text className="text-sm text-gray-800 font-semibold">Follow Saúl on 𝕏</Text>
                 </View>
-                <Text className="text-sm text-gray-800 font-semibold">Follow Saúl on 𝕏</Text>
-              </View>
-            </Link>
-          }
+              </Link>
+            }
 
-          <View className="mt-8 gap-2">
-            {!isCompact && <Text className="text-sm font-medium text-gray-500 px-3">Discover</Text>}
-            <SidebarItem icon="search" label="Following" href="/(tabs)/(search)" compact={isCompact} isActive={segments[1] === '(search)'} />
-          </View>
+            <View className="mt-8 gap-2">
+              {!isCompact && <Text className="text-sm font-medium text-gray-500 px-3">Discover</Text>}
+              <SidebarItem icon="search" label="Following" href="/(tabs)/(search)" compact={isCompact} isActive={segments[1] === '(search)'} />
+            </View>
 
-          {searchEntities.sections.map((section) => {
-            if (section.id !== 'my_following') return null;
-            return (
-              <View key={section.id} className="gap-3 rounded-2xl p-3 mt-4 mr-6" style={{ backgroundColor: '#00000008' }}>
-                {!isCompact && <Text className="text-sm text-gray-500">{section.title}</Text>}
-                <View className="gap-3">
-                  {getAllEntitiesForSection(section.id).map((entity: Entity) => (
-                    <CategoryCard
-                      key={entity.id}
-                      title={entity.title}
-                      logo={entity.logo}
-                      icon={entity.icon}
-                      id={entity.id}
-                      entity_type={entity.type}
-                      minimal={true}
-                      disable_name={isCompact}
-                    />
-                  ))}
+            {searchEntities.sections.map((section) => {
+              if (section.id !== 'my_following') return null;
+              return (
+                <View key={section.id} className="gap-3 rounded-2xl p-3 mt-4 mr-6" style={{ backgroundColor: '#00000008' }}>
+                  {!isCompact && <Text className="text-sm text-gray-500">{section.title}</Text>}
+                  <View className="gap-3">
+                    {getAllEntitiesForSection(section.id).map((entity: Entity) => (
+                      <CategoryCard
+                        key={entity.id}
+                        title={entity.title}
+                        logo={entity.logo}
+                        icon={entity.icon}
+                        id={entity.id}
+                        entity_type={entity.type}
+                        minimal={true}
+                        disable_name={isCompact}
+                      />
+                    ))}
+                  </View>
                 </View>
-              </View>
-            );
-          })}
+              );
+            })}
 
-          {/* {!isCompact && <SocialButtons showTwitter />} */}
+            {/* {!isCompact && <SocialButtons showTwitter />} */}
 
 
-          <View className="mr-7 mt-4"> {!isCompact && <SocialButtons showGithub />}
+            <View className="mr-7 mt-4"> {!isCompact && <SocialButtons showGithub />}
+            </View>
+
           </View>
-
         </View>
-</View>
 
-        
+
       </View>
 
       <View className="flex-1 w-full max-w-[611px] bg-transparent">
@@ -329,22 +334,21 @@ export default function WebLayout() {
       </View>
 
 
-      
 
-      {showSidebar && (
-        <View className="w-[350px] sticky top-0"
-          style={{ borderLeftColor: borderColor }}>
-                   <View className="w-[350px] border-l fixed top-0 "
+
+
+      <View className="w-[350px] sticky top-0"
+        style={{ borderLeftColor: borderColor }}>
+        <View className="w-[350px] border-l fixed top-0 "
           style={{ borderLeftColor: borderColor }}>
           <View className="p-4">
-            <Sidebar />
+            <Sidebar hideSideBar={hideSideBar} />
           </View>
         </View>
-        </View>
-      )}
+      </View>
 
 
-      
+
     </View>
   );
 }

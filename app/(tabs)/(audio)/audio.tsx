@@ -216,6 +216,7 @@ export default function AudioScreen() {
           scrollEnabled={Platform.OS !== 'web'}
           contentContainerStyle={{
             paddingHorizontal: 16,
+            paddingTop: Platform.OS === 'web' ?  10 : 0,
             paddingBottom: insets.bottom + 60,
             backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white',
             ...(Platform.OS === 'web' ? {

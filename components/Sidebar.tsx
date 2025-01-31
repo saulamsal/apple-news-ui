@@ -122,7 +122,11 @@ const useWindowSize = () => {
   return width;
 };
 
-export function Sidebar() {
+interface SidebarProps {
+  hideSideBar: boolean;
+}
+
+export function Sidebar({ hideSideBar = false }: SidebarProps) {
   const windowWidth = useWindowSize();
   const shouldUseCustomFont = windowWidth > 768; // Only use custom font on larger screens
   
@@ -138,9 +142,10 @@ export function Sidebar() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
-  if (segments[1] === '(search)') {
-    return null;
-  }
+
+
+  const hideSearch = hideSideBar && segments[2] === 'search';
+
 
   const liveGames = scores.filter((game: Game) => game.is_live);
 
@@ -182,6 +187,7 @@ export function Sidebar() {
 
   return (
     <View style={styles.container}>
+      {!hideSearch && (
       <View style={[
         styles.searchContainer, 
         isFocused && { 
@@ -209,7 +215,8 @@ export function Sidebar() {
             <Ionicons name="close-circle" size={20} color="#666" />
           </TouchableOpacity>
         ) : null}
-      </View>
+        </View>
+      )}  
 
       {!isFocused && !searchQuery && liveGames.slice(0, 2).map((game: Game) => (
         <TouchableOpacity 

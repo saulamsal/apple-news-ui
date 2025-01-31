@@ -44,10 +44,10 @@ export function MiniPlayer({ onPress }: { onPress: () => void }) {
             position: 'fixed',
              bottom: 0,
             width: '100%',
-            maxWidth: 700,
+            maxWidth: 380,
             marginHorizontal: 'auto',
-            left: 0,
-            right: 0,
+            // left: 0,
+            right: isMobile ? 0 : 110,
             zIndex: 1000,
          }
         ]}>
@@ -56,11 +56,13 @@ export function MiniPlayer({ onPress }: { onPress: () => void }) {
                 style={[styles.container, 
                     { bottom: 0 },
                     Platform.OS === "web" && { 
-                        bottom: isMobile ? 70 : 10,
+                        bottom: isMobile ? 70 : 0,
                         marginLeft: 10,
                         marginRight: 10,
-                        borderRadius: 10,
-                        height: 68
+                        borderRadius: 30,
+                        height: 68,
+                        borderBottomLeftRadius:  isMobile ? 30 : 0,
+                        borderBottomRightRadius: isMobile ? 30 : 0,
                      }
                 ]}
             >
@@ -226,7 +228,7 @@ const styles = StyleSheet.create({
         marginTop: -40,
         // backgroundColor: 'red',
         overflow: 'hidden',
-        paddingTop: 5,
+        paddingTop: Platform.OS === 'web' ? 0 : 5,
         height: 90,
         // position: 'absolute',
         bottom: 0,
@@ -262,7 +264,8 @@ const styles = StyleSheet.create({
         height: '100%',
         paddingHorizontal: 16,
         backgroundColor: 'transparent',
-        marginBottom: 16,
+        marginBottom: Platform.OS === 'web' ? 0 : 16,
+        
    
     },
     leftSection: {

@@ -141,7 +141,7 @@ export default function SearchScreen() {
         <Header
             borderWidth={0}
             showNavBar={showNavBar}
-            SurfaceComponent={HeaderSurface}
+            // SurfaceComponent={HeaderSurface}
             headerCenter={
                 <Text className="text-2xl font-bold">Following</Text>
             }
@@ -157,13 +157,14 @@ export default function SearchScreen() {
 
 
             headerStyle={{
+                // backgroundColor,
+                // paddingBottom: Platform.OS === 'web' ? 50 : 10
             }}
-
 
             headerCenterStyle={{
                 ...(Platform.OS === 'web' ? {
                     width: 'auto',
-                    minWidth: 'auto', 
+                    minWidth: 'auto',
                     maxWidth: 'auto',
                 } : {})
             }}
@@ -183,7 +184,6 @@ export default function SearchScreen() {
                     maxWidth: 'auto',
                 } : {})
             }}
-
 
 
 
@@ -220,21 +220,15 @@ export default function SearchScreen() {
                     autoscrollToTopThreshold: 0
                 }}
 
-                style={
-                    {
-                        backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white',
-                 
-                    }
-                }
-                // scrollEnabled={Platform.OS !== 'web'}
-
-                contentContainerStyle={{
-                    paddingTop: insets.top,
-                    paddingBottom: insets.bottom + 60,
-                    backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white',
-                    ...(Platform.OS === 'web' ? {
-                        height: undefined
-                    } : {})
+       
+                style={Platform.OS === 'web' ? {
+                    height: undefined,
+                    overflow: 'visible' as const
+                } : undefined}
+                contentContainerStyle={Platform.OS === 'web' ? {
+                    height: undefined
+                } : {
+                    paddingBottom: insets.bottom + 20
                 }}
 
                 removeClippedSubviews={false}
@@ -244,6 +238,7 @@ export default function SearchScreen() {
                 headerFadeInThreshold={0.5}
                 disableLargeHeaderFadeAnim={false}
                 largeHeaderContainerStyle={{ paddingTop: insets.top + 4 }}
+                // scrollEnabled={Platform.OS !== 'web'}
             >
 
                 {searchQuery ? (
