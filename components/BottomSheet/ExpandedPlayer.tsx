@@ -1,14 +1,22 @@
-import { View, Text, StyleSheet, Image, Pressable, Dimensions, Platform, ImageBackground, Animated } from 'react-native';
+import { View, Text, StyleSheet, Image, Pressable, Dimensions, Platform, ImageBackground } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAudio } from '@/contexts/AudioContext';
 const { width } = Dimensions.get('window');
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
 import Foundation from '@expo/vector-icons/Foundation';
 import { router } from 'expo-router';
-
+import Animated, { 
+    useAnimatedStyle, 
+    withTiming, 
+    withSequence, 
+    withDelay, 
+    useSharedValue,
+    useAnimatedReaction,
+    runOnJS
+} from 'react-native-reanimated';
 
 interface ExpandedPlayerProps {
     scrollComponent?: (props: any) => React.ReactElement;
@@ -16,35 +24,51 @@ interface ExpandedPlayerProps {
 
 export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
     const ScrollComponentToUse = scrollComponent || View;
-    const { isPlaying, position, duration, togglePlayPause, seek, currentEpisode } = useAudio();
+    const { sharedValues, commands, currentEpisode } = useAudio();
+    const { position, duration, isPlaying } = sharedValues;
+    const { togglePlayPause, seek } = commands;
     const insets = useSafeAreaInsets();
-    const scrollAnim = new Animated.Value(0);
+    const scrollX = useSharedValue(0);
+    const [isPlayingState, setIsPlayingState] = useState(false);
+
+    useAnimatedReaction(
+        () => isPlaying.value,
+        (playing) => {
+            runOnJS(setIsPlayingState)(playing);
+        }
+    );
 
     useEffect(() => {
         if (!currentEpisode) return;
 
         const startAnimation = () => {
-            scrollAnim.setValue(0);
-            Animated.sequence([
-                Animated.timing(scrollAnim, {
-                    toValue: 1,
-                    duration: 8000,
-                    useNativeDriver: true,
-                }),
-                Animated.delay(2000),
-            ]).start(() => startAnimation());
+            scrollX.value = withSequence(
+                withTiming(0, { duration: 0 }),
+                withTiming(-width/2, { duration: 8000 }),
+                withDelay(2000, withTiming(0, { duration: 0 }))
+            );
         };
 
+        const interval = setInterval(startAnimation, 10000);
         startAnimation();
+
+        return () => clearInterval(interval);
     }, [currentEpisode]);
 
+    const scrollStyle = useAnimatedStyle(() => {
+        return {
+            transform: [{ translateX: scrollX.value }]
+        };
+    });
+
     const formatTime = (millis: number) => {
-        const minutes = Math.floor(millis / 60000);
-        const seconds = ((millis % 60000) / 1000).toFixed(0);
-        return `${minutes}:${Number(seconds) < 10 ? '0' : ''}${seconds}`;
+        const totalSeconds = Math.floor(millis / 1000);
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
     };
 
-    const progress = duration > 0 ? (position / duration) * 100 : 0;
+    const progress = duration.value > 0 ? (position.value / duration.value) * 100 : 0;
     const rewind15Seconds = () => seek(-15);
 
     if (!currentEpisode) return null;
@@ -53,14 +77,10 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
         <ImageBackground
             source={{ uri: currentEpisode.artwork.url }}
             style={[styles.rootContainer, {
-                // paddingTop: insets.top + (Platform.OS === 'android' ? 30 : 0),
-                // marginTop: Platform.OS === 'android' ? -30 : 0,
                 borderRadius: Platform.OS === 'ios' ? 40 : 0
             }]}
             blurRadius={20}
         >
-          
-
             {Platform.OS === 'ios' ? (
                 <BlurView
                     tint="dark"
@@ -91,17 +111,7 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
                                     <View style={styles.titleWrapper}>
                                         <Animated.Text 
                                             numberOfLines={1} 
-                                            style={[
-                                                styles.title,
-                                                {
-                                                    transform: [{
-                                                        translateX: scrollAnim.interpolate({
-                                                            inputRange: [0, 1],
-                                                            outputRange: [0, -width/2]
-                                                        })
-                                                    }]
-                                                }
-                                            ]}
+                                            style={[styles.title, scrollStyle]}
                                         >
                                             {currentEpisode.title}
                                         </Animated.Text>
@@ -113,8 +123,8 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
                                         <View style={[styles.progress, { width: `${progress}%` }]} />
                                     </View>
                                     <View style={styles.timeContainer}>
-                                        <Text style={styles.timeText}>{formatTime(position)}</Text>
-                                        <Text style={styles.timeText}>-{formatTime(Math.max(0, duration - position))}</Text>
+                                        <Text style={styles.timeText}>{formatTime(position.value)}</Text>
+                                        <Text style={styles.timeText}>-{formatTime(Math.max(0, duration.value - position.value))}</Text>
                                     </View>
                                 </View>
 
@@ -127,13 +137,11 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
                                     </Pressable>
 
                                     <Pressable onPress={togglePlayPause} style={[styles.controlButton, styles.playButton]}>
-                                            <Ionicons name={isPlaying ? "pause" : "play"} size={60} color="#fff" />
-                                       
+                                        <Ionicons name={isPlayingState ? "pause" : "play"} size={60} color="#fff" />
                                     </Pressable>
 
                                     <Pressable style={styles.controlButton}>
-                                    <Foundation name="fast-forward" size={60} color="#fff" />
-                                      
+                                        <Foundation name="fast-forward" size={60} color="#fff" />
                                     </Pressable>
                                 </View>
                             </View>
@@ -159,8 +167,6 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
                         </Pressable>
                     )}
                     <ScrollComponentToUse style={styles.scrollView}>
-
-
                         <View style={styles.container}>
                             <Image
                                 source={{ uri: currentEpisode.artwork.url }}
@@ -173,17 +179,7 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
                                     <View style={styles.titleWrapper}>
                                         <Animated.Text 
                                             numberOfLines={1} 
-                                            style={[
-                                                styles.title,
-                                                {
-                                                    transform: [{
-                                                        translateX: scrollAnim.interpolate({
-                                                            inputRange: [0, 1],
-                                                            outputRange: [0, -width/2]
-                                                        })
-                                                    }]
-                                                }
-                                            ]}
+                                            style={[styles.title, scrollStyle]}
                                         >
                                             {currentEpisode.title}
                                         </Animated.Text>
@@ -195,8 +191,8 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
                                         <View style={[styles.progress, { width: `${progress}%` }]} />
                                     </View>
                                     <View style={styles.timeContainer}>
-                                        <Text style={styles.timeText}>{formatTime(position)}</Text>
-                                        <Text style={styles.timeText}>-{formatTime(Math.max(0, duration - position))}</Text>
+                                        <Text style={styles.timeText}>{formatTime(position.value)}</Text>
+                                        <Text style={styles.timeText}>-{formatTime(Math.max(0, duration.value - position.value))}</Text>
                                     </View>
                                 </View>
 
@@ -209,7 +205,7 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
 
                                     <Pressable onPress={togglePlayPause} style={[styles.controlButton, styles.playButton]}>
                                         <BlurView intensity={80} tint="dark" style={styles.buttonBlur}>
-                                            <Ionicons name={isPlaying ? "pause" : "play"} size={30} color="#fff" />
+                                            <Ionicons name={isPlayingState ? "pause" : "play"} size={30} color="#fff" />
                                         </BlurView>
                                     </Pressable>
 
@@ -222,10 +218,8 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
                             </View>
                         </View>
                     </ScrollComponentToUse>
-                    </View>
+                </View>
             )}
-       
-
         </ImageBackground>
     );
 }
@@ -233,11 +227,8 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
 const styles = StyleSheet.create({
     rootContainer: {
         flex: 1,
-  
-        // borderRadius: 40,
         overflow: 'hidden',
         backgroundColor: 'black',
-
         position: 'fixed',
         bottom: 0,
         left: 0,
@@ -246,14 +237,12 @@ const styles = StyleSheet.create({
         zIndex: 1000,
         height: '100%',
         width: '100%',
-        
     },
     blurContainer: {
         flex: 1,
         paddingTop: 60,
         borderRadius: 40,
         overflow: 'hidden',
-        
     },
     scrollView: {
         flex: 1,
@@ -267,11 +256,9 @@ const styles = StyleSheet.create({
         height: 400,
         resizeMode: 'cover',
         borderRadius: 12,
-
     },
     contentContainer: {
         width: '100%',
-        // padding: 20,
         flex: 1,
     },
     textContainer: {
@@ -330,7 +317,6 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         justifyContent: 'center',
         alignItems: 'center',
-        
     },
     buttonBlur: {
         width: 50,

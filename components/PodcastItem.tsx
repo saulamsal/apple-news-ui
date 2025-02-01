@@ -1,9 +1,9 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import React, { memo, useMemo, useCallback } from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Alert, Platform } from 'react-native';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { PodcastEpisode } from '@/types/podcast';
 import { useAudio } from '@/contexts/AudioContext';
-import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import { Colors } from '@/constants/Colors';
 import BlurView from '@/components/BlurView';
 
@@ -13,14 +13,19 @@ interface PodcastItemProps {
   totalItems?: number;
 }
 
-export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps) {
-  const { playEpisode, currentEpisode, position, duration } = useAudio();
+export const PodcastItem = memo(({ episode, index, totalItems = 0 }: PodcastItemProps) => {
+  const { commands, sharedValues, currentEpisode } = useAudio();
+  const { playEpisode, togglePlayPause } = commands;
+  const { position, duration } = sharedValues;
   
   const durationInMinutes = episode.attributes?.durationInMilliseconds ? Math.floor(episode.attributes.durationInMilliseconds / 60000) : null;
   
-  const imageUrl = episode.attributes?.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || 'https://via.placeholder.com/300';
+  const imageUrl = useMemo(() => 
+    episode.attributes?.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || 'https://via.placeholder.com/300',
+    [episode.attributes?.artwork?.url]
+  );
 
-  const handlePress = () => {
+  const handlePress = useCallback(() => {
     if (playEpisode) {
       const streamUrl = episode.attributes?.assetUrl;
       
@@ -37,12 +42,32 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
         showTitle: episode.attributes.artistName,
         duration: episode.attributes.durationInMilliseconds,
         releaseDate: episode.attributes.releaseDateTime,
-        summary: episode.attributes.description?.standard
+        summary: episode.attributes.description?.standard,
+        attributes: {
+          offers: [{
+            kind: 'get',
+            type: 'STDQ',
+            hlsUrl: streamUrl
+          }],
+          durationInMilliseconds: episode.attributes.durationInMilliseconds,
+          name: episode.attributes.name,
+          artistName: episode.attributes.artistName
+        }
       };
 
-      playEpisode(podcastEpisode);
+      // On web, try to play immediately when user clicks
+      if (Platform.OS === 'web') {
+        playEpisode(podcastEpisode).then(() => {
+          // If we're already playing this episode, toggle playback
+          if (currentEpisode?.id === episode.id) {
+            togglePlayPause();
+          }
+        });
+      } else {
+        playEpisode(podcastEpisode);
+      }
     }
-  };
+  }, [episode, imageUrl, playEpisode, currentEpisode, togglePlayPause]);
 
   const handleSeeDetails = () => {
     Alert.alert('Details', episode.attributes?.description?.standard || 'No details available');
@@ -51,12 +76,12 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
   const isCurrentlyPlaying = currentEpisode?.id === episode.id;
 
   const remainingTime = isCurrentlyPlaying && episode.attributes?.durationInMilliseconds ? 
-    Math.floor((episode.attributes.durationInMilliseconds - position) / 60000) : null;
+    Math.floor((episode.attributes.durationInMilliseconds - position.value) / 60000) : null;
 
   const progressBarStyle = useAnimatedStyle(() => {
-    const progress = duration > 0 ? position / duration : 0;
+    const progress = duration.value > 0 ? position.value / duration.value : 0;
     return {
-      width: withTiming(`${progress * 100}%`, { duration: 100 }),
+      width: `${progress * 100}%`,
     };
   });
 
@@ -99,7 +124,7 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
       </View>
     </TouchableOpacity>
   );
-}
+});
 
 const menuOptionsStyles = {
   optionsContainer: {

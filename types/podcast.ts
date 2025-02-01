@@ -11,6 +11,17 @@ export interface PodcastEpisode {
   duration: number;
   releaseDate: string;
   summary: string;
+  attributes?: {
+    offers?: Array<{
+      kind: string;
+      type: string;
+      hlsUrl?: string;
+      durationInMilliseconds?: number;
+    }>;
+    durationInMilliseconds?: number;
+    name: string;
+    artistName: string;
+  };
 }
 
 export interface PodcastEpisodeData {

@@ -1,6 +1,6 @@
-import { StyleSheet, Pressable, Image, Platform, ImageBackground, View, Text, Animated, Dimensions, ActivityIndicator } from 'react-native';
+import { StyleSheet, Pressable, Image, Platform, ImageBackground, View, Text, Dimensions, ActivityIndicator, Animated as RNAnimated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, memo } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -8,40 +8,63 @@ import { useAudio } from '@/contexts/AudioContext';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useWindowDimensions } from 'react-native';
 import { PodcastEpisode } from '@/types/podcast';
+import Animated, { 
+    useAnimatedStyle, 
+    withSpring,
+    withTiming,
+    withSequence,
+    withDelay,
+    useSharedValue,
+    useAnimatedReaction,
+    runOnJS
+} from 'react-native-reanimated';
 
 interface MiniPlayerProps {
   onPress: () => void;
   episode: PodcastEpisode;
-  isPlaying: boolean;
-  onPlayPause: () => void;
 }
 
-export function MiniPlayer({ onPress, episode, isPlaying, onPlayPause }: MiniPlayerProps) {
+export const MiniPlayer = memo(({ onPress, episode }: MiniPlayerProps) => {
     const insets = useSafeAreaInsets();
     const colorScheme = useColorScheme();
-    const slideAnim = useRef(new Animated.Value(100)).current;
+    const slideAnim = useSharedValue(100);
     const { width } = useWindowDimensions();
     const isMobile = width < 768;
+    const { sharedValues, commands } = useAudio();
+    const { isPlaying } = sharedValues;
+    const { togglePlayPause } = commands;
+    const [isPlayingState, setIsPlayingState] = useState(false);
+
+    useAnimatedReaction(
+        () => isPlaying.value,
+        (playing) => {
+            runOnJS(setIsPlayingState)(playing);
+        }
+    );
 
     useEffect(() => {
         if (episode) {
-            Animated.spring(slideAnim, {
-                toValue: 0,
-                useNativeDriver: true,
-                tension: 65,
-                friction: 11
-            }).start();
+            slideAnim.value = withSpring(0, {
+                damping: 20,
+                stiffness: 90
+            });
         } else {
-            slideAnim.setValue(100);
+            slideAnim.value = 100;
         }
     }, [episode]);
+
+    const animatedStyle = useAnimatedStyle(() => {
+        return {
+            transform: [{ translateY: slideAnim.value }]
+        };
+    });
 
     const bottomPosition = Platform.OS === 'ios' ? insets.bottom + 57 : 60;
 
     return (
         <Animated.View 
         style={[
-          { transform: [{ translateY: slideAnim }] },
+          animatedStyle,
           Platform.OS === 'web' && { 
             position: 'fixed',
             bottom: 0,
@@ -80,16 +103,14 @@ export function MiniPlayer({ onPress, episode, isPlaying, onPlayPause }: MiniPla
                         >
                             <MiniPlayerContent 
                                 episode={episode}
-                                isPlaying={isPlaying}
-                                onPlayPause={onPlayPause}
+                                isPlayingState={isPlayingState}
                             />
                         </BlurView>
                     ) : (
                         <View style={[styles.content, styles.androidContainer]}>
                             <MiniPlayerContent 
                                 episode={episode}
-                                isPlaying={isPlaying}
-                                onPlayPause={onPlayPause}
+                                isPlayingState={isPlayingState}
                             />
                         </View>
                     )}
@@ -97,35 +118,45 @@ export function MiniPlayer({ onPress, episode, isPlaying, onPlayPause }: MiniPla
             </Pressable>
         </Animated.View>
     );
-}
+});
 
 interface MiniPlayerContentProps {
     episode: PodcastEpisode;
-    isPlaying: boolean;
-    onPlayPause: () => void;
+    isPlayingState: boolean;
 }
 
-function MiniPlayerContent({ episode, isPlaying, onPlayPause }: MiniPlayerContentProps) {
+const MiniPlayerContent = memo(({ episode, isPlayingState }: MiniPlayerContentProps) => {
     const colorScheme = useColorScheme();
-    const scrollAnim = useRef(new Animated.Value(0)).current;
-    const { seek, closePlayer } = useAudio();
+    const scrollX = useSharedValue(0);
     const { width } = Dimensions.get('window');
+    const { commands, sharedValues } = useAudio();
+    const { seek, closePlayer, togglePlayPause } = commands;
+    const { isLoading } = sharedValues;
     
     useEffect(() => {
         const startAnimation = () => {
-            scrollAnim.setValue(0);
-            Animated.sequence([
-                Animated.timing(scrollAnim, {
-                    toValue: 1,
-                    duration: Platform.OS === 'web' ? 24000 : 8000,
-                    useNativeDriver: true,
+            scrollX.value = withSequence(
+                withTiming(0, { duration: 0 }),
+                withTiming(-width/2, { 
+                    duration: Platform.OS === 'web' ? 24000 : 8000 
                 }),
-                Animated.delay(2000),
-            ]).start(() => startAnimation());
+                withDelay(2000, withTiming(0, { duration: 0 }))
+            );
         };
 
+        const interval = setInterval(startAnimation, Platform.OS === 'web' ? 26000 : 10000);
         startAnimation();
+
+        return () => clearInterval(interval);
     }, [episode.title]);
+
+    const scrollStyle = useAnimatedStyle(() => {
+        return {
+            transform: [{ translateX: scrollX.value }],
+            flexShrink: 0,
+            color: '#fff'
+        };
+    });
 
     const rewind15Seconds = () => {
         seek(-15);
@@ -141,16 +172,7 @@ function MiniPlayerContent({ episode, isPlaying, onPlayPause }: MiniPlayerConten
                     <Animated.Text 
                         className='text-white font-bold text-lg tracking-tighter flex-nowrap'
                         numberOfLines={1}
-                        style={{
-                            transform: [{
-                                translateX: scrollAnim.interpolate({
-                                    inputRange: [0, 1],
-                                    outputRange: [0, -width/2]
-                                })
-                            }],
-                            flexShrink: 0,
-                            color: '#fff'
-                        }}
+                        style={scrollStyle}
                     >
                         {episode.title}
                     </Animated.Text>
@@ -173,9 +195,9 @@ function MiniPlayerContent({ episode, isPlaying, onPlayPause }: MiniPlayerConten
                         />
                     </BlurView>
                 </Pressable>
-                <Pressable style={styles.controlButton} onPress={onPlayPause}>
+                <Pressable style={styles.controlButton} onPress={togglePlayPause}>
                     <FontAwesome 
-                        name={isPlaying ? "pause" : "play"} 
+                        name={isPlayingState ? "pause" : "play"} 
                         size={20} 
                         color={'#fff'} 
                     />
@@ -196,17 +218,13 @@ function MiniPlayerContent({ episode, isPlaying, onPlayPause }: MiniPlayerConten
             </View>
         </View>
     );
-}
+});
 
 const styles = StyleSheet.create({
     container: {
-        // borderRadius: 12,
-        // position: 'absolute',
         left: 0,
         right: 0,
-        // height: 60,
         zIndex: 1,
-        // shadowColor: 'red',
         shadowOffset: {
             width: 0,
             height: 2,
@@ -215,26 +233,19 @@ const styles = StyleSheet.create({
         shadowRadius: 8,
         elevation: 5,
         marginTop: -40,
-        // backgroundColor: 'red',
         overflow: 'hidden',
         paddingTop: Platform.OS === 'web' ? 0 : 5,
         height: 90,
-        // position: 'absolute',
         bottom: 0,
         backgroundColor: '#000',
-       
     },
     backgroundImage: {
         width: '100%',
         height: '100%',
-        // height: 80,
         borderRadius: 12,
         overflow: 'hidden',
-      
     },
- 
     content: {
-
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 10,
@@ -245,7 +256,6 @@ const styles = StyleSheet.create({
         paddingVertical: 0,
     },
     miniPlayerContent: {
-        
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
@@ -254,11 +264,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         backgroundColor: 'transparent',
         marginBottom: Platform.OS === 'web' ? 0 : 16,
-        
-   
     },
     leftSection: {
-        
         flex: 1,
         backgroundColor: 'transparent',
         justifyContent: 'center',
@@ -281,9 +288,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'rgba(0,0,0,0.3)',
-        
     },
-  
     blurContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -293,7 +298,6 @@ const styles = StyleSheet.create({
         zIndex: 1000,
         flex: 1,
         paddingVertical: 0,
-        
     },
     androidContainer: {
         flexDirection: 'row',
@@ -305,6 +309,5 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingVertical: 0,
         backgroundColor: 'rgba(0,0,0,0.6)',
-        
     },
 });

@@ -20,7 +20,19 @@ import { Audio } from 'expo-av';
 
 import '../../global.css';
 
-type Entity = typeof entities[keyof typeof entities];
+type Entity = {
+  id: string;
+  title: string;
+  logo?: string;
+  icon?: string;
+  type: string;
+  entity_type?: string;
+  description?: string;
+  theme?: {
+    backgroundColor: string;
+    textColor: string;
+  };
+};
 
 type AppRoutes =
   | "/(tabs)/(index)"
@@ -100,56 +112,63 @@ function SidebarItem({
   );
 }
 
-export default function WebLayout() {
+const WebLayout = () => {
   const colorScheme = useColorScheme();
   const { width } = useWindowDimensions();
   const router = useRouter();
   const segments = useSegments();
-  const { playEpisode, closePlayer } = useAudio();
+  const { commands } = useAudio();
+  const { loadEpisodeWithoutPlaying, closePlayer } = commands;
 
-  const backgroundColor = '#f9f9f9';
   const borderColor = colorScheme === 'dark' ? '#2f3336' : '#eee';
-
   const isCompact = width < 1024;
   const isMobile = width < 768;
   const hideSideBar = width >= 1024;
 
   useEffect(() => {
-    const autoPlayFirstPodcast = async () => {
+    const loadInitialAudio = async () => {
       if (Platform.OS === 'web') {
-        // Wait 3 seconds before starting
-        await new Promise(resolve => setTimeout(resolve, 3000));
-
         const episodes = podcasts.results['podcast-episodes'][0].data;
-        const randomIndex = Math.floor(Math.random() * episodes.length);
-        const randomEpisode = episodes[randomIndex];
+        const firstEpisode = episodes[0];
 
-        if (randomEpisode && randomEpisode.attributes.assetUrl) {
-          const imageUrl = randomEpisode.attributes.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || 'https://via.placeholder.com/300';
+        if (firstEpisode && firstEpisode.attributes.assetUrl) {
+          const imageUrl = firstEpisode.attributes.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || 'https://via.placeholder.com/300';
 
           const podcast = {
-            id: randomEpisode.id,
-            title: randomEpisode.attributes.name,
-            streamUrl: randomEpisode.attributes.assetUrl,
+            id: firstEpisode.id,
+            title: firstEpisode.attributes.name,
+            streamUrl: firstEpisode.attributes.assetUrl,
             artwork: { url: imageUrl },
-            showTitle: randomEpisode.attributes.artistName,
-            duration: randomEpisode.attributes.durationInMilliseconds || 0,
-            releaseDate: randomEpisode.attributes.releaseDateTime,
-            summary: randomEpisode.attributes.description?.standard || ''
+            showTitle: firstEpisode.attributes.artistName,
+            duration: firstEpisode.attributes.durationInMilliseconds || 0,
+            releaseDate: firstEpisode.attributes.releaseDateTime,
+            summary: firstEpisode.attributes.description?.standard || '',
+            attributes: {
+              offers: [{
+                kind: 'get',
+                type: 'STDQ',
+                hlsUrl: firstEpisode.attributes.assetUrl
+              }],
+              durationInMilliseconds: firstEpisode.attributes.durationInMilliseconds || 0,
+              name: firstEpisode.attributes.name,
+              artistName: firstEpisode.attributes.artistName
+            }
           };
 
           try {
             await closePlayer();
-            await playEpisode(podcast);
+            await loadEpisodeWithoutPlaying(podcast);
           } catch (error) {
-            console.error('Error auto-playing podcast:', error);
+            console.error('Error loading initial podcast:', error);
           }
         }
       }
     };
 
-    autoPlayFirstPodcast();
-  }, []); // Only run once on mount
+    loadInitialAudio();
+  }, []); // Empty dependency array
+
+  const backgroundColor = '#f9f9f9';
 
   if (isMobile) {
     return (
@@ -326,9 +345,7 @@ export default function WebLayout() {
       <View className="flex-1 w-full max-w-[611px] bg-transparent">
         <Stack
           screenOptions={{
-            headerShown: false,
-            scrollBehavior: 'smooth-scroll',
-            initialRouteName: '/(tabs)/(index)',
+            headerShown: false
           }}
         />
       </View>
@@ -352,4 +369,6 @@ export default function WebLayout() {
     </View>
   );
 }
+
+export default WebLayout;
 

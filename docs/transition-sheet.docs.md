@@ -1,7 +1,7 @@
 # Transition Sheet Documentation
 
 ## Overview
-The transition sheet is a custom modal implementation that provides a smooth, gesture-driven interface similar to Apple Music's player sheet. It features a draggable interface with spring animations, scale transformations of the root view, and fluid gesture handling.
+The transition sheet is a custom modal implementation that provides a smooth, gesture-driven interface similar to Apple Music's player sheet. It features a draggable interface with spring animations, scale transformations of the root view, and fluid gesture handling. The sheet also integrates with the audio system to provide a seamless audio playback experience.
 
 ## Key Features
 - Gesture-driven modal with real-time tracking
@@ -10,6 +10,46 @@ The transition sheet is a custom modal implementation that provides a smooth, ge
 - Smooth animations with cubic easing
 - Threshold-based dismiss behavior
 - Status bar style adaptation based on gesture position
+- Integrated audio playback controls
+- Platform-specific optimizations for iOS, Android, and Web
+
+## Audio Integration
+
+### Web-Specific Behavior
+```typescript
+// Initial audio loading without auto-play (web)
+const loadInitialAudio = async () => {
+  if (Platform.OS === 'web') {
+    const firstEpisode = episodes[0];
+    await loadEpisodeWithoutPlaying(firstEpisode);
+  }
+};
+```
+
+### Audio State Management
+```typescript
+interface AudioState {
+  isPlaying: SharedValue<boolean>;
+  isLoading: SharedValue<boolean>;
+  position: SharedValue<number>;
+  duration: SharedValue<number>;
+}
+
+// Audio commands available
+interface AudioCommands {
+  playEpisode: (episode: PodcastEpisode) => Promise<void>;
+  loadEpisodeWithoutPlaying: (episode: PodcastEpisode) => Promise<void>;
+  togglePlayPause: () => Promise<void>;
+  seek: (seconds: number) => Promise<void>;
+  closePlayer: () => Promise<void>;
+}
+```
+
+### Platform-Specific Audio Handling
+- **Web**: Loads audio without auto-playing, requires user interaction for playback
+- **Mobile**: Auto-plays when episode is selected
+- **Background Audio**: Continues playback when app is in background
+- **Silent Mode**: Respects device audio settings while ensuring playback
 
 ## Implementation Details
 
@@ -17,7 +57,8 @@ The transition sheet is a custom modal implementation that provides a smooth, ge
 - Uses `GestureDetector` from `react-native-gesture-handler`
 - Animated values managed by `react-native-reanimated`
 - Root scale context for background view transformations
-- Platform-specific optimizations for iOS and Android
+- Platform-specific optimizations for iOS, Android, and Web
+- Audio context for state management and playback control
 
 ### Shared Values
 ```typescript
@@ -26,6 +67,18 @@ const isClosing = useSharedValue(false);
 const statusBarStyle = useSharedValue<'light' | 'dark'>('light');
 const windowHeight = useSharedValue(Dimensions.get('window').height);
 const dragProgress = useSharedValue(0);
+```
+
+### Audio Integration Constants
+```typescript
+const AUDIO_SETUP = {
+  AUTOPLAY: Platform.OS !== 'web',
+  BACKGROUND_MODE: true,
+  INTERRUPTION_MODE: {
+    ios: InterruptionModeIOS.DoNotMix,
+    android: InterruptionModeAndroid.DoNotMix
+  }
+};
 ```
 
 ### Constants
@@ -116,43 +169,56 @@ if (isIOS) {
 
 ## Best Practices
 
-1. **Gesture Control**
+1. **Audio Loading**
+   - Pre-load audio on web without auto-playing
+   - Show loading states in UI during audio preparation
+   - Handle audio interruptions gracefully
+   - Cache audio resources when possible
+
+2. **Gesture Control**
    - Allow continuous dragging even after threshold
    - Only commit to actions on gesture release
    - Provide visual feedback during drag
-
-2. **Animation Timing**
-   - Use cubic easing for natural movement
-   - Keep animations under 300ms for responsiveness
-   - Use spring configurations for bounce-back
+   - Coordinate gestures with audio controls
 
 3. **Performance**
    - Use worklets for all animations
    - Minimize bridge communication
    - Keep shared values in sync
+   - Optimize audio buffer sizes
 
 ## Usage Example
 
 ```typescript
+// Initialize audio in layout
+useEffect(() => {
+  const loadInitialAudio = async () => {
+    if (Platform.OS === 'web') {
+      const firstEpisode = episodes[0];
+      await loadEpisodeWithoutPlaying(firstEpisode);
+    }
+  };
+  loadInitialAudio();
+}, []);
+
+// Mini player implementation
 <GestureDetector gesture={panGesture}>
-    <Animated.View 
-        style={[
-            styles.modalContent, 
-            animatedStyle,
-            { backgroundColor: '#fff' }
-        ]}
-    >
-        <ExpandedPlayer />
+    <Animated.View style={[styles.modalContent, animatedStyle]}>
+        <MiniPlayer 
+          episode={currentEpisode}
+          onPress={handleExpandPlayer}
+        />
     </Animated.View>
 </GestureDetector>
 ```
 
 ## Future Improvements
 
-1. **Root Scale Performance**
-   - Implement native driver support
-   - Optimize interpolation calculations
-   - Consider using derived shared values
+1. **Audio Features**
+   - Add offline playback support
+   - Implement audio quality selection
+   - Add crossfade between tracks
+   - Support for playlists and queues
 
 2. **Gesture Refinements**
    - Add velocity-based dismissal
@@ -166,19 +232,29 @@ if (isIOS) {
 
 ## Platform Considerations
 
+### Web
+- No auto-play without user interaction
+- Pre-load audio for instant playback
+- Handle browser audio policies
+- Support keyboard controls
+
 ### iOS
 - Uses blur effects
 - Handles status bar transitions
 - Implements root view scaling
+- Background audio support
 
 ### Android
 - Uses opacity for background dimming
 - Simplified animation model
 - Platform-specific gesture handling
+- Service-based audio playback
 
 ## Debugging Tips
 
 1. Monitor shared values using `useAnimatedReaction`
 2. Log gesture state changes in development
 3. Use React Native Debugger for animation inspection
-4. Profile performance with systrace 
+4. Profile performance with systrace
+5. Monitor audio state transitions
+6. Test on all platforms for consistent behavior 

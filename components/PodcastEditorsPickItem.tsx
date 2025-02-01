@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, memo, useCallback } from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -26,10 +26,12 @@ interface EditorPickItemProps {
   };
 }
 
-const EditorPickItem = ({ episode, index }: EditorPickItemProps & { index: number }) => {
+const EditorPickItem = memo(({ episode, index }: EditorPickItemProps & { index: number }) => {
   const router = useRouter();
   const colorScheme = useColorScheme();
-  const { playEpisode, currentEpisode } = useAudio();
+  const { commands, sharedValues, currentEpisode } = useAudio();
+  const { playEpisode } = commands;
+  const { isPlaying } = sharedValues;
 
   // Find matching song from songs.json
   const matchingSong = useMemo(() => 
@@ -37,10 +39,14 @@ const EditorPickItem = ({ episode, index }: EditorPickItemProps & { index: numbe
     [episode.attributes.name]
   );
 
-  const imageUrl = matchingSong?.artwork || episode.attributes.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || 'https://via.placeholder.com/300';
+  const imageUrl = useMemo(() => 
+    matchingSong?.artwork || episode.attributes.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || 'https://via.placeholder.com/300',
+    [matchingSong?.artwork, episode.attributes.artwork?.url]
+  );
+  
   const durationInMinutes = Math.floor(episode.attributes.durationInMilliseconds / 60000);
 
-  const handlePress = () => {
+  const handlePress = useCallback(() => {
     if (playEpisode) {
       const streamUrl = matchingSong?.mp4_link || episode.attributes?.assetUrl;
       
@@ -62,7 +68,7 @@ const EditorPickItem = ({ episode, index }: EditorPickItemProps & { index: numbe
 
       playEpisode(podcastEpisode);
     }
-  };
+  }, [episode, imageUrl, matchingSong?.mp4_link, playEpisode]);
 
   const isCurrentlyPlaying = currentEpisode?.id === episode.id;
 
@@ -93,9 +99,9 @@ const EditorPickItem = ({ episode, index }: EditorPickItemProps & { index: numbe
       </TouchableOpacity>
     </Animated.View>
   );
-};
+});
 
-export function PodcastEditorsPickItem({ episodes }: { episodes: any[] }) {
+export const PodcastEditorsPickItem = memo(({ episodes }: { episodes: any[] }) => {
   return (
     <Animated.View 
       className="mt-6 mb-8 -mr-5 -ml-5"
@@ -114,4 +120,4 @@ export function PodcastEditorsPickItem({ episodes }: { episodes: any[] }) {
       </ScrollView>
     </Animated.View>
   );
-} 
+}); 
