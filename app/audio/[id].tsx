@@ -29,6 +29,7 @@ export default function AudioScreen() {
     const statusBarStyle = useSharedValue<'light' | 'dark'>('light');
     const isIOS = Platform.OS === 'ios';
     const windowHeight = useSharedValue(Dimensions.get('window').height);
+    const dragProgress = useSharedValue(0);
 
     const numericId = typeof id === 'string' ? id : Array.isArray(id) ? id[0] : '0';
     const episode = podcastsData?.results?.['podcast-episodes']?.[0]?.data?.find(ep => ep.id === numericId) || 
@@ -44,19 +45,32 @@ export default function AudioScreen() {
         });
     }, [router]);
 
-    const handleScale = useCallback((newScale: number) => {
-        if (isIOS) {
-            setScale(newScale);
-        }
-    }, [setScale, isIOS]);
+    useEffect(() => {
+        if (!isIOS) return;
+
+        const timeout = setTimeout(() => {
+            setScale(SCALE_FACTOR);
+        }, 50);
+        return () => {
+            clearTimeout(timeout);
+            setScale(1);
+        };
+    }, [isIOS]);
 
     const panGesture = Gesture.Pan()
         .onStart(() => {
             'worklet';
             translateY.value = 0;
+            dragProgress.value = 0;
             isClosing.value = false;
             if (isIOS) {
-                runOnJS(handleScale)(SCALE_FACTOR);
+                const newScale = interpolate(
+                    dragProgress.value,
+                    [0, 1],
+                    [SCALE_FACTOR, 1],
+                    'clamp'
+                );
+                setScale(newScale);
             }
         })
         .onUpdate((event) => {
@@ -65,18 +79,18 @@ export default function AudioScreen() {
             const dy = Math.max(0, event.translationY);
             translateY.value = dy;
             
-            const progress = Math.min(dy / 300, 1);
+            dragProgress.value = Math.min(dy / 300, 1);
             if (isIOS) {
                 const newScale = interpolate(
-                    progress,
+                    dragProgress.value,
                     [0, 1],
                     [SCALE_FACTOR, 1],
                     'clamp'
                 );
-                runOnJS(handleScale)(newScale);
+                setScale(newScale);
             }
 
-            statusBarStyle.value = progress > 0.2 ? 'dark' : 'light';
+            statusBarStyle.value = dragProgress.value > 0.2 ? 'dark' : 'light';
         })
         .onEnd((event) => {
             'worklet';
@@ -93,13 +107,15 @@ export default function AudioScreen() {
                     }
                 );
                 if (isIOS) {
-                    runOnJS(handleScale)(1);
+                    dragProgress.value = withTiming(1, { duration: 300 });
+                    setScale(1);
                 }
                 runOnJS(handleHapticFeedback)();
             } else {
                 translateY.value = withSpring(0, { damping: 20, stiffness: 100, mass: 1 });
                 if (isIOS) {
-                    runOnJS(handleScale)(SCALE_FACTOR);
+                    dragProgress.value = withSpring(0, { damping: 20, stiffness: 100, mass: 1 });
+                    setScale(SCALE_FACTOR);
                 }
             }
         });
@@ -113,18 +129,6 @@ export default function AudioScreen() {
             backgroundColor: '#fff',
         };
     }, []);
-
-    useEffect(() => {
-        if (!isIOS) return;
-
-        const timeout = setTimeout(() => {
-            setScale(SCALE_FACTOR);
-        }, 50);
-        return () => {
-            clearTimeout(timeout);
-            setScale(1);
-        };
-    }, [isIOS]);
 
     const androidBackgroundStyle = useAnimatedStyle(() => {
         if (Platform.OS !== 'android') return {};

@@ -1,8 +1,7 @@
-import { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { Audio, AVPlaybackStatus, InterruptionModeAndroid, InterruptionModeIOS } from 'expo-av';
 import { PodcastEpisode } from '@/types/podcast';
-import podcastsData from '@/data/podcasts.json';
-import { useSharedValue } from 'react-native-reanimated';
+import songs from '@/data/songs.json';
 
 // Store to track active audio globally
 let activeAudioRef: { sound: Audio.Sound | null } = { sound: null };
@@ -31,22 +30,20 @@ const AudioContext = createContext<AudioContextType | undefined>(undefined);
 export function AudioProvider({ children }: { children: React.ReactNode }) {
     const [sound, setSound] = useState<Audio.Sound | null>(null);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
     const [currentEpisode, setCurrentEpisode] = useState<PodcastEpisode | null>(null);
     const [position, setPosition] = useState(0);
     const [duration, setDuration] = useState(0);
-    const isPlaybackOperationInProgress = useRef(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         const setupAudio = async () => {
             try {
                 await Audio.setAudioModeAsync({
-                    staysActiveInBackground: true,
                     playsInSilentModeIOS: true,
+                    staysActiveInBackground: true,
                     interruptionModeIOS: InterruptionModeIOS.DoNotMix,
                     interruptionModeAndroid: InterruptionModeAndroid.DoNotMix,
-                    shouldDuckAndroid: false,
-                    playThroughEarpieceAndroid: false
+                    shouldDuckAndroid: true,
                 });
             } catch (error) {
                 console.error('Error setting up audio mode:', error);
@@ -54,16 +51,14 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         };
 
         setupAudio();
-
         return () => {
             if (sound) {
                 sound.unloadAsync();
-                activeAudioRef.sound = null;
             }
         };
     }, []);
 
-    const onPlaybackStatusUpdate = useCallback(async (status: AVPlaybackStatus) => {
+    const onPlaybackStatusUpdate = useCallback((status: AVPlaybackStatus) => {
         if (!status.isLoaded) return;
 
         setPosition(status.positionMillis);
@@ -71,51 +66,40 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         setIsPlaying(status.isPlaying);
 
         if (status.didJustFinish && !status.isPlaying) {
-            await playNext();
+            playNext();
         }
     }, []);
 
     const playEpisode = async (episode: PodcastEpisode) => {
-        if (isPlaybackOperationInProgress.current) return;
-        isPlaybackOperationInProgress.current = true;
-        setIsLoading(true);
-
         try {
-            if (activeAudioRef.sound) {
-                await activeAudioRef.sound.stopAsync();
-                await activeAudioRef.sound.unloadAsync();
-                activeAudioRef.sound = null;
-            }
+            setIsLoading(true);
 
+            // Stop and unload any existing audio
             if (sound) {
                 await sound.stopAsync();
                 await sound.unloadAsync();
-                setSound(null);
             }
 
+            // Create and load the new sound
             const { sound: newSound } = await Audio.Sound.createAsync(
                 { uri: episode.streamUrl },
-                { shouldPlay: true, progressUpdateIntervalMillis: 1000 },
+                { shouldPlay: true },
                 onPlaybackStatusUpdate
             );
 
-            activeAudioRef.sound = newSound;
             setSound(newSound);
             setCurrentEpisode(episode);
             setIsPlaying(true);
+            await newSound.playAsync();
         } catch (error) {
             console.error('Error playing episode:', error);
             await closePlayer();
         } finally {
-            isPlaybackOperationInProgress.current = false;
             setIsLoading(false);
         }
     };
 
     const pauseSound = async () => {
-        if (isPlaybackOperationInProgress.current) return;
-        isPlaybackOperationInProgress.current = true;
-
         try {
             if (sound) {
                 await sound.pauseAsync();
@@ -123,119 +107,98 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
             }
         } catch (error) {
             console.error('Error pausing sound:', error);
-        } finally {
-            isPlaybackOperationInProgress.current = false;
         }
     };
 
     const togglePlayPause = async () => {
-        if (!sound || !currentEpisode || isPlaybackOperationInProgress.current) return;
-        isPlaybackOperationInProgress.current = true;
+        if (!sound || !currentEpisode) return;
 
         try {
-            const newIsPlaying = !isPlaying;
-            setIsPlaying(newIsPlaying);
-            await (newIsPlaying ? sound.playAsync() : sound.pauseAsync());
+            if (isPlaying) {
+                await sound.pauseAsync();
+            } else {
+                await sound.playAsync();
+            }
+            setIsPlaying(!isPlaying);
         } catch (error) {
             console.error('Error toggling play/pause:', error);
-            setIsPlaying(!isPlaying);
-        } finally {
-            isPlaybackOperationInProgress.current = false;
-        }
-    };
-
-    const playNext = useCallback(async () => {
-        if (!currentEpisode || !podcastsData?.results?.['podcast-episodes']?.[0]?.data) return;
-        
-        const episodes = podcastsData.results['podcast-episodes'][0].data;
-        const currentIndex = episodes.findIndex((ep: any) => ep.id === currentEpisode.id);
-        if (currentIndex === -1) return;
-
-        const nextEpisode = episodes[(currentIndex + 1) % episodes.length];
-        if (!nextEpisode?.attributes) return;
-        
-        const streamUrl = nextEpisode.attributes.assetUrl;
-        if (!streamUrl) return;
-        
-        const imageUrl = nextEpisode.attributes.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || '';
-
-        await playEpisode({
-            id: nextEpisode.id,
-            title: nextEpisode.attributes.name,
-            streamUrl: streamUrl,
-            artwork: { url: imageUrl },
-            showTitle: nextEpisode.attributes.artistName,
-            duration: nextEpisode.attributes.durationInMilliseconds,
-            releaseDate: nextEpisode.attributes.releaseDateTime,
-            summary: nextEpisode.attributes.description?.standard
-        });
-    }, [currentEpisode]);
-
-    const playPreviousEpisode = useCallback(async () => {
-        if (!currentEpisode || !podcastsData?.results?.['podcast-episodes']?.[0]?.data) return;
-        
-        const episodes = podcastsData.results['podcast-episodes'][0].data;
-        const currentIndex = episodes.findIndex((ep: any) => ep.id === currentEpisode.id);
-        if (currentIndex === -1) return;
-
-        const previousIndex = currentIndex === 0 ? episodes.length - 1 : currentIndex - 1;
-        const previousEpisode = episodes[previousIndex];
-        if (!previousEpisode?.attributes) return;
-
-        const streamUrl = previousEpisode.attributes.assetUrl;
-        if (!streamUrl) return;
-        
-        const imageUrl = previousEpisode.attributes.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || '';
-
-        await playEpisode({
-            id: previousEpisode.id,
-            title: previousEpisode.attributes.name,
-            streamUrl: streamUrl,
-            artwork: { url: imageUrl },
-            showTitle: previousEpisode.attributes.artistName,
-            duration: previousEpisode.attributes.durationInMilliseconds,
-            releaseDate: previousEpisode.attributes.releaseDateTime,
-            summary: previousEpisode.attributes.description?.standard
-        });
-    }, [currentEpisode]);
-
-    const seek = async (seconds: number) => {
-        if (!sound || isPlaybackOperationInProgress.current) return;
-        isPlaybackOperationInProgress.current = true;
-
-        try {
-            const status = await sound.getStatusAsync();
-            if (!status.isLoaded) return;
-
-            const newPosition = status.positionMillis + (seconds * 1000);
-            await sound.setPositionAsync(newPosition);
-        } catch (error) {
-            console.error('Error seeking:', error);
-        } finally {
-            isPlaybackOperationInProgress.current = false;
         }
     };
 
     const closePlayer = async () => {
-        if (isPlaybackOperationInProgress.current) return;
-        isPlaybackOperationInProgress.current = true;
-
         try {
             if (sound) {
                 await sound.stopAsync();
                 await sound.unloadAsync();
-                activeAudioRef.sound = null;
             }
-
             setSound(null);
             setCurrentEpisode(null);
             setIsPlaying(false);
             setPosition(0);
             setDuration(0);
-        } finally {
-            isPlaybackOperationInProgress.current = false;
+        } catch (error) {
+            console.error('Error closing player:', error);
         }
     };
+
+    const seek = async (seconds: number) => {
+        try {
+            if (sound) {
+                const status = await sound.getStatusAsync();
+                if (!status.isLoaded) return;
+
+                const newPosition = status.positionMillis + (seconds * 1000);
+                await sound.setPositionAsync(newPosition);
+            }
+        } catch (error) {
+            console.error('Error seeking:', error);
+        }
+    };
+
+    const playNext = useCallback(async () => {
+        if (!currentEpisode) return;
+        
+        // Find matching song from songs.json for faster loading
+        const currentSong = songs.songs.find(song => song.title === currentEpisode.title);
+        const currentIndex = songs.songs.indexOf(currentSong!);
+        if (currentIndex === -1) return;
+
+        const nextSong = songs.songs[(currentIndex + 1) % songs.songs.length];
+        
+        await playEpisode({
+            id: String(nextSong.id),
+            title: nextSong.title,
+            streamUrl: nextSong.mp4_link!,
+            artwork: { url: nextSong.artwork },
+            showTitle: nextSong.artist,
+            duration: 0,
+            releaseDate: new Date().toISOString(),
+            summary: ''
+        });
+    }, [currentEpisode]);
+
+    const playPreviousEpisode = useCallback(async () => {
+        if (!currentEpisode) return;
+        
+        // Find matching song from songs.json for faster loading
+        const currentSong = songs.songs.find(song => song.title === currentEpisode.title);
+        const currentIndex = songs.songs.indexOf(currentSong!);
+        if (currentIndex === -1) return;
+
+        const prevIndex = currentIndex === 0 ? songs.songs.length - 1 : currentIndex - 1;
+        const prevSong = songs.songs[prevIndex];
+        
+        await playEpisode({
+            id: String(prevSong.id),
+            title: prevSong.title,
+            streamUrl: prevSong.mp4_link!,
+            artwork: { url: prevSong.artwork },
+            showTitle: prevSong.artist,
+            duration: 0,
+            releaseDate: new Date().toISOString(),
+            summary: ''
+        });
+    }, [currentEpisode]);
 
     return (
         <AudioContext.Provider value={{

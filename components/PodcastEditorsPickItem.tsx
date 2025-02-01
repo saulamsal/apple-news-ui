@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import Animated, { FadeInUp, FadeIn } from 'react-native-reanimated';
 import { useAudio } from '@/contexts/AudioContext';
 import { PodcastEpisode } from '@/types/podcast';
+import songs from '@/data/songs.json';
 
 interface EditorPickItemProps {
   episode: {
@@ -30,12 +31,18 @@ const EditorPickItem = ({ episode, index }: EditorPickItemProps & { index: numbe
   const colorScheme = useColorScheme();
   const { playEpisode, currentEpisode } = useAudio();
 
-  const imageUrl = episode.attributes.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || 'https://via.placeholder.com/300';
+  // Find matching song from songs.json
+  const matchingSong = useMemo(() => 
+    songs.songs.find(song => song.title === episode.attributes.name), 
+    [episode.attributes.name]
+  );
+
+  const imageUrl = matchingSong?.artwork || episode.attributes.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || 'https://via.placeholder.com/300';
   const durationInMinutes = Math.floor(episode.attributes.durationInMilliseconds / 60000);
 
   const handlePress = () => {
     if (playEpisode) {
-      const streamUrl = episode.attributes?.assetUrl;
+      const streamUrl = matchingSong?.mp4_link || episode.attributes?.assetUrl;
       
       if (!streamUrl) {
         console.error('No stream URL found for episode:', episode.id);
@@ -45,12 +52,12 @@ const EditorPickItem = ({ episode, index }: EditorPickItemProps & { index: numbe
       const podcastEpisode: PodcastEpisode = {
         id: episode.id,
         title: episode.attributes.name,
-        streamUrl: streamUrl as string,
+        streamUrl: streamUrl,
         artwork: { url: imageUrl },
         showTitle: episode.attributes.artistName,
         duration: episode.attributes.durationInMilliseconds,
         releaseDate: episode.attributes.releaseDateTime,
-        summary: episode.attributes.description?.standard
+        summary: episode.attributes.description?.standard || ''
       };
 
       playEpisode(podcastEpisode);

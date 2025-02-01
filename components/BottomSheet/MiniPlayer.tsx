@@ -108,7 +108,7 @@ interface MiniPlayerContentProps {
 function MiniPlayerContent({ episode, isPlaying, onPlayPause }: MiniPlayerContentProps) {
     const colorScheme = useColorScheme();
     const scrollAnim = useRef(new Animated.Value(0)).current;
-    const { seek } = useAudio();
+    const { seek, closePlayer } = useAudio();
     const { width } = Dimensions.get('window');
     
     useEffect(() => {
@@ -180,7 +180,7 @@ function MiniPlayerContent({ episode, isPlaying, onPlayPause }: MiniPlayerConten
                         color={'#fff'} 
                     />
                 </Pressable>
-                <Pressable style={styles.controlButton}>
+                <Pressable style={styles.controlButton} onPress={closePlayer}>
                     <BlurView
                         tint="dark"
                         intensity={80}
