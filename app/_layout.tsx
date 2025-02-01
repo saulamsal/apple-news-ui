@@ -23,55 +23,29 @@ function AnimatedStack() {
   const segments = useSegments();
   const router = useRouter();
   const { scale } = useRootScale();
-  const { currentEpisode } = useAudio();
+  const { currentEpisode, isPlaying, togglePlayPause } = useAudio();
   const isIOS = Platform.OS === 'ios';
 
   const animatedStyle = useAnimatedStyle(() => {
     'worklet';
-    if (!isIOS) return {
-      backgroundColor: '#fff'
-    };
-
-    const progress = Math.max(0, Math.min(1, (scale.value - 0.83) / 0.17));
-    const borderRadius = interpolate(
-      progress,
-      [0, 1],
-      [20, 50],
-      'clamp'
-    );
-
     return {
       transform: [
         { scale: scale.value },
         { translateY: (1 - scale.value) * -150 }
       ],
-      borderRadius,
+      borderRadius: scale.value === 1 ? 0 : 50,
       backgroundColor: '#fff',
     };
-  }, [isIOS]);
+  }, []);
 
   const containerStyle = useAnimatedStyle(() => {
     'worklet';
-    if (!isIOS) {
-      return {
-        flex: 1,
-        backgroundColor: '#000',
-      };
-    }
-
-    const progress = Math.max(0, Math.min(1, (scale.value - 0.83) / 0.17));
-    const backgroundColor = interpolateColor(
-      progress,
-      [0, 1],
-      ['#000', '#000']
-    );
-
     return {
       flex: 1,
-      backgroundColor,
+      backgroundColor: '#000',
     };
-  }, [isIOS]);
-  
+  }, []);
+
   const handleMiniPlayerPress = () => {
     router.push('/audio/current');
   };
@@ -82,14 +56,9 @@ function AnimatedStack() {
         style={[
           styles.stackContainer,
           animatedStyle,
-
-          !isIOS && { 
-            backgroundColor: '#fff'
-           },
-           (Platform.OS === 'web') && {
-            overflow: 'unset!important', 
+          Platform.OS === 'web' && {
             position: 'relative'
-           }
+          }
         ]}  
       >
         <Stack screenOptions={{headerShown: false}}>
@@ -110,7 +79,14 @@ function AnimatedStack() {
           <Stack.Screen name="+not-found" />
         </Stack>
       </Animated.View>
-      <MiniPlayer onPress={handleMiniPlayerPress} />
+      {currentEpisode && (
+        <MiniPlayer
+          episode={currentEpisode}
+          isPlaying={isPlaying}
+          onPlayPause={togglePlayPause}
+          onPress={() => router.push(`/audio/${currentEpisode.id}`)}
+        />
+      )}
     </Animated.View>
   );
 }

@@ -11,7 +11,6 @@ interface AudioContextType {
     sound: Audio.Sound | null;
     isPlaying: boolean;
     currentEpisode: PodcastEpisode | null;
-    currentAudioId: string | null;
     position: number;
     duration: number;
     isLoading: boolean;
@@ -23,7 +22,6 @@ interface AudioContextType {
     togglePlayPause: () => Promise<void>;
     playNext: () => Promise<void>;
     playPreviousEpisode: () => Promise<void>;
-    progress: any;
     seek: (seconds: number) => Promise<void>;
     closePlayer: () => Promise<void>;
 }
@@ -35,10 +33,8 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [currentEpisode, setCurrentEpisode] = useState<PodcastEpisode | null>(null);
-    const [currentAudioId, setCurrentAudioId] = useState<string | null>(null);
     const [position, setPosition] = useState(0);
     const [duration, setDuration] = useState(0);
-    const progress = useSharedValue(0);
     const isPlaybackOperationInProgress = useRef(false);
 
     useEffect(() => {
@@ -58,9 +54,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         };
 
         setupAudio();
-    }, []);
 
-    useEffect(() => {
         return () => {
             if (sound) {
                 sound.unloadAsync();
@@ -69,67 +63,88 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         };
     }, []);
 
+    const onPlaybackStatusUpdate = useCallback(async (status: AVPlaybackStatus) => {
+        if (!status.isLoaded) return;
+
+        setPosition(status.positionMillis);
+        setDuration(status.durationMillis || 0);
+        setIsPlaying(status.isPlaying);
+
+        if (status.didJustFinish && !status.isPlaying) {
+            await playNext();
+        }
+    }, []);
+
     const playEpisode = async (episode: PodcastEpisode) => {
         if (isPlaybackOperationInProgress.current) return;
         isPlaybackOperationInProgress.current = true;
         setIsLoading(true);
 
         try {
-            // Start loading the new sound immediately
-            const soundPromise = Audio.Sound.createAsync(
+            if (activeAudioRef.sound) {
+                await activeAudioRef.sound.stopAsync();
+                await activeAudioRef.sound.unloadAsync();
+                activeAudioRef.sound = null;
+            }
+
+            if (sound) {
+                await sound.stopAsync();
+                await sound.unloadAsync();
+                setSound(null);
+            }
+
+            const { sound: newSound } = await Audio.Sound.createAsync(
                 { uri: episode.streamUrl },
                 { shouldPlay: true, progressUpdateIntervalMillis: 1000 },
                 onPlaybackStatusUpdate
             );
 
-            // Cleanup previous sounds in parallel
-            const cleanupPromise = (async () => {
-                if (activeAudioRef.sound) {
-                    try {
-                        await activeAudioRef.sound.stopAsync();
-                        await activeAudioRef.sound.unloadAsync();
-                    } catch (error) {
-                        console.warn('Error stopping previous sound:', error);
-                    }
-                    activeAudioRef.sound = null;
-                }
-
-                if (sound) {
-                    try {
-                        await sound.stopAsync();
-                        await sound.unloadAsync();
-                    } catch (error) {
-                        console.warn('Error cleaning up existing sound:', error);
-                    }
-                    setSound(null);
-                }
-            })();
-
-            // Update UI state immediately
-            setCurrentEpisode(episode);
-            setCurrentAudioId(episode.id);
-
-            // Wait for both operations to complete
-            const [{ sound: newSound }] = await Promise.all([
-                soundPromise,
-                cleanupPromise
-            ]);
-
-            // Set as active audio globally and update state
             activeAudioRef.sound = newSound;
             setSound(newSound);
+            setCurrentEpisode(episode);
             setIsPlaying(true);
         } catch (error) {
             console.error('Error playing episode:', error);
             await closePlayer();
-            throw error;
         } finally {
             isPlaybackOperationInProgress.current = false;
             setIsLoading(false);
         }
     };
 
-    const playNextEpisode = async () => {
+    const pauseSound = async () => {
+        if (isPlaybackOperationInProgress.current) return;
+        isPlaybackOperationInProgress.current = true;
+
+        try {
+            if (sound) {
+                await sound.pauseAsync();
+                setIsPlaying(false);
+            }
+        } catch (error) {
+            console.error('Error pausing sound:', error);
+        } finally {
+            isPlaybackOperationInProgress.current = false;
+        }
+    };
+
+    const togglePlayPause = async () => {
+        if (!sound || !currentEpisode || isPlaybackOperationInProgress.current) return;
+        isPlaybackOperationInProgress.current = true;
+
+        try {
+            const newIsPlaying = !isPlaying;
+            setIsPlaying(newIsPlaying);
+            await (newIsPlaying ? sound.playAsync() : sound.pauseAsync());
+        } catch (error) {
+            console.error('Error toggling play/pause:', error);
+            setIsPlaying(!isPlaying);
+        } finally {
+            isPlaybackOperationInProgress.current = false;
+        }
+    };
+
+    const playNext = useCallback(async () => {
         if (!currentEpisode || !podcastsData?.results?.['podcast-episodes']?.[0]?.data) return;
         
         const episodes = podcastsData.results['podcast-episodes'][0].data;
@@ -154,62 +169,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
             releaseDate: nextEpisode.attributes.releaseDateTime,
             summary: nextEpisode.attributes.description?.standard
         });
-    };
-
-    const playNext = useCallback(playNextEpisode, [currentEpisode, playEpisode]);
-
-    const onPlaybackStatusUpdate = useCallback(async (status: AVPlaybackStatus) => {
-        if (!status.isLoaded) return;
-
-        // Batch state updates
-        const updates = () => {
-            setPosition(status.positionMillis);
-            setDuration(status.durationMillis || 0);
-            setIsPlaying(status.isPlaying);
-        };
-        updates();
-
-        if (status.didJustFinish && !status.isPlaying) {
-            await playNext();
-        }
-    }, [playNext]);
-
-    const pauseSound = async () => {
-        if (isPlaybackOperationInProgress.current) return;
-        isPlaybackOperationInProgress.current = true;
-
-        try {
-            if (sound) {
-                await sound.pauseAsync();
-                setIsPlaying(false);
-            }
-        } catch (error) {
-            console.error('Error pausing sound:', error);
-        } finally {
-            isPlaybackOperationInProgress.current = false;
-        }
-    };
-
-    const togglePlayPause = async () => {
-        if (!sound || !currentEpisode || isPlaybackOperationInProgress.current) return;
-        isPlaybackOperationInProgress.current = true;
-
-        try {
-            const newIsPlaying = !isPlaying;
-            const operation = newIsPlaying ? sound.playAsync() : sound.pauseAsync();
-            
-            // Update UI immediately
-            setIsPlaying(newIsPlaying);
-            
-            // Wait for operation to complete
-            await operation;
-        } catch (error) {
-            console.error('Error toggling play/pause:', error);
-            setIsPlaying(!isPlaying); // Revert state if operation fails
-        } finally {
-            isPlaybackOperationInProgress.current = false;
-        }
-    };
+    }, [currentEpisode]);
 
     const playPreviousEpisode = useCallback(async () => {
         if (!currentEpisode || !podcastsData?.results?.['podcast-episodes']?.[0]?.data) return;
@@ -237,7 +197,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
             releaseDate: previousEpisode.attributes.releaseDateTime,
             summary: previousEpisode.attributes.description?.standard
         });
-    }, [currentEpisode, playEpisode]);
+    }, [currentEpisode]);
 
     const seek = async (seconds: number) => {
         if (!sound || isPlaybackOperationInProgress.current) return;
@@ -262,13 +222,9 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
 
         try {
             if (sound) {
-                try {
-                    await sound.stopAsync();
-                    await sound.unloadAsync();
-                    activeAudioRef.sound = null;
-                } catch (error) {
-                    console.error('Error stopping sound:', error);
-                }
+                await sound.stopAsync();
+                await sound.unloadAsync();
+                activeAudioRef.sound = null;
             }
 
             setSound(null);
@@ -276,8 +232,6 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
             setIsPlaying(false);
             setPosition(0);
             setDuration(0);
-            setCurrentAudioId(null);
-            progress.value = 0;
         } finally {
             isPlaybackOperationInProgress.current = false;
         }
@@ -288,7 +242,6 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
             sound,
             isPlaying,
             currentEpisode,
-            currentAudioId,
             position,
             duration,
             isLoading,
@@ -300,7 +253,6 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
             togglePlayPause,
             playNext,
             playPreviousEpisode,
-            progress,
             seek,
             closePlayer
         }}>

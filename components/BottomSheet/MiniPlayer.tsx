@@ -7,19 +7,24 @@ import { useColorScheme } from '@/hooks/useColorScheme';
 import { useAudio } from '@/contexts/AudioContext';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useWindowDimensions } from 'react-native';
+import { PodcastEpisode } from '@/types/podcast';
 
-export function MiniPlayer({ onPress }: { onPress: () => void }) {
+interface MiniPlayerProps {
+  onPress: () => void;
+  episode: PodcastEpisode;
+  isPlaying: boolean;
+  onPlayPause: () => void;
+}
+
+export function MiniPlayer({ onPress, episode, isPlaying, onPlayPause }: MiniPlayerProps) {
     const insets = useSafeAreaInsets();
     const colorScheme = useColorScheme();
-    const { currentEpisode, isPlaying, togglePlayPause, seek, closePlayer } = useAudio();
     const slideAnim = useRef(new Animated.Value(100)).current;
-
     const { width } = useWindowDimensions();
-
     const isMobile = width < 768;
 
     useEffect(() => {
-        if (currentEpisode) {
+        if (episode) {
             Animated.spring(slideAnim, {
                 toValue: 0,
                 useNativeDriver: true,
@@ -29,10 +34,7 @@ export function MiniPlayer({ onPress }: { onPress: () => void }) {
         } else {
             slideAnim.setValue(100);
         }
-    }, [currentEpisode]);
-
-    // Don't render if no episode is selected
-    if (!currentEpisode) return null;
+    }, [episode]);
 
     const bottomPosition = Platform.OS === 'ios' ? insets.bottom + 57 : 60;
 
@@ -42,11 +44,10 @@ export function MiniPlayer({ onPress }: { onPress: () => void }) {
           { transform: [{ translateY: slideAnim }] },
           Platform.OS === 'web' && { 
             position: 'fixed',
-             bottom: 0,
+            bottom: 0,
             width: '100%',
             maxWidth: 380,
             marginHorizontal: 'auto',
-            // left: 0,
             right: isMobile ? 0 : 110,
             zIndex: 1000,
          }
@@ -61,14 +62,13 @@ export function MiniPlayer({ onPress }: { onPress: () => void }) {
                         marginRight: 10,
                         borderRadius: 30,
                         height: 68,
-                        borderBottomLeftRadius:  isMobile ? 30 : 0,
+                        borderBottomLeftRadius: isMobile ? 30 : 0,
                         borderBottomRightRadius: isMobile ? 30 : 0,
                      }
                 ]}
             >
-         
                 <ImageBackground
-                    source={{ uri: currentEpisode.artwork.url }}
+                    source={{ uri: episode.artwork.url }}
                     style={styles.backgroundImage}
                     blurRadius={20}
                 >
@@ -79,19 +79,17 @@ export function MiniPlayer({ onPress }: { onPress: () => void }) {
                             style={[styles.content, styles.blurContainer]}
                         >
                             <MiniPlayerContent 
-                                episode={currentEpisode}
+                                episode={episode}
                                 isPlaying={isPlaying}
-                                onPlayPause={togglePlayPause}
-                                onClose={closePlayer}
+                                onPlayPause={onPlayPause}
                             />
                         </BlurView>
                     ) : (
                         <View style={[styles.content, styles.androidContainer]}>
                             <MiniPlayerContent 
-                                episode={currentEpisode}
+                                episode={episode}
                                 isPlaying={isPlaying}
-                                onPlayPause={togglePlayPause}
-                                onClose={closePlayer}
+                                onPlayPause={onPlayPause}
                             />
                         </View>
                     )}
@@ -101,20 +99,16 @@ export function MiniPlayer({ onPress }: { onPress: () => void }) {
     );
 }
 
-function MiniPlayerContent({ 
-    episode,
-    isPlaying,
-    onPlayPause,
-    onClose
-}: {
-    episode: any;
+interface MiniPlayerContentProps {
+    episode: PodcastEpisode;
     isPlaying: boolean;
     onPlayPause: () => void;
-    onClose: () => void;
-}) {
+}
+
+function MiniPlayerContent({ episode, isPlaying, onPlayPause }: MiniPlayerContentProps) {
     const colorScheme = useColorScheme();
     const scrollAnim = useRef(new Animated.Value(0)).current;
-    const { seek, isLoading } = useAudio();
+    const { seek } = useAudio();
     const { width } = Dimensions.get('window');
     
     useEffect(() => {
@@ -153,8 +147,7 @@ function MiniPlayerContent({
                                     inputRange: [0, 1],
                                     outputRange: [0, -width/2]
                                 })
-                            }]
-                            ,
+                            }],
                             flexShrink: 0,
                             color: '#fff'
                         }}
@@ -181,17 +174,13 @@ function MiniPlayerContent({
                     </BlurView>
                 </Pressable>
                 <Pressable style={styles.controlButton} onPress={onPlayPause}>
-                    {isLoading ? (
-                        <ActivityIndicator size="small" color="#fff" />
-                    ) : (
-                        <FontAwesome 
-                            name={isPlaying ? "pause" : "play"} 
-                            size={20} 
-                            color={'#fff'} 
-                        />
-                    )}
+                    <FontAwesome 
+                        name={isPlaying ? "pause" : "play"} 
+                        size={20} 
+                        color={'#fff'} 
+                    />
                 </Pressable>
-                <Pressable style={styles.controlButton} onPress={onClose}>
+                <Pressable style={styles.controlButton}>
                     <BlurView
                         tint="dark"
                         intensity={80}

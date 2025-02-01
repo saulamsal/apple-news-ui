@@ -13,16 +13,14 @@ export function RootScaleProvider({ children }: { children: React.ReactNode }) {
 
     const setScale = (value: number) => {
         'worklet';
-        try {
-            scale.value = withSpring(value, {
-                damping: 15,
-                stiffness: 150,
-                mass: 0.5, // Added for smoother animation
-            });
-        } catch (error) {
-            console.warn('Scale animation error:', error);
-            scale.value = value;
-        }
+        scale.value = withSpring(value, {
+            mass: 1,
+            damping: 20,
+            stiffness: 100,
+            overshootClamping: false,
+            restDisplacementThreshold: 0.001,
+            restSpeedThreshold: 0.001,
+        });
     };
 
     return (

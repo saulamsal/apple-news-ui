@@ -11,6 +11,7 @@ import Animated, {
     withTiming,
     runOnJS,
     interpolate,
+    Easing,
 } from 'react-native-reanimated';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import podcastsData from '@/data/podcasts.json';
@@ -24,9 +25,10 @@ export default function AudioScreen() {
     const router = useRouter();
     const { setScale } = useRootScale();
     const translateY = useSharedValue(0);
-    const isClosing = useRef(false);
+    const isClosing = useSharedValue(false);
     const statusBarStyle = useSharedValue<'light' | 'dark'>('light');
     const isIOS = Platform.OS === 'ios';
+    const windowHeight = useSharedValue(Dimensions.get('window').height);
 
     const numericId = typeof id === 'string' ? id : Array.isArray(id) ? id[0] : '0';
     const episode = podcastsData?.results?.['podcast-episodes']?.[0]?.data?.find(ep => ep.id === numericId) || 
@@ -37,14 +39,10 @@ export default function AudioScreen() {
     }, []);
 
     const goBack = useCallback(() => {
-        if (!isClosing.current) {
-            isClosing.current = true;
-            handleHapticFeedback();
-            requestAnimationFrame(() => {
-                router.back();
-            });
-        }
-    }, [router, handleHapticFeedback]);
+        requestAnimationFrame(() => {
+            router.back();
+        });
+    }, [router]);
 
     const handleScale = useCallback((newScale: number) => {
         if (isIOS) {
@@ -56,12 +54,14 @@ export default function AudioScreen() {
         .onStart(() => {
             'worklet';
             translateY.value = 0;
+            isClosing.value = false;
             if (isIOS) {
                 runOnJS(handleScale)(SCALE_FACTOR);
             }
         })
         .onUpdate((event) => {
             'worklet';
+            // Always allow dragging
             const dy = Math.max(0, event.translationY);
             translateY.value = dy;
             
@@ -80,23 +80,24 @@ export default function AudioScreen() {
         })
         .onEnd((event) => {
             'worklet';
+            // Only check threshold when finger is lifted
             const shouldClose = event.translationY > DRAG_THRESHOLD;
-
+            
             if (shouldClose) {
-                translateY.value = withTiming(event.translationY + 100, {
-                    duration: 300,
-                });
+                isClosing.value = true;
+                translateY.value = withTiming(
+                    windowHeight.value,
+                    { duration: 300, easing: Easing.out(Easing.cubic) },
+                    (finished) => {
+                        if (finished) runOnJS(goBack)();
+                    }
+                );
                 if (isIOS) {
                     runOnJS(handleScale)(1);
                 }
                 runOnJS(handleHapticFeedback)();
-                runOnJS(goBack)();
             } else {
-                translateY.value = withSpring(0, {
-                    damping: 15,
-                    stiffness: 150,
-                    mass: 0.5,
-                });
+                translateY.value = withSpring(0, { damping: 20, stiffness: 100, mass: 1 });
                 if (isIOS) {
                     runOnJS(handleScale)(SCALE_FACTOR);
                 }

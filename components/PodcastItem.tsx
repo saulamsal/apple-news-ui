@@ -14,7 +14,7 @@ interface PodcastItemProps {
 }
 
 export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps) {
-  const { playEpisode, currentEpisode, progress } = useAudio();
+  const { playEpisode, currentEpisode, position, duration } = useAudio();
   
   const durationInMinutes = episode.attributes?.durationInMilliseconds ? Math.floor(episode.attributes.durationInMilliseconds / 60000) : null;
   
@@ -50,12 +50,13 @@ export function PodcastItem({ episode, index, totalItems = 0 }: PodcastItemProps
 
   const isCurrentlyPlaying = currentEpisode?.id === episode.id;
 
-  const remainingTime = isCurrentlyPlaying && episode.attributes?.durationInMilliseconds && progress.value ? 
-    Math.floor((episode.attributes.durationInMilliseconds - progress.value * episode.attributes.durationInMilliseconds) / 60000) : null;
+  const remainingTime = isCurrentlyPlaying && episode.attributes?.durationInMilliseconds ? 
+    Math.floor((episode.attributes.durationInMilliseconds - position) / 60000) : null;
 
   const progressBarStyle = useAnimatedStyle(() => {
+    const progress = duration > 0 ? position / duration : 0;
     return {
-      width: withTiming(`${(progress.value || 0) * 100}%`, { duration: 100 }),
+      width: withTiming(`${progress * 100}%`, { duration: 100 }),
     };
   });
 
