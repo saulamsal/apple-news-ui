@@ -130,9 +130,10 @@ export default function SearchScreen() {
     const HeaderSurface = ({ showNavBar }: { showNavBar: SharedValue<number> }) => (
         <FadingView opacity={showNavBar} style={StyleSheet.absoluteFill}>
             <BlurView
-                style={StyleSheet.absoluteFill}
+                style={[StyleSheet.absoluteFill]}
                 intensity={80}
                 tint="light"
+                
             />
         </FadingView>
     );
@@ -141,7 +142,7 @@ export default function SearchScreen() {
         <Header
             borderWidth={0}
             showNavBar={showNavBar}
-            // SurfaceComponent={HeaderSurface}
+            SurfaceComponent={Platform.OS !== 'web' ? HeaderSurface : undefined}
             headerCenter={
                 <Text className="text-2xl font-bold">Following</Text>
             }
@@ -157,7 +158,7 @@ export default function SearchScreen() {
 
 
             headerStyle={{
-                // backgroundColor,
+                
                 // paddingBottom: Platform.OS === 'web' ? 50 : 10
             }}
 
@@ -194,9 +195,9 @@ export default function SearchScreen() {
         const insets = useSafeAreaInsets();
         return (
             <View className={`px-4 pt-2 pb-3  gap-3 ${Platform.OS !== 'web' ? '#F2F2F7' : 'white'}`} style={{ marginTop: -insets.top }}>
-                <View className="flex-row justify-between items-start">
+               {Platform.OS !== 'web' && <View className="flex-row justify-between items-start">
                     <NewsHeaderLeftItem size={'md'} secondaryTitle='Following' />
-                </View>
+                </View>}
                 <SearchComponent value={searchQuery} onChangeText={setSearchQuery} />
             </View>
         );

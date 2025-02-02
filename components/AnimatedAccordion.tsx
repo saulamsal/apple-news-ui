@@ -37,7 +37,9 @@ export function AnimatedAccordion({ title, children }: Props) {
     };
 
     return (
-        <View style={[styles.container, { backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white' }]}>
+        <View style={[styles.container, 
+        // { backgroundColor: Platform.OS !== 'web' ? '#F2F2F7' : 'white' }
+        ]}>
             <Pressable onPress={() => setIsOpen(!isOpen)} style={styles.header}>
                 <Text style={styles.title}>{title}</Text>
                 <Animated.View style={iconStyle}>
