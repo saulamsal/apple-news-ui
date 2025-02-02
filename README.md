@@ -108,7 +108,8 @@ ii.
 #TODO - apple news
 [] swap expo-av with expo-audio
 [x] Lock screen player
-[] Lock screen control
+[] Lock screen control (Pending react-native-track-player support for new arch, expo-av -> react-native-track-player)
+> or possible wait for expo-audio if they support audio lock screen controls
 [] Push Notifications (APNs credentials left)
 [] Shared transitions [Broken in Expo 52]
 [] BUG: Long press sometimes opens the details and also shows the context menu

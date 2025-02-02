@@ -11,7 +11,7 @@ import { useAudio } from '@/contexts/AudioContext';
 import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { Home, NewsPlus, Sports, Search } from '@/assets/svg/tab-icons'
-
+import { LoadingScreen } from '@/components/LoadingScreen';
 
 // Helper component for cross-platform icons
 function TabIcon({ sfSymbol, ionIcon, color }: { 
@@ -29,18 +29,16 @@ export const unstable_settings = {
 export default function TabLayout() {
   const colorScheme = useColorScheme();
   const router = useRouter();
-  const { currentSong, isPlaying, togglePlayPause } = useAudio();
+  const { currentEpisode, isPlaying, togglePlayPause } = useAudio();
 
   return (
     <>
-     
-
       <Tabs
-      
         screenOptions={{
           animation: 'shift',
           tabBarActiveTintColor: '#FA2D48',
           headerShown: false,
+          lazy: true,
           tabBarStyle: {
             position: 'absolute',
             backgroundColor: Platform.select({
@@ -50,7 +48,7 @@ export default function TabLayout() {
             borderTopWidth: StyleSheet.hairlineWidth,
             borderTopColor:  'rgba(0,0,0,0.2)',
             elevation: 0,
-            marginBottom: currentSong ? 86 : 0,
+            // marginBottom: currentEpisode ? 86 : 0,
           },
           headerStyle: {
             height: Platform.OS === 'android' ? StatusBar.currentHeight : 0,

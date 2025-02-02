@@ -165,7 +165,7 @@ export default function AudioScreen() {
             transform: [
                 { translateY: translateY.value }
             ],
-            backgroundColor: '#fff',
+            backgroundColor: 'transparent',
         };
     }, []);
 
@@ -196,7 +196,7 @@ export default function AudioScreen() {
                     style={[
                         styles.modalContent, 
                         Platform.OS === 'ios' && animatedStyle,
-                        { backgroundColor: '#fff' }
+                        { backgroundColor: 'transparent' }
                     ]}
                 >
                     <ExpandedPlayer />

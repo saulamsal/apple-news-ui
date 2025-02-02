@@ -28,6 +28,8 @@ import { NewsItem, NewsItemType } from '@/components/NewsItem';
 import { SwipeableNewsItem } from '@/components/SwipeableNewsItem';
 import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
 import { WelcomeModal } from '@/components/WelcomeModal';
+import { LoadingScreen } from '@/components/LoadingScreen';
+import { useLazyLoading } from '@/hooks/useLazyLoading';
 // import Constants from 'expo-constants';
 
 // import {  StatusBar } from 'react-native';
@@ -124,6 +126,7 @@ export default function HomeScreen() {
   const currentGroup = segments[1];
   const iconColor = '#fff';
   const insets = useSafeAreaInsets();
+  const isTabReady = useLazyLoading();
 
   const lastScrollY = useSharedValue(0);
   const translationY = useSharedValue(-100);
@@ -183,6 +186,10 @@ export default function HomeScreen() {
       setRefreshing(false);
     }, 2000);
   };
+
+  if (!isTabReady) {
+    return <LoadingScreen />;
+  }
 
   return (
     <>
