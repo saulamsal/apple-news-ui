@@ -86,7 +86,12 @@ function AnimatedStack() {
           episode={currentEpisode}
           isPlaying={isPlaying}
           onPlayPause={togglePlayPause}
-          onPress={() => router.push(`/audio/${currentEpisode.id}`)}
+          onPress={
+            () => 
+            {
+              router.push(`/audio/current`)
+            }
+          }
         />
       )}
     </Animated.View>

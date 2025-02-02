@@ -23,29 +23,18 @@ import Animated, {
 interface MiniPlayerProps {
   onPress: () => void;
   episode: PodcastEpisode;
+  onPlayPause: () => void;
 }
 
-export const MiniPlayer = memo(({ onPress, episode }: MiniPlayerProps) => {
+export const MiniPlayer = memo(({ onPress, episode, onPlayPause }: Omit<MiniPlayerProps, 'isPlaying'>) => {
     const pathname = usePathname();
-    
-
-
     const insets = useSafeAreaInsets();
     const colorScheme = useColorScheme();
     const slideAnim = useSharedValue(100);
     const { width } = useWindowDimensions();
     const isMobile = width < 768;
-    const { sharedValues, commands } = useAudio();
-    const { isPlaying } = sharedValues;
-    const { togglePlayPause } = commands;
-    const [isPlayingState, setIsPlayingState] = useState(false);
-
-    useAnimatedReaction(
-        () => isPlaying.value,
-        (playing) => {
-            runOnJS(setIsPlayingState)(playing);
-        }
-    );
+    const { sharedValues } = useAudio();
+    const { isLoading, isPlaying } = sharedValues;
 
     useEffect(() => {
         if (episode) {
@@ -64,13 +53,10 @@ export const MiniPlayer = memo(({ onPress, episode }: MiniPlayerProps) => {
         };
     });
 
-    const bottomPosition = Platform.OS === 'ios' ? insets.bottom + 57 : 60;
-
     if (pathname?.startsWith('/audio/')) {
         return null;
     }
 
-    
     return (
         <Animated.View 
         style={[
@@ -78,7 +64,6 @@ export const MiniPlayer = memo(({ onPress, episode }: MiniPlayerProps) => {
           Platform.OS === 'web' && { 
             position: 'fixed',
             bottom: 0,
-            
             width: '100%',
             maxWidth: 800,
             marginHorizontal: 'auto',
@@ -105,7 +90,7 @@ export const MiniPlayer = memo(({ onPress, episode }: MiniPlayerProps) => {
                 <ImageBackground
                     source={{ uri: episode.artwork.url }}
                     style={styles.backgroundImage}
-                    blurRadius={20}
+                    blurRadius={10}
                 >
                     {Platform.OS === 'ios' ? (
                         <BlurView
@@ -115,14 +100,16 @@ export const MiniPlayer = memo(({ onPress, episode }: MiniPlayerProps) => {
                         >
                             <MiniPlayerContent 
                                 episode={episode}
-                                isPlayingState={isPlayingState}
+                                isPlayingValue={isPlaying}
+                                onPlayPause={onPlayPause}
                             />
                         </BlurView>
                     ) : (
                         <View style={[styles.content, styles.androidContainer]}>
                             <MiniPlayerContent 
                                 episode={episode}
-                                isPlayingState={isPlayingState}
+                                isPlayingValue={isPlaying}
+                                onPlayPause={onPlayPause}
                             />
                         </View>
                     )}
@@ -134,18 +121,44 @@ export const MiniPlayer = memo(({ onPress, episode }: MiniPlayerProps) => {
 
 interface MiniPlayerContentProps {
     episode: PodcastEpisode;
-    isPlayingState: boolean;
+    isPlayingValue: { value: boolean };
+    onPlayPause: () => void;
 }
 
-const MiniPlayerContent = memo(({ episode, isPlayingState }: MiniPlayerContentProps) => {
+const MiniPlayerContent = ({ episode, isPlayingValue, onPlayPause }: MiniPlayerContentProps) => {
     const colorScheme = useColorScheme();
     const scrollX = useSharedValue(0);
     const { width } = Dimensions.get('window');
     const { commands, sharedValues } = useAudio();
-    const { seek, closePlayer, togglePlayPause } = commands;
+    const { seek, closePlayer } = commands;
     const { isLoading } = sharedValues;
     const isMobile = width < 768;
-    
+    const [isPlayingLocal, setIsPlayingLocal] = useState(isPlayingValue.value);
+    const [hasStartedPlaying, setHasStartedPlaying] = useState(false);
+    const [isTransitioning, setIsTransitioning] = useState(false);
+
+    useAnimatedReaction(
+        () => isPlayingValue.value,
+        (value) => {
+            if (!hasStartedPlaying) {
+                // First time loading
+                if (value) {
+                    runOnJS(setHasStartedPlaying)(true);
+                    runOnJS(setIsPlayingLocal)(value);
+                }
+            } else {
+                // Subsequent play/pause
+                if (value && isLoading.value) {
+                    // If trying to play and loading, don't update state yet
+                    runOnJS(setIsTransitioning)(true);
+                } else {
+                    runOnJS(setIsTransitioning)(false);
+                    runOnJS(setIsPlayingLocal)(value);
+                }
+            }
+        }
+    );
+
     useEffect(() => {
         const startAnimation = () => {
             scrollX.value = withSequence(
@@ -174,7 +187,32 @@ const MiniPlayerContent = memo(({ episode, isPlayingState }: MiniPlayerContentPr
     const rewind15Seconds = () => {
         seek(-15);
     };
-    
+
+    const PlayPauseButton = () => {
+        const buttonIcon = (() => {
+            if (!hasStartedPlaying && isLoading.value) {
+                return <ActivityIndicator size="small" color="#fff" />;
+            }
+            
+            if (isTransitioning) {
+                return <FontAwesome name="play" size={20} color={'#fff'} />;
+            }
+
+            return (
+                <FontAwesome 
+                    name={isPlayingLocal ? "pause" : "play"} 
+                    size={20} 
+                    color={'#fff'} 
+                />
+            );
+        })();
+
+        return (
+            <Pressable style={styles.controlButton} onPress={onPlayPause}>
+                {buttonIcon}
+            </Pressable>
+        );
+    };
 
     return (
         <View style={styles.miniPlayerContent}>
@@ -199,46 +237,21 @@ const MiniPlayerContent = memo(({ episode, isPlayingState }: MiniPlayerContentPr
                 </View>
             </View>
             <View style={styles.controls}>
-                <Pressable 
-                    style={styles.controlButton} 
-                    onPress={rewind15Seconds}
-                >
-                    <BlurView
-                        tint="dark"
-                        intensity={80}
-                        style={styles.buttonBlur}
-                    >
-                        <Ionicons 
-                            name="play-back" 
-                            size={18} 
-                            color={'#fff'} 
-                        />
+                <Pressable style={styles.controlButton} onPress={rewind15Seconds}>
+                    <BlurView tint="dark" intensity={80} style={styles.buttonBlur}>
+                        <Ionicons name="play-back" size={18} color={'#fff'} />
                     </BlurView>
                 </Pressable>
-                <Pressable style={styles.controlButton} onPress={togglePlayPause}>
-                    <FontAwesome 
-                        name={isPlayingState ? "pause" : "play"} 
-                        size={20} 
-                        color={'#fff'} 
-                    />
-                </Pressable>
+                <PlayPauseButton />
                 <Pressable style={styles.controlButton} onPress={closePlayer}>
-                    <BlurView
-                        tint="dark"
-                        intensity={80}
-                        style={styles.buttonBlur}
-                    >
-                        <Ionicons 
-                            name="close" 
-                            size={Platform.OS === 'web' ? 24 : 18} 
-                            color={'#fff'} 
-                        />
+                    <BlurView tint="dark" intensity={80} style={styles.buttonBlur}>
+                        <Ionicons name="close" size={Platform.OS === 'web' ? 24 : 18} color={'#fff'} />
                     </BlurView>
                 </Pressable>
             </View>
         </View>
     );
-});
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -252,7 +265,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.15,
         shadowRadius: 8,
         elevation: 5,
-        marginTop: -40,
+        marginTop: -36,
         overflow: 'hidden',
         paddingTop: Platform.OS === 'web' ? 0 : 5,
         height: 90,

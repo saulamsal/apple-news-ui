@@ -116,7 +116,7 @@ export default function TabLayout() {
       </Tabs>
 
  
-
+{/* 
       {currentSong && (
         <MiniPlayer
           song={currentSong}
@@ -124,7 +124,7 @@ export default function TabLayout() {
           onPlayPause={togglePlayPause}
           onPress={() => router.push(`/audio/${currentSong.id}`)}
         />
-      )}
+      )} */}
     </>
   );
 }

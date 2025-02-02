@@ -15,6 +15,53 @@ The transition sheet is a custom modal implementation that provides a smooth, ge
 
 ## Audio Integration
 
+### Loading States and Transitions
+```typescript
+interface LoadingStates {
+  hasStartedPlaying: boolean;  // Tracks if audio has ever started playing
+  isTransitioning: boolean;    // Tracks play/pause transitions
+}
+
+// Loading state management in MiniPlayer
+const PlayPauseButton = () => {
+  // Initial loading - show spinner
+  if (!hasStartedPlaying && isLoading.value) {
+    return <ActivityIndicator />;
+  }
+  
+  // During play/pause transitions - maintain play icon
+  if (isTransitioning) {
+    return <PlayIcon />;
+  }
+
+  // Normal state - show current play/pause state
+  return <Icon name={isPlaying ? "pause" : "play"} />;
+};
+
+// State updates during transitions
+useAnimatedReaction(
+  () => isPlaying.value,
+  (value) => {
+    if (!hasStartedPlaying) {
+      // First time loading
+      if (value) {
+        setHasStartedPlaying(true);
+        setIsPlayingLocal(value);
+      }
+    } else {
+      // Subsequent play/pause
+      if (value && isLoading.value) {
+        // Keep current icon during transition
+        setIsTransitioning(true);
+      } else {
+        setIsTransitioning(false);
+        setIsPlayingLocal(value);
+      }
+    }
+  }
+);
+```
+
 ### Web-Specific Behavior
 ```typescript
 // Initial audio loading without auto-play (web)
@@ -167,13 +214,35 @@ if (isIOS) {
 ### 3. Threshold Behavior
 **Solution**: Only checking threshold on release, allowing full gesture control during drag.
 
+### 4. Play/Pause State Transitions
+**Issue**: Play/pause icon can flicker during state transitions due to loading states.
+**Current Implementation**:
+```typescript
+// Track multiple states to handle transitions smoothly
+const [hasStartedPlaying, setHasStartedPlaying] = useState(false);
+const [isTransitioning, setIsTransitioning] = useState(false);
+
+// Maintain play icon during loading transitions
+if (value && isLoading.value) {
+    setIsTransitioning(true);
+} else {
+    setIsTransitioning(false);
+    setIsPlayingLocal(value);
+}
+```
+**Solution**:
+1. Show loading spinner only on initial load
+2. Maintain play icon during transitions until loading completes
+3. Use transition state to prevent premature icon updates
+4. Handle loading states separately from play/pause states
+
 ## Best Practices
 
 1. **Audio Loading**
-   - Pre-load audio on web without auto-playing
-   - Show loading states in UI during audio preparation
-   - Handle audio interruptions gracefully
-   - Cache audio resources when possible
+   - Show loading spinner only on initial load
+   - Maintain consistent UI during transitions
+   - Prevent icon flickering during state changes
+   - Handle loading and playing states independently
 
 2. **Gesture Control**
    - Allow continuous dragging even after threshold

@@ -17,6 +17,8 @@ interface AudioContextType {
         isLoading: any; // SharedValue<boolean>
     };
     currentEpisode: PodcastEpisode | null;
+    isPlaying: boolean;
+    togglePlayPause: () => Promise<void>;
     commands: {
         playEpisode: (episode: PodcastEpisode) => Promise<void>;
         pauseSound: () => Promise<void>;
@@ -72,7 +74,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         isLoading.value = status.isBuffering;
 
         if (status.didJustFinish && !status.isPlaying) {
-            playNext();
+            runOnJS(playNext)();
         }
     }, []);
 
@@ -305,6 +307,8 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
                 isLoading
             },
             currentEpisode,
+            isPlaying: isPlaying.value,
+            togglePlayPause,
             commands: {
                 playEpisode,
                 pauseSound,
