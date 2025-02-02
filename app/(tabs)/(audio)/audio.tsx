@@ -240,7 +240,7 @@ export default function AudioScreen() {
           ListHeaderComponent={
             <View style={styles.headerContainer}>
               <View style={styles.header}>
-                <NewsHeaderLeftItem size="sm" secondaryTitle="Audio" />
+                <NewsHeaderLeftItem size="lg" secondaryTitle="Audio" />
                 <View style={styles.headerRight}>
                   <TouchableOpacity
                     style={[

@@ -1,79 +1,44 @@
-import { useEffect, useRef, useState } from 'react';
-import { View, Animated, StyleSheet } from 'react-native';
+import { useEffect, useRef } from 'react';
+import { View, StyleSheet } from 'react-native';
+import Animated, { type AnimateStyle } from 'react-native-reanimated';
 
 interface Props {
     isPlaying: boolean;
 }
 
 const BAR_COUNT = 4;
-const ANIMATION_DURATION = 500;
 
 export function AudioVisualizer({ isPlaying }: Props) {
-    const animatedValues = useRef(
-        Array(BAR_COUNT).fill(0).map(() => new Animated.Value(0))
-    ).current;
-    const [prominentBar, setProminentBar] = useState(0);
     const randomScales = useRef(
         Array(BAR_COUNT).fill(0).map(() => 0.4 + Math.random() * 0.3)
     ).current;
-
-    useEffect(() => {
-        let prominentInterval: NodeJS.Timeout;
-
-        if (isPlaying) {
-            prominentInterval = setInterval(() => {
-                setProminentBar(prev => (prev + 1) % BAR_COUNT);
-                randomScales.forEach((_, i) => {
-                    randomScales[i] = 0.4 + Math.random() * 0.3;
-                });
-            }, 400);
-
-            const animations = animatedValues.map((value, index) => {
-                return Animated.sequence([
-                    Animated.timing(value, {
-                        toValue: 1,
-                        duration: ANIMATION_DURATION * 0.4,
-                        useNativeDriver: true,
-                    }),
-                    Animated.timing(value, {
-                        toValue: 0,
-                        duration: ANIMATION_DURATION * 0.4,
-                        useNativeDriver: true,
-                    }),
-                ]);
-            });
-
-            const loop = Animated.loop(Animated.parallel(animations));
-            loop.start();
-
-            return () => {
-                loop.stop();
-                clearInterval(prominentInterval);
-            };
-        } else {
-            animatedValues.forEach(value => value.setValue(0));
-        }
-    }, [isPlaying]);
 
     if (!isPlaying) return null;
 
     return (
         <View style={styles.container}>
-            {animatedValues.map((value, index) => (
+            {Array(BAR_COUNT).fill(0).map((_, index) => (
                 <Animated.View
                     key={index}
                     style={[
                         styles.bar,
                         {
-                            transform: [
-                                {
-                                    scaleY: value.interpolate({
-                                        inputRange: [0, 1],
-                                        outputRange: [0.3, index === prominentBar ? 1.2 : randomScales[index]],
-                                    }),
+                            animationName: {
+                                '0%': {
+                                    transform: [{ scaleY: 0.3 }],
                                 },
-                            ],
-                        },
+                                '50%': {
+                                    transform: [{ scaleY: randomScales[index] * 1.2 }],
+                                },
+                                '100%': {
+                                    transform: [{ scaleY: 0.3 }],
+                                },
+                            },
+                            animationDuration: 800,
+                            animationIterationCount: 'infinite',
+                            animationDelay: index * 100,
+                            animationTimingFunction: 'ease-in-out',
+                        } as AnimateStyle<any>,
                     ]}
                 />
             ))}
@@ -87,12 +52,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         gap: 1.5,
-        // position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
-        // backgroundColor: 'rgba(0,0,0,0.3)',
     },
     bar: {
         width: 2.5,
