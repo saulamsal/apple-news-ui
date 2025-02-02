@@ -134,6 +134,7 @@ const MiniPlayerContent = memo(({ episode, isPlayingState }: MiniPlayerContentPr
     const { commands, sharedValues } = useAudio();
     const { seek, closePlayer, togglePlayPause } = commands;
     const { isLoading } = sharedValues;
+    const isMobile = width < 768;
     
     useEffect(() => {
         const startAnimation = () => {
@@ -166,13 +167,19 @@ const MiniPlayerContent = memo(({ episode, isPlayingState }: MiniPlayerContentPr
 
     return (
         <View style={styles.miniPlayerContent}>
+            {!isMobile && (
+                <Image 
+                    source={{ uri: episode.artwork.url }} 
+                    style={{ width: 48, height: 48, borderRadius: 8, marginRight: 12 }}
+                />
+            )}
             <View style={styles.leftSection}>
                 <Text numberOfLines={1} 
-                className='text-gray-300 font-bold text-base tracking-tighter '>
+                className='text-gray-300 font-semibold text-sm tracking-tighter '>
                     {episode.showTitle}</Text>
                 <View style={{ overflow: 'hidden' }}>
                     <Animated.Text 
-                        className='text-white font-bold text-lg tracking-tighter flex-nowrap'
+                        className='text-white font-semibold text-lg tracking-tighter flex-nowrap'
                         numberOfLines={1}
                         style={scrollStyle}
                     >
@@ -263,7 +270,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         height: '100%',
-        paddingHorizontal: 16,
+        paddingHorizontal: 10,
         backgroundColor: 'transparent',
         marginBottom: Platform.OS === 'web' ? 0 : 16,
     },
