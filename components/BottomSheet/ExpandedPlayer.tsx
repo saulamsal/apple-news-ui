@@ -152,7 +152,13 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
                 <View className="max-w-[400px] m-auto w-full">
                     {Platform.OS === 'web' && (
                         <Pressable 
-                            onPress={() => router.back()}
+                            onPress={() => {
+                                if (router.canGoBack()) {
+                                    router.back();
+                                } else {
+                                    router.replace('/');
+                                }
+                            }}
                             style={{
                                 position: 'absolute',
                                 left: -80,
@@ -209,7 +215,13 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
                                         </BlurView>
                                     </Pressable>
 
-                                    <Pressable style={styles.controlButton}>
+                                    <Pressable style={styles.controlButton} onPress={() => {
+                                        if (router.canGoBack()) {
+                                            router.back();
+                                        } else {
+                                            router.replace('/');
+                                        }
+                                    }}>
                                         <BlurView intensity={80} tint="dark" style={styles.buttonBlur}>
                                             <Ionicons name="close" size={24} color="#fff" />
                                         </BlurView>

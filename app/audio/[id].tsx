@@ -16,6 +16,7 @@ import Animated, {
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import podcastsData from '@/data/podcasts.json';
 import { haptics } from '@/helper/haptics';
+import { useAudio } from '@/contexts/AudioContext';
 
 const SCALE_FACTOR = 0.83;
 const DRAG_THRESHOLD = Math.min(Dimensions.get('window').height * 0.20, 150);
@@ -30,10 +31,31 @@ export default function AudioScreen() {
     const isIOS = Platform.OS === 'ios';
     const windowHeight = useSharedValue(Dimensions.get('window').height);
     const dragProgress = useSharedValue(0);
+    const { commands } = useAudio();
+    const { loadEpisodeWithoutPlaying } = commands;
 
     const numericId = typeof id === 'string' ? id : Array.isArray(id) ? id[0] : '0';
     const episode = podcastsData?.results?.['podcast-episodes']?.[0]?.data?.find(ep => ep.id === numericId) || 
                    podcastsData?.results?.['podcast-episodes']?.[0]?.data?.[0];
+
+    useEffect(() => {
+        if (episode && episode.attributes.assetUrl) {
+            const imageUrl = episode.attributes.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || 'https://via.placeholder.com/300';
+
+            const podcast = {
+                id: episode.id,
+                title: episode.attributes.name,
+                streamUrl: episode.attributes.assetUrl,
+                artwork: { url: imageUrl },
+                showTitle: episode.attributes.artistName,
+                duration: episode.attributes.durationInMilliseconds || 0,
+                releaseDate: episode.attributes.releaseDateTime,
+                summary: episode.attributes.description.standard || ''
+            };
+
+            loadEpisodeWithoutPlaying(podcast);
+        }
+    }, [episode, loadEpisodeWithoutPlaying]);
 
     const handleHapticFeedback = useCallback(() => {
         haptics.impact();
@@ -41,7 +63,11 @@ export default function AudioScreen() {
 
     const goBack = useCallback(() => {
         requestAnimationFrame(() => {
-            router.back();
+            if (router.canGoBack()) {
+                router.back();
+            } else {
+                router.replace('/');
+            }
         });
     }, [router]);
 
