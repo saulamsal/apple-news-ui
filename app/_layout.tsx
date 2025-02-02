@@ -46,9 +46,9 @@ function AnimatedStack() {
     };
   }, []);
 
-  const handleMiniPlayerPress = () => {
-    router.push('/audio/current');
-  };
+  // const handleMiniPlayerPress = () => {
+  //   router.push('/audio/current');
+  // };
 
   return (
     <Animated.View style={containerStyle}>
@@ -76,7 +76,6 @@ function AnimatedStack() {
               },
             }}
           />
-          <Stack.Screen name="stocks" />
           <Stack.Screen name="edit" />
           <Stack.Screen name="+not-found" />
         </Stack>
@@ -89,7 +88,9 @@ function AnimatedStack() {
           onPress={
             () => 
             {
-              router.push(`/audio/current`)
+              // alert(currentEpisode.id)
+              // return;
+              router.push(`/audio/${currentEpisode.id}`)
             }
           }
         />

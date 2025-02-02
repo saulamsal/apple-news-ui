@@ -15,6 +15,46 @@ The transition sheet is a custom modal implementation that provides a smooth, ge
 
 ## Audio Integration
 
+### Navigation & State Management
+```typescript
+// Two ways to access the expanded player:
+
+// 1. From MiniPlayer (continues playback)
+router.push({
+    pathname: "/audio/[id]",
+    params: { 
+        id: currentEpisode.id,
+        via: 'miniplayer' 
+    }
+});
+
+// 2. Direct URL (loads new audio)
+// /audio/123 -> Loads episode with ID 123
+
+// State handling in [id].tsx
+useEffect(() => {
+    // Skip loading if coming from MiniPlayer (audio already in context)
+    if (via === 'miniplayer') return;
+    
+    // Load audio only for direct navigation
+    if (!episode || !episode.attributes.assetUrl) return;
+    loadPodcast();
+}, [episode?.id, via]);
+```
+
+### Global Audio Context
+The audio state is managed globally through AudioContext, which:
+- Maintains current episode info
+- Handles playback state (play/pause)
+- Controls audio loading/unloading
+- Manages player visibility
+
+This means:
+- MiniPlayer appears whenever there's audio in context
+- Expanded player reads from same context
+- Audio persists across navigation
+- No reload needed when switching views
+
 ### Loading States and Transitions
 ```typescript
 interface LoadingStates {
@@ -168,6 +208,40 @@ const DRAG_THRESHOLD = Math.min(Dimensions.get('window').height * 0.20, 150);
 ```
 
 ## Animation Configurations
+
+### Title Animation
+```typescript
+// Measure title width to determine if animation is needed
+const titleRef = useRef<Text>(null);
+const containerRef = useRef<View>(null);
+const shouldAnimate = useSharedValue(false);
+
+useEffect(() => {
+  // Measure both container and text width
+  const measureWidths = async () => {
+    if (titleRef.current && containerRef.current) {
+      const [titleWidth, containerWidth] = await Promise.all([
+        new Promise<number>(resolve => 
+          titleRef.current?.measure((_, __, width) => resolve(width))
+        ),
+        new Promise<number>(resolve => 
+          containerRef.current?.measure((_, __, width) => resolve(width))
+        )
+      ]);
+      shouldAnimate.value = titleWidth > containerWidth;
+    }
+  };
+  measureWidths();
+}, [episode.title]);
+
+// Only animate if title is longer than container
+const scrollStyle = useAnimatedStyle(() => {
+  if (!shouldAnimate.value) return {};
+  return {
+    transform: [{ translateX: scrollX.value }]
+  };
+});
+```
 
 ### Closing Animation
 ```typescript

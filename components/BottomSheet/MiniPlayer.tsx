@@ -19,6 +19,7 @@ import Animated, {
     useAnimatedReaction,
     runOnJS
 } from 'react-native-reanimated';
+import { useRouter } from 'expo-router';
 
 interface MiniPlayerProps {
   onPress: () => void;
@@ -35,6 +36,7 @@ export const MiniPlayer = memo(({ onPress, episode, onPlayPause }: Omit<MiniPlay
     const isMobile = width < 768;
     const { sharedValues } = useAudio();
     const { isLoading, isPlaying } = sharedValues;
+    const router = useRouter();
 
     useEffect(() => {
         if (episode) {
@@ -47,15 +49,23 @@ export const MiniPlayer = memo(({ onPress, episode, onPlayPause }: Omit<MiniPlay
         }
     }, [episode]);
 
+    const handlePress = () => {
+        router.push({
+            pathname: "/audio/[id]",
+            params: { id: episode.id }
+        });
+    };
+
     const animatedStyle = useAnimatedStyle(() => {
         return {
             transform: [{ translateY: slideAnim.value }]
         };
     });
 
-    if (pathname?.startsWith('/audio/')) {
-        return null;
-    }
+    
+    // if (pathname?.startsWith('/audio/')) {
+    //     return null;
+    // }
 
     return (
         <Animated.View 
@@ -73,7 +83,7 @@ export const MiniPlayer = memo(({ onPress, episode, onPlayPause }: Omit<MiniPlay
          }
         ]}>
             <Pressable 
-                onPress={onPress} 
+                onPress={handlePress} 
                 style={[styles.container, 
                     { bottom: 0 },
                     Platform.OS === "web" && { 
@@ -128,6 +138,9 @@ interface MiniPlayerContentProps {
 const MiniPlayerContent = ({ episode, isPlayingValue, onPlayPause }: MiniPlayerContentProps) => {
     const colorScheme = useColorScheme();
     const scrollX = useSharedValue(0);
+    const shouldAnimate = useSharedValue(false);
+    const titleRef = useRef<Text>(null);
+    const containerRef = useRef<View>(null);
     const { width } = Dimensions.get('window');
     const { commands, sharedValues } = useAudio();
     const { seek, closePlayer } = commands;
@@ -137,46 +150,43 @@ const MiniPlayerContent = ({ episode, isPlayingValue, onPlayPause }: MiniPlayerC
     const [hasStartedPlaying, setHasStartedPlaying] = useState(false);
     const [isTransitioning, setIsTransitioning] = useState(false);
 
-    useAnimatedReaction(
-        () => isPlayingValue.value,
-        (value) => {
-            if (!hasStartedPlaying) {
-                // First time loading
-                if (value) {
-                    runOnJS(setHasStartedPlaying)(true);
-                    runOnJS(setIsPlayingLocal)(value);
-                }
-            } else {
-                // Subsequent play/pause
-                if (value && isLoading.value) {
-                    // If trying to play and loading, don't update state yet
-                    runOnJS(setIsTransitioning)(true);
-                } else {
-                    runOnJS(setIsTransitioning)(false);
-                    runOnJS(setIsPlayingLocal)(value);
+    useEffect(() => {
+        const measureWidths = async () => {
+            if (titleRef.current && containerRef.current) {
+                const [titleWidth, containerWidth] = await Promise.all([
+                    new Promise<number>(resolve => 
+                        titleRef.current?.measure((_, __, width) => resolve(width))
+                    ),
+                    new Promise<number>(resolve => 
+                        containerRef.current?.measure((_, __, width) => resolve(width))
+                    )
+                ]);
+                shouldAnimate.value = titleWidth > containerWidth;
+                
+                // If should animate, start the animation
+                if (titleWidth > containerWidth) {
+                    const distance = titleWidth - containerWidth;
+                    scrollX.value = withSequence(
+                        withTiming(0, { duration: 0 }),
+                        withDelay(1000, withTiming(-distance, { 
+                            duration: Platform.OS === 'web' ? 24000 : 8000 
+                        })),
+                        withDelay(1000, withTiming(0, { duration: 0 }))
+                    );
                 }
             }
-        }
-    );
-
-    useEffect(() => {
-        const startAnimation = () => {
-            scrollX.value = withSequence(
-                withTiming(0, { duration: 0 }),
-                withTiming(-width/2, { 
-                    duration: Platform.OS === 'web' ? 24000 : 8000 
-                }),
-                withDelay(2000, withTiming(0, { duration: 0 }))
-            );
         };
 
-        const interval = setInterval(startAnimation, Platform.OS === 'web' ? 26000 : 10000);
-        startAnimation();
+        const interval = setInterval(() => {
+            measureWidths();
+        }, Platform.OS === 'web' ? 26000 : 10000);
 
+        measureWidths();
         return () => clearInterval(interval);
     }, [episode.title]);
 
     const scrollStyle = useAnimatedStyle(() => {
+        if (!shouldAnimate.value) return {};
         return {
             transform: [{ translateX: scrollX.value }],
             flexShrink: 0,
@@ -214,6 +224,28 @@ const MiniPlayerContent = ({ episode, isPlayingValue, onPlayPause }: MiniPlayerC
         );
     };
 
+    useAnimatedReaction(
+        () => isPlayingValue.value,
+        (value) => {
+            if (!hasStartedPlaying) {
+                // First time loading
+                if (value) {
+                    runOnJS(setHasStartedPlaying)(true);
+                    runOnJS(setIsPlayingLocal)(value);
+                }
+            } else {
+                // Subsequent play/pause
+                if (value && isLoading.value) {
+                    // If trying to play and loading, don't update state yet
+                    runOnJS(setIsTransitioning)(true);
+                } else {
+                    runOnJS(setIsTransitioning)(false);
+                    runOnJS(setIsPlayingLocal)(value);
+                }
+            }
+        }
+    );
+
     return (
         <View style={styles.miniPlayerContent}>
             {!isMobile && (
@@ -226,8 +258,9 @@ const MiniPlayerContent = ({ episode, isPlayingValue, onPlayPause }: MiniPlayerC
                 <Text numberOfLines={1} 
                 className='text-gray-300 font-semibold text-sm tracking-tighter '>
                     {episode.showTitle}</Text>
-                <View style={{ overflow: 'hidden' }}>
+                <View ref={containerRef} style={{ overflow: 'hidden' }}>
                     <Animated.Text 
+                        ref={titleRef}
                         className='text-white font-semibold text-lg tracking-tighter flex-nowrap'
                         numberOfLines={1}
                         style={scrollStyle}

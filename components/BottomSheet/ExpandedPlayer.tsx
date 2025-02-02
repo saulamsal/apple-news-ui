@@ -30,6 +30,8 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
     const insets = useSafeAreaInsets();
     const scrollX = useSharedValue(0);
     const [isPlayingState, setIsPlayingState] = useState(false);
+    const [currentPosition, setCurrentPosition] = useState(0);
+    const [currentDuration, setCurrentDuration] = useState(0);
 
     useAnimatedReaction(
         () => isPlaying.value,
@@ -38,10 +40,26 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
         }
     );
 
+    useAnimatedReaction(
+        () => position.value,
+        (pos) => {
+            runOnJS(setCurrentPosition)(pos);
+        }
+    );
+
+    useAnimatedReaction(
+        () => duration.value,
+        (dur) => {
+            runOnJS(setCurrentDuration)(dur);
+        }
+    );
+
     useEffect(() => {
         if (!currentEpisode) return;
+        let intervalId: NodeJS.Timeout;
 
         const startAnimation = () => {
+            if (!currentEpisode) return; // Additional safety check
             scrollX.value = withSequence(
                 withTiming(0, { duration: 0 }),
                 withTiming(-width/2, { duration: 8000 }),
@@ -49,11 +67,18 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
             );
         };
 
-        const interval = setInterval(startAnimation, 10000);
-        startAnimation();
+        // Start initial animation after a short delay
+        const timeoutId = setTimeout(() => {
+            startAnimation();
+            intervalId = setInterval(startAnimation, 10000);
+        }, 500);
 
-        return () => clearInterval(interval);
-    }, [currentEpisode]);
+        return () => {
+            clearTimeout(timeoutId);
+            if (intervalId) clearInterval(intervalId);
+            scrollX.value = 0;
+        };
+    }, [currentEpisode?.id]); // Only depend on episode ID
 
     const scrollStyle = useAnimatedStyle(() => {
         return {
@@ -68,7 +93,7 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
         return `${minutes}:${seconds.toString().padStart(2, '0')}`;
     };
 
-    const progress = duration.value > 0 ? (position.value / duration.value) * 100 : 0;
+    const progress = currentDuration > 0 ? (currentPosition / currentDuration) * 100 : 0;
     const rewind15Seconds = () => seek(-15);
 
     if (!currentEpisode) return null;
@@ -123,8 +148,8 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
                                         <View style={[styles.progress, { width: `${progress}%` }]} />
                                     </View>
                                     <View style={styles.timeContainer}>
-                                        <Text style={styles.timeText}>{formatTime(position.value)}</Text>
-                                        <Text style={styles.timeText}>-{formatTime(Math.max(0, duration.value - position.value))}</Text>
+                                        <Text style={styles.timeText}>{formatTime(currentPosition)}</Text>
+                                        <Text style={styles.timeText}>-{formatTime(Math.max(0, currentDuration - currentPosition))}</Text>
                                     </View>
                                 </View>
 
@@ -197,8 +222,8 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
                                         <View style={[styles.progress, { width: `${progress}%` }]} />
                                     </View>
                                     <View style={styles.timeContainer}>
-                                        <Text style={styles.timeText}>{formatTime(position.value)}</Text>
-                                        <Text style={styles.timeText}>-{formatTime(Math.max(0, duration.value - position.value))}</Text>
+                                        <Text style={styles.timeText}>{formatTime(currentPosition)}</Text>
+                                        <Text style={styles.timeText}>-{formatTime(Math.max(0, currentDuration - currentPosition))}</Text>
                                     </View>
                                 </View>
 

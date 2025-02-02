@@ -31,15 +31,20 @@ export default function AudioScreen() {
     const isIOS = Platform.OS === 'ios';
     const windowHeight = useSharedValue(Dimensions.get('window').height);
     const dragProgress = useSharedValue(0);
-    const { commands } = useAudio();
-    const { loadEpisodeWithoutPlaying } = commands;
+    const { commands, currentEpisode, sharedValues } = useAudio();
+    const { loadEpisodeWithoutPlaying, playEpisode } = commands;
+    const { isPlaying } = sharedValues;
 
     const numericId = typeof id === 'string' ? id : Array.isArray(id) ? id[0] : '0';
     const episode = podcastsData?.results?.['podcast-episodes']?.[0]?.data?.find(ep => ep.id === numericId) || 
                    podcastsData?.results?.['podcast-episodes']?.[0]?.data?.[0];
 
     useEffect(() => {
-        if (episode && episode.attributes.assetUrl) {
+        // Only load if this episode isn't already playing
+        if (currentEpisode?.id === numericId) return;
+        if (!episode || !episode.attributes.assetUrl) return;
+
+        const loadPodcast = async () => {
             const imageUrl = episode.attributes.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || 'https://via.placeholder.com/300';
 
             const podcast = {
@@ -53,9 +58,17 @@ export default function AudioScreen() {
                 summary: episode.attributes.description.standard || ''
             };
 
-            loadEpisodeWithoutPlaying(podcast);
-        }
-    }, [episode, loadEpisodeWithoutPlaying]);
+            // If we already have audio playing, use playEpisode to preserve state
+            // Otherwise use loadEpisodeWithoutPlaying for initial load
+            if (currentEpisode && isPlaying.value) {
+                await playEpisode(podcast);
+            } else {
+                await loadEpisodeWithoutPlaying(podcast);
+            }
+        };
+
+        loadPodcast();
+    }, [numericId, currentEpisode?.id]);
 
     const handleHapticFeedback = useCallback(() => {
         haptics.impact();
