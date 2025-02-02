@@ -1,3 +1,4 @@
+import React from 'react';
 import { Text, Image, View, StyleSheet, Pressable, TouchableOpacity, Alert, RefreshControl, ActivityIndicator, Platform, FlatList } from 'react-native';
 import { useRouter, useSegments } from 'expo-router';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
@@ -9,6 +10,8 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
+  useAnimatedReaction,
+  runOnJS,
 } from 'react-native-reanimated';
 import SlidingBanner from '@/components/SlidingBanner';
 import { MotiView } from 'moti';
@@ -118,13 +121,24 @@ export default function AudioScreen() {
   const [activeTab, setActiveTab] = useState('best');
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [episodes, setEpisodes] = useState((podcasts.results['podcast-episodes'][0].data || []) as PodcastEpisodeData[]);
+  const { commands, sharedValues } = useAudio();
+  const { playEpisode, togglePlayPause, closePlayer } = commands;
+  const { isPlaying, isLoading: audioLoading } = sharedValues;
+  const [isPlayingState, setIsPlayingState] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  useAnimatedReaction(
+    () => isPlaying.value,
+    (playing) => {
+      runOnJS(setIsPlayingState)(playing);
+    }
+  );
 
   const handleTabPress = (tabId: string) => {
     setActiveTab(tabId);
   };
 
-  const { currentEpisode, playEpisode, isPlaying, togglePlayPause, closePlayer } = useAudio();
+  const { currentEpisode } = useAudio();
 
   const handlePlayAll = async () => {
     const firstEpisode = podcasts.results['podcast-episodes'][0].data[0] as PodcastEpisodeData;
@@ -226,28 +240,31 @@ export default function AudioScreen() {
           ListHeaderComponent={
             <View style={styles.headerContainer}>
               <View style={styles.header}>
-                <NewsHeaderLeftItem size="md" secondaryTitle="Audio" />
+                <NewsHeaderLeftItem size="sm" secondaryTitle="Audio" />
                 <View style={styles.headerRight}>
                   <TouchableOpacity
                     style={[
                       styles.headerRightButton,
                       {
-                        backgroundColor: currentEpisode ? '#86858D' : Colors.light.tint,
-                        opacity: isLoading ? 0.7 : 1
+                        backgroundColor: !isPlayingState  ? '#86858D' : Colors.light.tint,
+                        opacity: isLoading || audioLoading.value ? 0.7 : 1
                       }
                     ]}
                     onPress={currentEpisode ? togglePlayPause : handlePlayAll}
-                    disabled={isLoading}
+                    disabled={isLoading || audioLoading.value}
                   >
-                    {isLoading ? (
+                    {isLoading || audioLoading.value ? (
                       <ActivityIndicator size="small" color="#fff" />
-                    ) : isPlaying ? (
+                    ) : currentEpisode && isPlayingState ? (
                       <AudioVisualizer isPlaying={true} />
                     ) : (
                       <Ionicons name="headset" size={14} color={'#fff'} />
                     )}
                     <Text style={styles.headerRightText}>
-                      {isLoading ? 'Loading...' : currentEpisode ? (isPlaying ? 'Playing' : 'Paused') : 'Play'}
+                      {isLoading || audioLoading.value ? 'Loading...' : 
+                        currentEpisode ? 
+                          (isPlayingState ? 'Playing' : 'Paused') : 
+                          'Play All'}
                     </Text>
                   </TouchableOpacity>
                 </View>
@@ -267,15 +284,6 @@ export default function AudioScreen() {
                     type: 'spring',
                     damping: 20,
                     stiffness: 200
-                  }}
-                  exit={{
-                    opacity: 0,
-                    translateY: -20,
-                    transition: {
-                      type: 'spring',
-                      damping: 20,
-                      stiffness: 200
-                    }
                   }}
                 >
                   <Text style={{ fontSize: 22, marginTop: 10, color: '#FD325A' }}>

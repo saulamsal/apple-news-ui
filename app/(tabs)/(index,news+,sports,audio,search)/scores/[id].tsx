@@ -26,6 +26,7 @@ import { useFonts, Orbitron_700Bold, Orbitron_900Black } from '@expo-google-font
 import {DropdownMenu} from '@/components/DropdownMenu';
 import * as Sharing from 'expo-sharing';
 import React, { useReducer, useEffect } from 'react';
+import { LiveDot } from '@/components/LiveDot';
 // import * as Clipboard from 'expo-clipboard';
 
 
@@ -95,30 +96,6 @@ const pulseKeyframes = {
     transform: [{ scale: 1 }]
   }
 } as const;
-
-const LiveDot = () => (
-  <Animated.View
-    style={[
-      styles.liveDot,
-      {
-        animationName: {
-          from: {
-            opacity: 0.4,
-            transform: [{ scale: 0.8 }]
-          },
-          to: {
-            opacity: 1,
-            transform: [{ scale: 1 }]
-          }
-        },
-        animationDuration: '2000ms',
-        animationIterationCount: 'infinite',
-        animationDirection: 'alternate',
-        animationTimingFunction: 'easeInOut',
-      } as any
-    ]}
-  />
-);
 
 const FadingView = ({ opacity, children, style }: { 
   opacity: SharedValue<number>, 
@@ -508,7 +485,7 @@ export default function ScoreDetailsScreen() {
             <>
               <View style={styles.liveContainer}>
                 <Text style={styles.liveText}>LIVE</Text>
-                <LiveDot />
+                <LiveDot color="#FFFFFF" />
               </View>
               <Text className="mb-4 text-sm text-gray-500" >
                 {score.current_clock?.time} • {score.current_clock?.period}

@@ -57,7 +57,8 @@ function AnimatedStack() {
           styles.stackContainer,
           animatedStyle,
           Platform.OS === 'web' && {
-            position: 'relative'
+            position: 'relative',
+            overflowY: 'auto!important'
           }
         ]}  
       >

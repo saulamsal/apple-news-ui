@@ -74,39 +74,22 @@ interface CategoryCardProps {
 }
 
 export const LiveDot = ({color = '#ffffff', children}: {color?: string, children?: React.ReactNode}) => {
-  const pulseAnim = React.useRef(new Animated.Value(0.4)).current;
-
-  React.useEffect(() => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(pulseAnim, {
-          toValue: 1,
-          duration: 1000,
-          useNativeDriver: true,
-        }),
-        Animated.timing(pulseAnim, {
-          toValue: 0.4,
-          duration: 1000,
-          useNativeDriver: true,  
-        })
-      ])
-    ).start();
-  }, []);
-
   return (
-    <Animated.View
+    <View
       style={[
         styles.liveDot,
         {
-          opacity: pulseAnim,
           backgroundColor: color,
         }
       ]}
+      className="animate-pulse"
     >
       {children}
-    </Animated.View>
+    </View>
   );
 };
+
+const MemoizedLiveDot = React.memo(LiveDot);
 
 const useWindowSize = () => {
   const [width, setWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
@@ -142,12 +125,9 @@ export function Sidebar({ hideSideBar = false }: SidebarProps) {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
-
-
   const hideSearch = hideSideBar && segments[2] === 'search';
 
-
-  const liveGames = scores.filter((game: Game) => game.is_live);
+  const liveGames = React.useMemo(() => scores.filter((game: Game) => game.is_live), []);
 
   const searchResults = React.useMemo(() => {
     if (!searchQuery.trim()) return [];
@@ -177,7 +157,7 @@ export function Sidebar({ hideSideBar = false }: SidebarProps) {
     });
 
     return results;
-  }, [searchQuery]);
+  }, [searchQuery, entities]);
 
   // Update the score style to use conditional font
   const scoreStyle = {
@@ -233,9 +213,9 @@ export function Sidebar({ hideSideBar = false }: SidebarProps) {
             <Text style={[styles.leagueText, { color:'black' }]}>
               {game.competition.name}
             </Text>
-            <View style={styles.liveIndicator}>
-              <LiveDot />
+            <View style={styles.liveContainer}>
               <Text style={styles.liveText}>LIVE</Text>
+              <MemoizedLiveDot />
             </View>
           </View>
           <View style={styles.scoreRow}>
@@ -411,20 +391,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: '600',
   },
-  liveIndicator: {
+  liveContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FA2E46',
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 4,
-  },
-  liveDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: '#FFFFFF',
-    marginRight: 4,
   },
   liveText: {
     fontSize: 11,
@@ -454,5 +427,14 @@ const styles = StyleSheet.create({
   score: {
     fontSize: 18,
     fontWeight: '600',
+  },
+  liveDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: '#FFFFFF',
+    marginLeft: 4,
+    animationDuration: '2s',
+    animationIterationCount: 'infinite',
   },
 }); 

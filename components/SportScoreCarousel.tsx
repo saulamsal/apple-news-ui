@@ -3,9 +3,7 @@ import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Image, Alert } fr
 import { format } from 'date-fns';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useRouter } from 'expo-router';
-import Animated from 'react-native-reanimated';
-
-
+import { LiveDot } from '@/components/LiveDot';
 
 interface Team {
   id: string;
@@ -33,30 +31,6 @@ interface Score {
 interface SportScoreCarouselProps {
   scores: Score[];
 }
-
-const LiveDot = () => (
-  <Animated.View
-    style={[
-      styles.liveDot,
-      {
-        animationName: {
-          from: {
-            opacity: 0.4,
-            transform: [{ scale: 0.8 }]
-          },
-          to: {
-            opacity: 1,
-            transform: [{ scale: 1 }]
-          }
-        },
-        animationDuration: '2000ms',
-        animationIterationCount: 'infinite',
-        animationDirection: 'alternate',
-        animationTimingFunction: 'easeInOut',
-      } as any
-    ]}
-  />
-);
 
 export const SportScoreCarousel: React.FC<SportScoreCarouselProps> = ({ scores }) => {
   const colorScheme = useColorScheme();

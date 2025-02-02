@@ -129,7 +129,8 @@ const WebLayout = () => {
     const loadInitialAudio = async () => {
       if (Platform.OS === 'web') {
         const episodes = podcasts.results['podcast-episodes'][0].data;
-        const firstEpisode = episodes[0];
+        const randomIndex = Math.floor(Math.random() * episodes.length);
+        const firstEpisode = episodes[randomIndex];
 
         if (firstEpisode && firstEpisode.attributes.assetUrl) {
           const imageUrl = firstEpisode.attributes.artwork?.url?.replace('{w}', '300').replace('{h}', '300').replace('{f}', 'jpg') || 'https://via.placeholder.com/300';

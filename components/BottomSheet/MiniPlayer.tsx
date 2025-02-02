@@ -68,10 +68,12 @@ export const MiniPlayer = memo(({ onPress, episode }: MiniPlayerProps) => {
           Platform.OS === 'web' && { 
             position: 'fixed',
             bottom: 0,
+            
             width: '100%',
-            maxWidth: 380,
+            maxWidth: 800,
             marginHorizontal: 'auto',
             right: isMobile ? 0 : 110,
+            left: isMobile ? 0 : 50,
             zIndex: 1000,
          }
         ]}>
