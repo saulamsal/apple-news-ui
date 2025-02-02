@@ -111,7 +111,7 @@ const DonateButton = () => {
         }}
         title="Southern California wildfires"
         subtitle="Donate to the American Red Cross"
-        backgroundColor="#F58A1F"
+        backgroundColor="#B82118"
       />
     </View>
   );

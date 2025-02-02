@@ -67,11 +67,11 @@ const NFLPortalButton = () => {
         <SlidingBanner
             onPress={() => router.push(`/topic/nfl_playoffs`)}
             image={{
-                uri: 'https://img.sofascore.com/api/v1/unique-tournament/9464/image/light'
+                uri: 'https://upload.wikimedia.org/wikipedia/en/thumb/8/82/Super_Bowl_LIX_Logo.svg/1200px-Super_Bowl_LIX_Logo.svg.png'
             }}
-            title="NFL Playoffs"
+            title="NFL Super Bowl"
             subtitle="Full coverage"
-            backgroundColor="#144174"
+            backgroundColor="#63440E"
         />
     );
 }
