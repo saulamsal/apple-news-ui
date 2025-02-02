@@ -149,7 +149,7 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
                     </ScrollComponentToUse>
                 </BlurView>
             ) : (
-                <View className="max-w-[400px] m-auto">
+                <View className="max-w-[400px] m-auto w-full">
                     {Platform.OS === 'web' && (
                         <Pressable 
                             onPress={() => router.back()}

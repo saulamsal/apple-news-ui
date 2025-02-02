@@ -156,7 +156,7 @@ export default function AudioScreen() {
                 <Animated.View 
                     style={[
                         styles.modalContent, 
-                        animatedStyle,
+                        Platform.OS === 'ios' && animatedStyle,
                         { backgroundColor: '#fff' }
                     ]}
                 >
