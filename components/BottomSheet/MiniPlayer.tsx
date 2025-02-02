@@ -8,6 +8,7 @@ import { useAudio } from '@/contexts/AudioContext';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useWindowDimensions } from 'react-native';
 import { PodcastEpisode } from '@/types/podcast';
+import { usePathname } from 'expo-router';
 import Animated, { 
     useAnimatedStyle, 
     withSpring,
@@ -25,6 +26,10 @@ interface MiniPlayerProps {
 }
 
 export const MiniPlayer = memo(({ onPress, episode }: MiniPlayerProps) => {
+    const pathname = usePathname();
+    
+
+
     const insets = useSafeAreaInsets();
     const colorScheme = useColorScheme();
     const slideAnim = useSharedValue(100);
@@ -61,6 +66,11 @@ export const MiniPlayer = memo(({ onPress, episode }: MiniPlayerProps) => {
 
     const bottomPosition = Platform.OS === 'ios' ? insets.bottom + 57 : 60;
 
+    if (pathname?.startsWith('/audio/')) {
+        return null;
+    }
+
+    
     return (
         <Animated.View 
         style={[
@@ -164,6 +174,7 @@ const MiniPlayerContent = memo(({ episode, isPlayingState }: MiniPlayerContentPr
     const rewind15Seconds = () => {
         seek(-15);
     };
+    
 
     return (
         <View style={styles.miniPlayerContent}>

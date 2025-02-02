@@ -104,7 +104,7 @@ const EditorPickItem = memo(({ episode, index }: EditorPickItemProps & { index: 
 export const PodcastEditorsPickItem = memo(({ episodes }: { episodes: any[] }) => {
   return (
     <Animated.View 
-      className="mt-6 mb-8 -mr-5 -ml-5"
+      className="mt-6 mb-8 -mr-4 -ml-5"
       entering={FadeIn.duration(400)}
     >
       <View className="mb-4 px-4">

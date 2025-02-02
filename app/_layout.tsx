@@ -127,8 +127,8 @@ export default function RootLayout() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'black',
+    flex: Platform.OS === "ios" ? 1 : 0,
+    backgroundColor: Platform.OS === "ios" ? 'black' : 'transparent',
   },
   stackContainer: {
     flex: 1,

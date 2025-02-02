@@ -161,7 +161,7 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
                             }}
                             style={{
                                 position: 'absolute',
-                                left: -80,
+                                left: 0,
                                 top: -80,
                                 zIndex: 10,
                                 backgroundColor: 'rgba(0,0,0,0.5)',

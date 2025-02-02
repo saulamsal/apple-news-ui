@@ -95,7 +95,7 @@ function SidebarItem({
         }
       }
       className={`flex flex-row items-center p-2 rounded-lg gap-3 mb-0.5 
-        hover:bg-gray-200 transition-all duration-200  ${compact ? 'justify-center' : 'pl-2 pr-6 mr-8'
+        hover:bg-gray-200 transition-all duration-200  ${compact ? 'justify-center w-10 h-10 mx-auto' : 'pl-2 pr-6 mr-8'
         } ${isActive ? 'bg-[#e6e6e7]' : ''}`}
       style={({ pressed, hovered }) => [
         (pressed || hovered) && { backgroundColor: hoverBg }
@@ -171,14 +171,103 @@ const WebLayout = () => {
 
   const backgroundColor = '#f9f9f9';
 
-  if (isMobile) {
-    return (
-      <View className="flex-1">
+  return (
+    <View className="flex-row left-0 right-0 bg-white justify-center relative">
+  
+
+
+{!isMobile && (
+      <View className={`${isCompact ? 'w-[72px]' : ''} items-end sticky top-0 h-screen border-r border-gray-500`}
+      style={{ borderRightColor: borderColor }}>
+        <View className={`sticky ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full`}>
+          <View className={`fixed ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full`}>
+            <View className="mb-8 pl-3 pt-3">
+              <View className="flex-row items-center gap-[2px] mt-2">
+                <NewsLogo size={isCompact ? 32 : 40} forceShow={true} />
+              </View>
+            </View>
+
+
+            <View className="">
+              <SidebarItem icon="home" label="Home" href="/(tabs)/(index)" compact={isCompact} isActive={segments[1] === '(index)'} />
+              <SidebarItem icon="sports" label="Sports" href="/(tabs)/(sports)" compact={isCompact} isActive={segments[1] === '(sports)'} />
+              <SidebarItem icon="headset" label="Audio" href="/(tabs)/(audio)" compact={isCompact} isActive={segments[1] === '(audio)'} />
+              <SidebarItem icon="news" label="News+" href="/(tabs)/(news+)" compact={isCompact} isActive={segments[1] === '(news+)'} />
+
+            </View>
+
+
+
+            {!isCompact &&
+
+              <Link href="https://twitter.com/intent/follow?screen_name=saul_sharma" className="flex-row items-center gap-2" target="_blank">
+                <View className="flex-row items-center gap-3 pl-2 relative">
+                  <View className="relative">
+                    <Image source={{ uri: 'https://i.imgur.com/6wdPxeP.jpeg' }} alt="Twitter" className="w-6 h-6 rounded-full" />
+                    <View className="w-2 h-2 bg-red-500 rounded-full absolute -top-0.5 -right-0.5" />
+
+                  </View>
+                  <Text className="text-sm text-gray-800 font-semibold">Follow Saúl on 𝕏</Text>
+                </View>
+              </Link>
+            }
+
+            <View className="mt-8 gap-2">
+              {!isCompact && <Text className="text-sm font-medium text-gray-500 px-3">Discover</Text>}
+              <SidebarItem icon="search" label="Following" href="/(tabs)/(search)" compact={isCompact} isActive={segments[1] === '(search)'} />
+            </View>
+
+            {searchEntities.sections.map((section) => {
+              if (section.id !== 'my_following') return null;
+              return (
+                <View key={section.id} className="gap-3 rounded-2xl p-3 mt-4 mr-6" style={{ backgroundColor: '#00000008' }}>
+                  {!isCompact && <Text className="text-sm text-gray-500">{section.title}</Text>}
+                  <View className="gap-3">
+                    {getAllEntitiesForSection(section.id).map((entity: Entity) => (
+                      <CategoryCard
+                        key={entity.id}
+                        title={entity.title}
+                        logo={entity.logo}
+                        icon={entity.icon}
+                        id={entity.id}
+                        entity_type={entity.type}
+                        minimal={true}
+                        disable_name={isCompact}
+                      />
+                    ))}
+                  </View>
+                </View>
+              );
+            })}
+
+            {/* {!isCompact && <SocialButtons showTwitter />} */}
+
+
+            <View className="mr-7 mt-4"> {!isCompact && <SocialButtons showGithub />}
+            </View>
+
+          </View>
+        </View>
+             </View>
+)}
+
+
+ 
+
+      <View className="flex-1 w-full max-w-[611px] bg-transparent">
         <Stack
           screenOptions={{
-            headerShown: false,
+            headerShown: false
           }}
         />
+      </View>
+
+
+
+            <Sidebar />
+        
+
+      {isMobile && (
         <View className={`fixed bottom-0 left-0 right-0 h-16 flex-row border-t ${Platform.OS === 'ios' ? 'pb-5' : ''}`}
           style={{
             borderTopColor: borderColor,
@@ -257,118 +346,10 @@ const WebLayout = () => {
             </Text>
           </Pressable>
         </View>
-      </View>
-    );
-  }
-
-  //TODO; add scroll y auto to enable sticky
-  return (
-    <View className="flex-row left-0 right-0 bg-white justify-center relative">
-      <View className={`${isCompact ? 'w-[72px]' : ''} items-end sticky top-0 h-screen border-r border-gray-500`}
-        style={{ borderRightColor: borderColor }}>
-
-
-        <View className={`sticky ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full`}>
-          <View className={`fixed ${isCompact ? 'w-[72px] p-2' : 'w-[275px] p-2'} h-full`}>
-            <View className="mb-8 pl-3 pt-3">
-              <View className="flex-row items-center gap-[2px] mt-2">
-                <NewsLogo size={isCompact ? 32 : 40} forceShow={true} />
-              </View>
-            </View>
-
-
-            <View className="">
-              <SidebarItem icon="home" label="Home" href="/(tabs)/(index)" compact={isCompact} isActive={segments[1] === '(index)'} />
-              <SidebarItem icon="sports" label="Sports" href="/(tabs)/(sports)" compact={isCompact} isActive={segments[1] === '(sports)'} />
-              <SidebarItem icon="headset" label="Audio" href="/(tabs)/(audio)" compact={isCompact} isActive={segments[1] === '(audio)'} />
-              <SidebarItem icon="news" label="News+" href="/(tabs)/(news+)" compact={isCompact} isActive={segments[1] === '(news+)'} />
-
-            </View>
-
-
-
-
-
-            {!isCompact &&
-
-              <Link href="https://twitter.com/intent/follow?screen_name=saul_sharma" className="flex-row items-center gap-2" target="_blank">
-                <View className="flex-row items-center gap-3 pl-2 relative">
-                  <View className="relative">
-                    <Image source={{ uri: 'https://i.imgur.com/6wdPxeP.jpeg' }} alt="Twitter" className="w-6 h-6 rounded-full" />
-                    <View className="w-2 h-2 bg-red-500 rounded-full absolute -top-0.5 -right-0.5" />
-
-                  </View>
-                  <Text className="text-sm text-gray-800 font-semibold">Follow Saúl on 𝕏</Text>
-                </View>
-              </Link>
-            }
-
-            <View className="mt-8 gap-2">
-              {!isCompact && <Text className="text-sm font-medium text-gray-500 px-3">Discover</Text>}
-              <SidebarItem icon="search" label="Following" href="/(tabs)/(search)" compact={isCompact} isActive={segments[1] === '(search)'} />
-            </View>
-
-            {searchEntities.sections.map((section) => {
-              if (section.id !== 'my_following') return null;
-              return (
-                <View key={section.id} className="gap-3 rounded-2xl p-3 mt-4 mr-6" style={{ backgroundColor: '#00000008' }}>
-                  {!isCompact && <Text className="text-sm text-gray-500">{section.title}</Text>}
-                  <View className="gap-3">
-                    {getAllEntitiesForSection(section.id).map((entity: Entity) => (
-                      <CategoryCard
-                        key={entity.id}
-                        title={entity.title}
-                        logo={entity.logo}
-                        icon={entity.icon}
-                        id={entity.id}
-                        entity_type={entity.type}
-                        minimal={true}
-                        disable_name={isCompact}
-                      />
-                    ))}
-                  </View>
-                </View>
-              );
-            })}
-
-            {/* {!isCompact && <SocialButtons showTwitter />} */}
-
-
-            <View className="mr-7 mt-4"> {!isCompact && <SocialButtons showGithub />}
-            </View>
-
-          </View>
-        </View>
-
-
-      </View>
-
-      <View className="flex-1 w-full max-w-[611px] bg-transparent">
-        <Stack
-          screenOptions={{
-            headerShown: false
-          }}
-        />
-      </View>
-
-
-
-
-
-      <View className="w-[350px] sticky top-0"
-        style={{ borderLeftColor: borderColor }}>
-        <View className="w-[350px] border-l fixed top-0 "
-          style={{ borderLeftColor: borderColor }}>
-          <View className="p-4">
-            <Sidebar hideSideBar={hideSideBar} />
-          </View>
-        </View>
-      </View>
-
-
-
+      )}
     </View>
   );
+
 }
 
 export default WebLayout;

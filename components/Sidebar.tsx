@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ViewStyle, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, ViewStyle, TouchableOpacity, Image, useWindowDimensions } from 'react-native';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { CategoryCard } from './CategoryCard';
 import entities from '@/app/data/entities.json';
@@ -96,7 +96,6 @@ const useWindowSize = () => {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-
     const handleResize = () => setWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -105,18 +104,15 @@ const useWindowSize = () => {
   return width;
 };
 
-interface SidebarProps {
-  hideSideBar: boolean;
-}
 
-export function Sidebar({ hideSideBar = false }: SidebarProps) {
-  const windowWidth = useWindowSize();
-  const shouldUseCustomFont = windowWidth > 768; // Only use custom font on larger screens
+export function Sidebar() {
+  // const windowWidth = useWindowSize();
+  const shouldUseCustomFont = true; // Only use custom font on larger screens
   
-  const [fontsLoaded] = shouldUseCustomFont ? useFonts({
+  const [fontsLoaded] =  useFonts({
     Orbitron_700Bold,
     Orbitron_900Black,
-  }) : [true];
+  });
   
   const [searchQuery, setSearchQuery] = useState('');
   const [isFocused, setIsFocused] = useState(false);
@@ -124,8 +120,13 @@ export function Sidebar({ hideSideBar = false }: SidebarProps) {
   const router = useRouter();
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
+  const { width } = useWindowDimensions();
 
-  const hideSearch = hideSideBar && segments[2] === 'search';
+  const isMobile = width < 768;
+
+
+
+  const hideSearch =  segments[2] === 'search';
 
   const liveGames = React.useMemo(() => scores.filter((game: Game) => game.is_live), []);
 
@@ -164,8 +165,15 @@ export function Sidebar({ hideSideBar = false }: SidebarProps) {
     ...styles.score,
     fontFamily: shouldUseCustomFont && fontsLoaded ? 'Orbitron_900Black' : undefined
   };
+  
+  if(isMobile) return null;
 
   return (
+          <View className="w-[350px] sticky top-0 "
+        style={{ borderLeftColor: '#eee' }}>
+        <View className="w-[350px] border-l fixed top-0 px-2"
+          style={{ borderLeftColor: '#eee' }}>
+          <View className="p-4"></View>
     <View style={styles.container}>
       {!hideSearch && (
       <View style={[
@@ -316,6 +324,8 @@ export function Sidebar({ hideSideBar = false }: SidebarProps) {
 
       </View>
     </View>
+      </View>
+        </View>
   );
 }
 
