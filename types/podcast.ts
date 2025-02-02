@@ -27,21 +27,80 @@ export interface PodcastEpisode {
 export interface PodcastEpisodeData {
   id: string;
   type: string;
+  href: string;
   attributes: {
-    name: string;
+    offers: Array<{
+      kind: string;
+      type: string;
+    }>;
+    copyright: string;
+    contentAdvisory: string;
+    genreNames: string[];
+    artworkOrigin: string;
+    itunesTitle: string;
+    kind: string;
+    mediaKind: string;
     description: {
       standard: string;
       short: string;
     };
     artwork: {
-      url: string;
       width: number;
       height: number;
+      url: string;
+      bgColor: string;
+      textColor1: string;
+      textColor2: string;
+      textColor3: string;
+      textColor4: string;
     };
-    durationInMilliseconds: number;
+    url: string;
     releaseDateTime: string;
-    assetUrl: string;
+    websiteUrl: string;
+    durationInMilliseconds: number;
+    name: string;
+    guid: string;
+    contentRating: string;
     artistName: string;
+    subscribable: boolean;
+    assetUrl: string;
+  };
+  relationships?: {
+    podcast: {
+      href: string;
+      data: Array<{
+        id: string;
+        type: string;
+        href: string;
+        attributes: {
+          offers: Array<{
+            kind: string;
+            type: string;
+          }>;
+          feedUrl: string;
+          copyright: string;
+          genreNames: string[];
+          releaseFrequency: string;
+          kind: string;
+          description: {
+            standard: string;
+          };
+          artwork: {
+            width: number;
+            height: number;
+            url: string;
+            bgColor: string;
+            textColor1: string;
+            textColor2: string;
+            textColor3: string;
+            textColor4: string;
+          };
+          name: string;
+          artistName: string;
+          subscribable: boolean;
+        };
+      }>;
+    };
   };
 }
 

@@ -152,14 +152,13 @@ export default function AudioScreen() {
         title: firstEpisode.attributes.name,
         streamUrl: firstEpisode.attributes.assetUrl,
         artwork: { url: imageUrl },
-        showTitle: firstEpisode.attributes.artistName,
+        showTitle: firstEpisode.relationships?.podcast?.data[0]?.attributes?.name || firstEpisode.attributes.artistName,
         duration: firstEpisode.attributes.durationInMilliseconds,
         releaseDate: firstEpisode.attributes.releaseDateTime,
         summary: firstEpisode.attributes.description.standard
       };
 
       try {
-        // Ensure any existing audio is cleaned up before playing new one
         await closePlayer();
         await playEpisode(podcast);
         router.push(`/audio/${firstEpisode.id}`);

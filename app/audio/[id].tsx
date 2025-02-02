@@ -47,7 +47,7 @@ export default function AudioScreen() {
                 title: episode.attributes.name,
                 streamUrl: episode.attributes.assetUrl,
                 artwork: { url: imageUrl },
-                showTitle: episode.attributes.artistName,
+                showTitle: episode.relationships?.podcast?.data[0]?.attributes?.name || episode.attributes.artistName,
                 duration: episode.attributes.durationInMilliseconds || 0,
                 releaseDate: episode.attributes.releaseDateTime,
                 summary: episode.attributes.description.standard || ''

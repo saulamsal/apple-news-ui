@@ -37,7 +37,7 @@ export function AudioVisualizer({ isPlaying }: Props) {
                             animationDuration: 800,
                             animationIterationCount: 'infinite',
                             animationDelay: index * 100,
-                            animationTimingFunction: 'ease-in-out',
+                            animationTimingFunction: 'easeInOut',
                         } as AnimateStyle<any>,
                     ]}
                 />
