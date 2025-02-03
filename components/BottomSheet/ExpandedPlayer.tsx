@@ -100,18 +100,18 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
         <View style={styles.controls}>
             <Pressable onPress={rewind15Seconds} style={styles.controlButton}>
                 <View style={{ alignItems: 'center', position: 'relative' }}>
-                    <Ionicons name="refresh-sharp" size={60} color="#fff" style={{ transform: [{ scaleX: -1 }] }} />
-                    <Text style={{ color: '#fff', fontSize: 14, marginTop: 4, position: 'absolute', top: 26, left: 22 }}>15</Text>
+                    <Ionicons name="refresh-sharp" size={44} color="#fff" style={{ transform: [{ scaleX: -1 }] }} />
+                    <Text style={{ color: '#fff', fontSize: 10,  position: 'absolute', top: 20, left: 16 }}>15</Text>
                 </View>
             </Pressable>
 
             <Pressable onPress={togglePlayPause} style={[styles.controlButton, styles.playButton]}>
-                <BlurView intensity={80} tint="dark" style={styles.buttonBlur}>
-                    <Ionicons name={isPlayingState ? "pause" : "play"} size={30} color="#fff" />
-                </BlurView>
+                <View style={styles.buttonBlur}>
+                    <Ionicons name={isPlayingState ? "pause" : "play"} size={44} color="#fff" />
+                </View>
             </Pressable>
 
-            <Pressable style={[styles.controlButton, { opacity: 0.5 }]}>
+            <Pressable style={[styles.controlButton, { opacity: 0.7 }]}>
                 <Foundation name="fast-forward" size={60} color="#fff" />
             </Pressable>
         </View>
@@ -125,7 +125,8 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
                 {Platform.OS === 'web' && (
                     <Pressable 
                         onPress={() => {
-                            if (router.canGoBack()) {
+                            if (router.canGoBack()) {                                       
+                                 <Foundation name="fast-forward" size={60} color="#fff" />
                                 router.back();
                             } else {
                                 router.replace('/');
@@ -302,7 +303,7 @@ const styles = StyleSheet.create({
         height: 50,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'rgba(0,0,0,0.3)',
+        // backgroundColor: 'rgba(0,0,0,0.3)',
         borderRadius: 50,
         overflow: 'hidden',
     },
