@@ -157,7 +157,7 @@ struct WidgetLiveActivity: Widget {
                 Text("\(context.state.homeScore)-\(context.state.awayScore)")
                     .foregroundColor(.white)
                 }
-            .widgetURL(URL(string: "https://www.apple-news-ui.app/scores"))
+            .widgetURL(URL(string: "https://www.news-by-saul.app/scores"))
             .keylineTint(Color.white)
         }
     }

@@ -14,14 +14,14 @@ export default function Root({ children }: PropsWithChildren) {
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-        <meta property="og:title" content="Apple News UI - Find News & Topics" />
+        <meta property="og:title" content="News By Saul - Find News & Topics" />
         <meta property="og:description" content="Search through millions of articles, topics, and trusted sources to find the news that matters to you." />
         <meta property="og:image" content="../assets/images/featured.png" />
         <meta property="og:url" content="https://apple-news.expo.app/audio" />
         <meta property="og:type" content="website" />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Apple News UI - Find News & Topics" />
+        <meta name="twitter:title" content="News By Saul - Find News & Topics" />
         <meta name="twitter:description" content="Search through millions of articles, topics, and trusted sources to find the news that matters to you." />
         <meta name="twitter:image" content="../assets/images/featured.png" />
 

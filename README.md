@@ -1,4 +1,4 @@
-# Apple News UI Clone with Expo
+# News By Saul Clone with Expo
 
 This project demonstrates an implementation of the Apple News app UI in React Native using Expo, with a focus on replicating the native iOS experience and features.
 
@@ -95,22 +95,24 @@ Feel free to contribute to this project by:
 This project is open source and available under the MIT License.
 
 
-## Dummy data scraped:
-1. Podcast: https://podcasts.apple.com/us/room/1589753370 (#serialized-server-data)
-fyi: 
-i. replace: {w}x{h}
-with : /376x376bb.webp
+## Data Sources
 
-ii.
+### Podcast Data
+- Source: Apple Podcasts API
+- Example URL: https://podcasts.apple.com/us/room/1589753370
+- Image URL format: Replace `{w}x{h}` with `/376x376bb.webp`
 
+## TODO
 
+### Audio 
+- [ ] Replace expo-av with expo-audio
+- [x] Lock screen player implementation
+- [ ] Lock screen controls
+  - Pending react-native-track-player support for new architecture
+  - Alternative: Wait for expo-audio lock screen control support
 
-#TODO - apple news
-[] swap expo-av with expo-audio
-[x] Lock screen player
-[] Lock screen control (Pending react-native-track-player support for new arch, expo-av -> react-native-track-player)
-> or possible wait for expo-audio if they support audio lock screen controls
-[] Push Notifications (APNs credentials left)
-[] Shared transitions [Broken in Expo 52]
-[] BUG: Long press sometimes opens the details and also shows the context menu
-[] Perf issue sometimes upon navigation while audio is playing (1/4th)
+### UI/UX 
+- [ ] Shared transitions (Currently broken in Expo 52)
+- [ ] Fix long press behavior - Details view and context menu conflict
+- [ ] Optimize navigation performance during audio playback (25% complete)
+- [ ] Fix /audio/[id] not playing on web when not loaded via MiniPlayer click

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Apple News UI",
-    "slug": "apple-news-ui",
+    "name": "News By Saul",
+    "slug": "news-by-saul",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
