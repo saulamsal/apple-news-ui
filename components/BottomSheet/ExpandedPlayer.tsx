@@ -96,6 +96,81 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
     const progress = currentDuration > 0 ? (currentPosition / currentDuration) * 100 : 0;
     const rewind15Seconds = () => seek(-15);
 
+    const renderControls = () => (
+        <View style={styles.controls}>
+            <Pressable onPress={rewind15Seconds} style={styles.controlButton}>
+                <View style={{ alignItems: 'center', position: 'relative' }}>
+                    <Ionicons name="refresh-sharp" size={60} color="#fff" style={{ transform: [{ scaleX: -1 }] }} />
+                    <Text style={{ color: '#fff', fontSize: 14, marginTop: 4, position: 'absolute', top: 26, left: 22 }}>15</Text>
+                </View>
+            </Pressable>
+
+            <Pressable onPress={togglePlayPause} style={[styles.controlButton, styles.playButton]}>
+                <BlurView intensity={80} tint="dark" style={styles.buttonBlur}>
+                    <Ionicons name={isPlayingState ? "pause" : "play"} size={30} color="#fff" />
+                </BlurView>
+            </Pressable>
+
+            <Pressable style={[styles.controlButton, { opacity: 0.5 }]}>
+                <Foundation name="fast-forward" size={60} color="#fff" />
+            </Pressable>
+        </View>
+    );
+
+    const renderContent = () => {
+        if (!currentEpisode) return null;
+        
+        return (
+            <View style={styles.container} className={Platform.OS === 'ios' ? "mx-5 gap-8" : ""}>
+                {Platform.OS === 'web' && (
+                    <Pressable 
+                        onPress={() => {
+                            if (router.canGoBack()) {
+                                router.back();
+                            } else {
+                                router.replace('/');
+                            }
+                        }}
+                        style={styles.webCloseButton}
+                    >
+                        <Ionicons name="close" size={24} color="#fff" />
+                    </Pressable>
+                )}
+                
+                <Image
+                    source={{ uri: currentEpisode.artwork.url }}
+                    style={styles.artwork}
+                />
+
+                <View style={styles.contentContainer}>
+                    <View style={styles.textContainer}>
+                        <Text style={styles.source}>{currentEpisode.showTitle}</Text>
+                        <View style={styles.titleWrapper}>
+                            <Animated.Text 
+                                numberOfLines={1} 
+                                style={[styles.title, scrollStyle]}
+                            >
+                                {currentEpisode.title}
+                            </Animated.Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.progressContainer}>
+                        <View style={styles.progressBar}>
+                            <View style={[styles.progress, { width: `${progress}%` }]} />
+                        </View>
+                        <View style={styles.timeContainer}>
+                            <Text style={styles.timeText}>{formatTime(currentPosition)}</Text>
+                            <Text style={styles.timeText}>-{formatTime(Math.max(0, currentDuration - currentPosition))}</Text>
+                        </View>
+                    </View>
+
+                    {renderControls()}
+                </View>
+            </View>
+        );
+    };
+
     if (!currentEpisode) return null;
 
     return (
@@ -113,147 +188,14 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
                     style={styles.blurContainer}
                 >
                     <ScrollComponentToUse style={styles.scrollView}>
-                        <View style={{
-                            width: 50,
-                            height: 6,
-                            backgroundColor: '#fff',
-                            alignSelf: 'center',
-                            borderRadius: 20,
-                            marginVertical: 8,
-                            opacity: 0.5,
-                            marginBottom: 40,
-                        }}>
-                        </View>
-                        <View style={styles.container} className="mx-5 gap-8">
-                            <Image
-                                source={{ uri: currentEpisode.artwork.url }}
-                                style={styles.artwork}
-                            />
-
-                            <View style={styles.contentContainer}>
-                                <View style={styles.textContainer}>
-                                    <Text style={styles.source}>{currentEpisode.showTitle}</Text>
-                                    <View style={styles.titleWrapper}>
-                                        <Animated.Text 
-                                            numberOfLines={1} 
-                                            style={[styles.title, scrollStyle]}
-                                        >
-                                            {currentEpisode.title}
-                                        </Animated.Text>
-                                    </View>
-                                </View>
-
-                                <View style={styles.progressContainer}>
-                                    <View style={styles.progressBar}>
-                                        <View style={[styles.progress, { width: `${progress}%` }]} />
-                                    </View>
-                                    <View style={styles.timeContainer}>
-                                        <Text style={styles.timeText}>{formatTime(currentPosition)}</Text>
-                                        <Text style={styles.timeText}>-{formatTime(Math.max(0, currentDuration - currentPosition))}</Text>
-                                    </View>
-                                </View>
-
-                                <View style={styles.controls}>
-                                    <Pressable onPress={rewind15Seconds} style={styles.controlButton}>
-                                        <View style={{ alignItems: 'center', position: 'relative' }}>
-                                            <Ionicons name="refresh-sharp" size={60} color="#fff" style={{ transform: [{ scaleX: -1 }] }} />
-                                            <Text style={{ color: '#fff', fontSize: 14, marginTop: 4, position: 'absolute', top: 26, left: 22 }}>15</Text>
-                                        </View>
-                                    </Pressable>
-
-                                    <Pressable onPress={togglePlayPause} style={[styles.controlButton, styles.playButton]}>
-                                        <Ionicons name={isPlayingState ? "pause" : "play"} size={60} color="#fff" />
-                                    </Pressable>
-
-                                    <Pressable style={styles.controlButton}>
-                                        <Foundation name="fast-forward" size={60} color="#fff" />
-                                    </Pressable>
-                                </View>
-                            </View>
-                        </View>
+                        <View style={styles.dragIndicator} />
+                        {renderContent()}
                     </ScrollComponentToUse>
                 </BlurView>
             ) : (
                 <View className="max-w-[400px] m-auto w-full">
-                    {Platform.OS === 'web' && (
-                        <Pressable 
-                            onPress={() => {
-                                if (router.canGoBack()) {
-                                    router.back();
-                                } else {
-                                    router.replace('/');
-                                }
-                            }}
-                            style={{
-                                position: 'absolute',
-                                left: 0,
-                                top: -80,
-                                zIndex: 10,
-                                backgroundColor: 'rgba(0,0,0,0.5)',
-                                padding: 8,
-                                borderRadius: 20,
-                            }}
-                        >
-                            <Ionicons name="close" size={24} color="#fff" />
-                        </Pressable>
-                    )}
                     <ScrollComponentToUse style={styles.scrollView}>
-                        <View style={styles.container}>
-                            <Image
-                                source={{ uri: currentEpisode.artwork.url }}
-                                style={styles.artwork}
-                            />
-
-                            <View style={styles.contentContainer}>
-                                <View style={styles.textContainer}>
-                                    <Text style={styles.source}>{currentEpisode.showTitle}</Text>
-                                    <View style={styles.titleWrapper}>
-                                        <Animated.Text 
-                                            numberOfLines={1} 
-                                            style={[styles.title, scrollStyle]}
-                                        >
-                                            {currentEpisode.title}
-                                        </Animated.Text>
-                                    </View>
-                                </View>
-
-                                <View style={styles.progressContainer}>
-                                    <View style={styles.progressBar}>
-                                        <View style={[styles.progress, { width: `${progress}%` }]} />
-                                    </View>
-                                    <View style={styles.timeContainer}>
-                                        <Text style={styles.timeText}>{formatTime(currentPosition)}</Text>
-                                        <Text style={styles.timeText}>-{formatTime(Math.max(0, currentDuration - currentPosition))}</Text>
-                                    </View>
-                                </View>
-
-                                <View style={styles.controls}>
-                                    <Pressable onPress={rewind15Seconds} style={styles.controlButton}>
-                                        <BlurView intensity={80} tint="dark" style={styles.buttonBlur}>
-                                            <Ionicons name="play-back" size={24} color="#fff" />
-                                        </BlurView>
-                                    </Pressable>
-
-                                    <Pressable onPress={togglePlayPause} style={[styles.controlButton, styles.playButton]}>
-                                        <BlurView intensity={80} tint="dark" style={styles.buttonBlur}>
-                                            <Ionicons name={isPlayingState ? "pause" : "play"} size={30} color="#fff" />
-                                        </BlurView>
-                                    </Pressable>
-
-                                    <Pressable style={styles.controlButton} onPress={() => {
-                                        if (router.canGoBack()) {
-                                            router.back();
-                                        } else {
-                                            router.replace('/');
-                                        }
-                                    }}>
-                                        <BlurView intensity={80} tint="dark" style={styles.buttonBlur}>
-                                            <Ionicons name="close" size={24} color="#fff" />
-                                        </BlurView>
-                                    </Pressable>
-                                </View>
-                            </View>
-                        </View>
+                        {renderContent()}
                     </ScrollComponentToUse>
                 </View>
             )}
@@ -366,5 +308,24 @@ const styles = StyleSheet.create({
     },
     playButton: {
         transform: [{ scale: 1.2 }],
+    },
+    webCloseButton: {
+        position: 'absolute',
+        left: 0,
+        top: -80,
+        zIndex: 10,
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        padding: 8,
+        borderRadius: 20,
+    },
+    dragIndicator: {
+        width: 50,
+        height: 6,
+        backgroundColor: '#fff',
+        alignSelf: 'center',
+        borderRadius: 20,
+        marginVertical: 8,
+        opacity: 0.5,
+        marginBottom: 40,
     },
 });

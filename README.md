@@ -113,3 +113,4 @@ ii.
 [] Push Notifications (APNs credentials left)
 [] Shared transitions [Broken in Expo 52]
 [] BUG: Long press sometimes opens the details and also shows the context menu
+[] Perf issue sometimes upon navigation while audio is playing (1/4th)
