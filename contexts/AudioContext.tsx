@@ -112,7 +112,6 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
                     duration.value = offer.durationInMilliseconds;
                 }
             }
-
             try {
                 await newSound.playAsync();
                 isPlaying.value = true;

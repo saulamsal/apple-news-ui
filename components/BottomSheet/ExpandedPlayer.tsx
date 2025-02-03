@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, Pressable, Dimensions, Platform, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, Image, Pressable, Dimensions, Platform, ImageBackground, ActivityIndicator } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
@@ -47,6 +47,29 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
     const formattedPosition = useDerivedValue(() => formatTime(currentPosition.value));
     const formattedRemaining = useDerivedValue(() => 
         `-${formatTime(Math.max(0, currentDuration.value - currentPosition.value))}`
+    );
+
+    const [isPlayingLocal, setIsPlayingLocal] = useState(false);
+    const [hasStartedPlaying, setHasStartedPlaying] = useState(false);
+    const [isTransitioning, setIsTransitioning] = useState(false);
+
+    useAnimatedReaction(
+        () => isPlaying.value,
+        (value) => {
+            if (!hasStartedPlaying) {
+                if (value) {
+                    runOnJS(setHasStartedPlaying)(true);
+                    runOnJS(setIsPlayingLocal)(value);
+                }
+            } else {
+                if (value && sharedValues.isLoading.value) {
+                    runOnJS(setIsTransitioning)(true);
+                } else {
+                    runOnJS(setIsTransitioning)(false);
+                    runOnJS(setIsPlayingLocal)(value);
+                }
+            }
+        }
     );
 
     useEffect(() => {
@@ -102,7 +125,11 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
 
             <Pressable onPress={togglePlayPause} style={[styles.controlButton, styles.playButton]}>
                 <View style={styles.buttonBlur}>
-                    <Ionicons name={isPlayingState.value ? "pause" : "play"} size={44} color="#fff" />
+                    {isTransitioning ? (
+                        <ActivityIndicator size="small" color="#fff" />
+                    ) : (
+                        <Ionicons name={isPlayingLocal ? "pause" : "play"} size={44} color="#fff" />
+                    )}
                 </View>
             </Pressable>
 
