@@ -183,8 +183,8 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
                             <View style={[styles.progress, { width: `${progress.value}%` }]} />
                         </View>
                         <View style={styles.timeContainer}>
-                            <AnimatedText text={formattedPosition} />
-                            <AnimatedText text={formattedRemaining} />
+                            <AnimatedText text={formattedPosition} style={{textAlign: 'left'}} />
+                            <AnimatedText text={formattedRemaining} style={{textAlign: 'right'}} />
                         </View>
                     </View>
 
