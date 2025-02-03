@@ -34,13 +34,13 @@ type Entity = {
   };
 };
 
-type AppRoutes =
-  | "/(tabs)/(index)"
-  | "/(tabs)/(news+)"
-  | "/(tabs)/(sports)"
-  | "/(tabs)/(audio)"
-  | "/(tabs)/(search)"
-  | { pathname: string; params?: Record<string, string> };
+// type AppRoutes =
+//   | "/(tabs)/(index)"
+//   | "/(tabs)/(news+)"
+//   | "/(tabs)/(sports)"
+//   | "/(tabs)/(audio)"
+//   | "/(tabs)/(search)"
+//   | { pathname: string; params?: Record<string, string> };
 
 // Helper component for sidebar items
 function SidebarItem({
@@ -188,11 +188,13 @@ const WebLayout = () => {
             </View>
 
 
+
+
             <View className="">
-              <SidebarItem icon="home" label="Home" href="/(tabs)/(index)" compact={isCompact} isActive={segments[1] === '(index)'} />
-              <SidebarItem icon="sports" label="Sports" href="/(tabs)/(sports)" compact={isCompact} isActive={segments[1] === '(sports)'} />
-              <SidebarItem icon="headset" label="Audio" href="/(tabs)/(audio)" compact={isCompact} isActive={segments[1] === '(audio)'} />
-              <SidebarItem icon="news" label="News+" href="/(tabs)/(news+)" compact={isCompact} isActive={segments[1] === '(news+)'} />
+              <SidebarItem icon="home" label="Home" href="/" compact={isCompact} isActive={segments.length === 2} />
+              <SidebarItem icon="sports" label="Sports" href="/sports" compact={isCompact} isActive={segments[2] === 'sports'} />
+              <SidebarItem icon="headset" label="Audio" href="/audio" compact={isCompact} isActive={segments[2] === 'audio'} />
+              <SidebarItem icon="news" label="News+" href="/news+" compact={isCompact} isActive={segments[2] === 'news+'} />
 
             </View>
 
@@ -275,54 +277,54 @@ const WebLayout = () => {
             backdropFilter: Platform.OS === 'web' ? 'blur(12px)' : undefined,
           }}>
           <Pressable
-            onPress={() => router.push("/(tabs)/(index)")}
+            onPress={() => router.push("/")}
             className="flex-1 items-center justify-center gap-1"
           >
             <Home
               width={24}
               height={24}
-              color={segments[1] === '(index)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
+              color={segments.length === 2 ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
             />
             <Text className="text-xs font-medium"
-              style={{ color: segments[1] === '(index)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666' }}>
+              style={{ color: segments.length === 2 ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666' }}>
               Home
             </Text>
           </Pressable>
           <Pressable
-            onPress={() => router.push("/(tabs)/(news+)/news+")}
+            onPress={() => router.push("/news+")}
             className="flex-1 items-center justify-center gap-1"
           >
             <NewsPlus
               width={24}
               height={24}
-              color={segments[1] === '(news+)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
+              color={segments[2] === 'news+' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
             />
             <Text className="text-xs font-medium"
-              style={{ color: segments[1] === '(news+)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666' }}>
+              style={{ color: segments[2] === 'news+' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666' }}>
               News+
             </Text>
           </Pressable>
           <Pressable
-            onPress={() => router.push("/(tabs)/(sports)/sports")}
+            onPress={() => router.push("/sports")}
             className="flex-1 items-center justify-center gap-1"
           >
             <Sports
               width={30}
               height={30}
-              color={segments[1] === '(sports)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
+              color={segments[2] === 'sports' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
             />
             <Text className="text-xs font-medium"
-              style={{ color: segments[1] === '(sports)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666' }}>
+              style={{ color: segments[2] === 'sports' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666' }}>
               Sports
             </Text>
           </Pressable>
           <Pressable
-            onPress={() => router.push("/(tabs)/(audio)/audio")}
+            onPress={() => router.push("/audio")}
             className="flex-1 items-center justify-center gap-1"
           >
-            <Ionicons name="headset" size={24} color={segments[1] === '(audio)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'} />
+            <Ionicons name="headset" size={24} color={segments[2] === 'audio' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'} />
             <Text className="text-xs font-medium"
-              style={{ color: segments[1] === '(audio)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666' }}>
+              style={{ color: segments[2] === 'audio' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666' }}>
               Audio
             </Text>
           </Pressable>
@@ -338,10 +340,10 @@ const WebLayout = () => {
             <Search
               width={24}
               height={24}
-              color={segments[1] === '(search)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
+              color={segments[2] === 'search' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666'}
             />
             <Text className="text-xs font-medium"
-              style={{ color: segments[1] === '(search)' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666' }}>
+              style={{ color: segments[2] === 'search' ? '#FA2E47' : colorScheme === 'dark' ? '#999' : '#666' }}>
               Following
             </Text>
           </Pressable>

@@ -164,12 +164,12 @@ struct WidgetLiveActivity: Widget {
                 
                 DynamicIslandExpandedRegion(.trailing) {
                     HStack(alignment: .center, spacing: 12) {
-                        Text(context.attributes.awayTeam)
-                            .font(.system(size: 18, weight: .bold))
-                            .foregroundColor(.white)
-                            .padding(.vertical, 4)
-                            
                         VStack(alignment: .trailing, spacing: 2) {
+                            Text(context.attributes.awayTeam)
+                                .font(.system(size: 18, weight: .bold))
+                                .foregroundColor(.white)
+                                .padding(.vertical, 4)
+                                
                             HStack(spacing: 8) {
                                 Circle()
                                     .fill(Color(hex: context.state.awayColor)?.opacity(0.3) ?? .red.opacity(0.3))
