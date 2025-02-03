@@ -9,8 +9,6 @@ struct WidgetAttributes: ActivityAttributes {
         var timeOrPeriod: String
         var currentEvent: String
         var situation: String
-        var homeColor: String
-        var awayColor: String
     }
     
     var competition: String
@@ -18,6 +16,8 @@ struct WidgetAttributes: ActivityAttributes {
     var awayTeam: String
     var homeLogo: String
     var awayLogo: String
+    var homeColor: String
+    var awayColor: String
 }
 
 struct WidgetLiveActivity: Widget {
@@ -28,8 +28,8 @@ struct WidgetLiveActivity: Widget {
                 ZStack {
                     LinearGradient(
                         colors: [
-                            Color(hex: context.state.homeColor) ?? .blue,
-                            Color(hex: context.state.awayColor) ?? .red
+                            Color(hex: context.attributes.homeColor) ?? .blue,
+                            Color(hex: context.attributes.awayColor) ?? .red
                         ],
                         startPoint: .leading,
                         endPoint: .trailing
@@ -49,7 +49,7 @@ struct WidgetLiveActivity: Widget {
                         // Home team
                         VStack(spacing: 4) {
                             Circle()
-                                .fill(Color(hex: context.state.homeColor)?.opacity(0.3) ?? .blue.opacity(0.3))
+                                .fill(Color(hex: context.attributes.homeColor)?.opacity(0.3) ?? .blue.opacity(0.3))
                                 .frame(width: 45, height: 45)
                                 .overlay(
                                     Text(context.attributes.homeLogo.uppercased())
@@ -85,7 +85,7 @@ struct WidgetLiveActivity: Widget {
                         // Away team
                         VStack(spacing: 4) {
                             Circle()
-                                .fill(Color(hex: context.state.awayColor)?.opacity(0.3) ?? .red.opacity(0.3))
+                                .fill(Color(hex: context.attributes.awayColor)?.opacity(0.3) ?? .red.opacity(0.3))
                                 .frame(width: 45, height: 45)
                                 .overlay(
                                     Text(context.attributes.awayLogo.uppercased())
@@ -104,7 +104,7 @@ struct WidgetLiveActivity: Widget {
                     if !context.state.currentEvent.isEmpty {
                         HStack(spacing: 8) {
                             Circle()
-                                .fill(Color(hex: context.state.homeColor)?.opacity(0.3) ?? .blue.opacity(0.3))
+                                .fill(Color(hex: context.attributes.homeColor)?.opacity(0.3) ?? .blue.opacity(0.3))
                                 .frame(width: 24, height: 24)
                                 .overlay(
                                     Text(context.attributes.homeLogo.uppercased())
@@ -136,7 +136,7 @@ struct WidgetLiveActivity: Widget {
                         VStack(alignment: .leading, spacing: 2) {
                             HStack(spacing: 8) {
                                 Circle()
-                                    .fill(Color(hex: context.state.homeColor)?.opacity(0.3) ?? .blue.opacity(0.3))
+                                    .fill(Color(hex: context.attributes.homeColor)?.opacity(0.3) ?? .blue.opacity(0.3))
                                     .frame(width: 36, height: 36)
                                     .overlay(
                                         Text(context.attributes.homeLogo.uppercased())
@@ -172,7 +172,7 @@ struct WidgetLiveActivity: Widget {
                                 
                             HStack(spacing: 8) {
                                 Circle()
-                                    .fill(Color(hex: context.state.awayColor)?.opacity(0.3) ?? .red.opacity(0.3))
+                                    .fill(Color(hex: context.attributes.awayColor)?.opacity(0.3) ?? .red.opacity(0.3))
                                     .frame(width: 36, height: 36)
                                     .overlay(
                                         Text(context.attributes.awayLogo.uppercased())
@@ -229,8 +229,8 @@ struct WidgetLiveActivity: Widget {
                     Circle()
                         .fill(LinearGradient(
                             colors: [
-                                Color(hex: context.state.homeColor) ?? .blue,
-                                Color(hex: context.state.awayColor) ?? .red
+                                Color(hex: context.attributes.homeColor) ?? .blue,
+                                Color(hex: context.attributes.awayColor) ?? .red
                             ],
                             startPoint: .leading,
                             endPoint: .trailing
@@ -275,7 +275,9 @@ extension WidgetAttributes {
             homeTeam: "Manchester United",
             awayTeam: "Manchester City",
             homeLogo: "mun",
-            awayLogo: "mci"
+            awayLogo: "mci",
+            homeColor: "#DA291C",
+            awayColor: "#6CABDD"
         )
     }
 }
@@ -287,9 +289,7 @@ extension WidgetAttributes.ContentState {
             awayScore: 1,
             timeOrPeriod: "43'",
             currentEvent: "Fernandes scores! Beautiful finish from the edge of the box",
-            situation: "GOAL",
-            homeColor: "#DA291C",
-            awayColor: "#6CABDD"
+            situation: "GOAL"
         )
     }
     
@@ -299,9 +299,7 @@ extension WidgetAttributes.ContentState {
             awayScore: 2,
             timeOrPeriod: "78'",
             currentEvent: "Yellow card for Fernandes after a tactical foul",
-            situation: "YELLOW_CARD",
-            homeColor: "#DA291C",
-            awayColor: "#6CABDD"
+            situation: "YELLOW_CARD"
         )
     }
 }

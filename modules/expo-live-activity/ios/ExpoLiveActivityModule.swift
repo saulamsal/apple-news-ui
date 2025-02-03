@@ -9,8 +9,6 @@ struct WidgetAttributes: ActivityAttributes {
         var timeOrPeriod: String
         var currentEvent: String
         var situation: String
-        var homeColor: String
-        var awayColor: String
     }
     
     // Fixed non-changing properties about your activity go here!
@@ -19,6 +17,8 @@ struct WidgetAttributes: ActivityAttributes {
     var awayTeam: String
     var homeLogo: String
     var awayLogo: String
+    var homeColor: String
+    var awayColor: String
 }
 
 public class ExpoLiveActivityModule: Module {
@@ -49,14 +49,16 @@ public class ExpoLiveActivityModule: Module {
             }
         }
         
-        Function("startActivity") { (competition: String, homeTeam: String, awayTeam: String, homeLogo: String, awayLogo: String, initialState: [String: Any]) -> Bool in
+        Function("startActivity") { (competition: String, homeTeam: String, awayTeam: String, homeLogo: String, awayLogo: String, homeColor: String, awayColor: String, initialState: [String: Any]) -> Bool in
             if #available(iOS 16.2, *) {
                 let attributes = WidgetAttributes(
                     competition: competition,
                     homeTeam: homeTeam,
                     awayTeam: awayTeam,
                     homeLogo: homeLogo,
-                    awayLogo: awayLogo
+                    awayLogo: awayLogo,
+                    homeColor: homeColor,
+                    awayColor: awayColor
                 )
                 
                 let contentState = WidgetAttributes.ContentState(
@@ -64,9 +66,7 @@ public class ExpoLiveActivityModule: Module {
                     awayScore: initialState["awayScore"] as? Int ?? 0,
                     timeOrPeriod: initialState["timeOrPeriod"] as? String ?? "0'",
                     currentEvent: initialState["currentEvent"] as? String ?? "",
-                    situation: initialState["situation"] as? String ?? "",
-                    homeColor: initialState["homeColor"] as? String ?? "#000000",
-                    awayColor: initialState["awayColor"] as? String ?? "#000000"
+                    situation: initialState["situation"] as? String ?? ""
                 )
                 
                 let activityContent = ActivityContent(state: contentState, staleDate: nil)
@@ -91,9 +91,7 @@ public class ExpoLiveActivityModule: Module {
                     awayScore: state["awayScore"] as? Int ?? 0,
                     timeOrPeriod: state["timeOrPeriod"] as? String ?? "0'",
                     currentEvent: state["currentEvent"] as? String ?? "",
-                    situation: state["situation"] as? String ?? "",
-                    homeColor: state["homeColor"] as? String ?? "#000000",
-                    awayColor: state["awayColor"] as? String ?? "#000000"
+                    situation: state["situation"] as? String ?? ""
                 )
                 
                 Task {
@@ -111,9 +109,7 @@ public class ExpoLiveActivityModule: Module {
                     awayScore: state["awayScore"] as? Int ?? 0,
                     timeOrPeriod: state["timeOrPeriod"] as? String ?? "FINAL",
                     currentEvent: state["currentEvent"] as? String ?? "",
-                    situation: state["situation"] as? String ?? "",
-                    homeColor: state["homeColor"] as? String ?? "#000000",
-                    awayColor: state["awayColor"] as? String ?? "#000000"
+                    situation: state["situation"] as? String ?? ""
                 )
                 
                 let finalContent = ActivityContent(state: contentState, staleDate: nil)

@@ -54,7 +54,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "group.com.sportapp.anews-ui"
+      "package": "com.sportapp.anewsui"
     },
     "web": {
       "bundler": "metro",
@@ -76,7 +76,7 @@
     ],
     "experiments": {
       "typedRoutes": true,
-      "reactServerFunctions": true,
+      "reactServerFunctions": false,
       "reactCompiler": true
     },
     "newArchEnabled": true,

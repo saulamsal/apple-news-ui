@@ -218,9 +218,7 @@ export default function ScoreDetailsScreen() {
                     awayScore: score.team2.score || 0,
                     timeOrPeriod: score.team1.events?.[0]?.time || "Q1 0:00",
                     currentEvent: score.team1.events?.[0]?.event || "Game started!",
-                    situation: score.team1.events?.[0]?.situation || "KICKOFF",
-                    homeColor: score.team1.bg_color,
-                    awayColor: score.team2.bg_color
+                    situation: score.team1.events?.[0]?.situation || "KICKOFF"
                   };
 
                   // Start the Live Activity
@@ -230,6 +228,8 @@ export default function ScoreDetailsScreen() {
                     score.team2.nickname,
                     score.team1.name,
                     score.team2.name,
+                    score.team1.bg_color,
+                    score.team2.bg_color,
                     initialState
                   );
                   
@@ -254,9 +254,7 @@ export default function ScoreDetailsScreen() {
                           awayScore: !isTeam1Event ? (score.team2.score || 0) : (score.team2.score || 0),
                           timeOrPeriod: event.time,
                           currentEvent: event.event,
-                          situation: event.situation,
-                          homeColor: score.team1.bg_color,
-                          awayColor: score.team2.bg_color
+                          situation: event.situation
                         });
                         
                         eventIndex++;
@@ -267,9 +265,7 @@ export default function ScoreDetailsScreen() {
                           awayScore: score.team2.score || 0,
                           timeOrPeriod: "FINAL",
                           currentEvent: "Game Over!",
-                          situation: "FINAL",
-                          homeColor: score.team1.bg_color,
-                          awayColor: score.team2.bg_color
+                          situation: "FINAL"
                         });
                         // Alert.alert('Info', 'Live Activity ended');
                       }

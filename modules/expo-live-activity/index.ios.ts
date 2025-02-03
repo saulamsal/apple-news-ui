@@ -10,8 +10,6 @@ interface LiveActivityState {
   timeOrPeriod: string;
   currentEvent: string;
   situation: string;
-  homeColor: string;
-  awayColor: string;
 }
 
 interface ExpoLiveActivityModule {
@@ -23,6 +21,8 @@ interface ExpoLiveActivityModule {
     awayTeam: string,
     homeLogo: string,
     awayLogo: string,
+    homeColor: string,
+    awayColor: string,
     initialState: LiveActivityState
   ): Promise<boolean>;
   updateActivity(state: LiveActivityState): void;
@@ -46,6 +46,8 @@ const LiveActivities = {
     awayTeam: string,
     homeLogo: string,
     awayLogo: string,
+    homeColor: string,
+    awayColor: string,
     initialState: LiveActivityState
   ): Promise<boolean> {
     return nativeModule.startActivity(
@@ -54,6 +56,8 @@ const LiveActivities = {
       awayTeam,
       homeLogo,
       awayLogo,
+      homeColor,
+      awayColor,
       initialState
     );
   },

@@ -8,8 +8,6 @@ interface LiveActivityState {
   timeOrPeriod: string;
   currentEvent: string;
   situation: string;
-  homeColor: string;
-  awayColor: string;
 }
 
 const LiveActivities = {
@@ -27,6 +25,8 @@ const LiveActivities = {
     awayTeam: string,
     homeLogo: string,
     awayLogo: string,
+    homeColor: string,
+    awayColor: string,
     initialState: LiveActivityState
   ): Promise<boolean> {
     return Promise.resolve(false);
