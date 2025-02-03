@@ -58,14 +58,12 @@ export const MiniPlayer = memo(({ onPress, episode, onPlayPause }: Omit<MiniPlay
 
     const animatedStyle = useAnimatedStyle(() => {
         return {
-            transform: [{ translateY: slideAnim.value }]
+            transform: [{ translateY: slideAnim.value }],
+            display: Platform.OS === 'web' && pathname?.startsWith('/audio/') ? 'none' : 'flex'
         };
     });
 
-    
-    // if (pathname?.startsWith('/audio/')) {
-    //     return null;
-    // }
+   
 
     return (
         <Animated.View 
@@ -149,6 +147,7 @@ const MiniPlayerContent = ({ episode, isPlayingValue, onPlayPause }: MiniPlayerC
     const [isPlayingLocal, setIsPlayingLocal] = useState(isPlayingValue.value);
     const [hasStartedPlaying, setHasStartedPlaying] = useState(false);
     const [isTransitioning, setIsTransitioning] = useState(false);
+    const pathname = usePathname();
 
     useEffect(() => {
         const measureWidths = async () => {
