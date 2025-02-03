@@ -11,6 +11,7 @@ struct WidgetAttributes: ActivityAttributes {
         var situation: String
     }
     
+    var gameID: String
     var competition: String
     var homeTeam: String
     var awayTeam: String
@@ -271,6 +272,7 @@ extension Color {
 extension WidgetAttributes {
     fileprivate static var preview: WidgetAttributes {
         WidgetAttributes(
+            gameID: "1",
             competition: "Premier League",
             homeTeam: "Manchester United",
             awayTeam: "Manchester City",

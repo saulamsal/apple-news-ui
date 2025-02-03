@@ -30,7 +30,7 @@ import { LiveDot } from '@/components/LiveDot';
 // import * as Clipboard from 'expo-clipboard';
 
 
-import LiveActivities from "@/modules/expo-live-activity";
+import LiveActivities, { LiveActivityState } from "@/modules/expo-live-activity";
 
 type GameEvent = {
   time: string;
@@ -213,6 +213,8 @@ export default function ScoreDetailsScreen() {
             {Platform.OS === 'ios' && score.is_live && (
               <DropdownMenu.Item key="liveactivity" onSelect={async ()=> {
                 try {
+                  console.log('[LiveActivity:UI] Starting Live Activity setup for game:', score.id);
+                  
                   const initialState = {
                     homeScore: score.team1.score || 0,
                     awayScore: score.team2.score || 0,
@@ -220,21 +222,47 @@ export default function ScoreDetailsScreen() {
                     currentEvent: score.team1.events?.[0]?.event || "Game started!",
                     situation: score.team1.events?.[0]?.situation || "KICKOFF"
                   };
+                  console.log('[LiveActivity:UI] Initial state:', initialState);
 
-                  // Start the Live Activity
+                  // Check if Live Activities are enabled
+                  const activitiesEnabled = LiveActivities.areActivitiesEnabled();
+                  console.log('[LiveActivity:UI] Activities enabled:', activitiesEnabled);
+                  
+                  if (!activitiesEnabled) {
+                    console.log('[LiveActivity:UI] Activities not available');
+                    Alert.alert('Error', 'Live Activities are not available on this device');
+                    return;
+                  }
+
+                  // Start or update the Live Activity
+                  console.log('[LiveActivity:UI] Attempting to start activity with:', {
+                    id: score.id,
+                    competition: score.competition.full_name,
+                    team1: score.team1.full_name,
+                    team2: score.team2.full_name,
+                    logo1: score.team1.name.toLowerCase(),
+                    logo2: score.team2.name.toLowerCase(),
+                    color1: score.team1.bg_color,
+                    color2: score.team2.bg_color,
+                    state: initialState
+                  });
+                  
                   const success = await LiveActivities.startActivity(
+                    score.id,
                     score.competition.full_name,
-                    score.team1.nickname,
-                    score.team2.nickname,
-                    score.team1.name,
-                    score.team2.name,
+                    score.team1.full_name,
+                    score.team2.full_name,
+                    score.team1.name.toLowerCase(),
+                    score.team2.name.toLowerCase(),
                     score.team1.bg_color,
                     score.team2.bg_color,
                     initialState
                   );
                   
+                  console.log('[LiveActivity:UI] Activity start result:', success);
+                  
                   if (success) {
-                    // Alert.alert('Success', 'Live Activity started!');
+                    console.log('[LiveActivity:UI] Setting up update interval');
                     
                     let eventIndex = 0;
                     const allEvents = [...(score.team1.events || []), ...(score.team2.events || [])].sort((a: GameEvent, b: GameEvent) => {
@@ -242,40 +270,56 @@ export default function ScoreDetailsScreen() {
                       const timeB = parseInt(b.time.split(' ')[0].replace('Q', ''));
                       return timeA - timeB;
                     });
+                    console.log('[LiveActivity:UI] Total events to process:', allEvents.length);
 
                     // Set up an interval to update with real events
                     const interval = setInterval(() => {
+                      console.log('[LiveActivity:UI] Processing event index:', eventIndex);
+                      
                       if (eventIndex < allEvents.length) {
                         const event = allEvents[eventIndex];
                         const isTeam1Event = score.team1.events?.includes(event);
+                        console.log('[LiveActivity:UI] Processing event:', event);
                         
-                        LiveActivities.updateActivity({
-                          homeScore: isTeam1Event ? (score.team1.score || 0) : (score.team1.score || 0),
-                          awayScore: !isTeam1Event ? (score.team2.score || 0) : (score.team2.score || 0),
-                          timeOrPeriod: event.time,
-                          currentEvent: event.event,
-                          situation: event.situation
-                        });
+                        // Only update if the activity exists
+                        if (LiveActivities.isActivityInProgressForGame(score.id)) {
+                          console.log('[LiveActivity:UI] Updating activity with event');
+                          LiveActivities.updateActivity(score.id, {
+                            homeScore: isTeam1Event ? (score.team1.score || 0) : (score.team1.score || 0),
+                            awayScore: !isTeam1Event ? (score.team2.score || 0) : (score.team2.score || 0),
+                            timeOrPeriod: event.time,
+                            currentEvent: event.event,
+                            situation: event.situation
+                          });
+                        } else {
+                          console.log('[LiveActivity:UI] Activity no longer exists, clearing interval');
+                          clearInterval(interval);
+                        }
                         
                         eventIndex++;
                       } else {
+                        console.log('[LiveActivity:UI] All events processed, ending activity');
                         clearInterval(interval);
-                        LiveActivities.endActivity({
-                          homeScore: score.team1.score || 0,
-                          awayScore: score.team2.score || 0,
-                          timeOrPeriod: "FINAL",
-                          currentEvent: "Game Over!",
-                          situation: "FINAL"
-                        });
-                        // Alert.alert('Info', 'Live Activity ended');
+                        // Only end if the activity exists
+                        if (LiveActivities.isActivityInProgressForGame(score.id)) {
+                          console.log('[LiveActivity:UI] Sending final state');
+                          LiveActivities.endActivity(score.id, {
+                            homeScore: score.team1.score || 0,
+                            awayScore: score.team2.score || 0,
+                            timeOrPeriod: "FINAL",
+                            currentEvent: "Game Over!",
+                            situation: "FINAL"
+                          });
+                        }
                       }
                     }, 5000);
                   } else {
-                    // Alert.alert('Error', 'Failed to start Live Activity');
+                    console.log('[LiveActivity:UI] Failed to start activity');
+                    Alert.alert('Error', 'Failed to start Live Activity');
                   }
                 } catch (error) {
-                  console.error('Live Activity error:', error);
-                  // Alert.alert('Error', 'Failed to start Live Activity');
+                  console.error('[LiveActivity:UI] Error:', error);
+                  Alert.alert('Error', 'Failed to start Live Activity');
                 }
               }}>
                 <DropdownMenu.ItemIcon 

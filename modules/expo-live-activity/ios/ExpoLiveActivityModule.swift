@@ -12,6 +12,7 @@ struct WidgetAttributes: ActivityAttributes {
     }
     
     // Fixed non-changing properties about your activity go here!
+    var gameID: String
     var competition: String
     var homeTeam: String
     var awayTeam: String
@@ -26,32 +27,38 @@ public class ExpoLiveActivityModule: Module {
     // that describes the module's functionality and behavior.
     // See https://docs.expo.dev/modules/module-api for more details about available components.
     public func definition() -> ModuleDefinition {
-        // Sets the name of the module that JavaScript code will use to refer to the module. Takes a string as an argument.
-        // Can be inferred from module's class name, but it's recommended to set it explicitly for clarity.
-        // The module will be accessible from `requireNativeModule('ExpoLiveActivity')` in JavaScript.
         Name("ExpoLiveActivity")
         
         Events("onLiveActivityCancel")
         
-        Function("areActivitiesEnabled") { () -> Bool in
+        // Register all functions
+        AsyncFunction("startActivity") { (
+            gameID: String,
+            competition: String,
+            homeTeam: String,
+            awayTeam: String,
+            homeLogo: String,
+            awayLogo: String,
+            homeColor: String,
+            awayColor: String,
+            initialState: [String: Any]
+        ) throws -> Bool in
+            print("[LiveActivity] Starting activity with params:", [
+                "gameID": gameID,
+                "competition": competition,
+                "homeTeam": homeTeam,
+                "awayTeam": awayTeam,
+                "homeLogo": homeLogo,
+                "awayLogo": awayLogo,
+                "homeColor": homeColor,
+                "awayColor": awayColor,
+                "initialState": initialState
+            ])
+            
             if #available(iOS 16.2, *) {
-                return ActivityAuthorizationInfo().areActivitiesEnabled
-            } else {
-                return false
-            }
-        }
-        
-        Function("isActivityInProgress") { () -> Bool in
-            if #available(iOS 16.2, *) {
-                return !Activity<WidgetAttributes>.activities.isEmpty
-            } else {
-                return false
-            }
-        }
-        
-        Function("startActivity") { (competition: String, homeTeam: String, awayTeam: String, homeLogo: String, awayLogo: String, homeColor: String, awayColor: String, initialState: [String: Any]) -> Bool in
-            if #available(iOS 16.2, *) {
+                print("[LiveActivity] Creating attributes for game: \(gameID)")
                 let attributes = WidgetAttributes(
+                    gameID: gameID,
                     competition: competition,
                     homeTeam: homeTeam,
                     awayTeam: awayTeam,
@@ -61,6 +68,7 @@ public class ExpoLiveActivityModule: Module {
                     awayColor: awayColor
                 )
                 
+                print("[LiveActivity] Creating content state")
                 let contentState = WidgetAttributes.ContentState(
                     homeScore: initialState["homeScore"] as? Int ?? 0,
                     awayScore: initialState["awayScore"] as? Int ?? 0,
@@ -69,22 +77,72 @@ public class ExpoLiveActivityModule: Module {
                     situation: initialState["situation"] as? String ?? ""
                 )
                 
+                print("[LiveActivity] Initial state: \(initialState)")
                 let activityContent = ActivityContent(state: contentState, staleDate: nil)
                 
                 do {
+                    print("[LiveActivity] Requesting activity for game: \(gameID)")
                     let activity = try Activity.request(attributes: attributes, content: activityContent)
+                    print("[LiveActivity] Activity started successfully")
+                    print("[LiveActivity] Activity ID: \(activity.id)")
+                    print("[LiveActivity] Activity state: \(activity.contentState)")
                     NotificationCenter.default.addObserver(self, selector: #selector(self.onLiveActivityCancel), name: Notification.Name("onLiveActivityCancel"), object: nil)
                     return true
                 } catch (let error) {
-                    print("Error starting activity: \(error)")
+                    print("[LiveActivity] Failed to start activity")
+                    print("[LiveActivity] Error: \(error.localizedDescription)")
+                    if let nsError = error as NSError? {
+                        print("[LiveActivity] Error domain: \(nsError.domain)")
+                        print("[LiveActivity] Error code: \(nsError.code)")
+                        print("[LiveActivity] Error user info: \(nsError.userInfo)")
+                    }
                     return false
                 }
             } else {
+                print("[LiveActivity] iOS version < 16.2, cannot start activity")
                 return false
             }
         }
         
-        Function("updateActivity") { (state: [String: Any]) -> Void in
+        Function("areActivitiesEnabled") { () -> Bool in
+            if #available(iOS 16.2, *) {
+                let enabled = ActivityAuthorizationInfo().areActivitiesEnabled
+                print("[LiveActivity] Activities enabled: \(enabled)")
+                return enabled
+            } else {
+                print("[LiveActivity] iOS version < 16.2, activities not supported")
+                return false
+            }
+        }
+        
+        Function("isActivityInProgress") { () -> Bool in
+            if #available(iOS 16.2, *) {
+                let hasActivities = !Activity<WidgetAttributes>.activities.isEmpty
+                print("[LiveActivity] Has active activities: \(hasActivities)")
+                return hasActivities
+            } else {
+                print("[LiveActivity] iOS version < 16.2, no activities possible")
+                return false
+            }
+        }
+        
+        Function("isActivityInProgressForGame") { (gameID: String) -> Bool in
+            print("[LiveActivity] Checking if activity exists for game: \(gameID)")
+            if #available(iOS 16.2, *) {
+                let exists = Activity<WidgetAttributes>.activities.contains { activity in
+                    activity.attributes.gameID == gameID
+                }
+                print("[LiveActivity] Activity exists: \(exists)")
+                return exists
+            }
+            print("[LiveActivity] iOS version < 16.2, no activities possible")
+            return false
+        }
+        
+        Function("updateActivity") { (gameID: String, state: [String: Any]) -> Void in
+            print("[LiveActivity] Updating activity for game: \(gameID)")
+            print("[LiveActivity] Update state: \(state)")
+            
             if #available(iOS 16.2, *) {
                 let contentState = WidgetAttributes.ContentState(
                     homeScore: state["homeScore"] as? Int ?? 0,
@@ -95,14 +153,24 @@ public class ExpoLiveActivityModule: Module {
                 )
                 
                 Task {
-                    for activity in Activity<WidgetAttributes>.activities {
-                        await activity.update(using: contentState)
+                    let activities = Activity<WidgetAttributes>.activities
+                    print("[LiveActivity] Found \(activities.count) active activities")
+                    
+                    for activity in activities {
+                        print("[LiveActivity] Checking activity: \(activity.id)")
+                        if activity.attributes.gameID == gameID {
+                            print("[LiveActivity] Updating matching activity")
+                            await activity.update(using: contentState)
+                            print("[LiveActivity] Activity updated successfully")
+                            break
+                        }
                     }
                 }
             }
         }
         
-        Function("endActivity") { (state: [String: Any]) -> Void in
+        Function("endActivity") { (gameID: String, state: [String: Any]) -> Void in
+            print("[LiveActivity] Ending activity for game: \(gameID)")
             if #available(iOS 16.2, *) {
                 let contentState = WidgetAttributes.ContentState(
                     homeScore: state["homeScore"] as? Int ?? 0,
@@ -116,7 +184,12 @@ public class ExpoLiveActivityModule: Module {
                 
                 Task {
                     for activity in Activity<WidgetAttributes>.activities {
-                        await activity.end(finalContent, dismissalPolicy: .default)
+                        if activity.attributes.gameID == gameID {
+                            print("[LiveActivity] Ending activity: \(activity.id)")
+                            await activity.end(finalContent, dismissalPolicy: .default)
+                            print("[LiveActivity] Activity ended successfully")
+                            break
+                        }
                     }
                 }
                 NotificationCenter.default.removeObserver(self, name: Notification.Name("onLiveActivityCancel"), object: nil)

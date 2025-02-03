@@ -4,7 +4,7 @@ export type ExpoLiveActivityModuleEvents = {
   onLiveActivityCancel: () => void;
 };
 
-interface LiveActivityState {
+export interface LiveActivityState {
   homeScore: number;
   awayScore: number;
   timeOrPeriod: string;
@@ -15,32 +15,51 @@ interface LiveActivityState {
 interface ExpoLiveActivityModule {
   areActivitiesEnabled(): boolean;
   isActivityInProgress(): boolean;
-  startActivity(
-    competition: string,
-    homeTeam: string,
-    awayTeam: string,
-    homeLogo: string,
-    awayLogo: string,
-    homeColor: string,
-    awayColor: string,
-    initialState: LiveActivityState
-  ): Promise<boolean>;
-  updateActivity(state: LiveActivityState): void;
-  endActivity(state: LiveActivityState): void;
+  isActivityInProgressForGame(gameID: string): boolean;
+  startActivity(args: [
+    string,  // gameID
+    string,  // competition
+    string,  // homeTeam
+    string,  // awayTeam
+    string,  // homeLogo
+    string,  // awayLogo
+    string,  // homeColor
+    string,  // awayColor
+    LiveActivityState  // initialState
+  ]): Promise<boolean>;
+  updateActivity(gameID: string, state: LiveActivityState): void;
+  endActivity(gameID: string, state: LiveActivityState): void;
 }
 
 const nativeModule = requireNativeModule<ExpoLiveActivityModule>("ExpoLiveActivity");
 
 const LiveActivities = {
   areActivitiesEnabled(): boolean {
-    return nativeModule.areActivitiesEnabled();
+    const enabled = nativeModule.areActivitiesEnabled();
+    console.log('[LiveActivity:TS] Activities enabled:', enabled);
+    return enabled;
   },
 
   isActivityInProgress(): boolean {
-    return nativeModule.isActivityInProgress();
+    const inProgress = nativeModule.isActivityInProgress();
+    console.log('[LiveActivity:TS] Activity in progress:', inProgress);
+    return inProgress;
   },
 
-  startActivity(
+  isActivityInProgressForGame(gameID: string): boolean {
+    try {
+      console.log('[LiveActivity:TS] Checking activity for game:', gameID);
+      const exists = nativeModule.isActivityInProgressForGame(gameID);
+      console.log('[LiveActivity:TS] Activity exists:', exists);
+      return exists ?? false;
+    } catch (error) {
+      console.error('[LiveActivity:TS] Error checking activity:', error);
+      return false;
+    }
+  },
+
+  async startActivity(
+    gameID: string,
     competition: string,
     homeTeam: string,
     awayTeam: string,
@@ -50,7 +69,8 @@ const LiveActivities = {
     awayColor: string,
     initialState: LiveActivityState
   ): Promise<boolean> {
-    return nativeModule.startActivity(
+    console.log('[LiveActivity:TS] Starting activity with params:', {
+      gameID,
       competition,
       homeTeam,
       awayTeam,
@@ -59,15 +79,67 @@ const LiveActivities = {
       homeColor,
       awayColor,
       initialState
-    );
+    });
+
+    try {
+      // First check if an activity for this game already exists
+      if (this.isActivityInProgressForGame(gameID)) {
+        console.log('[LiveActivity:TS] Activity already exists, updating instead');
+        this.updateActivity(gameID, initialState);
+        return true;
+      }
+
+      // Create the arguments array
+      const args: [string, string, string, string, string, string, string, string, LiveActivityState] = [
+        gameID,
+        competition,
+        homeTeam,
+        awayTeam,
+        homeLogo,
+        awayLogo,
+        homeColor,
+        awayColor,
+        initialState
+      ];
+
+      console.log('[LiveActivity:TS] Creating new activity with args:', args);
+      const result = await nativeModule.startActivity(args);
+      console.log('[LiveActivity:TS] Activity creation result:', result);
+      return result;
+    } catch (error) {
+      console.error('[LiveActivity:TS] Error starting activity:', error);
+      return false;
+    }
   },
 
-  updateActivity(state: LiveActivityState): void {
-    nativeModule.updateActivity(state);
+  updateActivity(gameID: string, state: LiveActivityState): void {
+    try {
+      console.log('[LiveActivity:TS] Updating activity:', gameID, state);
+      
+      if (this.isActivityInProgressForGame(gameID)) {
+        console.log('[LiveActivity:TS] Activity found, updating');
+        nativeModule.updateActivity(gameID, state);
+      } else {
+        console.log('[LiveActivity:TS] No activity found to update');
+      }
+    } catch (error) {
+      console.error('[LiveActivity:TS] Error updating activity:', error);
+    }
   },
 
-  endActivity(state: LiveActivityState): void {
-    nativeModule.endActivity(state);
+  endActivity(gameID: string, state: LiveActivityState): void {
+    try {
+      console.log('[LiveActivity:TS] Ending activity:', gameID, state);
+      
+      if (this.isActivityInProgressForGame(gameID)) {
+        console.log('[LiveActivity:TS] Activity found, ending');
+        nativeModule.endActivity(gameID, state);
+      } else {
+        console.log('[LiveActivity:TS] No activity found to end');
+      }
+    } catch (error) {
+      console.error('[LiveActivity:TS] Error ending activity:', error);
+    }
   },
 };
 
