@@ -15,12 +15,23 @@ import Animated, {
     withDelay, 
     useSharedValue,
     useAnimatedReaction,
-    runOnJS
+    runOnJS,
+    useDerivedValue
 } from 'react-native-reanimated';
+import { AnimatedText } from '@/components/AnimatedText';
 
 interface ExpandedPlayerProps {
     scrollComponent?: (props: any) => React.ReactElement;
 }
+
+const formatTime = (millis: number) => {
+    'worklet';
+    const totalSeconds = Math.floor(millis / 1000);
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+};
+
 
 export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
     const ScrollComponentToUse = scrollComponent || View;
@@ -29,29 +40,13 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
     const { togglePlayPause, seek } = commands;
     const insets = useSafeAreaInsets();
     const scrollX = useSharedValue(0);
-    const [isPlayingState, setIsPlayingState] = useState(false);
-    const [currentPosition, setCurrentPosition] = useState(0);
-    const [currentDuration, setCurrentDuration] = useState(0);
+    const isPlayingState = useDerivedValue(() => isPlaying.value);
+    const currentPosition = useDerivedValue(() => position.value);
+    const currentDuration = useDerivedValue(() => duration.value);
 
-    useAnimatedReaction(
-        () => isPlaying.value,
-        (playing) => {
-            runOnJS(setIsPlayingState)(playing);
-        }
-    );
-
-    useAnimatedReaction(
-        () => position.value,
-        (pos) => {
-            runOnJS(setCurrentPosition)(pos);
-        }
-    );
-
-    useAnimatedReaction(
-        () => duration.value,
-        (dur) => {
-            runOnJS(setCurrentDuration)(dur);
-        }
+    const formattedPosition = useDerivedValue(() => formatTime(currentPosition.value));
+    const formattedRemaining = useDerivedValue(() => 
+        `-${formatTime(Math.max(0, currentDuration.value - currentPosition.value))}`
     );
 
     useEffect(() => {
@@ -86,14 +81,14 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
         };
     });
 
-    const formatTime = (millis: number) => {
-        const totalSeconds = Math.floor(millis / 1000);
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
-        return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-    };
 
-    const progress = currentDuration > 0 ? (currentPosition / currentDuration) * 100 : 0;
+
+    const progress = useDerivedValue(() => {
+        return currentDuration.value > 0 
+            ? (currentPosition.value / currentDuration.value) * 100 
+            : 0;
+    });
+
     const rewind15Seconds = () => seek(-15);
 
     const renderControls = () => (
@@ -107,7 +102,7 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
 
             <Pressable onPress={togglePlayPause} style={[styles.controlButton, styles.playButton]}>
                 <View style={styles.buttonBlur}>
-                    <Ionicons name={isPlayingState ? "pause" : "play"} size={44} color="#fff" />
+                    <Ionicons name={isPlayingState.value ? "pause" : "play"} size={44} color="#fff" />
                 </View>
             </Pressable>
 
@@ -158,11 +153,11 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
 
                     <View style={styles.progressContainer}>
                         <View style={styles.progressBar}>
-                            <View style={[styles.progress, { width: `${progress}%` }]} />
+                            <View style={[styles.progress, { width: `${progress.value}%` }]} />
                         </View>
                         <View style={styles.timeContainer}>
-                            <Text style={styles.timeText}>{formatTime(currentPosition)}</Text>
-                            <Text style={styles.timeText}>-{formatTime(Math.max(0, currentDuration - currentPosition))}</Text>
+                            <AnimatedText text={formattedPosition} />
+                            <AnimatedText text={formattedRemaining} />
                         </View>
                     </View>
 
@@ -278,10 +273,6 @@ const styles = StyleSheet.create({
     timeContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-    },
-    timeText: {
-        fontSize: 13,
-        color: 'rgba(255,255,255,0.6)',
     },
     controls: {
         flexDirection: 'row',
