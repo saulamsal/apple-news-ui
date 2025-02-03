@@ -24,7 +24,7 @@ struct WidgetLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: WidgetAttributes.self) { context in
             ZStack {
-                // Background gradient with dark overlay
+                // Background gradient with blur and dark overlay
                 ZStack {
                     LinearGradient(
                         colors: [
@@ -34,7 +34,8 @@ struct WidgetLiveActivity: Widget {
                         startPoint: .leading,
                         endPoint: .trailing
                     )
-                    Color.black.opacity(0.5) // Dark overlay
+                    .blur(radius: 20)
+                    Color.black.opacity(0.3) // Dark overlay
                 }
                 
                 VStack(spacing: 8) {
@@ -47,10 +48,14 @@ struct WidgetLiveActivity: Widget {
                     HStack(spacing: 12) {
                         // Home team
                         VStack(spacing: 4) {
-                            Image(context.attributes.homeLogo)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
+                            Circle()
+                                .fill(Color(hex: context.state.homeColor)?.opacity(0.3) ?? .blue.opacity(0.3))
                                 .frame(width: 45, height: 45)
+                                .overlay(
+                                    Text(context.attributes.homeLogo.uppercased())
+                                        .font(.system(size: 16, weight: .bold))
+                                        .foregroundColor(.white)
+                                )
                             
                             Text(context.attributes.homeTeam)
                                 .font(.caption)
@@ -79,10 +84,14 @@ struct WidgetLiveActivity: Widget {
                         
                         // Away team
                         VStack(spacing: 4) {
-                            Image(context.attributes.awayLogo)
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
+                            Circle()
+                                .fill(Color(hex: context.state.awayColor)?.opacity(0.3) ?? .red.opacity(0.3))
                                 .frame(width: 45, height: 45)
+                                .overlay(
+                                    Text(context.attributes.awayLogo.uppercased())
+                                        .font(.system(size: 16, weight: .bold))
+                                        .foregroundColor(.white)
+                                )
                             
                             Text(context.attributes.awayTeam)
                                 .font(.caption)
@@ -95,18 +104,18 @@ struct WidgetLiveActivity: Widget {
                     if !context.state.currentEvent.isEmpty {
                         HStack(spacing: 8) {
                             Circle()
-                                .fill(Color.white)
+                                .fill(Color(hex: context.state.homeColor)?.opacity(0.3) ?? .blue.opacity(0.3))
                                 .frame(width: 24, height: 24)
                                 .overlay(
-                                    Image(context.attributes.homeLogo)
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 20, height: 20)
+                                    Text(context.attributes.homeLogo.uppercased())
+                                        .font(.system(size: 8, weight: .bold))
+                                        .foregroundColor(.white)
                                 )
                             
                             Text(context.state.currentEvent)
-                                .font(.callout)
+                            .font(.system(size: 12))
                                 .foregroundColor(.white)
+                                .italic()
                                 .multilineTextAlignment(.leading)
                         }
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -119,45 +128,121 @@ struct WidgetLiveActivity: Widget {
         } dynamicIsland: { context in
             DynamicIsland {
                 DynamicIslandExpandedRegion(.leading) {
-                    VStack(alignment: .leading) {
-                        Text(context.attributes.homeTeam)
-                            .foregroundColor(.white)
+                    HStack(alignment: .center, spacing: 12) {
                         Text("\(context.state.homeScore)")
-                            .font(.title2.bold())
+                            .font(.system(size: 32, weight: .bold))
                             .foregroundColor(.white)
-                    }
-                }
-                DynamicIslandExpandedRegion(.trailing) {
-                    VStack(alignment: .trailing) {
-                        Text(context.attributes.awayTeam)
-                            .foregroundColor(.white)
-                        Text("\(context.state.awayScore)")
-                            .font(.title2.bold())
-                            .foregroundColor(.white)
-                    }
-                }
-                DynamicIslandExpandedRegion(.bottom) {
-                    VStack {
-                        Text(context.state.timeOrPeriod)
-                            .foregroundColor(.white)
-                        if !context.state.currentEvent.isEmpty {
-                            Text(context.state.currentEvent)
-                                .font(.caption)
-                                .foregroundColor(.white)
+                            
+                        VStack(alignment: .leading, spacing: 2) {
+                            HStack(spacing: 8) {
+                                Circle()
+                                    .fill(Color(hex: context.state.homeColor)?.opacity(0.3) ?? .blue.opacity(0.3))
+                                    .frame(width: 36, height: 36)
+                                    .overlay(
+                                        Text(context.attributes.homeLogo.uppercased())
+                                            .font(.system(size: 12, weight: .bold))
+                                            .foregroundColor(.white)
+                                    )
+                            }
                         }
+                    }
+                    Text(context.attributes.homeTeam)
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundColor(.white)
+                        .padding(.vertical, 4)
+                }
+                
+                DynamicIslandExpandedRegion(.center) {
+                    Text(context.state.timeOrPeriod)
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 4)
+                        .background(Color.white.opacity(0.2))
+                        .cornerRadius(12)
+                }
+                
+                DynamicIslandExpandedRegion(.trailing) {
+                    HStack(alignment: .center, spacing: 12) {
+                        Text(context.attributes.awayTeam)
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundColor(.white)
+                            .padding(.vertical, 4)
+                            
+                        VStack(alignment: .trailing, spacing: 2) {
+                            HStack(spacing: 8) {
+                                Circle()
+                                    .fill(Color(hex: context.state.awayColor)?.opacity(0.3) ?? .red.opacity(0.3))
+                                    .frame(width: 36, height: 36)
+                                    .overlay(
+                                        Text(context.attributes.awayLogo.uppercased())
+                                            .font(.system(size: 12, weight: .bold))
+                                            .foregroundColor(.white)
+                                    )
+                            }
+                        }
+                        Text("\(context.state.awayScore)")
+                            .font(.system(size: 32, weight: .bold))
+                            .foregroundColor(.white)
                     }
                 }
             } compactLeading: {
-                Text("\(context.state.homeScore)-\(context.state.awayScore)")
-                    .foregroundColor(.white)
-            } compactTrailing: {
-                Text(context.state.timeOrPeriod)
-                    .foregroundColor(.white)
-            } minimal: {
-                Text("\(context.state.homeScore)-\(context.state.awayScore)")
-                    .foregroundColor(.white)
+                HStack(spacing: 4) {
+                    Text(context.attributes.homeLogo.uppercased())
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundColor(.white)
+                    
+                    Text("\(context.state.homeScore)")
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundColor(.white)
+                    
+                    Text("-")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(.white.opacity(0.8))
+                    
+                    Text("\(context.state.awayScore)")
+                        .font(.system(size: 12, weight: .bold))
+                        .foregroundColor(.white)
+                        
+                    Text(context.attributes.awayLogo.uppercased())
+                        .font(.system(size: 12, weight: .semibold))
+                        .foregroundColor(.white)
                 }
-            .widgetURL(URL(string: "https://www.news-by-saul.app/scores"))
+            } compactTrailing: {
+                ZStack {
+                    // Animated pulse effect
+                    Circle()
+                        .fill(Color.white.opacity(0.2))
+                        .frame(width: 8, height: 8)
+                        .modifier(PulseAnimation())
+                    
+                    Text(context.state.timeOrPeriod)
+                        .font(.caption2)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 2)
+                        .background(Color.white.opacity(0.2))
+                        .cornerRadius(8)
+                        .foregroundColor(.white)
+                }
+            } minimal: {
+                ZStack {
+                    Circle()
+                        .fill(LinearGradient(
+                            colors: [
+                                Color(hex: context.state.homeColor) ?? .blue,
+                                Color(hex: context.state.awayColor) ?? .red
+                            ],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        ))
+                        .frame(width: 24, height: 24)
+                    
+                    Text("\(context.state.homeScore)-\(context.state.awayScore)")
+                        .font(.caption2.bold())
+                        .foregroundColor(.white)
+                }
+            }
+            .widgetURL(URL(string: "https://www.apple-news-ui.app/scores"))
             .keylineTint(Color.white)
         }
     }
@@ -181,6 +266,7 @@ extension Color {
         )
     }
 }
+
 
 extension WidgetAttributes {
     fileprivate static var preview: WidgetAttributes {
@@ -225,4 +311,22 @@ extension WidgetAttributes.ContentState {
 } contentStates: {
     WidgetAttributes.ContentState.firstHalf
     WidgetAttributes.ContentState.secondHalf
+}
+
+struct PulseAnimation: ViewModifier {
+    @State private var isAnimating = false
+    
+    func body(content: Content) -> some View {
+        content
+            .scaleEffect(isAnimating ? 1.5 : 1.0)
+            .opacity(isAnimating ? 0 : 0.5)
+            .animation(
+                Animation.easeInOut(duration: 1)
+                    .repeatForever(autoreverses: false),
+                value: isAnimating
+            )
+            .onAppear {
+                isAnimating = true
+            }
+    }
 }
