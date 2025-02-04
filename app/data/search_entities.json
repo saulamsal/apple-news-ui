@@ -26,7 +26,7 @@
         {
             "id": "trending",
             "title": "Trending",
-            "items": ["tech_news", "business", "elon_musk", "donald_trump", "supreme_court", "tiktok"]
+            "items": ["tech_news", "business", "elon_musk", "donald_trump", "arsenal", "china"]
         },
         {
             "id": "my_following",

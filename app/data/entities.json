@@ -241,15 +241,22 @@
             "textColor": "#3F7565"
         }
     },
-    "tiktok": {
-        "id": "tiktok",
-        "title": "TikTok",
-        "logo": "https://pbs.twimg.com/profile_images/1879333037005053953/e1dnDyxK_400x400.jpg",
-        "entity_type": "company",
+    "arsenal": {
+        "id": "arsenal",
+        "title": "Arsenal",
+        "logo": "https://img.sofascore.com/api/v1/team/42/image",
+        "entity_type": "Premier League",
+        "type": "team"
+    },
+    "china": {
+        "id": "china",
+        "title": "China",
+        "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Flag_of_China.png/1024px-Flag_of_China.png",
+        "entity_type": "country",
         "type": "topic",
-        "description": "Social media platform for short-form videos",
+        "description": "Country of China",
         "theme": {
-            "backgroundColor": "#FB2A56",
+            "backgroundColor": "#000000",
             "textColor": "#ffffff"
         }
     },
