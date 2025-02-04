@@ -9,19 +9,18 @@ A universal iOS News app clone built with React Native and Expo, delivering a na
 
 ## ✨ Key Features
 
-- 📱 Universal App (iOS, Android, Web)
-- 🎯 SwiftUI-inspired animations and interactions
+- 💣 Works on Android, iOS, and Web
 - 🔄 Native gestures and transitions
-- 🌙 Automatic dark/light mode
-- 🎵 Full-featured Podcast Player
+- 🎵 Podcast Player with full playback controls
 - 📲 iOS-specific features:
   - Live Activities for sports scores
   - Home Screen Widgets
   - Watch support
   - Context menus and peek previews
+- 🤏 Swipe actions like 𝕏 (Twitter)
 - 🔍 Smart search with keyword highlighting
-- ⚡️ Server Components (RSC) integration
-- 🔄 Drag & sort favorites
+- ⚡️ Example Server Components (RSC) integration
+- ↕️ Drag & sort favorites
 
 ## 🛠 Tech Stack
 
@@ -41,7 +40,6 @@ A universal iOS News app clone built with React Native and Expo, delivering a na
 
 ### Data & State
 - [MMKV](https://github.com/mrousavy/react-native-mmkv) - Ultra-fast storage
-- [Tanstack Query](https://tanstack.com/query) - Data fetching & caching
 
 ### UI Components
 - [Zeego](https://zeego.dev) - Native context menus
@@ -133,3 +131,6 @@ This project is MIT licensed.
 - [ ] Fix long press behavior - Details view and context menu conflict
 - [ ] Optimize navigation performance during audio playback (25% complete)
 - [ ] Fix /audio/[id] not playing on web when not loaded via MiniPlayer click
+
+### Other
+- [ ] More robust RSC examples
