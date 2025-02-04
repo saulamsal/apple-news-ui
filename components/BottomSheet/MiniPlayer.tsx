@@ -304,12 +304,15 @@ const styles = StyleSheet.create({
         bottom: 0,
         backgroundColor: '#000',
         position: Platform.OS === 'android' ? 'fixed' : 'relative',
+        paddingHorizontal: Platform.OS === 'android' ? 10 : 0,
+
     },
     backgroundImage: {
         width: '100%',
         height: '100%',
         borderRadius: 12,
         overflow: 'hidden',
+
     },
     content: {
         flexDirection: 'row',
@@ -321,6 +324,7 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingVertical: 0,
         paddingTop: Platform.OS === 'android' ? 10 : 0,
+        
     },
     miniPlayerContent: {
         flex: 1,
@@ -328,9 +332,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         height: '100%',
-        paddingHorizontal: 10,
         backgroundColor: 'transparent',
         marginBottom: Platform.OS === 'web' ? 0 : 16,
+
     },
     leftSection: {
         flex: 1,

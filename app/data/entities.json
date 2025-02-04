@@ -299,7 +299,7 @@
             "items": [
                 {
                     "id": "indian_premier_league",
-                    "title": "Indian Premier League",
+                    "title": "IPL",
                     "logo": "https://api.sofascore.app/api/v1/unique-tournament/10192/image",
                     "type": "league"
                 },
@@ -320,8 +320,8 @@
     },
     "indian_premier_league": {
         "id": "indian_premier_league",
-        "title": "Indian Premier League",
-        "logo": "https://api.sofascore.app/api/v1/unique-tournament/10192/image",
+        "title": "IPL",
+        "logo": "https://img.sofascore.com/api/v1/unique-tournament/11165/image/dark",
         "entity_type": "India",
         "type": "league",
         "theme": {
@@ -336,61 +336,61 @@
                 {
                     "id": "kkr",
                     "title": "Kolkata Knight Riders",
-                    "logo": "https://api.sofascore.app/api/v1/team/187775/image",
+                    "logo": "https://img.sofascore.com/api/v1/team/187775/image",
                     "type": "team"
                 },
                 {
                     "id": "mi",
-                    "title": "Mumbai Indians",
-                    "logo": "https://api.sofascore.app/api/v1/team/187773/image",
+                    "title": "Mumbai Indians", 
+                    "logo": "https://img.sofascore.com/api/v1/team/187780/image",
                     "type": "team"
                 },
                 {
                     "id": "csk",
                     "title": "Chennai Super Kings",
-                    "logo": "https://api.sofascore.app/api/v1/team/187774/image",
+                    "logo": "https://img.sofascore.com/api/v1/team/187777/image",
                     "type": "team"
                 },
                 {
                     "id": "rcb",
                     "title": "Royal Challengers Bangalore",
-                    "logo": "https://api.sofascore.app/api/v1/team/187776/image",
+                    "logo": "https://img.sofascore.com/api/v1/team/187843/image",
                     "type": "team"
                 },
                 {
                     "id": "dc",
                     "title": "Delhi Capitals",
-                    "logo": "https://api.sofascore.app/api/v1/team/187777/image",
+                    "logo": "https://img.sofascore.com/api/v1/team/187841/image",
                     "type": "team"
                 },
                 {
                     "id": "rr",
                     "title": "Rajasthan Royals",
-                    "logo": "https://api.sofascore.app/api/v1/team/187778/image",
+                    "logo": "https://img.sofascore.com/api/v1/team/187842/image",
                     "type": "team"
                 },
                 {
                     "id": "srh",
                     "title": "Sunrisers Hyderabad",
-                    "logo": "https://api.sofascore.app/api/v1/team/187779/image",
+                    "logo": "https://img.sofascore.com/api/v1/team/187844/image",
                     "type": "team"
                 },
                 {
                     "id": "pbks",
                     "title": "Punjab Kings",
-                    "logo": "https://api.sofascore.app/api/v1/team/187780/image",
+                    "logo": "https://img.sofascore.com/api/v1/team/187776/image",
                     "type": "team"
                 },
                 {
                     "id": "gt",
                     "title": "Gujarat Titans",
-                    "logo": "https://api.sofascore.app/api/v1/team/377372/image",
+                    "logo": "https://img.sofascore.com/api/v1/team/216006/image",
                     "type": "team"
                 },
                 {
                     "id": "lsg",
                     "title": "Lucknow Super Giants",
-                    "logo": "https://api.sofascore.app/api/v1/team/377371/image",
+                    "logo": "https://img.sofascore.com/api/v1/team/410010/image",
                     "type": "team"
                 }
             ]

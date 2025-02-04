@@ -345,6 +345,37 @@
             "related_topics": ["tech_news", "business"]
         },
         {
+            "id": "1.2",
+            "title": "Who will win IPL 2025? Betting odds and predictions for 2025 Indian Premier League season",
+            "source": {
+                "id": "cricbuzz",
+                "name": "Cricbuzz",
+                "logo_transparent_light": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7e/Cricbuzz_Logo.svg/1200px-Cricbuzz_Logo.svg.png",
+                "logo_transparent_dark": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7e/Cricbuzz_Logo.svg/1200px-Cricbuzz_Logo.svg.png",
+                "dark_bg": "#009270",
+                "light_bg": "#ffffff",
+                "dark_text": "#ffffff",
+                "light_text": "#009270"
+            },
+            "created_at": "3 hours ago",
+            "topic": {
+                "id": "sports",
+                "name": "Sports",
+                "sport": "cricket"
+            },
+            "author": {
+                "name": "Cricbuzz Staff"
+            },
+            "show_topic": true,
+            "description": "As the 2025 IPL season approaches, defending champions Chennai Super Kings remain favorites, but Mumbai Indians and Royal Challengers Bangalore show strong odds.",
+            "featured_image": "https://library.sportingnews.com/styles/crop_style_16_9_desktop/s3/2024-02/IPL%20trophy.jpg?h=920929c4&itok=bStnS01I",
+            "card_type": "full",
+            "has_next": true,
+            "is_news_plus": true,
+            "content": "As the Indian Premier League 2025 season draws near, betting markets and cricket analysts are weighing in on the potential champions. Defending champions Chennai Super Kings (CSK) lead the odds at 4.50, followed closely by Mumbai Indians at 5.00 and Royal Challengers Bangalore at 5.50.\n\nCSK's strong position comes as no surprise given their consistent performance and strategic player retention. The MS Dhoni-led team has maintained their core group while adding key players in the auction, including emerging Australian talent Cameron Green.\n\nMumbai Indians have seen their odds improve following the acquisition of star all-rounder Hardik Pandya and the retention of captain Rohit Sharma. The five-time champions have also strengthened their bowling attack with several strategic picks.\n\nRoyal Challengers Bangalore, still in pursuit of their maiden title, have assembled what many consider their strongest squad yet. The Virat Kohli-led team has addressed their bowling concerns while maintaining their batting firepower.\n\nKolkata Knight Riders (6.00) and Delhi Capitals (6.50) round out the top five favorites. Rajasthan Royals, Punjab Kings, and Lucknow Super Giants are considered outside contenders with odds ranging from 7.00 to 8.50.\n\nThe tournament is set to begin on March 22, with defending champions CSK facing Royal Challengers Bangalore in the opening match at Chennai's MA Chidambaram Stadium.",
+            "related_topics": ["cricket", "sports", "indian_premier_league"]
+        },
+        {
             "id": "1.5",
             "title": "Super Bowl 2025: Chiefs take questions on opening night in New Orleans",
             "author": {
