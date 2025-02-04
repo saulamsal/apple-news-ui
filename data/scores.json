@@ -28,21 +28,56 @@
         "position_suffix": "th",
         "bg_color": "#DA020E",
         "logo": "https://api.sofascore.app/api/v1/team/35/image",
-        "score": 3,
+        "score": 0,
         "events": [
           {
+            "time": "12'",
+            "event": "Yellow card for Shaw",
+            "situation": "YELLOW"
+          },
+          {
+            "time": "23'",
+            "event": "Goal by Diallo! Assist by Bruno Fernandes",
+            "situation": "GOAL" 
+          },
+          {
+            "time": "34'",
+            "event": "Yellow card for Casemiro",
+            "situation": "YELLOW"
+          },
+          {
             "time": "45'",
-            "event": "Goal by Rashford!",
+            "event": "Goal by Bruno Fernandes! Assist by Diallo",
             "situation": "GOAL"
+          },
+          {
+            "time": "52'", 
+            "event": "Red card for Martinez",
+            "situation": "RED"
           },
           {
             "time": "67'",
-            "event": "Goal by Bruno Fernandes!",
+            "event": "Goal by Garnacho! Assist by Bruno Fernandes",
             "situation": "GOAL"
           },
           {
+            "time": "71'",
+            "event": "Yellow card for Antony",
+            "situation": "YELLOW"
+          },
+          {
+            "time": "78'",
+            "event": "Goal by Diallo! Assist by Garnacho",
+            "situation": "GOAL"
+          },
+          {
+            "time": "82'",
+            "event": "Yellow card for McTominay",
+            "situation": "YELLOW"
+          },
+          {
             "time": "89'",
-            "event": "Goal by Garnacho!",
+            "event": "Goal by Bruno Fernandes! Assist by Diallo",
             "situation": "GOAL"
           }
         ]
@@ -58,7 +93,7 @@
         "position_suffix": "nd",
         "bg_color": "#6CABDD",
         "logo": "https://api.sofascore.app/api/v1/team/17/image",
-        "score": 2,
+        "score": 0,
         "events": [
           {
             "time": "12'",
@@ -66,9 +101,49 @@
             "situation": "GOAL"
           },
           {
+            "time": "23'", 
+            "event": "Yellow card for Rodri",
+            "situation": "YELLOW"
+          },
+          {
             "time": "34'",
             "event": "Goal by De Bruyne!",
             "situation": "GOAL"
+          },
+          {
+            "time": "41'",
+            "event": "Yellow card for Stones",
+            "situation": "YELLOW"
+          },
+          {
+            "time": "55'",
+            "event": "Goal by Haaland! Assist by De Bruyne",
+            "situation": "GOAL"
+          },
+          {
+            "time": "63'",
+            "event": "Red card for Dias",
+            "situation": "RED"
+          },
+          {
+            "time": "69'",
+            "event": "Goal by Foden! Assist by Silva",
+            "situation": "GOAL"
+          },
+          {
+            "time": "75'",
+            "event": "Yellow card for Grealish",
+            "situation": "YELLOW"
+          },
+          {
+            "time": "81'",
+            "event": "Goal by De Bruyne! Assist by Haaland",
+            "situation": "GOAL"
+          },
+          {
+            "time": "88'",
+            "event": "Yellow card for Walker",
+            "situation": "YELLOW"
           }
         ]
       },
@@ -192,16 +267,51 @@
         "current_form": "9-1",
         "bg_color": "#AA0000",
         "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/sf.png",
-        "score": 34,
+        "score": 0,
         "events": [
           {
-            "time": "Q4 11:22",
+            "time": "Q1 10:22",
+            "event": "Touchdown - McCaffrey 2 yd run (Moody kick)",
+            "situation": "TOUCHDOWN"
+          },
+          {
+            "time": "Q1 5:45",
+            "event": "Extra Point - Moody",
+            "situation": "EXTRA_POINT"
+          },
+          {
+            "time": "Q2 14:15",
+            "event": "Field Goal - Moody 35 yards",
+            "situation": "FIELD_GOAL"
+          },
+          {
+            "time": "Q2 8:33",
             "event": "Touchdown - Kittle 23 yd pass from Purdy (Moody kick)",
             "situation": "TOUCHDOWN"
           },
           {
-            "time": "Q4 3:45",
-            "event": "Field Goal - Moody 35 yards",
+            "time": "Q2 8:33",
+            "event": "Extra Point - Moody",
+            "situation": "EXTRA_POINT"
+          },
+          {
+            "time": "Q3 12:10",
+            "event": "Safety - Goff sacked in endzone",
+            "situation": "SAFETY"
+          },
+          {
+            "time": "Q3 6:42",
+            "event": "Touchdown - Samuel 12 yd run (Moody kick)",
+            "situation": "TOUCHDOWN"
+          },
+          {
+            "time": "Q3 6:42",
+            "event": "Extra Point - Moody",
+            "situation": "EXTRA_POINT"
+          },
+          {
+            "time": "Q4 11:22",
+            "event": "Field Goal - Moody 41 yards",
             "situation": "FIELD_GOAL"
           }
         ]
@@ -214,12 +324,47 @@
         "current_form": "7-3",
         "bg_color": "#0076B6",
         "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/det.png",
-        "score": 31,
+        "score": 0,
         "events": [
+          {
+            "time": "Q1 7:33",
+            "event": "Field Goal - Badgley 37 yards",
+            "situation": "FIELD_GOAL"
+          },
+          {
+            "time": "Q2 13:15",
+            "event": "Touchdown - St. Brown 15 yd pass from Goff (Badgley kick)",
+            "situation": "TOUCHDOWN"
+          },
+          {
+            "time": "Q2 13:15",
+            "event": "Extra Point - Badgley",
+            "situation": "EXTRA_POINT"
+          },
+          {
+            "time": "Q2 4:22",
+            "event": "Touchdown - Williams 1 yd run (Badgley kick)",
+            "situation": "TOUCHDOWN"
+          },
+          {
+            "time": "Q2 4:22",
+            "event": "Extra Point - Badgley",
+            "situation": "EXTRA_POINT"
+          },
+          {
+            "time": "Q3 9:15",
+            "event": "Field Goal - Badgley 43 yards",
+            "situation": "FIELD_GOAL"
+          },
           {
             "time": "Q4 9:15",
             "event": "Touchdown - Reynolds 25 yd pass from Goff (Badgley kick)",
             "situation": "TOUCHDOWN"
+          },
+          {
+            "time": "Q4 9:15",
+            "event": "Extra Point - Badgley",
+            "situation": "EXTRA_POINT"
           }
         ]
       },
@@ -301,17 +446,57 @@
         "current_form": "6-4",
         "bg_color": "#552583",
         "logo": "https://a.espncdn.com/i/teamlogos/nba/500/lal.png",
-        "score": 112,
+        "score": 0,
         "events": [
           {
-            "time": "Q4 7:33",
-            "event": "3PT - James step back three!",
+            "time": "Q1 8:45",
+            "event": "James driving layup",
+            "situation": "FIELD_GOAL"
+          },
+          {
+            "time": "Q1 6:33",
+            "event": "Davis alley-oop dunk",
+            "situation": "FIELD_GOAL"
+          },
+          {
+            "time": "Q1 3:22",
+            "event": "James step back three!",
             "situation": "THREE_POINTER"
           },
           {
-            "time": "Q4 2:15",
-            "event": "Dunk - Davis putback slam!",
-            "situation": "DUNK"
+            "time": "Q2 11:15",
+            "event": "Davis free throw 1 of 2",
+            "situation": "FREE_THROW"
+          },
+          {
+            "time": "Q2 11:15",
+            "event": "Davis free throw 2 of 2",
+            "situation": "FREE_THROW"
+          },
+          {
+            "time": "Q2 8:45",
+            "event": "Reaves corner three!",
+            "situation": "THREE_POINTER"
+          },
+          {
+            "time": "Q2 4:20",
+            "event": "James fadeaway jumper",
+            "situation": "FIELD_GOAL"
+          },
+          {
+            "time": "Q3 10:33",
+            "event": "Davis putback slam!",
+            "situation": "FIELD_GOAL"
+          },
+          {
+            "time": "Q3 7:15",
+            "event": "James transition three!",
+            "situation": "THREE_POINTER"
+          },
+          {
+            "time": "Q4 7:33",
+            "event": "James step back three!",
+            "situation": "THREE_POINTER"
           }
         ]
       },
@@ -323,17 +508,57 @@
         "current_form": "5-5",
         "bg_color": "#1D428A",
         "logo": "https://a.espncdn.com/i/teamlogos/nba/500/gsw.png",
-        "score": 119,
+        "score": 0,
         "events": [
           {
-            "time": "Q4 4:33",
-            "event": "3PT - Curry clutch three!",
+            "time": "Q1 9:33",
+            "event": "Curry pull up three!",
             "situation": "THREE_POINTER"
           },
           {
-            "time": "Q4 1:15",
-            "event": "Layup - Wiggins game-winner!",
-            "situation": "LAYUP"
+            "time": "Q1 5:45",
+            "event": "Thompson corner three!",
+            "situation": "THREE_POINTER"
+          },
+          {
+            "time": "Q1 2:15",
+            "event": "Wiggins driving layup",
+            "situation": "FIELD_GOAL"
+          },
+          {
+            "time": "Q2 10:33",
+            "event": "Curry free throw 1 of 3",
+            "situation": "FREE_THROW"
+          },
+          {
+            "time": "Q2 10:33",
+            "event": "Curry free throw 2 of 3",
+            "situation": "FREE_THROW"
+          },
+          {
+            "time": "Q2 10:33",
+            "event": "Curry free throw 3 of 3",
+            "situation": "FREE_THROW"
+          },
+          {
+            "time": "Q2 6:15",
+            "event": "Poole deep three!",
+            "situation": "THREE_POINTER"
+          },
+          {
+            "time": "Q3 11:22",
+            "event": "Curry logo three!",
+            "situation": "THREE_POINTER"
+          },
+          {
+            "time": "Q3 8:45",
+            "event": "Thompson splash three!",
+            "situation": "THREE_POINTER"
+          },
+          {
+            "time": "Q4 4:33",
+            "event": "Curry clutch three!",
+            "situation": "THREE_POINTER"
           }
         ]
       },
@@ -442,21 +667,46 @@
         "current_form": "8-1-2",
         "bg_color": "#DC052D",
         "logo": "https://api.sofascore.app/api/v1/team/2672/image",
-        "score": 2,
+        "score": 0,
         "events": [
           {
             "time": "12'",
-            "event": "Goal by Kane!",
+            "event": "Goal by Kane! Assist by Sané",
             "situation": "GOAL"
           },
           {
-            "time": "34'",
+            "time": "23'",
             "event": "Yellow Card - Kimmich",
-            "situation": "YELLOW_CARD"
+            "situation": "YELLOW"
+          },
+          {
+            "time": "34'",
+            "event": "Goal by Müller! Assist by Kane",
+            "situation": "GOAL"
+          },
+          {
+            "time": "45'",
+            "event": "Yellow Card - Upamecano",
+            "situation": "YELLOW"
+          },
+          {
+            "time": "56'",
+            "event": "Goal by Musiala! Assist by Sané",
+            "situation": "GOAL"
           },
           {
             "time": "67'",
-            "event": "Goal by Musiala!",
+            "event": "Goal by Kane! Assist by Müller",
+            "situation": "GOAL"
+          },
+          {
+            "time": "75'",
+            "event": "Yellow Card - Davies",
+            "situation": "YELLOW"
+          },
+          {
+            "time": "82'",
+            "event": "Goal by Tel! Assist by Musiala",
             "situation": "GOAL"
           }
         ]
@@ -469,21 +719,41 @@
         "current_form": "6-2-3",
         "bg_color": "#a6940f",
         "logo": "https://api.sofascore.app/api/v1/team/2673/image",
-        "score": 2,
+        "score": 0,
         "events": [
           {
-            "time": "45'",
-            "event": "Goal by Reus!",
+            "time": "15'",
+            "event": "Goal by Reus! Assist by Sancho",
             "situation": "GOAL"
           },
           {
-            "time": "56'",
+            "time": "28'",
             "event": "Yellow Card - Can",
-            "situation": "YELLOW_CARD"
+            "situation": "YELLOW"
+          },
+          {
+            "time": "39'",
+            "event": "Goal by Füllkrug! Assist by Brandt",
+            "situation": "GOAL"
+          },
+          {
+            "time": "52'",
+            "event": "Yellow Card - Schlotterbeck",
+            "situation": "YELLOW"
+          },
+          {
+            "time": "61'",
+            "event": "Goal by Adeyemi! Assist by Reus",
+            "situation": "GOAL"
+          },
+          {
+            "time": "73'",
+            "event": "Yellow Card - Ryerson",
+            "situation": "YELLOW"
           },
           {
             "time": "89'",
-            "event": "Goal by Haller!",
+            "event": "Goal by Moukoko! Assist by Sancho",
             "situation": "GOAL"
           }
         ]

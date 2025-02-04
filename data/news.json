@@ -1,6 +1,279 @@
 {
     "news": [
         {
+            "id": "0.01",
+            "title": "Why the Lakers couldn't say no to Luka Dončić trade",
+            "source": {
+                "id": "nytimes",
+                "name": "The New York Times",
+                "logo_transparent_light": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/NewYorkTimes.svg/1280px-NewYorkTimes.svg.png",
+                "logo_transparent_dark": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/NewYorkTimes.svg/1280px-NewYorkTimes.svg.png",
+                "dark_bg": "#eaeaea",
+                "light_bg": "#ffffff",
+                "dark_text": "#ffffff",
+                "light_text": "#eaeaea"
+            },
+            "created_at": "30 minutes ago",
+            "topic": {
+                "id": "sports",
+                "name": "Sports",
+                "sport": "nba"
+            },
+            "author": {
+                "name": "John Hollinger"
+            },
+            "show_topic": true,
+            "description": "In a shocking three-way trade between the Lakers, Mavericks, and Jazz, 25-year-old superstar Luka Dončić is headed to Los Angeles in exchange for Anthony Davis.",
+            "featured_image": "https://cdn.nba.com/teams/uploads/sites/1610612747/2025/02/2425_lal_mktg_welcome_Kleber-Morris_1130x635_ska-1.jpg?im=Resize=(640)",
+            "card_type": "full",
+            "has_next": true,
+            "is_news_plus": true,
+            "content": "We don't have all the answers just yet, but as we absorb the news of the NBA's blockbuster Lakers-Mavericks-Jazz three-way trade, we can look at the big picture and make some key takeaways. This is perhaps the most shocking trade in NBA annals, at least in my time circling the sun. Out of the blue, a 25-year-old superstar with time left to run on his contract has changed teams. I'm sure there's more backstory we're going to find out in the coming days, but right now, it looks like a massive risk for the Mavericks and an incredible stroke of fortune for the Lakers.\n\nPer league sources, the terms are that Dončić, Markieff Morris and Maxi Kleber are going to the Lakers, and Anthony Davis and Max Christie are going to Dallas. Jalen Hood-Schifino goes to Utah along with a 2025 second-round pick from each team (the LA Clippers' 2025 pick is being sent from the Lakers; a complicated swap is being sent from Dallas, but it will ultimately result in it being Dallas' pick in 2025 unless the Washington Wizards win every game the rest of the season). Utah is sending back couch change (the minimum consideration of $110,000), split among Dallas and L.A., to legally complete the deal.",
+            "related_topics": ["nba", "sports", "lakers", "mavericks"]
+        },
+        {
+            "id": "0.1",
+            "title": "Trump administration finalizing plans to shutter Education Department",
+            "source": {
+                "id": "politico",
+                "name": "POLITICO",
+                "logo_transparent_light": "https://s.yimg.com/ny/api/res/1.2/ZLHR.8aoCjxZvy4MYsA9CA--/YXBwaWQ9aGlnaGxhbmRlcjt3PTE2NDtoPTYwO2NmPXdlYnA-/https://s.yimg.com/os/creatr-uploaded-images/2020-11/d4756440-2b85-11eb-affa-8cb9e3f7c2b3",
+                "logo_transparent_dark": "https://s.yimg.com/ny/api/res/1.2/ZLHR.8aoCjxZvy4MYsA9CA--/YXBwaWQ9aGlnaGxhbmRlcjt3PTE2NDtoPTYwO2NmPXdlYnA-/https://s.yimg.com/os/creatr-uploaded-images/2020-11/d4756440-2b85-11eb-affa-8cb9e3f7c2b3",
+                "dark_bg": "#000000",
+                "light_bg": "#ffffff",
+                "dark_text": "#ffffff",
+                "light_text": "#000000"
+            },
+            "created_at": "1 hour ago",
+            "topic": {
+                "id": "politics",
+                "name": "Politics"
+            },
+            "author": {
+                "name": "Juan Perez Jr."
+            },
+            "show_topic": true,
+            "description": "The Trump administration is finalizing plans to dismantle the Education Department through an executive order that would build on the president's campaign promise to hammer the longtime conservative target.",
+            "featured_image": "https://s.yimg.com/ny/api/res/1.2/huov5NoEkf8WS_DN5F9HhA--/YXBwaWQ9aGlnaGxhbmRlcjt3PTI0MDA7aD0xNjAyO2NmPXdlYnA-/https://media.zenfs.com/en/politico_453/7ef35607a8a813ffb4535ca7c965e412",
+            "card_type": "full",
+            "has_next": true,
+            "is_news_plus": true,
+            "content": "The Trump administration is finalizing plans to dismantle the Education Department through an executive order that would build on the president's campaign promise to hammer the longtime conservative target.\n\nThe order — which President Donald Trump is expected to sign sometime this month, according to a White House official — was expected to lay out a two-part strategy for shuttering the agency, according to two people familiar with the plans and granted anonymity to discuss them.\n\nIt would direct the department to craft a plan to wind down its functions using its existing administrative authority. But the order was also expected to call for the agency to inventory a complex set of laws needed to delegate the department's powers to other agencies and then close the department, an acknowledgment that some of conservatives' biggest desires for change hinge on congressional approval. Such an order would launch a complex initiative. Some conservatives concede they currently lack enough support for legislation to close the department and farm its core functions out to other federal agencies.\n\nWhile Trump has been vocal about closing the Education Department, the agency appears to have also drawn the attention of Elon Musk's government efficiency operation, which picked apart the US Agency for International Development over the weekend.",
+            "related_topics": ["donald_trump", "politics", "education"]
+        },
+        {
+            "id": "0.2",
+            "title": "Arsenal, PSG and Bayern urged to end Visit Rwanda deals",
+            "source": {
+                "id": "bbc",
+                "name": "BBC News",
+                "logo_transparent_light": "https://e7.pngegg.com/pngimages/820/447/png-clipart-bbc-news-logo-others-television-text.png",
+                "logo_transparent_dark": "https://e7.pngegg.com/pngimages/820/447/png-clipart-bbc-news-logo-others-television-text.png",
+                "dark_bg": "#C80000",
+                "light_bg": "#ffffff",
+                "dark_text": "#ffffff",
+                "light_text": "#000000"
+            },
+            "created_at": "2 hours ago",
+            "topic": {
+                "id": "sports",
+                "name": "Sports"
+            },
+            "show_topic": true,
+            "description": "The Democratic Republic of Congo has called on Arsenal, Bayern Munich and Paris St-Germain to end their 'blood stained' sponsorship deals with Visit Rwanda amid a worsening humanitarian crisis in the country.",
+            "featured_image": "https://s.yimg.com/ny/api/res/1.2/wnE_2MsYPBnnKLgCaOhDnQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyNDI7aD02OTk7Y2Y9d2VicA--/https://media.zenfs.com/en/bbc_us_articles_995/02f010ac39cedd7edf0ffd2b1882a9a5",
+            "card_type": "medium",
+            "has_next": true,
+            "is_news_plus": true,
+            "content": "The Democratic Republic of Congo has called on Arsenal, Bayern Munich and Paris St-Germain to end their 'blood stained' sponsorship deals with Visit Rwanda amid a worsening humanitarian crisis in the country.\n\nThe appeal comes as M23 rebels captured Goma, the largest city in eastern DR Congo, while the United Nations' refugee agency estimates more than 400,000 people have been forced from their homes this year.\n\nA group of UN experts maintains the Rwandan army is in 'de facto control of M23 operations'.\n\nDR Congo's Foreign Minister Thérèse Kayikwamba Wagner has written to the owners of Arsenal and PSG and to Bayern president Herbert Hainer to 'question the morality' of the deals.\n\nShe highlighted how Visit Rwanda's sponsorship could be funded by the illicit mining of blood minerals in the occupied parts of DR Congo, before being transported across the border and exported from Rwanda.",
+            "related_topics": ["sports", "world"]
+        },
+        {
+            "id": "0.3",
+            "title": "China hits back at Trump tariff: 'Fentanyl is America's problem'",
+            "source": {
+                "id": "usa-today",
+                "name": "USA TODAY",
+                "logo_transparent_light": "https://s.yimg.com/ny/api/res/1.2/mahyS7Gis84ax92ofeoeJQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTI2MDtoPTYwO2NmPXdlYnA-/https://s.yimg.com/os/creatr-uploaded-images/2020-11/092f7540-26ea-11eb-bdb4-b7283677d9f5",
+                "logo_transparent_dark": "https://s.yimg.com/ny/api/res/1.2/mahyS7Gis84ax92ofeoeJQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTI2MDtoPTYwO2NmPXdlYnA-/https://s.yimg.com/os/creatr-uploaded-images/2020-11/092f7540-26ea-11eb-bdb4-b7283677d9f5",
+                "dark_bg": "#eaeaea",
+                "light_bg": "#ffffff", 
+                "dark_text": "#ffffff",
+                "light_text": "#eaeaea"
+            },
+            "created_at": "3 hours ago",
+            "topic": {
+                "id": "world",
+                "name": "World"
+            },
+            "author": {
+                "name": "Qiaoyi Li"
+            },
+            "show_topic": true,
+            "description": "Beijing will challenge President Donald Trump's tariff at the World Trade Organization — a symbolic gesture — and take unspecified 'countermeasures' in response to the levy.",
+            "featured_image": "https://media.cnn.com/api/v1/images/stellar/prod/gettyimages-1435758127.jpg?c=16x9&q=h_833,w_1480,c_fill",
+            "card_type": "full",
+            "has_next": true,
+            "is_news_plus": true,
+            "content": "BEIJING — China's government on Sunday denounced the Trump administration's imposition of a long-threatened 10% tariff on Chinese imports while leaving the door open for talks with the U.S. that could avoid a deepening conflict.\n\nBeijing will challenge President Donald Trump's tariff at the World Trade Organization — a symbolic gesture — and take unspecified 'countermeasures' in response to the levy, which takes effect on Tuesday, China's finance and commerce ministries said.\n\nThat response stopped short of the immediate escalation that had marked China's trade showdown with Trump in his first term as president and repeated more measured language Beijing has used in recent weeks.\n\nTrump on Saturday ordered 25% tariffs on Canadian and Mexican imports and 10% on goods from China, saying Beijing needed to stanch the flow of fentanyl, a deadly opioid, into the United States. China's toned-down response marked a contrast with the direct retaliation and heated language from Canada, a long-time U.S. ally, and Mexico, the top destination for U.S. exports.",
+            "related_topics": ["world", "donald_trump", "china"]
+        },
+        {
+            "id": "0.4",
+            "title": "Palantir's Stock Surpasses $100",
+            "source": {
+                "id": "yahoo-finance",
+                "name": "Yahoo Finance",
+                "logo_transparent_light": "https://s.yimg.com/ny/api/res/1.2/SUccIz7MI44PLw3f75dPFQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTIzMjtoPTQ4O2NmPXdlYnA-/https://s.yimg.com/os/creatr-uploaded-images/2020-12/02246f50-3412-11eb-bfdd-de89f8b3b8b8",
+                "logo_transparent_dark": "https://s.yimg.com/ny/api/res/1.2/SUccIz7MI44PLw3f75dPFQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTIzMjtoPTQ4O2NmPXdlYnA-/https://s.yimg.com/os/creatr-uploaded-images/2020-12/02246f50-3412-11eb-bfdd-de89f8b3b8b8",
+                "dark_bg": "#be87ff",
+                "light_bg": "#ffffff",
+                "dark_text": "#ffffff", 
+                "light_text": "#be87ff"
+            },
+            "created_at": "4 hours ago",
+            "topic": {
+                "id": "business",
+                "name": "Business"
+            },
+            "show_topic": true,
+            "description": "Palantir recommends its clients steer clear of Chinese startup DeepSeek's AI models as stock hits all-time high.",
+            "featured_image": "https://blog.tipranks.com/wp-content/uploads/2025/01/shutterstock_2566125289-1-750x406.jpg",
+            "card_type": "medium",
+            "has_next": true,
+            "is_news_plus": true,
+            "content": "Palantir recommends its clients steer clear of Chinese startup DeepSeek's AI models, a senior executive of the data analytics company said on Monday, days after doubts were raised about the United States' lead in AI technology.\n\n'We would strongly discourage it (DeepSeek) and don't think any customer in the U.S. government will be able to use it,' Palantir's Chief Revenue Officer Ryan Taylor said.\n\nU.S. officials are looking at the national security implications of the app DeepSeek, White House press secretary Karoline Leavitt said last week. Federal agencies such as NASA have also banned the use of the tech by employees, according to media reports.\n\nThe data analytics company also forecast first-quarter and annual revenue above Wall Street estimates on Monday. More than 40% of its fourth-quarter sales was from the U.S. government.",
+            "related_topics": ["business", "tech_news"]
+        },
+        {
+            "id": "0.5",
+            "title": "Elon Musk is serving as a 'special government employee,' White House says",
+            "source": {
+                "id": "cnn",
+                "name": "CNN",
+                "logo_transparent_light": "https://s.yimg.com/ny/api/res/1.2/bkp9sR5SRc22EjbLVoK5_g--/YXBwaWQ9aGlnaGxhbmRlcjt3PTc4O2g9NjA-/https://s.yimg.com/os/creatr-uploaded-images/2023-06/366548c0-095d-11ee-bfd8-b39ec3295050",
+                "logo_transparent_dark": "https://s.yimg.com/ny/api/res/1.2/bkp9sR5SRc22EjbLVoK5_g--/YXBwaWQ9aGlnaGxhbmRlcjt3PTc4O2g9NjA-/https://s.yimg.com/os/creatr-uploaded-images/2023-06/366548c0-095d-11ee-bfd8-b39ec3295050",
+                "dark_bg": "#000000",
+                "light_bg": "#ffffff",
+                "dark_text": "#ffffff",
+                "light_text": "#000000"
+            },
+            "created_at": "5 hours ago",
+            "topic": {
+                "id": "technology",
+                "name": "Technology"
+            },
+            "author": {
+                "name": "Kaitlan Collins"
+            },
+            "show_topic": true,
+            "description": "Elon Musk is officially serving under President Donald Trump as a special government employee, according to a White House official.",
+            "featured_image": "https://s.yimg.com/ny/api/res/1.2/jBn1yAzllKAQjs7pM9CebQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTE5MjA7aD0xMDgw/https://media.zenfs.com/en/cnn_articles_875/9ed37cb77fd4aff1c79cd18f5dbf371c",
+            "card_type": "full",
+            "has_next": true,
+            "is_news_plus": true,
+            "content": "Elon Musk is officially serving under President Donald Trump as a special government employee, according to a White House official.\n\nThat designation means Musk – the billionaire tech entrepreneur who has been a force within the new Trump administration – is not a volunteer but also not a full-time federal employee.\n\nAccording to a Justice Department summary, a special government employee is 'anyone who works, or is expected to work, for the government for 130 days or less in a 365-day period.' Musk is not being paid, a person familiar with his employment told CNN.",
+            "related_topics": ["elon_musk", "politics", "tech_news"]
+        },
+        {
+            "id": "0.6",
+            "title": "Rebels declare ceasefire in DR Congo for 'humanitarian reasons'",
+            "source": {
+                "id": "bbc",
+                "name": "BBC News",
+                "logo_transparent_light": "https://s.yimg.com/ny/api/res/1.2/Nv3B46esC1HyyJOToUuQYw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTI5MjtoPTYwO2NmPXdlYnA-/https://s.yimg.com/os/creatr-uploaded-images/2023-06/bde20910-1041-11ee-b7ff-2b001204ebc4",
+                "logo_transparent_dark": "https://s.yimg.com/ny/api/res/1.2/Nv3B46esC1HyyJOToUuQYw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTI5MjtoPTYwO2NmPXdlYnA-/https://s.yimg.com/os/creatr-uploaded-images/2023-06/bde20910-1041-11ee-b7ff-2b001204ebc4",
+                "dark_bg": "#C80000",
+                "light_bg": "#ffffff",
+                "dark_text": "#ffffff",
+                "light_text": "#000000"
+            },
+            "created_at": "6 hours ago",
+            "topic": {
+                "id": "world",
+                "name": "World"
+            },
+            "author": {
+                "name": "Will Ross"
+            },
+            "show_topic": true,
+            "description": "The alliance of rebel groups in eastern Democratic Republic of Congo have declared a humanitarian ceasefire starting on Tuesday.",
+            "featured_image": "https://s.yimg.com/ny/api/res/1.2/qXGd00we3AUaHKalEcvNsg--/YXBwaWQ9aGlnaGxhbmRlcjt3PTIwNDg7aD0xMTUyO2NmPXdlYnA-/https://media.zenfs.com/en/bbc_us_articles_995/88e21d482b3f6a0c032c5c5f59284a5f",
+            "card_type": "medium",
+            "has_next": true,
+            "is_news_plus": true,
+            "content": "The alliance of rebel groups in eastern Democratic Republic of Congo have declared a humanitarian ceasefire starting on Tuesday.\n\nIn a statement, the group - which includes the Rwanda-backed M23 rebels - cited 'humanitarian reasons' for the ceasefire, after it has been capturing territory in eastern parts of the country.\n\nThe UN said at least 900 people have been killed and 2,880 injured in recent fighting in and around Goma, DR Congo's largest eastern city, after it was seized by rebels.\n\nThe G7 nations and the EU have condemned the offensive as a flagrant violation of DR Congo's sovereignty.\n\nThe alliance of rebel groups - known as the Congo River Alliance - has accused the Congolese military of killing people using aircrafts to bomb areas it holds.\n\nIt added it does not intend to seize any further territory, despite saying otherwise last week, and it will hold its positions.",
+            "related_topics": ["world"]
+        },
+        {
+            "id": "0.7",
+            "title": "Trump signs executive actions on Jan. 6, TikTok, immigration and more",
+            "source": {
+                "id": "yahoo",
+                "name": "Yahoo",
+                "logo_transparent_light": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/Yahoo%21_%282019%29.svg/1200px-Yahoo%21_%282019%29.svg.png",
+                "logo_transparent_dark": "https://chaarg.com/wp-content/uploads/2022/07/yahoo-logo-white.png",
+                "dark_bg": "#2d1152",
+                "light_bg": "#ffffff",
+                "dark_text": "#ffffff",
+                "light_text": "#ffffff"
+            },
+            "created_at": "7 hours ago",
+            "topic": {
+                "id": "politics",
+                "name": "Politics"
+            },
+            "show_topic": true,
+            "description": "President Trump on Monday signed a flurry of executive orders, reversing many of his predecessors' policies from his first term in office.",
+            "featured_image": "https://npr.brightspotcdn.com/dims3/default/strip/false/crop/4477x2984+0+0/resize/1100/quality/85/format/webp/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2Fd0%2Fef%2F9b556f744f428622f04dff087855%2Fgettyimages-2194440770.jpg",
+            "card_type": "full",
+            "has_next": true,
+            "is_news_plus": true,
+            "author": {
+                "name": "Jennifer Schonberger"
+            },
+            "content": "President Donald Trump rescinded 78 Biden-era executive actions, executive orders, and presidential memoranda as part of a slew of more than 200 executive actions on the first night of his second presidency.\n\nThere were 42 executive orders and 115 personnel actions on Trump's \"historic first day,\" White House officials said.\n\nTrump began by rescinding nearly 80 Biden-era actions following remarks Monday evening at an inauguration celebration at Washington's Capital One Arena.\n\nHe then signed a regulatory freeze to prevent the issuance of any more federal regulations pending their review, and a freeze on all federal government hiring.\n\nTrump signed a memo that requires all federal workers to return to in-person work, as well as a directive to every department and agency in the federal government to address the cost-of-living crisis.\n\nHe then signed a letter to be delivered to the United Nations indicating the United States' withdrawal from the Paris climate treaty.\n\nHe next signed an executive order intended to restore \"freedom of speech\" to federal employees and end what he called \"federal censorship.\"",
+            "related_news": [
+                {
+                    "id": "r1",
+                    "title": "Trump begins second term with series of sweeping executive actions",
+                    "description": "Trump signed a series of executive actions, revoking 78 of Joe Biden's policies. The 47th US president ordered a crackdown on immigration...",
+                    "source":  {
+                        "id": "independent",
+                        "name": "Independent",
+                        "logo_transparent_light": "https://s.yimg.com/ny/api/res/1.2/TZx8xfHDYMIowUTUJDLD7g--/YXBwaWQ9aGlnaGxhbmRlcjt3PTI4NjtoPTYw/https://s.yimg.com/os/creatr-uploaded-images/2020-12/7b119900-33ff-11eb-bfdb-7285d8d09984"
+                    },
+                    "time_ago": "8 minutes ago",
+                    "is_live": true
+                },
+                {
+                    "id": "r2", 
+                    "title": "Live updates: Trump to meet with GOP leadership after action-packed Inauguration Day",
+                    "description": "President Donald Trump is set to meet with Republican leaders about his legislative agenda after he issued numerous executive orders on...",
+                    "source": {
+                        "id": "business-insider",
+                        "name": "Business Insider",
+                        "logo_transparent_light": "https://s.yimg.com/ny/api/res/1.2/8VRr4oswXC1aT2_km_xOXw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTQwODtoPTYw/https://s.yimg.com/os/creatr-uploaded-images/2024-04/81befb70-0706-11ef-9fbf-6960dce53585"
+                    },
+                    "time_ago": "19 minutes ago",
+                    "is_live": true
+                },
+                {
+                    "id": "r3",
+                    "title": "Trump to announce private sector AI infrastructure investment",
+                    "description": "President Trump is announcing billions in private sector investment by OpenAI, Softbank and Oracle to build AI infrastructure in the U.S..",
+                    "source": {
+                        "id": "usa-today",
+                        "name": "USA Today",
+                        "logo_transparent_light": "https://s.yimg.com/ny/api/res/1.2/sxFlX7qjeiv6DDIEHXCduw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTI2MDtoPTYw/https://s.yimg.com/os/creatr-uploaded-images/2020-11/092f7540-26ea-11eb-bdb4-b7283677d9f5"
+                    },
+                    "time_ago": "52 minutes ago",
+                    "is_live": false
+                }
+            ],
+            "related_topics": ["donald_trump", "politics", "supreme_court"]
+        },
+        {
             "id": "1",
             "title": "DeepSeek AI App Overtakes ChatGPT, Spooks Tech Market",
             "source": {
@@ -119,7 +392,7 @@
             "card_type": "medium",
             "has_next": true,
             "is_news_plus": true,
-            "content": "The U.S. Embassy in Colombia has canceled hundreds of visa appointments following a diplomatic dispute between the two nations over deportation policies. The cancellations came after Colombian President Gustavo Petro threatened to reject U.S. deportation flights carrying Colombian nationals.\n\nThe dispute began when President Trump announced plans to increase deportation flights to Colombia as part of his broader immigration enforcement strategy. President Petro responded by threatening to refuse landing rights for these flights, citing concerns about the treatment of Colombian citizens in U.S. detention facilities.\n\nThe situation escalated when both countries threatened trade restrictions, potentially affecting billions of dollars in bilateral trade. The U.S. State Department described the visa cancellations as a 'temporary measure' while diplomatic channels work to resolve the situation.\n\nThe cancellations have affected both tourist and business visa appointments, causing significant disruption for Colombian citizens planning travel to the United States. Local business leaders have expressed concern about the impact on commercial relations between the two countries."
+            "content": "The U.S. Embassy in Colombia has canceled hundreds of visa appointments following a diplomatic dispute between the two nations over deportation policies. The cancellations came after Colombian President Gustavo Petro threatened to refuse U.S. deportation flights carrying Colombian nationals.\n\nThe dispute began when President Trump announced plans to increase deportation flights to Colombia as part of his broader immigration enforcement strategy. President Petro responded by threatening to refuse landing rights for these flights, citing concerns about the treatment of Colombian citizens in U.S. detention facilities.\n\nThe situation escalated when both countries threatened trade restrictions, potentially affecting billions of dollars in bilateral trade. The U.S. State Department described the visa cancellations as a 'temporary measure' while diplomatic channels work to resolve the situation.\n\nThe cancellations have affected both tourist and business visa appointments, causing significant disruption for Colombian citizens planning travel to the United States. Local business leaders have expressed concern about the impact on commercial relations between the two countries."
         },
     
         {

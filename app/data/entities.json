@@ -61,14 +61,14 @@
         "id": "tech_news",
         "title": "Technology",
         "logo": "https://static.vecteezy.com/system/resources/thumbnails/013/760/485/small_2x/abstract-connection-logo-illustration-in-trendy-and-minimal-style-png.png",
-        "entity_type": "news_category",
+        "entity_type": " ",
         "type": "topic"
     },
     "business": {
         "id": "business",
         "title": "Business",
         "logo": "https://www.shutterstock.com/image-vector/letter-o-leaf-logo-vector-600nw-2485074717.jpg",
-        "entity_type": "news_category",
+        "entity_type": " ",
         "type": "topic"
     },
     "man_utd": {
