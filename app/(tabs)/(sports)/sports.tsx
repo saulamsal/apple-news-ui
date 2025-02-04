@@ -65,7 +65,7 @@ interface NewsItem {
 const NFLPortalButton = () => {
     return (
         <SlidingBanner
-            onPress={() => router.push(`/topic/nfl_playoffs`)}
+            onPress={() => router.push(`/topic/nfl_superbowl`)}
             image={{
                 uri: 'https://upload.wikimedia.org/wikipedia/en/thumb/8/82/Super_Bowl_LIX_Logo.svg/1200px-Super_Bowl_LIX_Logo.svg.png'
             }}

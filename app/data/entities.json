@@ -192,15 +192,35 @@
         "entity_type": "sport_league",
         "type": "league"
     },
-    "nfl_playoffs": {
-        "id": "nfl_playoffs",
-        "title": "NFL Playoffs",
+    "nfl_superbowl": {
+        "id": "nfl_superbowl",
+        "title": "Super Bowl LIX",
         "entity_type": "sport_topic",
-        "description": "Full coverage of the NFL Playoffs",
+        "description": "NFL 2025",
+        "tabs": ["news","scores","videos", "stats"],
+        "logo": "https://talksport.com/wp-content/uploads/sites/5/2024/02/logo_main.png?strip=all&quality=100&w=1920&h=1440&crop=1",
+        "featured_background": "https://imageio.forbes.com/specials-images/imageserve/672fe109f37a74602730e815/Caesars-Superdome-will-host-Super-Bowl-LIX-/960x0.jpg?format=jpg&width=960",
         "type": "topic",
         "theme": {
-            "backgroundColor": "#E3F2FD",
-            "textColor": "#1565C0"
+            "backgroundColor": "#8d01a1",
+            "textColor": "#ffcc60"
+        },
+        "sub_topics": {
+            "title": "Teams",
+            "items": [
+                {
+                    "id": "chiefs",
+                    "title": "Kansas City Chiefs",
+                    "logo": "https://img.sofascore.com/api/v1/team/4422/image",
+                    "type": "team"
+                },
+                {
+                    "id": "eagles",
+                    "title": "Philadelphia Eagles",
+                    "logo": "https://img.sofascore.com/api/v1/team/4428/image",
+                    "type": "team"
+                }
+            ]
         }
     },
     "elon_musk": {

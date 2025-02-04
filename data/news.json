@@ -342,6 +342,37 @@
             "related_topics": ["tech_news", "business"]
         },
         {
+            "id": "1.5",
+            "title": "Super Bowl 2025: Chiefs take questions on opening night in New Orleans",
+            "author": {
+                "name": "BR Team"
+            },
+            "source": {
+                "id": "bleacher-report",
+                "name": "Bleacher Report",
+                "logo_transparent_light": "https://mediaresource.sfo2.digitaloceanspaces.com/wp-content/uploads/2024/04/22121246/br-bleacher-report-logo-AA534DB3A8-seeklogo.com.png",
+                "logo_transparent_dark": "https://mediaresource.sfo2.digitaloceanspaces.com/wp-content/uploads/2024/04/22121246/br-bleacher-report-logo-AA534DB3A8-seeklogo.com.png",
+                "dark_bg": "#eaeaea",
+                "light_bg": "#ffffff",
+                "dark_text": "#ffffff",
+                "light_text": "#000000"
+            },
+            "created_at": "2 hours ago",
+            "topic": {
+                "id": "sports",
+                "name": "Sports",
+                "sport": "nfl"
+            },
+            "show_topic": true,
+            "description": "Players and coaches from both the Kansas City Chiefs and the Philadelphia Eagles took center stage at the Super Bowl's opening night in New Orleans, answering questions from reporters ahead of Sunday's big game.",
+            "featured_image": "https://dims.apnews.com/dims4/default/12475cc/2147483647/strip/true/crop/5616x3744+0+0/resize/1440x960!/format/webp/quality/90/?url=https%3A%2F%2Fassets.apnews.com%2Fe2%2F5c%2F1784546a4612983e534d5c7c79d0%2Fap25035089283435.jpg",
+            "card_type": "full",
+            "has_next": true,
+            "is_news_plus": true,
+            "content": "Super Bowl 2025 kicked off almost a week before the big game with its opening night in New Orleans. Players and coaches from both the Kansas City Chiefs and the Philadelphia Eagles had the opportunity to answer questions from reporters ahead of Sunday's game.\n\nThe evening's events began at 8 p.m. EST at the Superdome, with the Eagles taking the stage first. Both teams then appeared together for a historic handshake moment before the Chiefs took their turn at 10 p.m.\n\nThe night was filled with memorable moments, including Eagles quarterback Jalen Hurts fielding questions about his signature 'tush push' play, Chiefs head coach Andy Reid making a fashion statement in a Hawaiian shirt adorned with flamingos, and an amusing moment when Saquon Barkley was asked about his favorite color.\n\nThe opening night festivities were broadcast live on NFL Network, giving fans across the country a chance to see their favorite players and coaches in a more relaxed setting before the intensity of game day.",
+            "related_topics": ["nfl", "nfl_superbowl", "sports"]
+        },
+        {
             "id": "2",
             "title": "Chiefs Defeat Bills 32-29 in AFC Championship",
             "source": {
@@ -366,7 +397,7 @@
             "has_next": true,
             "is_news_plus": true,
             "content": "In a thrilling AFC Championship game that came down to the wire, the Kansas City Chiefs emerged victorious over the Buffalo Bills with a score of 32-29. The win secures the Chiefs' spot in Super Bowl LIX, where they'll face the Philadelphia Eagles.\n\nPatrick Mahomes led the Chiefs with 328 passing yards and three touchdowns, while Travis Kelce caught eight passes for 112 yards and two scores. The Bills' Josh Allen threw for 295 yards and ran for two touchdowns in the losing effort.\n\nThe game featured multiple lead changes and dramatic moments, including a crucial fourth-quarter drive by the Chiefs that consumed over seven minutes of clock time. Harrison Butker sealed the victory with a 45-yard field goal with just 22 seconds remaining.\n\nThis victory puts the Chiefs in position to become the first team in NFL history to win three consecutive Super Bowls. They'll face the Eagles in New Orleans on February 9th in what promises to be a historic matchup.",
-            "related_topics": ["nfl", "nfl_playoffs"]
+            "related_topics": ["nfl", "nfl_superbowl"]
         },
         {
             "id": "2.5",

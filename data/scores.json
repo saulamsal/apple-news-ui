@@ -28,7 +28,7 @@
         "position_suffix": "th",
         "bg_color": "#DA020E",
         "logo": "https://api.sofascore.app/api/v1/team/35/image",
-        "score": 0,
+        "score": 1,
         "events": [
           {
             "time": "12'",
@@ -267,7 +267,7 @@
         "current_form": "9-1",
         "bg_color": "#AA0000",
         "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/sf.png",
-        "score": 0,
+        "score": 6,
         "events": [
           {
             "time": "Q1 10:22",
@@ -324,7 +324,7 @@
         "current_form": "7-3",
         "bg_color": "#0076B6",
         "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/det.png",
-        "score": 0,
+        "score": 3,
         "events": [
           {
             "time": "Q1 7:33",

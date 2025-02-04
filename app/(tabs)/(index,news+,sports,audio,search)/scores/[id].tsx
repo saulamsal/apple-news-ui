@@ -662,9 +662,10 @@ export default function ScoreDetailsScreen() {
   
         contentContainerStyle={
           Platform.OS === 'web' ? {
-            height: undefined
+            height: undefined,
+            paddingBottom: 100
         } : {
-            paddingBottom: insets.bottom + 20
+            paddingBottom: insets.bottom + 20 
         }}
   
         style={{
