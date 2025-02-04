@@ -37,8 +37,8 @@
             "source": {
                 "id": "politico",
                 "name": "POLITICO",
-                "logo_transparent_light": "https://s.yimg.com/ny/api/res/1.2/ZLHR.8aoCjxZvy4MYsA9CA--/YXBwaWQ9aGlnaGxhbmRlcjt3PTE2NDtoPTYwO2NmPXdlYnA-/https://s.yimg.com/os/creatr-uploaded-images/2020-11/d4756440-2b85-11eb-affa-8cb9e3f7c2b3",
-                "logo_transparent_dark": "https://s.yimg.com/ny/api/res/1.2/ZLHR.8aoCjxZvy4MYsA9CA--/YXBwaWQ9aGlnaGxhbmRlcjt3PTE2NDtoPTYwO2NmPXdlYnA-/https://s.yimg.com/os/creatr-uploaded-images/2020-11/d4756440-2b85-11eb-affa-8cb9e3f7c2b3",
+                "logo_transparent_light": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/POLITICOLOGO.svg/1024px-POLITICOLOGO.svg.png",
+                "logo_transparent_dark": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/POLITICOLOGO.svg/1024px-POLITICOLOGO.svg.png",
                 "dark_bg": "#000000",
                 "light_bg": "#ffffff",
                 "dark_text": "#ffffff",
@@ -94,8 +94,8 @@
             "source": {
                 "id": "usa-today",
                 "name": "USA TODAY",
-                "logo_transparent_light": "https://s.yimg.com/ny/api/res/1.2/mahyS7Gis84ax92ofeoeJQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTI2MDtoPTYwO2NmPXdlYnA-/https://s.yimg.com/os/creatr-uploaded-images/2020-11/092f7540-26ea-11eb-bdb4-b7283677d9f5",
-                "logo_transparent_dark": "https://s.yimg.com/ny/api/res/1.2/mahyS7Gis84ax92ofeoeJQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTI2MDtoPTYwO2NmPXdlYnA-/https://s.yimg.com/os/creatr-uploaded-images/2020-11/092f7540-26ea-11eb-bdb4-b7283677d9f5",
+                "logo_transparent_light": "https://s.yimg.com/ny/api/res/1.2/sxFlX7qjeiv6DDIEHXCduw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTI2MDtoPTYw/https://s.yimg.com/os/creatr-uploaded-images/2020-11/092f7540-26ea-11eb-bdb4-b7283677d9f5",
+                "logo_transparent_dark": "https://s.yimg.com/ny/api/res/1.2/sxFlX7qjeiv6DDIEHXCduw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTI2MDtoPTYw/https://s.yimg.com/os/creatr-uploaded-images/2020-11/092f7540-26ea-11eb-bdb4-b7283677d9f5",
                 "dark_bg": "#eaeaea",
                 "light_bg": "#ffffff", 
                 "dark_text": "#ffffff",
@@ -127,8 +127,8 @@
             "source": {
                 "id": "yahoo-finance",
                 "name": "Yahoo Finance",
-                "logo_transparent_light": "https://s.yimg.com/ny/api/res/1.2/SUccIz7MI44PLw3f75dPFQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTIzMjtoPTQ4O2NmPXdlYnA-/https://s.yimg.com/os/creatr-uploaded-images/2020-12/02246f50-3412-11eb-bfdd-de89f8b3b8b8",
-                "logo_transparent_dark": "https://s.yimg.com/ny/api/res/1.2/SUccIz7MI44PLw3f75dPFQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTIzMjtoPTQ4O2NmPXdlYnA-/https://s.yimg.com/os/creatr-uploaded-images/2020-12/02246f50-3412-11eb-bfdd-de89f8b3b8b8",
+                "logo_transparent_light": "https://cdn.prod.website-files.com/6721939c8726e5c8dc6b9f96/676195b6e6f21c0d6b8b3d16_yahoo_finance.png",
+                "logo_transparent_dark": "https://cdn.prod.website-files.com/6721939c8726e5c8dc6b9f96/676195b6e6f21c0d6b8b3d16_yahoo_finance.png",
                 "dark_bg": "#be87ff",
                 "light_bg": "#ffffff",
                 "dark_text": "#ffffff", 
@@ -184,8 +184,8 @@
             "source": {
                 "id": "bbc",
                 "name": "BBC News",
-                "logo_transparent_light": "https://s.yimg.com/ny/api/res/1.2/Nv3B46esC1HyyJOToUuQYw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTI5MjtoPTYwO2NmPXdlYnA-/https://s.yimg.com/os/creatr-uploaded-images/2023-06/bde20910-1041-11ee-b7ff-2b001204ebc4",
-                "logo_transparent_dark": "https://s.yimg.com/ny/api/res/1.2/Nv3B46esC1HyyJOToUuQYw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTI5MjtoPTYwO2NmPXdlYnA-/https://s.yimg.com/os/creatr-uploaded-images/2023-06/bde20910-1041-11ee-b7ff-2b001204ebc4",
+                "logo_transparent_light": "https://e7.pngegg.com/pngimages/820/447/png-clipart-bbc-news-logo-others-television-text.png",
+                "logo_transparent_dark": "https://e7.pngegg.com/pngimages/820/447/png-clipart-bbc-news-logo-others-television-text.png",
                 "dark_bg": "#C80000",
                 "light_bg": "#ffffff",
                 "dark_text": "#ffffff",

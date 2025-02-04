@@ -133,7 +133,7 @@ const renderNewsContent = ({ item, colorScheme }: { item: NewsItemType; colorSch
 
 <Image
     source={{ uri: item.source.logo_transparent_light }}
-    className=""
+    className="bg-white"
     style={{
       width: 80,
       height: 24 

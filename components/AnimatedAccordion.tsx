@@ -11,10 +11,11 @@ import { Colors } from '@/constants/Colors';
 interface Props {
     title: string;
     children: React.ReactNode;
+    openDefault?: boolean;
 }
 
-export function AnimatedAccordion({ title, children }: Props) {
-    const [isOpen, setIsOpen] = useState(true);
+export function AnimatedAccordion({ title, openDefault = false, children }: Props) {
+    const [isOpen, setIsOpen] = useState(openDefault);
     const height = useSharedValue(0);
 
     const contentStyle = useAnimatedStyle(() => ({

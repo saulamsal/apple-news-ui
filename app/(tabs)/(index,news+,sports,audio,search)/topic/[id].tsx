@@ -491,7 +491,7 @@ export default function TopicScreen() {
                 }}
 
             >
-                <StatusBar style={showSubTopicsModal ? 'light' : 'dark'} />
+                <StatusBar style={'light'} />
 
 
 

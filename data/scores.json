@@ -28,59 +28,8 @@
         "position_suffix": "th",
         "bg_color": "#DA020E",
         "logo": "https://api.sofascore.app/api/v1/team/35/image",
-        "score": 1,
-        "events": [
-          {
-            "time": "12'",
-            "event": "Yellow card for Shaw",
-            "situation": "YELLOW"
-          },
-          {
-            "time": "23'",
-            "event": "Goal by Diallo! Assist by Bruno Fernandes",
-            "situation": "GOAL" 
-          },
-          {
-            "time": "34'",
-            "event": "Yellow card for Casemiro",
-            "situation": "YELLOW"
-          },
-          {
-            "time": "45'",
-            "event": "Goal by Bruno Fernandes! Assist by Diallo",
-            "situation": "GOAL"
-          },
-          {
-            "time": "52'", 
-            "event": "Red card for Martinez",
-            "situation": "RED"
-          },
-          {
-            "time": "67'",
-            "event": "Goal by Garnacho! Assist by Bruno Fernandes",
-            "situation": "GOAL"
-          },
-          {
-            "time": "71'",
-            "event": "Yellow card for Antony",
-            "situation": "YELLOW"
-          },
-          {
-            "time": "78'",
-            "event": "Goal by Diallo! Assist by Garnacho",
-            "situation": "GOAL"
-          },
-          {
-            "time": "82'",
-            "event": "Yellow card for McTominay",
-            "situation": "YELLOW"
-          },
-          {
-            "time": "89'",
-            "event": "Goal by Bruno Fernandes! Assist by Diallo",
-            "situation": "GOAL"
-          }
-        ]
+        "score": 3,
+        "events": []
       },
       "team2": {
         "id": "mci",
@@ -93,60 +42,71 @@
         "position_suffix": "nd",
         "bg_color": "#6CABDD",
         "logo": "https://api.sofascore.app/api/v1/team/17/image",
-        "score": 0,
-        "events": [
-          {
-            "time": "12'",
-            "event": "Goal by Haaland!",
-            "situation": "GOAL"
-          },
-          {
-            "time": "23'", 
-            "event": "Yellow card for Rodri",
-            "situation": "YELLOW"
-          },
-          {
-            "time": "34'",
-            "event": "Goal by De Bruyne!",
-            "situation": "GOAL"
-          },
-          {
-            "time": "41'",
-            "event": "Yellow card for Stones",
-            "situation": "YELLOW"
-          },
-          {
-            "time": "55'",
-            "event": "Goal by Haaland! Assist by De Bruyne",
-            "situation": "GOAL"
-          },
-          {
-            "time": "63'",
-            "event": "Red card for Dias",
-            "situation": "RED"
-          },
-          {
-            "time": "69'",
-            "event": "Goal by Foden! Assist by Silva",
-            "situation": "GOAL"
-          },
-          {
-            "time": "75'",
-            "event": "Yellow card for Grealish",
-            "situation": "YELLOW"
-          },
-          {
-            "time": "81'",
-            "event": "Goal by De Bruyne! Assist by Haaland",
-            "situation": "GOAL"
-          },
-          {
-            "time": "88'",
-            "event": "Yellow card for Walker",
-            "situation": "YELLOW"
-          }
-        ]
+        "score": 2,
+        "events": []
       },
+      "events": [
+        {
+          "time": "12'",
+          "event": "Goal by Haaland! Man City take the lead!",
+          "situation": "GOAL",
+          "team": "team2"
+        },
+        {
+          "time": "23'",
+          "event": "Yellow card for Rodri after a late challenge",
+          "situation": "YELLOW",
+          "team": "team2"
+        },
+        {
+          "time": "34'",
+          "event": "De Bruyne doubles City's lead with a stunning strike!",
+          "situation": "GOAL",
+          "team": "team2"
+        },
+        {
+          "time": "41'",
+          "event": "Yellow card for Stones after pulling back Rashford",
+          "situation": "YELLOW",
+          "team": "team2"
+        },
+        {
+          "time": "45+2'",
+          "event": "Bruno Fernandes pulls one back for United!",
+          "situation": "GOAL",
+          "team": "team1"
+        },
+        {
+          "time": "52'",
+          "event": "Red card for Martinez after a dangerous tackle",
+          "situation": "RED",
+          "team": "team1"
+        },
+        {
+          "time": "67'",
+          "event": "Garnacho equalizes for United! What a game!",
+          "situation": "GOAL",
+          "team": "team1"
+        },
+        {
+          "time": "71'",
+          "event": "Yellow card for Antony after a confrontation",
+          "situation": "YELLOW",
+          "team": "team1"
+        },
+        {
+          "time": "89'",
+          "event": "Bruno Fernandes completes the comeback! United lead 3-2!",
+          "situation": "GOAL",
+          "team": "team1"
+        },
+        {
+          "time": "90+4'",
+          "event": "Yellow card for McTominay for time wasting",
+          "situation": "YELLOW",
+          "team": "team1"
+        }
+      ],
       "startTime": "2024-01-27T17:30:00Z",
       "status": "in_progress",
       "current_clock": {
@@ -166,21 +126,21 @@
       },
       "sports_type": "soccer",
       "venue": {
-        "name": "Stade Francis-Le Blé",
-        "location": "Brest, France"
+        "name": "Estadio Metropolitano",
+        "location": "Madrid, Spain"
       },
       "period_scores": {
         "team1": [0, 0],
         "team2": [0, 0]
       },
       "team1": {
-        "id": "brest",
-        "name": "BRE",
-        "full_name": "Brest",
-        "nickname": "Pirates",
+        "id": "atm",
+        "name": "ATM",
+        "full_name": "Atletico Madrid",
+        "nickname": "Los Colchoneros",
         "current_form": "3-5-5",
         "bg_color": "#E30613",
-        "logo": "https://api.sofascore.app/api/v1/team/1158/image",
+        "logo": "https://img.sofascore.com/api/v1/team/2836/image",
         "events": []
       },
       "team2": {

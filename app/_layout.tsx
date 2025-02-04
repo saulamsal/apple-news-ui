@@ -2,7 +2,7 @@ import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useRef } from 'react';
-import { StyleSheet, useColorScheme, View, Platform } from 'react-native';
+import { StyleSheet, useColorScheme, View, Platform, LogBox } from 'react-native';
 import { RootScaleProvider } from '@/contexts/RootScaleContext';
 import { useRootScale } from '@/contexts/RootScaleContext';
 import { useAnimatedStyle } from 'react-native-reanimated';
@@ -18,6 +18,7 @@ import '../global.css';
 import {Appearance} from '@/helper/appearance';
 import { interpolate, interpolateColor } from 'react-native-reanimated';
 
+LogBox.ignoreAllLogs();
 
 function AnimatedStack() {
   const segments = useSegments();

@@ -280,7 +280,7 @@ export default function SearchScreen() {
                         </View>
 
                         {searchEntities.sections.map((section) => (
-                            <AnimatedAccordion key={section.id} title={section.title}>
+                            <AnimatedAccordion key={section.id} title={section.title} openDefault={section.id === 'my_following'} >
                                 <View className="p-4 gap-4">
                                     {getAllEntitiesForSection(section.id).map((entity: Entity) => (
                                         <CategoryCard

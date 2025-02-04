@@ -16,14 +16,14 @@ export default function Root({ children }: PropsWithChildren) {
 
         <meta property="og:title" content="News By Saul - Find News & Topics" />
         <meta property="og:description" content="Search through millions of articles, topics, and trusted sources to find the news that matters to you." />
-        <meta property="og:image" content="../assets/images/featured.png" />
+        <meta property="og:image" content="https://i.imgur.com/Bm8znaS.png" />
         <meta property="og:url" content="https://apple-news.expo.app/audio" />
         <meta property="og:type" content="website" />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="News By Saul - Find News & Topics" />
         <meta name="twitter:description" content="Search through millions of articles, topics, and trusted sources to find the news that matters to you." />
-        <meta name="twitter:image" content="../assets/images/featured.png" />
+        <meta name="twitter:image" content="https://i.imgur.com/Bm8znaS.png" />
 
         {/*
           Disable body scrolling on web. This makes ScrollView components work closer to how they do on native.
