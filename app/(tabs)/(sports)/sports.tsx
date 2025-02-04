@@ -33,6 +33,7 @@ import { Platform } from 'react-native';
 import { SportScoreCarousel } from '@/components/SportScoreCarousel';
 import { scores } from '@/data/scores.json';
 import SlidingBanner from '@/components/SlidingBanner';
+import { isWebSafari } from '@/helper/iswebsafari';
 
 interface Source {
     id: string;
@@ -239,7 +240,7 @@ const filteredNews = news.filter((item) => item.topic.id === 'sports');
                             height: undefined,
                             overflow: 'visible'
                           } : undefined}
-                          scrollEnabled={Platform.OS !== 'web'}
+                          scrollEnabled={Platform.OS !== 'web' || isWebSafari()}
                           contentContainerStyle={{
                             //   paddingTop: insets.top,
                               paddingBottom: insets.bottom + 60,

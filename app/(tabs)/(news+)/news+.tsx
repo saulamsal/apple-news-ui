@@ -12,6 +12,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { ListRenderItemInfo } from 'react-native';
 import Head from 'expo-router/head';
+import { isWebSafari } from '@/helper/iswebsafari';
 
 import { news } from '@/data/news.json';
 import { useColorScheme } from '@/hooks/useColorScheme';
@@ -106,7 +107,7 @@ export default function NewsPlusScreen() {
               height: undefined,
               overflow: 'visible'
             } : undefined}
-            scrollEnabled={Platform.OS !== 'web'}
+            scrollEnabled={Platform.OS !== 'web' || isWebSafari()}
             contentContainerStyle={{
                 // paddingTop: insets.top,
                 paddingBottom: insets.bottom + 60,

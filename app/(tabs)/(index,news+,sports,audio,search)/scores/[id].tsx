@@ -27,8 +27,8 @@ import {DropdownMenu} from '@/components/DropdownMenu';
 import * as Sharing from 'expo-sharing';
 import React, { useReducer, useEffect, useState } from 'react';
 import { LiveDot } from '@/components/LiveDot';
+import { isWebSafari } from '@/helper/iswebsafari';
 // import * as Clipboard from 'expo-clipboard';
-
 
 import LiveActivities, { LiveActivityState } from "@/modules/expo-live-activity";
 
@@ -675,7 +675,7 @@ export default function ScoreDetailsScreen() {
             overflow: 'visible' as const
           } : {})
         }}
-        scrollEnabled={Platform.OS !== 'web'} //this makes sure no inner scroll for web
+        scrollEnabled={Platform.OS !== 'web' || isWebSafari()}
   
 
      

@@ -9,6 +9,7 @@ import { useEffect } from 'react'
 // import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useRouter } from 'expo-router'
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { isWebSafari } from '@/helper/iswebsafari';
 
 type ContentViewProps = {
   content: any; // Replace with proper type from your news data
@@ -136,7 +137,7 @@ export function ContentView({ content }: ContentViewProps) {
             } : {})
         }
     }
-    scrollEnabled={Platform.OS !== 'web'}
+    scrollEnabled={Platform.OS !== 'web' || isWebSafari()}
     contentContainerStyle={{
         // paddingTop: insets.top,
         paddingBottom: insets.bottom + 60,

@@ -16,6 +16,7 @@ import { getAllCategories, getAllEntitiesForSection, lookupEntity } from '@/src/
 import { Link } from 'expo-router';
 import Head from 'expo-router/head';
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { isWebSafari } from '@/helper/iswebsafari';
 
 interface Entity {
     id: string;
@@ -239,7 +240,7 @@ export default function SearchScreen() {
                 headerFadeInThreshold={0.5}
                 disableLargeHeaderFadeAnim={false}
                 largeHeaderContainerStyle={{ paddingTop: insets.top + 4 }}
-                // scrollEnabled={Platform.OS !== 'web'}
+                scrollEnabled={Platform.OS !== 'web' || isWebSafari()}
             >
 
                 {searchQuery ? (

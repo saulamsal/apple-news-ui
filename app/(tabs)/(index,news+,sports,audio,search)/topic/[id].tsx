@@ -22,6 +22,7 @@ import { StatusBar } from 'expo-status-bar';
 import Entypo from '@expo/vector-icons/Entypo';
 import { LinearGradient } from 'expo-linear-gradient';
 import { news } from '@/data/news.json';
+import { isWebSafari } from '@/helper/iswebsafari';
 
 interface Entity {
     id: string;
@@ -448,7 +449,7 @@ export default function TopicScreen() {
                                 } : {
                                     paddingBottom: bottom + 20
                                 }}
-                                scrollEnabled={Platform.OS !== 'web'}
+                                scrollEnabled={Platform.OS !== 'web' || isWebSafari()}
                             />
                         ) : (
                             <View className="p-8 items-center">

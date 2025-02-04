@@ -57,7 +57,7 @@ function AnimatedStack() {
       <Animated.View 
         style={[
           styles.stackContainer,
-          Platform.OS === 'ios'  && animatedStyle,
+          Platform.OS === 'ios'   && animatedStyle,
           Platform.OS === 'web' && {
             position: 'relative',
             overflow: 'unset!important', 

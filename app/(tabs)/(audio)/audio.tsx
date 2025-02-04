@@ -35,6 +35,7 @@ import { useAudio } from '@/contexts/AudioContext';
 import { AudioVisualizer } from '@/components/AudioVisualizer';
 import { PodcastEditorsPickItem } from '@/components/PodcastEditorsPickItem';
 import { useScrollToTop } from '@react-navigation/native';
+import { isWebSafari } from '@/helper/iswebsafari';
 
 interface Source {
   id: string;
@@ -226,7 +227,7 @@ export default function AudioScreen() {
               height: undefined,
               overflow: 'visible'
             } : undefined}
-          scrollEnabled={Platform.OS !== 'web'}
+          scrollEnabled={Platform.OS !== 'web' || isWebSafari()}
           contentContainerStyle={{
             paddingHorizontal: 16,
             paddingTop: Platform.OS === 'web' ?  10 : 0,

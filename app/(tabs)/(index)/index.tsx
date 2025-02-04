@@ -30,6 +30,7 @@ import { NewsHeaderLeftItem } from '@/components/NewsHeaderLeftItem';
 import { WelcomeModal } from '@/components/WelcomeModal';
 import { LoadingScreen } from '@/components/LoadingScreen';
 import { useLazyLoading } from '@/hooks/useLazyLoading';
+import { isWebSafari } from '@/helper/iswebsafari';
 // import Constants from 'expo-constants';
 
 // import {  StatusBar } from 'react-native';
@@ -249,7 +250,7 @@ export default function HomeScreen() {
               height: undefined,
               overflow: 'visible'
             } :  {}}
-            scrollEnabled={Platform.OS !== 'web'}
+            scrollEnabled={Platform.OS !== 'web' || isWebSafari()}
             contentContainerStyle={{
                 // paddingTop: insets.top,
                 paddingBottom: insets.bottom + 60,
