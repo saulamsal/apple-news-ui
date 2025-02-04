@@ -148,9 +148,9 @@ struct WidgetLiveActivity: Widget {
                         }
                     }
                     Text(context.attributes.homeTeam)
-                        .font(.system(size: 18, weight: .bold))
+                        .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(.white)
-                        .padding(.vertical, 4)
+                        .padding(.top, 8)
                 }
                 
                 DynamicIslandExpandedRegion(.center) {
@@ -166,11 +166,6 @@ struct WidgetLiveActivity: Widget {
                 DynamicIslandExpandedRegion(.trailing) {
                     HStack(alignment: .center, spacing: 12) {
                         VStack(alignment: .trailing, spacing: 2) {
-                            Text(context.attributes.awayTeam)
-                                .font(.system(size: 18, weight: .bold))
-                                .foregroundColor(.white)
-                                .padding(.vertical, 4)
-                                
                             HStack(spacing: 8) {
                                 Circle()
                                     .fill(Color(hex: context.attributes.awayColor)?.opacity(0.3) ?? .red.opacity(0.3))
@@ -186,6 +181,10 @@ struct WidgetLiveActivity: Widget {
                             .font(.system(size: 32, weight: .bold))
                             .foregroundColor(.white)
                     }
+                    Text(context.attributes.awayTeam)
+                        .font(.system(size: 14, weight: .semibold))
+                        .foregroundColor(.white)
+                        .padding(.top, 8)
                 }
             } compactLeading: {
                 HStack(spacing: 4) {
@@ -210,18 +209,17 @@ struct WidgetLiveActivity: Widget {
                         .foregroundColor(.white)
                 }
             } compactTrailing: {
-                ZStack {
-                    // Animated pulse effect
+                HStack(spacing: 6) {
                     Circle()
-                        .fill(Color.white.opacity(0.2))
-                        .frame(width: 8, height: 8)
+                        .fill(Color.red)
+                        .frame(width: 6, height: 6)
                         .modifier(PulseAnimation())
                     
                     Text(context.state.timeOrPeriod)
-                        .font(.caption2)
+                        .font(.system(size: 12, weight: .semibold))
                         .padding(.horizontal, 8)
                         .padding(.vertical, 2)
-                        .background(Color.white.opacity(0.2))
+                        .background(Color.black.opacity(0.3))
                         .cornerRadius(8)
                         .foregroundColor(.white)
                 }
@@ -330,3 +328,4 @@ struct PulseAnimation: ViewModifier {
             }
     }
 }
+ 

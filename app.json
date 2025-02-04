@@ -15,11 +15,20 @@
             "ios": {
               "appExtensions": [
                 {
-                  "bundleIdentifier": "group.com.sportapp.anews-ui.widget",
+                  "bundleIdentifier": "com.sportapp.anews-ui.widget",
                   "targetName": "widget",
                   "entitlements": {
                     "com.apple.security.application-groups": [
-                      "group.group.com.sportapp.anews-ui"
+                      "group.com.sportapp.anews-ui"
+                    ]
+                  }
+                },
+                {
+                  "bundleIdentifier": "com.sportapp.anews-ui.watchkitapp",
+                  "targetName": "watch",
+                  "entitlements": {
+                    "com.apple.security.application-groups": [
+                      "group.com.sportapp.anews-ui"
                     ]
                   }
                 }
@@ -37,7 +46,7 @@
     "ios": {
       "appleTeamId": "F7P5RH5CTP",
       "supportsTablet": true,
-      "bundleIdentifier": "group.com.sportapp.anews-ui",
+      "bundleIdentifier": "com.sportapp.anews-ui",
       "deploymentTarget": "15.1",
       "infoPlist": {
         "NSSupportsLiveActivities": true

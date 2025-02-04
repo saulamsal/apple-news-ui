@@ -32,17 +32,20 @@ public class ExpoLiveActivityModule: Module {
         Events("onLiveActivityCancel")
         
         // Register all functions
-        AsyncFunction("startActivity") { (
-            gameID: String,
-            competition: String,
-            homeTeam: String,
-            awayTeam: String,
-            homeLogo: String,
-            awayLogo: String,
-            homeColor: String,
-            awayColor: String,
-            initialState: [String: Any]
-        ) throws -> Bool in
+        AsyncFunction("startActivity") { (args: [Any]) throws -> Bool in
+            guard args.count == 9,
+                  let gameID = args[0] as? String,
+                  let competition = args[1] as? String,
+                  let homeTeam = args[2] as? String,
+                  let awayTeam = args[3] as? String,
+                  let homeLogo = args[4] as? String,
+                  let awayLogo = args[5] as? String,
+                  let homeColor = args[6] as? String,
+                  let awayColor = args[7] as? String,
+                  let initialState = args[8] as? [String: Any] else {
+                throw NSError(domain: "ExpoLiveActivity", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid arguments"])
+            }
+            
             print("[LiveActivity] Starting activity with params:", [
                 "gameID": gameID,
                 "competition": competition,

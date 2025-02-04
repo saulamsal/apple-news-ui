@@ -88,9 +88,9 @@ export const WelcomeModal = () => {
       animationType="fade"
       transparent={false}
       visible={isVisible}
-      presentationStyle="formSheet"
+      presentationStyle="pageSheet"
     > 
-      <StatusBar style={statusBarStyle === 'dark' ? 'light' : 'dark'} />
+      <StatusBar style={statusBarStyle === 'dark' ? 'dark' : 'light'} />
       <View className="flex-1 bg-white" style={{
         maxWidth: 767,
         width: '100%',
