@@ -204,7 +204,7 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
             }]}
             blurRadius={20}
         >
-            {Platform.OS === 'ios' ? (
+            {Platform.OS !== 'web' ? (
                 <BlurView
                     tint="dark"
                     intensity={80}
@@ -243,8 +243,9 @@ const styles = StyleSheet.create({
     blurContainer: {
         flex: 1,
         paddingTop: 60,
-        borderRadius: 40,
+        borderRadius: Platform.OS === 'ios' ? 40 : 0,
         overflow: 'hidden',
+        paddingHorizontal: Platform.OS === "android" ? 16 : 0,
     },
     scrollView: {
         flex: 1,

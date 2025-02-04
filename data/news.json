@@ -121,6 +121,9 @@
         {
             "id": "0.4",
             "title": "Palantir's Stock Surpasses $100",
+            "author": {
+                "name": "Yahoo Finance Staff" 
+            },
             "source": {
                 "id": "yahoo-finance",
                 "name": "Yahoo Finance",

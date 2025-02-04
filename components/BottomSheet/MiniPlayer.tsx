@@ -297,12 +297,13 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.15,
         shadowRadius: 8,
         elevation: 5,
-        marginTop: -36,
+        marginTop: Platform.OS !== "android" ? -36 : 0,
         overflow: 'hidden',
         paddingTop: Platform.OS === 'web' ? 0 : 5,
         height: 90,
         bottom: 0,
         backgroundColor: '#000',
+        position: Platform.OS === 'android' ? 'fixed' : 'relative',
     },
     backgroundImage: {
         width: '100%',
@@ -319,6 +320,7 @@ const styles = StyleSheet.create({
         zIndex: 1000,
         flex: 1,
         paddingVertical: 0,
+        paddingTop: Platform.OS === 'android' ? 10 : 0,
     },
     miniPlayerContent: {
         flex: 1,

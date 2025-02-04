@@ -40,6 +40,7 @@ function AnimatedStack() {
 
   const containerStyle = useAnimatedStyle(() => {
     'worklet';
+  
     return {
       flex: 1,
       backgroundColor: '#000',
@@ -55,7 +56,7 @@ function AnimatedStack() {
       <Animated.View 
         style={[
           styles.stackContainer,
-          Platform.OS === 'ios' && Platform.OS !== 'web' && animatedStyle,
+          Platform.OS === 'ios'  && animatedStyle,
           Platform.OS === 'web' && {
             position: 'relative',
             overflow: 'unset!important', 
@@ -133,7 +134,7 @@ export default function RootLayout() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: Platform.OS === "ios" ? 1 : 0,
+    flex: Platform.OS !== "web" ? 1 : 0,
     backgroundColor: Platform.OS === "ios" ? 'black' : 'transparent',
   },
   stackContainer: {
