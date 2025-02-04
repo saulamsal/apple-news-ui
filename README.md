@@ -1,99 +1,116 @@
-# News By Saul Clone with Expo
+# Apple News Clone with Expo
 
-This project demonstrates an implementation of the Apple News app UI in React Native using Expo, with a focus on replicating the native iOS experience and features.
+A universal iOS News app clone built with React Native and Expo, delivering a native experience across iOS, Android, and Web platforms.
 
-## Features
+## 🚀 Live Demo
 
-- 📰 News feed with swipeable article cards
-- 🔍 Search functionality
-- 🎯 Topic-based news filtering
-- 📱 iOS-style news article presentation
-- 🌟 News+ premium content support
-- 💫 Live Activities for sports scores
-- 🎨 Dynamic UI with dark/light mode
-- 🖼️ Home Screen Widgets
-- 📋 Magazine and newspaper catalogs
-- ⚡ Context menus and peek previews
-- 🔄 Swipe gestures for article actions
-- 📱 Native iOS widgets integration
-- 🏆 Sports scores with live updates
-- 🎵 Audio content support
+- Web: https://applenews.expo.app
+- iOS/Android: Instruction below
 
-## Tech Stack
+## ✨ Key Features
 
-- [Expo](https://expo.dev) - React Native development platform
-- [Expo Router](https://docs.expo.dev/router/introduction) - File-based routing
-- [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/) - Smooth animations
-- [React Native Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/) - Native-driven gesture handling
+- 📱 Universal App (iOS, Android, Web)
+- 🎯 SwiftUI-inspired animations and interactions
+- 🔄 Native gestures and transitions
+- 🌙 Automatic dark/light mode
+- 🎵 Full-featured Podcast Player
+- 📲 iOS-specific features:
+  - Live Activities for sports scores
+  - Home Screen Widgets
+  - Watch support
+  - Context menus and peek previews
+- 🔍 Smart search with keyword highlighting
+- ⚡️ Server Components (RSC) integration
+- 🔄 Drag & sort favorites
+
+## 🛠 Tech Stack
+
+### Core
+- [Expo](https://expo.dev) - Universal app development platform
+- [React Native](https://reactnative.dev) - Cross-platform native UI
+- [TypeScript](https://www.typescriptlang.org) - Type-safe JavaScript
+- [Tailwind CSS](https://tailwindcss.com) - Utility-first styling
+
+### Navigation & Routing
+- [Expo Router](https://docs.expo.dev/router/introduction) - File-based universal routing
+- [React Navigation](https://reactnavigation.org) - Native navigation primitives
+
+### Animation & Gestures
+- [Reanimated 4](https://docs.swmansion.com/react-native-reanimated/) - Native animations
+- [Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/) - Native gestures
+
+### Data & State
+- [MMKV](https://github.com/mrousavy/react-native-mmkv) - Ultra-fast storage
+- [Tanstack Query](https://tanstack.com/query) - Data fetching & caching
+
+### UI Components
+- [Zeego](https://zeego.dev) - Native context menus
+- [Radix UI](https://www.radix-ui.com) - Web components
+
+### Native Features
 - [WidgetKit](https://developer.apple.com/documentation/widgetkit) - iOS widgets
 - [ActivityKit](https://developer.apple.com/documentation/activitykit) - Live Activities
-- [Zeego](https://zeego.dev/) - Context menus
+- [Expo AV](https://docs.expo.dev/versions/latest/sdk/av/) - Audio playback
 
-## Getting Started
+## 📱 Installation
 
-1. Install dependencies:
-
-   ```bash
-   npm install
-   ```
-
-2. Start the development server:
-
-   ```bash
-   npx expo start
-   ```
-
-3. Open in iOS Simulator or Android Emulator:
-   - Press `i` for iOS
-   - Press `a` for Android
-
-## Project Structure
-
-```
-project-root/
-├── app/
-│   ├── (tabs)/
-│   │   ├── (index)/       # Home feed
-│   │   ├── (news+)/       # News+ content
-│   │   ├── (sports)/      # Sports section
-│   │   ├── (audio)/       # Audio content
-│   │   ├── (search)/      # Search functionality
-│   │   └── _layout.tsx    # Tab navigation layout
-├── components/
-│   ├── NewsItem.tsx       # News article component
-│   ├── SwipeableNewsItem.tsx
-│   ├── NewsLogo.tsx
-│   └── CategoryCard.tsx
-├── contexts/
-│   └── AudioContext.tsx   # Audio playback state
-├── modules/
-│   └── expo-live-activity/# Live Activities module
-├── targets/
-│   └── widget/           # iOS widget implementation
-└── styles/
-    └── screens/          # Screen-specific styles
+1. Clone the repository:
+```bash
+git clone https://github.com/saulamsal/apple-news-ui
 ```
 
-## Features in Development
+2. Install dependencies (using bun or npm):
+```bash
+cd apple-news-ui
+bun install
+# or
+npm install
+```
 
-- [ ] Android widget support
-- [ ] Background audio lock controls
-- [ ] Push notifications
-- [ ] React Server Components integration
-- [ ] Enhanced Live Activities
+3. Start the development server:
+```bash
+bun run start
+# or
+npm start
+```
 
-## Contributing
+4. Run on your preferred platform:
+```bash
+# iOS
+bun run ios
+# Android
+bun run android
+# Web
+bun run web
+```
 
-Feel free to contribute to this project by:
 
-1. Forking the repository
-2. Creating a feature branch
-3. Submitting a pull request
+## 🧪 Experimental Features
 
-## License
+Some features are in development and may be unstable:
+- React Server Components integration
+- Watch app support
+- Background audio controls
+- Enhanced Live Activities
 
-This project is open source and available under the MIT License.
+## 🤝 Contributing
 
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is MIT licensed.
+
+## 🙏 Acknowledgments
+
+- [@baconbrix](https://github.com/baconbrix) for `create-target`
+- [@mrousavy](https://github.com/mrousavy) for `react-native-mmkv`
+- [@fernandotherojo](https://github.com/fernandotherojo) for Zeego
+- [Expo team](https://expo.dev) for the amazing tooling
 
 ## Data Sources
 
@@ -106,7 +123,7 @@ This project is open source and available under the MIT License.
 
 ### Audio 
 - [ ] Replace expo-av with expo-audio
-- [x] Lock screen player implementation
+- [ ] Lock screen player implementation
 - [ ] Lock screen controls
   - Pending react-native-track-player support for new architecture
   - Alternative: Wait for expo-audio lock screen control support
