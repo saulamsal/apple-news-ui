@@ -151,6 +151,7 @@ struct WidgetLiveActivity: Widget {
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(.white)
                         .padding(.top, 8)
+                        .padding(.horizontal, 16)
                 }
                 
                 DynamicIslandExpandedRegion(.center) {
@@ -185,12 +186,13 @@ struct WidgetLiveActivity: Widget {
                         .font(.system(size: 14, weight: .semibold))
                         .foregroundColor(.white)
                         .padding(.top, 8)
+                        .padding(.horizontal, 16)
                 }
             } compactLeading: {
                 HStack(spacing: 4) {
                     Text(context.attributes.homeLogo.uppercased())
                         .font(.system(size: 12, weight: .semibold))
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(hex: context.attributes.homeColor) ?? .white)
                     
                     Text("\(context.state.homeScore)")
                         .font(.system(size: 12, weight: .bold))
@@ -206,7 +208,7 @@ struct WidgetLiveActivity: Widget {
                         
                     Text(context.attributes.awayLogo.uppercased())
                         .font(.system(size: 12, weight: .semibold))
-                        .foregroundColor(.white)
+                        .foregroundColor(Color(hex: context.attributes.awayColor) ?? .white)
                 }
             } compactTrailing: {
                 HStack(spacing: 6) {
