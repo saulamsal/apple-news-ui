@@ -136,7 +136,7 @@ export default function SocialButtons({showGithub = false, showTwitter = false}:
     <div>
     {/* <div className="flex flex-col gap-2 p-2 mt-4"> */}
       {showGithub && (
-        <a href="https://github.com/saulamsal/news-by-saul" target="_blank" rel="noopener noreferrer" 
+        <a href="https://github.com/saulamsal/apple-news-ui" target="_blank" rel="noopener noreferrer" 
           className="flex items-center justify-between px-3 py-2  hover:bg-[#e5e7eb] rounded text-gray-600 transition-colors">
           <div className="flex items-center gap-2">
             <svg height="20" viewBox="0 0 16 16" width="20" fill="currentColor">
